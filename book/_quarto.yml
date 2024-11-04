@@ -1,0 +1,32 @@
+project:
+  type: book
+
+book:
+  title: "Machine Learning Design for Business"
+  author: "Brad Boehmke"
+  date: today
+  search: true
+  repo-url: https://github.com/bradleyboehmke/uc-bana-7085
+  repo-branch: main
+  repo-actions: [edit, issue]
+  downloads: [pdf, epub]
+  sharing: [twitter]
+
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    code-link: true
+    callout-appearance: simple
+  pdf:
+    documentclass: scrreprt
+
+
+
