@@ -14,7 +14,7 @@ book:
 
   chapters:
     - index.qmd
-    - intro.qmd
+    - 01-intro-ml-system.qmd
     - summary.qmd
     - references.qmd
 
