@@ -30,7 +30,7 @@ jobs:
           tinytex: true
           
       - name: Create conda environment
-      - uses: conda-incubator/setup-miniconda@v3
+        uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: anaconda-client-env
           environment-file: bana7085.yml
