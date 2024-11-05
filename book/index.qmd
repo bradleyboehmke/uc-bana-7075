@@ -1,5 +1,53 @@
-# Preface {.unnumbered}
+# Welcome {.unnumbered}
 
-This is a Quarto book.
+Welcome to ***Machine Learning Design for Business***! This is the the online textbook that compliments the UC BANA 7085 course. This course aims to provide a framework for developing real-world machine learning systems that are deployable, reliable, and scalable.  You will be introduced to ***MLOps*** as the intersection of DataOps, ModelOps, and DevOps; combined, these concepts provide scalable, reliable, and repeatable machine learning workflows. You will learn how MLOps enables organizations to overcome challenges in operationalizing machine learning models. Along the way, you will learn about important organizational issues including privacy, fairness, security, stakeholder management, project collaboration, and more!
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+Throughout this textbook you'll find embedded lectures, hands-on exercises, and additional resources that will allow you to explore the tools, techniques, and best practices required to successfully design and deploy machine learning systems in today's organizations.
+
+## Who should read this {-}
+
+This book is ideal for graduate students, data scientists, engineers, and analytics professionals who want to bridge the gap between building machine learning models and deploying them into reliable, scalable production environments. Those looking to deepen their understanding of operationalizing ML models will benefit from hands-on experience with MLOps workflows, including data management, model deployment, and monitoring. Individuals with a basic background in machine learning or software development will gain practical skills to streamline the machine learning lifecycle and align their work with organizational and business goals.
+
+This book is also valuable for those interested in cross-functional collaboration, providing insights into how data science teams can work alongside engineering and business units to achieve successful machine learning outcomes.
+
+
+This book is technical in nature, designed to provide hands-on experience in deploying, monitoring, and managing machine learning systems. While it's possible to successfully complete the book with minimal coding experience, having some familiarity with Python and basic machine learning concepts will be beneficial for understanding and applying the material. The course introduces technical tools and workflows, but it’s structured to guide students of various backgrounds through each step. Those with prior experience in Python or ML will have a smoother time grasping the concepts and may find it easier to implement projects independently. However, foundational knowledge in programming or machine learning is not strictly required, as core principles and step-by-step instructions are provided to support all readers in building effective MLOps pipelines.
+
+::: {.callout-note}
+If you are new to Python, I recommend you check out [https://bradleyboehmke.github.io/uc-bana-6043](https://bradleyboehmke.github.io/uc-bana-6043) to get up to speed with the basics.
+:::
+
+## Conventions used in this book {-}
+
+The following typographical conventions are used in this book:
+
+* ___strong italic___: indicates new terms,
+* __bold__: indicates package & file names,
+* `inline code`: monospaced highlighted text indicates functions or other commands that could be typed literally by the user,
+* code chunk: indicates commands or other text that could be typed literally by the user
+
+```{python, first-code-chunk, collapse=TRUE}
+1 + 2
+```
+
+In addition to the general text used throughout, you will notice the following code chunks with images:
+
+::: {.callout-tip}
+Signifies a tip or suggestion
+:::
+
+::: {.callout-note}
+Signifies a general note
+:::
+
+::: {.callout-warning}
+Signifies a warning or caution
+:::
+
+## Software used throughout this book {-}
+
+TBD
+
+## Additional resources {-}
+
+TBD
