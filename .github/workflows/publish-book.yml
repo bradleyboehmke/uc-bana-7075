@@ -14,6 +14,9 @@ name: Render and publish book
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
     permissions:
       contents: write
     steps:
@@ -25,7 +28,17 @@ jobs:
         with:
           # To install LaTeX to build PDF book
           tinytex: true
-
+          
+      - name: Create conda environment
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: anaconda-client-env
+          environment-file: bana7085.yml
+          auto-activate-base: false
+      - run: |
+          conda info
+          conda list
+      
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
