@@ -29,10 +29,14 @@ jobs:
           # To install LaTeX to build PDF book
           tinytex: true
           
-      - name: Install dependencies
+      - name: Install environment
         run: |
           # $CONDA is an environment variable pointing to the root of the miniconda directory
           $CONDA/bin/conda env update --file bana7085.yml --name base
+
+      - name: Activate environment
+        run: |
+          $CONDA/bin/conda activate bana7085.yml
       
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
