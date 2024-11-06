@@ -29,15 +29,10 @@ jobs:
           # To install LaTeX to build PDF book
           tinytex: true
           
-      - name: Create conda environment
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-          activate-environment: anaconda-client-env
-          environment-file: bana7085.yml
-          auto-activate-base: false
-      - run: |
-          conda info
-          conda list
+      - name: Install dependencies
+        run: |
+          # $CONDA is an environment variable pointing to the root of the miniconda directory
+          $CONDA/bin/conda env update --file bana7085.yml --name base
       
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
