@@ -23,21 +23,17 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-        with:
-          # To install LaTeX to build PDF book
-          tinytex: true
-          
       - name: Install environment
         uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: bana7085
           environment-file: bana7085.yml
-      
-      - name: Conda info
-        shell: bash -el {0}
-        run: conda info
+          
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          # To install LaTeX to build PDF book
+          tinytex: true
       
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
