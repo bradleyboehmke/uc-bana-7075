@@ -28,6 +28,7 @@ jobs:
         with:
           activate-environment: bana7085
           environment-file: bana7085.yml
+          auto-activate-base: false
           
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
