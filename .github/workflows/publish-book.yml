@@ -30,14 +30,11 @@ jobs:
           tinytex: true
           
       - name: Install environment
-        run: |
-          # $CONDA is an environment variable pointing to the root of the miniconda directory
-          $CONDA/bin/conda env update --file bana7085.yml --name base
-
-      - name: Activate environment
-        run: |
-          $CONDA/bin/conda init
-          $CONDA/bin/conda activate bana7085.yml
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: bana7085
+          environment-file: bana7085.yml
+          auto-activate-base: false
       
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
