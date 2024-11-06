@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Machine Learning Design for Business - 1&nbsp; Introduction to Machine Learning System Design</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./summary.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-ml-system.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning System Design</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Machine Learning Design for Business</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/bradleyboehmke/uc-bana-7085" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Machine-Learning-Design-for-Business.pdf">
+              <i class="bi bi-bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Machine-Learning-Design-for-Business.epub">
+              <i class="bi bi-bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+    <a href="https://twitter.com/intent/tweet?url=|url|" rel="" title="Twitter" class="quarto-navigation-tool px-1" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro-ml-system.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning System Design</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ml-system-design" id="toc-ml-system-design" class="nav-link active" data-scroll-target="#ml-system-design"><span class="header-section-number">1.1</span> ML system design</a>
+  <ul class="collapse">
+  <li><a href="#dataops-data-management-and-pipelines" id="toc-dataops-data-management-and-pipelines" class="nav-link" data-scroll-target="#dataops-data-management-and-pipelines"><span class="header-section-number">1.1.1</span> DataOps: Data Management and Pipelines</a></li>
+  <li><a href="#modelops-model-lifecycle-management" id="toc-modelops-model-lifecycle-management" class="nav-link" data-scroll-target="#modelops-model-lifecycle-management"><span class="header-section-number">1.1.2</span> ModelOps: Model Lifecycle Management</a></li>
+  <li><a href="#devops-practices" id="toc-devops-practices" class="nav-link" data-scroll-target="#devops-practices"><span class="header-section-number">1.1.3</span> DevOps Practices</a></li>
+  </ul></li>
+  <li><a href="#why-ml-system-design-matters" id="toc-why-ml-system-design-matters" class="nav-link" data-scroll-target="#why-ml-system-design-matters"><span class="header-section-number">1.2</span> Why ML system design matters</a></li>
+  <li><a href="#design-principles-for-good-ml-system-design" id="toc-design-principles-for-good-ml-system-design" class="nav-link" data-scroll-target="#design-principles-for-good-ml-system-design"><span class="header-section-number">1.3</span> Design principles for good ML system design</a>
+  <ul class="collapse">
+  <li><a href="#modularity-and-abstraction" id="toc-modularity-and-abstraction" class="nav-link" data-scroll-target="#modularity-and-abstraction"><span class="header-section-number">1.3.1</span> Modularity and Abstraction</a></li>
+  <li><a href="#scalability" id="toc-scalability" class="nav-link" data-scroll-target="#scalability"><span class="header-section-number">1.3.2</span> Scalability</a></li>
+  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility"><span class="header-section-number">1.3.3</span> Reproducibility</a></li>
+  <li><a href="#automation" id="toc-automation" class="nav-link" data-scroll-target="#automation"><span class="header-section-number">1.3.4</span> Automation</a></li>
+  <li><a href="#monitoring-and-maintenance" id="toc-monitoring-and-maintenance" class="nav-link" data-scroll-target="#monitoring-and-maintenance"><span class="header-section-number">1.3.5</span> Monitoring and Maintenance</a></li>
+  <li><a href="#security-and-compliance" id="toc-security-and-compliance" class="nav-link" data-scroll-target="#security-and-compliance"><span class="header-section-number">1.3.6</span> Security and Compliance</a></li>
+  <li><a href="#adaptability-and-flexibility" id="toc-adaptability-and-flexibility" class="nav-link" data-scroll-target="#adaptability-and-flexibility"><span class="header-section-number">1.3.7</span> Adaptability and Flexibility</a></li>
+  <li><a href="#putting-it-all-together" id="toc-putting-it-all-together" class="nav-link" data-scroll-target="#putting-it-all-together"><span class="header-section-number">1.3.8</span> Putting It All Together</a></li>
+  </ul></li>
+  <li><a href="#relation-to-ml-system-lifecycle-stages" id="toc-relation-to-ml-system-lifecycle-stages" class="nav-link" data-scroll-target="#relation-to-ml-system-lifecycle-stages"><span class="header-section-number">1.4</span> Relation to ML system lifecycle stages</a>
+  <ul class="collapse">
+  <li><a href="#data-processing" id="toc-data-processing" class="nav-link" data-scroll-target="#data-processing"><span class="header-section-number">1.4.1</span> Data Processing</a></li>
+  <li><a href="#model-development" id="toc-model-development" class="nav-link" data-scroll-target="#model-development"><span class="header-section-number">1.4.2</span> Model Development</a></li>
+  <li><a href="#deployment" id="toc-deployment" class="nav-link" data-scroll-target="#deployment"><span class="header-section-number">1.4.3</span> Deployment</a></li>
+  <li><a href="#monitoring-and-maintenance-1" id="toc-monitoring-and-maintenance-1" class="nav-link" data-scroll-target="#monitoring-and-maintenance-1"><span class="header-section-number">1.4.4</span> Monitoring and Maintenance</a></li>
+  <li><a href="#continuous-improvement" id="toc-continuous-improvement" class="nav-link" data-scroll-target="#continuous-improvement"><span class="header-section-number">1.4.5</span> Continuous Improvement</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">1.5</span> Summary</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">1.6</span> Exercise</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/bradleyboehmke/uc-bana-7085/edit/main/01-intro-ml-system.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/bradleyboehmke/uc-bana-7085/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning System Design</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Machine Learning (ML) System Design is the discipline of creating reliable, scalable, and maintainable machine learning systems that solve real-world business problems. Unlike standard machine learning modeling, which focuses primarily on algorithm development and evaluation, ML System Design considers the broader ecosystem in which a model must operate. This involves defining the architecture, infrastructure, and processes that make a model functional and sustainable within production environments. As organizations increasingly rely on machine learning to make data-driven decisions, robust system design has become essential for delivering models that consistently meet organizational needs and can adapt to change.</p>
+<p>Effective ML system design enables organizations to avoid many pitfalls of deploying machine learning in production. Poorly designed systems can lead to issues like inaccurate predictions due to data drift, high operational costs, or significant downtime during retraining or model updates. By adhering to design principles such as modularity, scalability, and reproducibility, ML engineers and data scientists can develop systems that are more resilient and easier to manage. These principles form the backbone of good ML system design and help ensure that models can not only be deployed but also monitored, improved, and scaled as needed.</p>
+<p>This section will explore these design principles in detail and examine how they align with key stages of the ML system lifecycle, from data processing and model training to deployment, monitoring, and iteration. As Chip Huyen points out, “Machine learning in production is 10% modeling and 90% engineering” <span class="citation" data-cites="huyen2022designing">(<a href="references.html#ref-huyen2022designing" role="doc-biblioref">Huyen 2022</a>)</span>, highlighting how technical choices impact the system’s reliability and long-term value for the organization. Understanding ML System Design and the lifecycle of ML systems is foundational for anyone working in machine learning, as it highlights how technical choices impact the system’s overall reliability and long-term value for the organization.</p>
+<section id="ml-system-design" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="ml-system-design"><span class="header-section-number">1.1</span> ML system design</h2>
+<p>ML system design refers to the process of building, structuring, and integrating machine learning models into larger production environments to deliver reliable, scalable, and sustainable solutions. While traditional machine learning focuses on developing high-performing models, system design extends the focus to creating an entire ecosystem where these models can continuously operate, adapt, and provide value over time. It encompasses everything from data pipelines and infrastructure to model versioning, monitoring, and scaling, ensuring that machine learning projects align with organizational goals and can be maintained as data, requirements, and technology evolve.</p>
+<p>Therefore, ML system design includes multiple facets beyond the algorithms themselves:</p>
+<div class="callout callout-style-simple callout-tip callout-titled" title="TODO">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+TODO
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add wire diagram to depict ML system in an organization - showing business requirements driving MLOps components leading to the end user.</p>
+</div>
+</div>
+<section id="dataops-data-management-and-pipelines" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="dataops-data-management-and-pipelines"><span class="header-section-number">1.1.1</span> DataOps: Data Management and Pipelines</h3>
+<p>At the heart of any ML system is data, which is processed, transformed, and delivered to the model in a way that supports both training and inference. A well-designed ML system typically includes data pipelines that handle:</p>
+<ul>
+<li>Data ingestion: Collecting data from various sources, including databases, APIs, and real-time streams.</li>
+<li>Data processing: Cleaning, transforming, and structuring data for model consumption.</li>
+<li>Data validation: Ensuring that data quality is maintained and meets the standards required by the model.</li>
+<li>Data versioning and lineage: Tracking data versions and maintaining a record of data transformations, which are critical for reproducibility and regulatory compliance.</li>
+</ul>
+</section>
+<section id="modelops-model-lifecycle-management" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="modelops-model-lifecycle-management"><span class="header-section-number">1.1.2</span> ModelOps: Model Lifecycle Management</h3>
+<p>A central aspect of ML system design is managing the entire model lifecycle, from development and testing to deployment and retirement. This includes:</p>
+<ul>
+<li>Experiment tracking and versioning: Maintaining a record of model versions, hyperparameters, and evaluation metrics to track performance and support reproducibility.</li>
+<li>Deployment pipelines: Automating model deployment processes to reduce manual errors and accelerate time-to-production.</li>
+<li>Monitoring and alerting: Establishing mechanisms for monitoring model performance in production and detecting issues such as data drift, concept drift, or system degradation.</li>
+<li>Continuous improvement: Supporting processes for regular retraining, fine-tuning, and updating models as data and requirements change.</li>
+</ul>
+</section>
+<section id="devops-practices" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="devops-practices"><span class="header-section-number">1.1.3</span> DevOps Practices</h3>
+<p>Good ML system design brings DevOps practices to the world of machine learning. DevOps, short for “Development and Operations,” is a set of practices and principles that combines software development (Dev) and IT operations (Ops) with the goal of shortening the software development lifecycle and delivering high-quality, reliable software more efficiently. At its core, DevOps is about fostering a culture of collaboration between development and operations teams, integrating automated processes, and leveraging continuous integration and continuous deployment (CI/CD) practices to streamline workflows. This includes:</p>
+<ul>
+<li>Automating code and model updates to streamline deployment and minimize downtime.</li>
+<li>Automation of testing and validation: Implementing automated tests to validate model performance, accuracy, and reliability.</li>
+<li>Compute resources: Setting up scalable, flexible compute resources (such as cloud instances, GPUs, or Kubernetes clusters) to handle model training and inference.</li>
+<li>Storage solutions: Designing data storage strategies that balance cost, speed, and accessibility.</li>
+<li>Networking and security: Ensuring secure data transfer and protecting sensitive information while allowing fast access for machine learning processes.</li>
+<li>Collaboration between teams: Encouraging collaboration across data science, engineering, and business teams to ensure that models meet organizational requirements and add real value.</li>
+</ul>
+<div class="callout callout-style-simple callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Driven by business requirements
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The design of each key element in an ML system is ultimately driven by business requirements, as they define the purpose and value that the system should deliver. Business goals shape how data is processed, what metrics the model optimizes, and the reliability, scalability, and security standards it must meet. For example, a financial institution deploying a fraud detection model may prioritize stringent data validation and versioning to comply with regulatory standards, while a retail organization focused on real-time recommendations may emphasize rapid data ingestion and low-latency deployment.</p>
+<p>Model lifecycle management is similarly guided by business needs; frequent retraining cycles, experiment tracking, and monitoring capabilities are crucial when a system must adapt to fast-changing consumer behavior or market trends. Infrastructure choices, such as selecting between cloud and on-premise solutions, also reflect organizational constraints, like budget or resource availability.</p>
+<p>By aligning these elements with clear business objectives, organizations can create ML systems that are not only technically sound but also effective in achieving their strategic goals.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="why-ml-system-design-matters" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="why-ml-system-design-matters"><span class="header-section-number">1.2</span> Why ML system design matters</h2>
+<p>ML system design addresses the challenges of productionizing machine learning. In a laboratory or research setting, machine learning models are often developed with a focus on achieving high accuracy or minimizing error on a given dataset. However, deploying these models in production involves a different set of concerns. In real-world applications, ML systems need to handle fluctuating data distributions, evolving user needs, and high availability. Without a robust design, machine learning models can quickly degrade in performance, lead to incorrect predictions, or even disrupt business operations.</p>
+<p>By prioritizing system design, organizations can build ML workflows that are both responsive to change and maintainable over time. This approach reduces technical debt—the accumulation of outdated or poorly designed code, data dependencies, and complex interactions that are difficult to fix — highlighted by the authors in <a href="https://proceedings.neurips.cc/paper_files/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf">Hidden Technical Debt in Machine Learning Systems</a> as a critical challenge in ML applications <span class="citation" data-cites="sculley2015hidden">(<a href="references.html#ref-sculley2015hidden" role="doc-biblioref">Sculley et al. 2015</a>)</span>. Poorly managed dependencies and hidden feedback loops, for instance, can lead to unpredictable model behavior and complicate future updates. Thoughtful ML system design mitigates these issues, allowing models to deliver consistent, reliable results while aligning predictions more closely with organizational metrics and objectives. Ultimately, well-architected ML systems are more adaptable, enabling models to evolve as business goals and data distributions shift over time.</p>
+</section>
+<section id="design-principles-for-good-ml-system-design" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="design-principles-for-good-ml-system-design"><span class="header-section-number">1.3</span> Design principles for good ML system design</h2>
+<p>Creating an effective ML system involves more than just building an accurate model; it requires thoughtful design to ensure that the system remains reliable, scalable, and adaptable over time. Good ML system design incorporates a set of principles that help address real-world challenges in production environments, such as evolving data, model drift, and changing business requirements. The following design principles guide ML engineers and data scientists in building systems that meet these demands and deliver sustained business value.</p>
+<div class="callout callout-style-simple callout-tip callout-titled" title="TODO">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+TODO
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add image that shows all principles</p>
+</div>
+</div>
+<section id="modularity-and-abstraction" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="modularity-and-abstraction"><span class="header-section-number">1.3.1</span> Modularity and Abstraction</h3>
+<p>Modularity is the practice of dividing a system into independent, self-contained components, each responsible for a specific function. In an ML system, this could mean separating data ingestion, preprocessing, training, and monitoring into distinct modules that can operate independently <span class="citation" data-cites="sculley2015hidden">(<a href="references.html#ref-sculley2015hidden" role="doc-biblioref">Sculley et al. 2015</a>)</span>. This modularity simplifies updates and maintenance, as each component can be modified or scaled without disrupting the entire system. For example, if a new feature engineering technique improves model accuracy, it can be implemented in the data preprocessing module without affecting the deployment pipeline.</p>
+<p>Abstraction, on the other hand, hides complex details within each module, making the system easier to manage and more accessible to team members who don’t need to understand every technical detail. As noted by <span class="citation" data-cites="huyen2022designing">Huyen (<a href="references.html#ref-huyen2022designing" role="doc-biblioref">2022</a>)</span>, abstraction helps bridge the gap between data scientists, engineers, and business stakeholders, allowing each to focus on high-level functionality without needing an in-depth understanding of every process. Together, modularity and abstraction improve collaboration, flexibility, and ease of scaling within ML systems.</p>
+</section>
+<section id="scalability" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="scalability"><span class="header-section-number">1.3.2</span> Scalability</h3>
+<p>Scalability ensures that an ML system can handle increased demand—whether in terms of data volume, number of users, or computational load—without requiring extensive re-engineering. Designing for scalability involves choosing infrastructure and tools that allow for efficient resource allocation and growth. For instance, deploying a model on cloud infrastructure, where compute resources can be dynamically allocated, allows an ML system to scale up to handle peak loads and scale down during quieter periods, optimizing costs and performance <span class="citation" data-cites="levine2020offline">(<a href="references.html#ref-levine2020offline" role="doc-biblioref">Levine et al. 2020</a>)</span>.</p>
+<p>Another aspect of scalability is planning for future expansion. An ML system might start with a few users or limited data, but as it proves valuable, the system may need to accommodate more data sources, larger user bases, or additional model versions. Scalable design considers these future needs from the outset, making it easier to extend the system’s capabilities without significant architectural changes.</p>
+</section>
+<section id="reproducibility" class="level3" data-number="1.3.3">
+<h3 data-number="1.3.3" class="anchored" data-anchor-id="reproducibility"><span class="header-section-number">1.3.3</span> Reproducibility</h3>
+<p>Reproducibility is critical for ML systems, particularly in production settings where consistent results and traceability are essential. Reproducibility ensures that anyone with access to the same code, data, and configuration can recreate a model with the same results. This is essential for troubleshooting, compliance, and validating model performance. As described by <span class="citation" data-cites="amershi2019software">Amershi et al. (<a href="references.html#ref-amershi2019software" role="doc-biblioref">2019</a>)</span>, reproducibility allows teams to understand how specific predictions are made and to resolve any issues that arise in production more efficiently.</p>
+<p>Achieving reproducibility requires careful versioning of data, models, and code. Version control tools like Git and DVC (Data Version Control) help keep track of changes to code and data over time, while tools like MLflow or Weights &amp; Biases allow for experiment tracking and versioning of model parameters. Reproducibility is especially important in regulated industries, where organizations may need to demonstrate how a model made a particular prediction or prove compliance with specific standards.</p>
+</section>
+<section id="automation" class="level3" data-number="1.3.4">
+<h3 data-number="1.3.4" class="anchored" data-anchor-id="automation"><span class="header-section-number">1.3.4</span> Automation</h3>
+<p>Automation is a foundational principle in ML system design, as it reduces manual intervention, minimizes human error, and accelerates workflows. As described by <span class="citation" data-cites="polyzotis2019data">Polyzotis et al. (<a href="references.html#ref-polyzotis2019data" role="doc-biblioref">2019</a>)</span>, automation is particularly valuable in environments where frequent model retraining, testing, or deployment is necessary. For instance, an automated pipeline can retrain a model when new data is available, perform validation checks, and deploy the updated model to production, all without requiring human involvement.</p>
+<p>Key areas for automation in ML systems include data ingestion and preprocessing, model training and evaluation, deployment, and monitoring. Automating these stages not only saves time but also ensures that the system operates consistently and can adapt to changing data and conditions. This is crucial in fast-paced environments, such as e-commerce or finance, where systems must quickly respond to new information.</p>
+</section>
+<section id="monitoring-and-maintenance" class="level3" data-number="1.3.5">
+<h3 data-number="1.3.5" class="anchored" data-anchor-id="monitoring-and-maintenance"><span class="header-section-number">1.3.5</span> Monitoring and Maintenance</h3>
+<p>Monitoring and maintenance are essential for keeping an ML system aligned with its intended goals over time. Once a model is deployed, its performance can be affected by data drift (changes in data distribution) or concept drift (changes in the underlying relationships within the data) <span class="citation" data-cites="gama2014survey">(<a href="references.html#ref-gama2014survey" role="doc-biblioref">Gama et al. 2014</a>)</span>. Without monitoring, these issues can lead to model degradation, resulting in inaccurate predictions or decisions that don’t meet business objectives.</p>
+<p>Good ML system design includes monitoring dashboards and automated alerts that track metrics such as prediction accuracy, latency, data drift, and system errors. Tools like Prometheus and Grafana can help set up performance monitoring, while specialized ML monitoring solutions can track model-specific metrics. Regular maintenance practices, such as retraining or recalibrating models, are also essential for sustaining system performance and adapting to new data patterns or business requirements.</p>
+</section>
+<section id="security-and-compliance" class="level3" data-number="1.3.6">
+<h3 data-number="1.3.6" class="anchored" data-anchor-id="security-and-compliance"><span class="header-section-number">1.3.6</span> Security and Compliance</h3>
+<p>Security and compliance are often overlooked in ML system design but are increasingly important, especially in regulated industries like healthcare, finance, and government. An ML system that processes sensitive data must include security measures to protect data integrity and confidentiality. Security considerations include encrypting data in transit and at rest, managing user access controls, and safeguarding against adversarial attacks <span class="citation" data-cites="papernot2017practical">(<a href="references.html#ref-papernot2017practical" role="doc-biblioref">Papernot et al. 2017</a>)</span>.</p>
+<p>Compliance involves ensuring that the ML system adheres to industry regulations and organizational policies. For instance, GDPR compliance may require an ML system to provide transparency into how predictions are made and to allow users to request data deletions. Designing with security and compliance in mind not only protects the organization but also builds trust with users and stakeholders.</p>
+<div class="callout callout-style-simple callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What’s GDPR?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The <a href="https://gdpr-info.eu/">General Data Protection Regulation (GDPR)</a> is a comprehensive privacy law enacted by the European Union in 2018, aimed at protecting the personal data and privacy of individuals within the EU and the European Economic Area (EEA). GDPR sets strict guidelines on how organizations must collect, store, process, and share personal data, giving individuals more control over their information. Key principles of GDPR include data minimization, purpose limitation, and transparency, along with rights for individuals such as the right to access, correct, and delete their data. Non-compliance with GDPR can lead to significant fines, making it essential for companies, especially those dealing with machine learning systems, to prioritize data security and privacy to ensure compliance.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="adaptability-and-flexibility" class="level3" data-number="1.3.7">
+<h3 data-number="1.3.7" class="anchored" data-anchor-id="adaptability-and-flexibility"><span class="header-section-number">1.3.7</span> Adaptability and Flexibility</h3>
+<p>Adaptability is the ability of an ML system to evolve as data, business requirements, and technologies change. In a dynamic business environment, the needs of an ML system may shift over time, requiring the model to be updated, new features to be added, or the infrastructure to be reconfigured <span class="citation" data-cites="sculley2015hidden">(<a href="references.html#ref-sculley2015hidden" role="doc-biblioref">Sculley et al. 2015</a>)</span>. Designing for adaptability involves using flexible frameworks, modular components, and tools that support rapid changes without extensive rework.</p>
+<p>For example, a well-designed ML system might use containerization (e.g., Docker) to allow models to be easily moved across environments or use APIs to integrate new data sources without significant restructuring. This flexibility enables teams to quickly implement changes, test new ideas, and stay aligned with business goals, making the system more resilient to future changes.</p>
+</section>
+<section id="putting-it-all-together" class="level3" data-number="1.3.8">
+<h3 data-number="1.3.8" class="anchored" data-anchor-id="putting-it-all-together"><span class="header-section-number">1.3.8</span> Putting It All Together</h3>
+<p>These principles — modularity, scalability, reproducibility, automation, monitoring and maintenance, security, and adaptability — form the foundation of good ML system design. Each principle contributes to creating a system that is not only technically robust but also capable of delivering sustained business value. By applying these principles, ML engineers and data scientists can build systems that are flexible, resilient, and scalable, ensuring that machine learning models remain effective and reliable over time. Good ML system design allows organizations to move beyond individual models and create a stable, agile infrastructure that continuously adapts to meet evolving business demands.</p>
+</section>
+</section>
+<section id="relation-to-ml-system-lifecycle-stages" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="relation-to-ml-system-lifecycle-stages"><span class="header-section-number">1.4</span> Relation to ML system lifecycle stages</h2>
+<p>Good ML system design requires a holistic approach that considers how key elements and design principles intersect with each stage of the ML system lifecycle. The ML lifecycle can be broken down into distinct stages: data processing, model development, deployment, monitoring, and continuous improvement. By aligning design principles with these stages, organizations can create systems that are not only effective at deployment but sustainable, adaptable, and closely aligned with business objectives over the long term.</p>
+<div class="callout callout-style-simple callout-tip callout-titled" title="TODO">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+TODO
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add image that shows ML system lifecycle stages</p>
+</div>
+</div>
+<section id="data-processing" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="data-processing"><span class="header-section-number">1.4.1</span> Data Processing</h3>
+<p>The data processing stage encompasses everything from data ingestion and transformation to validation and storage. Principles like modularity and automation are especially valuable here, as they allow data pipelines to handle diverse data sources and adapt to changes without disrupting downstream processes. DataOps practices ensure the accuracy and integrity of data, including validation and lineage tracking, so the right data reaches the model reliably. Reproducibility also plays a crucial role at this stage, as versioned datasets and pipelines help maintain consistency, which is vital for model retraining and compliance.</p>
+</section>
+<section id="model-development" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="model-development"><span class="header-section-number">1.4.2</span> Model Development</h3>
+<p>Model development involves experimentation, model training, and evaluation. Here, modularity and reproducibility are essential for managing experiments and enabling easy comparison of results across different model versions. ModelOps practices, including experiment tracking and model versioning, facilitate tracking hyperparameters, code versions, and results, ensuring models can be accurately reproduced and refined. Scalability is another key consideration, especially for large datasets or complex models that require significant computational resources. In this stage, infrastructure choices, such as cloud or GPU-based solutions, allow the system to scale up as needed.</p>
+</section>
+<section id="deployment" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="deployment"><span class="header-section-number">1.4.3</span> Deployment</h3>
+<p>The deployment stage focuses on moving models from development to production in a seamless, automated, and reliable manner. Automation is paramount, with CI/CD pipelines automating the testing, validation, and deployment processes to minimize human error and expedite time-to-production. DevOps principles enable automated deployment processes that integrate testing and validation steps, reducing downtime and increasing reliability. Security also becomes critical, ensuring that data access and model endpoints are protected against unauthorized access or adversarial attacks.</p>
+</section>
+<section id="monitoring-and-maintenance-1" class="level3" data-number="1.4.4">
+<h3 data-number="1.4.4" class="anchored" data-anchor-id="monitoring-and-maintenance-1"><span class="header-section-number">1.4.4</span> Monitoring and Maintenance</h3>
+<p>Once a model is live, continuous monitoring is essential to track key metrics such as accuracy, latency, and model drift, ensuring that the model performs as expected over time. Monitoring and maintenance principles are implemented through tools and dashboards that monitor data drift and system performance. Alerts can notify teams of anomalies or degradation, enabling quick action to retrain or update the model if needed. Automation also supports regular retraining workflows, particularly in dynamic environments where data patterns shift frequently. Maintenance ensures that the ML system remains robust and responsive to changing data and requirements.</p>
+</section>
+<section id="continuous-improvement" class="level3" data-number="1.4.5">
+<h3 data-number="1.4.5" class="anchored" data-anchor-id="continuous-improvement"><span class="header-section-number">1.4.5</span> Continuous Improvement</h3>
+<p>The continuous improvement stage focuses on enhancing the model based on feedback from monitoring and evolving business needs. Adaptability and flexibility are essential here, allowing the system to integrate new data, retrain models, and test enhancements with minimal friction. Scalability and modularity enable models to grow and improve without requiring complete redesigns of the system. In practice, this means designing systems with modular components that can easily integrate new models or data sources, ensuring that the system remains aligned with both technical advancements and organizational goals.</p>
+</section>
+</section>
+<section id="summary" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">1.5</span> Summary</h2>
+<p>In this chapter, we introduced the concept of Machine Learning (ML) System Design, focusing on how it creates a foundation for building reliable, scalable, and adaptable machine learning systems that can deliver value in real-world production environments. Unlike traditional model development, ML system design considers the entire ecosystem, encompassing data pipelines, model lifecycle management, and operational infrastructure, all shaped by business requirements. By following core design principles — such as modularity, scalability, reproducibility, automation, monitoring, and security — ML systems can avoid common production pitfalls like model drift, high operational costs, and downtime, ensuring that models are not only deployed successfully but also perform reliably over time.</p>
+<p>The chapters that follow will expand on each element of ML system design, providing readers with a deep understanding of the key concepts and principles that enable the creation of robust ML systems. Readers will gain the ability to identify essential design decisions that align with business goals, as well as the tools and practices necessary to implement these considerations effectively. By the end of this book, readers will be equipped to build, manage, and maintain ML systems that are both technically sound and responsive to evolving business needs.</p>
+</section>
+<section id="exercise" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="exercise"><span class="header-section-number">1.6</span> Exercise</h2>
+<p>Read one or more of the following case studies. These case studies cover different perspectives, elements, and principles of ML system design.</p>
+<ol type="1">
+<li>What are the primary business objective(s) for the ML system discussed? How does the system add value for both the organization and its customers?</li>
+<li>Analyze key elements and design principles discussed. For example:
+<ul>
+<li>DataOps: How does the organization handle data ingestion, processing, and versioning to support a constantly changing catalog and user preferences?</li>
+<li>ModelOps: What strategies does the organization use to manage the lifecycle of its models, including retraining, versioning, and experimentation?</li>
+<li>DevOps: How does the organization ensure continuous integration and deployment for its models? What automation, testing, and monitoring practices are used to maintain system reliability?</li>
+<li>Design Principles: Identify examples of modularity, scalability, automation, and monitoring within the organization’s ML system. Explain how each principle contributes to the system’s success.</li>
+</ul></li>
+</ol>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Note that these articles will likely mention technical concepts and tools that you may not be familiar with and feel like they are over your head. Do not worry about this! This book will help to bridge some of these gaps.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Case Studies
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>Netflix: <a href="https://dl.acm.org/doi/pdf/10.1145/2843948">Netflix’s Recommendation System: Algorithms, Business Value, and Innovation</a></li>
+<li>Uber: <a href="https://www.uber.com/blog/scaling-michelangelo/">Scaling Machine Learning at Uber with Michelangelo</a></li>
+<li>Spotify: <a href="https://www.music-tomorrow.com/blog/how-spotify-recommendation-system-works-a-complete-guide-2022">Inside Spotify’s Recommender System: A Complete Guide to Spotify Recommendation Algorithms</a></li>
+<li>Airbnb: <a href="https://drive.google.com/file/d/1_aexeOW3ZWqLD59428KGRXji-NV2WS4H/view?usp=sharing">Bighead: A Framework-Agnostic, End-to-End Machine Learning Platform</a></li>
+<li>Google: <a href="https://www.youtube.com/watch?v=pFT32MKWtoQ">TFX - an end-to-end machine learning platform for TensorFlow</a></li>
+<li>LinkedIn: <a href="https://www.linkedin.com/blog/engineering/machine-learning/scaling-machine-learning-productivity-at-linkedin">Scaling Machine Learning Productivity at LinkedIn</a></li>
+<li>Facebook: <a href="https://engineering.fb.com/2016/05/09/core-infra/introducing-fblearner-flow-facebook-s-ai-backbone/">Introducing FBLearner Flow: Facebook’s AI backbone</a></li>
+<li>Booking.com: <a href="https://blog.kevinhu.me/2021/04/25/25-Paper-Reading-Booking.com-Experiences/bernardi2019.pdf">150 Successful Machine Learning Models: 6 Lessons Learned at Booking.com</a></li>
+<li>Twitter: <a href="https://blog.x.com/engineering/en_us/topics/open-source/2023/twitter-recommendation-algorithm">Twitter’s Recommendation Algorithm</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-amershi2019software" class="csl-entry" role="listitem">
+Amershi, Saleema, Andrew Begel, Christian Bird, Robert DeLine, Harald Gall, Ece Kamar, Nachiappan Nagappan, Besmira Nushi, and Thomas Zimmermann. 2019. <span>“Software Engineering for Machine Learning: A Case Study.”</span> In <em>2019 IEEE/ACM 41st International Conference on Software Engineering: Software Engineering in Practice (ICSE-SEIP)</em>, 291–300. IEEE.
+</div>
+<div id="ref-gama2014survey" class="csl-entry" role="listitem">
+Gama, João, Indrė Žliobaitė, Albert Bifet, Mykola Pechenizkiy, and Abdelhamid Bouchachia. 2014. <span>“A Survey on Concept Drift Adaptation.”</span> <em>ACM Computing Surveys (CSUR)</em> 46 (4): 1–37.
+</div>
+<div id="ref-huyen2022designing" class="csl-entry" role="listitem">
+Huyen, Chip. 2022. <em>Designing Machine Learning Systems</em>. " O’Reilly Media, Inc.".
+</div>
+<div id="ref-levine2020offline" class="csl-entry" role="listitem">
+Levine, Sergey, Aviral Kumar, George Tucker, and Justin Fu. 2020. <span>“Offline Reinforcement Learning: Tutorial, Review, and Perspectives on Open Problems.”</span> <em>arXiv Preprint arXiv:2005.01643</em>.
+</div>
+<div id="ref-papernot2017practical" class="csl-entry" role="listitem">
+Papernot, Nicolas, Patrick McDaniel, Ian Goodfellow, Somesh Jha, Z Berkay Celik, and Ananthram Swami. 2017. <span>“Practical Black-Box Attacks Against Machine Learning.”</span> In <em>Proceedings of the 2017 ACM on Asia Conference on Computer and Communications Security</em>, 506–19.
+</div>
+<div id="ref-polyzotis2019data" class="csl-entry" role="listitem">
+Polyzotis, Neoklis, Martin Zinkevich, Sudip Roy, Eric Breck, and Steven Whang. 2019. <span>“Data Validation for Machine Learning.”</span> <em>Proceedings of Machine Learning and Systems</em> 1: 334–47.
+</div>
+<div id="ref-sculley2015hidden" class="csl-entry" role="listitem">
+Sculley, David, Gary Holt, Daniel Golovin, Eugene Davydov, Todd Phillips, Dietmar Ebner, Vinay Chaudhary, Michael Young, Jean-Francois Crespo, and Dan Dennison. 2015. <span>“Hidden Technical Debt in Machine Learning Systems.”</span> <em>Advances in Neural Information Processing Systems</em> 28.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Welcome</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./summary.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
