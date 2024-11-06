@@ -36,6 +36,7 @@ jobs:
 
       - name: Activate environment
         run: |
+          $CONDA/bin/conda init
           $CONDA/bin/conda activate bana7085.yml
       
       - name: Render and Publish
