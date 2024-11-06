@@ -26,10 +26,13 @@ jobs:
       - name: Install environment
         uses: conda-incubator/setup-miniconda@v3
         with:
-          activate-environment: bana7085
+          auto-update-conda: true
           environment-file: bana7085.yml
-          auto-activate-base: false
-          
+          activate-environment: bana7085
+
+      - name: Verify Conda Environment
+        run: conda info --envs && conda list
+        
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         with:
