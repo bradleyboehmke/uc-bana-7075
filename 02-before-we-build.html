@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; Before We Build – Machine Learning Design for Business</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./01-intro-ml-system.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-cd7de1037569933fbb609f06423bd096.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-before-we-build.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Before We Build</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Machine Learning Design for Business</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/bradleyboehmke/uc-bana-7085" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" role="link" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Machine-Learning-Design-for-Business.pdf">
+              <i class="bi bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Machine-Learning-Design-for-Business.epub">
+              <i class="bi bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+    <a href="https://twitter.com/intent/tweet?url=|url|" title="Twitter" class="quarto-navigation-tool px-1" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Laying the Foundation</span></span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro-ml-system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning System Design</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-before-we-build.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Before We Build</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">DataOps</span></span>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">ModelOps</span></span>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">DevOps</span></span>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">The Human Side of ML Systems</span></span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#working-with-stakeholders-to-understand-the-business-problem" id="toc-working-with-stakeholders-to-understand-the-business-problem" class="nav-link active" data-scroll-target="#working-with-stakeholders-to-understand-the-business-problem"><span class="header-section-number">2.1</span> Working with Stakeholders to Understand the Business Problem</a></li>
+  <li><a href="#determining-if-the-problem-requires-an-ml-solution" id="toc-determining-if-the-problem-requires-an-ml-solution" class="nav-link" data-scroll-target="#determining-if-the-problem-requires-an-ml-solution"><span class="header-section-number">2.2</span> Determining if the Problem Requires an ML Solution</a>
+  <ul class="collapse">
+  <li><a href="#key-considerations-to-determine-ml-suitability" id="toc-key-considerations-to-determine-ml-suitability" class="nav-link" data-scroll-target="#key-considerations-to-determine-ml-suitability"><span class="header-section-number">2.2.1</span> Key Considerations to Determine ML Suitability</a></li>
+  <li><a href="#ml-is-not-always-the-answer" id="toc-ml-is-not-always-the-answer" class="nav-link" data-scroll-target="#ml-is-not-always-the-answer"><span class="header-section-number">2.2.2</span> ML is Not Always the Answer</a></li>
+  <li><a href="#pitfalls-of-using-ml-unnecessarily" id="toc-pitfalls-of-using-ml-unnecessarily" class="nav-link" data-scroll-target="#pitfalls-of-using-ml-unnecessarily"><span class="header-section-number">2.2.3</span> Pitfalls of Using ML Unnecessarily</a></li>
+  </ul></li>
+  <li><a href="#defining-performance-metrics-for-the-ml-system" id="toc-defining-performance-metrics-for-the-ml-system" class="nav-link" data-scroll-target="#defining-performance-metrics-for-the-ml-system"><span class="header-section-number">2.3</span> Defining Performance Metrics for the ML System</a>
+  <ul class="collapse">
+  <li><a href="#technical-performance-metrics" id="toc-technical-performance-metrics" class="nav-link" data-scroll-target="#technical-performance-metrics"><span class="header-section-number">2.3.1</span> Technical Performance Metrics</a></li>
+  <li><a href="#business-performance-metrics" id="toc-business-performance-metrics" class="nav-link" data-scroll-target="#business-performance-metrics"><span class="header-section-number">2.3.2</span> Business Performance Metrics</a></li>
+  <li><a href="#best-practices-for-implementing-performance-metrics" id="toc-best-practices-for-implementing-performance-metrics" class="nav-link" data-scroll-target="#best-practices-for-implementing-performance-metrics"><span class="header-section-number">2.3.3</span> Best Practices for Implementing Performance Metrics</a></li>
+  </ul></li>
+  <li><a href="#understanding-the-potential-value-of-a-solution" id="toc-understanding-the-potential-value-of-a-solution" class="nav-link" data-scroll-target="#understanding-the-potential-value-of-a-solution"><span class="header-section-number">2.4</span> Understanding the Potential Value of a Solution</a>
+  <ul class="collapse">
+  <li><a href="#evaluating-impact-on-business-objectives" id="toc-evaluating-impact-on-business-objectives" class="nav-link" data-scroll-target="#evaluating-impact-on-business-objectives"><span class="header-section-number">2.4.1</span> Evaluating Impact on Business Objectives</a></li>
+  <li><a href="#questions-to-estimate-and-define-the-systems-value" id="toc-questions-to-estimate-and-define-the-systems-value" class="nav-link" data-scroll-target="#questions-to-estimate-and-define-the-systems-value"><span class="header-section-number">2.4.2</span> Questions to Estimate and Define the System’s Value</a></li>
+  <li><a href="#aligning-value-assessment-with-stakeholder-priorities" id="toc-aligning-value-assessment-with-stakeholder-priorities" class="nav-link" data-scroll-target="#aligning-value-assessment-with-stakeholder-priorities"><span class="header-section-number">2.4.3</span> Aligning Value Assessment with Stakeholder Priorities</a></li>
+  </ul></li>
+  <li><a href="#understanding-technical-requirements-to-determine-feasibility" id="toc-understanding-technical-requirements-to-determine-feasibility" class="nav-link" data-scroll-target="#understanding-technical-requirements-to-determine-feasibility"><span class="header-section-number">2.5</span> Understanding Technical Requirements to Determine Feasibility</a>
+  <ul class="collapse">
+  <li><a href="#defining-key-technical-requirements" id="toc-defining-key-technical-requirements" class="nav-link" data-scroll-target="#defining-key-technical-requirements"><span class="header-section-number">2.5.1</span> Defining Key Technical Requirements</a></li>
+  <li><a href="#addressing-gaps-in-resources-or-expertise" id="toc-addressing-gaps-in-resources-or-expertise" class="nav-link" data-scroll-target="#addressing-gaps-in-resources-or-expertise"><span class="header-section-number">2.5.2</span> Addressing Gaps in Resources or Expertise</a></li>
+  </ul></li>
+  <li><a href="#recognizing-ml-system-development-as-an-iterative-process" id="toc-recognizing-ml-system-development-as-an-iterative-process" class="nav-link" data-scroll-target="#recognizing-ml-system-development-as-an-iterative-process"><span class="header-section-number">2.6</span> Recognizing ML System Development as an Iterative Process</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">2.7</span> Summary</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">2.8</span> Exercise</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/edit/main/02-before-we-build.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Before We Build</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Building an effective machine learning (ML) system requires more than just technical knowledge and model-building skills. The success of an ML project depends heavily on the foundational planning that happens long before the first line of code is written or the first dataset is processed. This planning phase is essential to ensuring that the project aligns with the business goals, addresses the right problem, and is both technically feasible and valuable. In this chapter, we’ll explore the key considerations and actions to take before starting the development of an ML system.</p>
+<section id="working-with-stakeholders-to-understand-the-business-problem" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="working-with-stakeholders-to-understand-the-business-problem"><span class="header-section-number">2.1</span> Working with Stakeholders to Understand the Business Problem</h2>
+<p>The first step in any ML project is to collaborate closely with stakeholders to fully understand the business problem. This stage is critical because a thorough understanding of the problem directly impacts the translation of business needs into a solvable analytics problem, helps scope the project realistically, and ensures the ML system will truly meet organizational goals. Stakeholders include anyone with a vested interest in the project’s success—such as executives, department leads, data science teams, IT, and end users. Each group brings a unique perspective, and understanding their needs and expectations provides clarity on objectives, potential constraints, and the broader impact of the solution.</p>
+<p>Effective communication with stakeholders helps to align everyone on the project’s purpose and desired outcomes. By having these early conversations, ML practitioners gain insight into business priorities, potential data requirements, and assumptions being made about data availability, user behavior, and expected outcomes. Common assumptions that come to light in these initial meetings might include beliefs about data quality or completeness, end-user expectations of functionality, or even implicit views on the model’s potential accuracy and impact. Identifying and addressing these assumptions early on prevents misalignment and reduces the risk of costly adjustments later in the project.</p>
+<p>To gain a comprehensive understanding of the business problem, ML practitioners should consider key questions with stakeholders, such as:</p>
+<ul>
+<li>What specific problem are we trying to solve?</li>
+<li>What are the business objectives associated with addressing this problem?</li>
+<li>Who will use the ML system, and what actions or decisions will it facilitate?</li>
+<li>What are the potential risks or consequences if the system produces inaccurate or unintended results?</li>
+<li>Are there existing solutions or processes in place, and what are their limitations?</li>
+</ul>
+<p>These questions help not only to clarify the business goals but also to highlight how the problem should be reframed into an analytics problem. For instance, a high-level business problem like “improving customer retention” can translate into an analytics problem focused on predicting customer churn and identifying key factors contributing to it. Defining the problem at this level makes it easier to identify relevant data, narrow down model requirements, and set realistic goals.</p>
+<p>Additionally, early discussions often uncover essential requirements and constraints, such as data dependencies, privacy concerns, or specific regulatory requirements. By clarifying these aspects, ML teams can make more informed decisions on technical design, data preprocessing, and timeline estimation. Furthermore, gaining a clear understanding of the end-users’ needs helps in defining how the ML system should be integrated into existing workflows, ensuring the solution is not only technically robust but also user-friendly and practical.</p>
+<p>In summary, investing time upfront to deeply understand the business problem and address underlying assumptions results in a more targeted, relevant ML solution. This shared understanding among stakeholders lays the groundwork for a smooth translation of business objectives into technical requirements, helping to scope the project effectively and set it up for long-term success.</p>
+<div class="callout callout-style-simple callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Isn’t this a project manager responsibility?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Data scientists should be involved in the early planning process of an ML project because their expertise in data and analytics enables them to assess the feasibility of proposed solutions, clarify data requirements, and identify potential technical challenges. While some ML practitioners may balk at including planning, communication, brainstorming, and other project-management-focused elements in discussions on ML projects, these early stages are often where critical project alignment occurs. In my experience, the most successful projects have involved ML team leads working closely not only with project managers and other team leads but also with representatives from the department requesting the solution. Data scientists bring essential knowledge about data limitations, model requirements, and potential roadblocks that might otherwise go unnoticed. Their involvement helps refine the project’s scope to align with both the business goals and technical realities, setting realistic expectations and paving the way for a solution that is both effective and feasible. This collaborative approach during planning ultimately saves time, enhances clarity, and boosts the likelihood of delivering a meaningful, successful ML solution.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="determining-if-the-problem-requires-an-ml-solution" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="determining-if-the-problem-requires-an-ml-solution"><span class="header-section-number">2.2</span> Determining if the Problem Requires an ML Solution</h2>
+<p>Now that we understand the importance of working with stakeholders to fully grasp the business problem, the next step is to translate the business problem into an analytics problem. This process will help us determine whether machine learning (ML) is the right approach to address the issue. ML can be a powerful tool, but it’s not always the best solution. Determining if ML is suitable requires thoughtful consideration, as unnecessary ML implementation can lead to wasted resources, increased complexity, and maintenance challenges.</p>
+<section id="key-considerations-to-determine-ml-suitability" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="key-considerations-to-determine-ml-suitability"><span class="header-section-number">2.2.1</span> Key Considerations to Determine ML Suitability</h3>
+<p>Determining if a problem requires an ML solution involves assessing whether the business objectives demand certain characteristics that ML can uniquely provide.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/2sr8Y3gjDSA?si=W44BBbkPOS03hI0G" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>Some essential considerations include:</p>
+<ol type="1">
+<li><p><strong>Learning Complex Patterns from Data</strong>: ML excels when the solution requires identifying complex, often non-linear relationships within data that are difficult to capture using rules-based or traditional statistical approaches. If the problem involves intricate patterns that need to be learned from large volumes of data, ML may be appropriate. For example, ML can be effective at analyzing the complex and non-linear relationships between a customer’s purchase history, browsing behavior, and demographic characteristics to generate personalized product recommendations.</p></li>
+<li><p><strong>Availability of Quality Data</strong>: ML solutions require substantial and high-quality data for training and testing. Without sufficient data, the model cannot learn the patterns or features necessary to make accurate predictions. Data availability should include not only a large enough sample size but also a diverse dataset that represents the full range of scenarios the model will encounter in production. If quality data is unavailable, ML is unlikely to perform well and may not be worth pursuing.</p></li>
+<li><p><strong>Making Predictions on Unseen Data</strong>: ML is suitable for problems where we need the system to make predictions on new, unseen data that will continue to arrive over time. For instance, in fraud detection, the goal is for the system to recognize fraudulent behavior in real-time as new transactions occur. This is an inherently predictive task and well-suited to ML, where models trained on historical fraud data can be applied to identify anomalies in new transactions.</p></li>
+</ol>
+</section>
+<section id="ml-is-not-always-the-answer" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="ml-is-not-always-the-answer"><span class="header-section-number">2.2.2</span> ML is Not Always the Answer</h3>
+<p>Machine learning is a powerful tool, but it’s not a one-size-fits-all solution. Yet, in today’s fast-paced tech landscape, it’s common for business leaders to latch onto popular trends like ML, AI, and automation, believing that these technologies can solve a wide range of problems or offer an innovative edge. However, the reality is that many problems don’t require the complexity or resources of an ML system and can actually be addressed more effectively with simpler approaches. Below are examples of problems that often don’t meet the suitability criteria for ML, illustrating why a different solution may be more appropriate.</p>
+<ol type="1">
+<li><p><strong>Rule-Based Decision Systems</strong>: If a problem can be solved with straightforward rules or conditions, then ML is likely unnecessary. For example, an e-commerce site offering a standard discount based on membership level (e.g., 10% off for premium members) may not need a predictive model to calculate discounts. A simple rule-based system is faster to implement, more interpretable, and easier to maintain. Business leaders sometimes assume that ML will increase personalization or provide better insights, but in some cases, it may only add complexity without significant, meaningful benefits.</p></li>
+<li><p><strong>Basic Data Retrieval and Filtering</strong>: When a task involves retrieving specific records or filtering data based on fixed criteria, ML is overkill. For instance, if a business wants a list of customers who made a purchase within the last month, a structured query in a database will suffice. ML could add unnecessary processing time, reduce transparency, and complicate data workflows without providing any added value. Leaders may be drawn to the idea of “automating data processes with ML,” but it’s critical to recognize that traditional data querying and reporting tools are often more efficient and will suffice when the goal is to simply slice and dice our data.</p></li>
+<li><p><strong>Static Reporting and Descriptive Analytics</strong>: ML is valuable for uncovering patterns, making predictions, or adapting to new data, but if the goal is simply to summarize historical data or calculate aggregate statistics (e.g., total sales last quarter or average customer lifetime value), traditional data analysis tools are more suitable. ML brings no additional value to tasks that involve reporting known facts. Although ML may sound impressive, using it for simple reporting can lead to unnecessary costs in computation, maintenance, and monitoring.</p></li>
+<li><p><strong>Tasks with Deterministic Outputs</strong>: When a problem has predictable, deterministic outputs based on clear rules, ML can be redundant. For example, payroll tax calculation, which follows specific formulas, does not require a model to “learn” the process. Hard-coded logic or rule-based systems are not only more accurate in such cases but also eliminate potential errors introduced by an ML model. Business leaders sometimes believe that ML will “future-proof” deterministic tasks, but simpler systems are usually more reliable, cost-effective, and transparent.</p></li>
+<li><p><strong>Heavily Regulated Decisions Requiring Full Transparency</strong>: In industries such as finance or healthcare, strict regulations often require full transparency for every decision, making ML—especially complex models—an unsuitable choice. For instance, mortgage approvals based on a set of criteria are better handled by rules-based systems to ensure regulatory compliance and easy interpretability. While ML can provide valuable insights, its lack of interpretability in some models makes it challenging to justify for highly regulated tasks. Business leaders may be drawn to ML’s perceived sophistication, but in some cases, a rules-based approach may be more practical and reliable.</p></li>
+</ol>
+<p>These examples, although not comprehensive, highlight the importance of carefully evaluating whether ML is truly the right tool for the job. ML can be ideal when there’s a need to learn from complex patterns in data, make predictions on new data, or adapt dynamically over time. However, using ML for problems that don’t meet these criteria or have additional concerns as mentioned above, can waste resources, reduce transparency, and increase project complexity. Recognizing when a simpler method will be more effective is a critical skill for data scientists and ML practitioners. Avoiding unnecessary ML solutions allows teams to focus their resources where they will add the most value, while helping business leaders make more informed, strategic technology decisions.</p>
+</section>
+<section id="pitfalls-of-using-ml-unnecessarily" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="pitfalls-of-using-ml-unnecessarily"><span class="header-section-number">2.2.3</span> Pitfalls of Using ML Unnecessarily</h3>
+<p>Using ML when it’s not needed can create more problems than it solves. ML is powerful but also complex, requiring specialized skills, infrastructure, and ongoing maintenance. When ML is applied unnecessarily, organizations risk:</p>
+<ol type="1">
+<li><p><strong>Increased Complexity and Maintenance Costs</strong>: ML systems require regular monitoring, retraining, and validation to ensure they remain accurate and reliable. For example, if an ML model is deployed to handle a task that could be addressed with simple rules, the organization may end up dedicating time and resources to monitor and maintain an over-engineered solution that adds little value. Traditional software solutions often require far less maintenance and are more stable over time.</p></li>
+<li><p><strong>Reduced Interpretability and Transparency</strong>: ML models, especially complex ones like neural networks, can be difficult to interpret. In situations where transparency is crucial—such as compliance with regulations or gaining end-user trust—a rules-based approach might be preferable. Using ML without necessity can lead to resistance from stakeholders who need clear explanations for the system’s outputs.</p></li>
+<li><p><strong>Waste of Time and Resources</strong>: Developing an ML system demands resources for data preparation, model selection, and deployment, as well as ongoing maintenance and infrastructure support. If the problem does not require ML, these resources could be better spent on other areas, such as enhancing customer experience or improving data quality.</p></li>
+<li><p><strong>Potential for Errors and Misinterpretations</strong>: ML models are not infallible and can produce unexpected or incorrect results, especially when faced with data outside their training set. For example, if an ML model is applied to a problem that is straightforward or deterministic, it may introduce unnecessary variability or errors, which could lead to costly mistakes. For example, a recommendation system that misclassifies products might negatively impact user experience and decrease trust in the system.</p></li>
+</ol>
+</section>
+</section>
+<section id="defining-performance-metrics-for-the-ml-system" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="defining-performance-metrics-for-the-ml-system"><span class="header-section-number">2.3</span> Defining Performance Metrics for the ML System</h2>
+<p>Establishing comprehensive performance metrics is critical for evaluating how effectively an ML system solves the intended business problem. Defining these metrics early not only provides a target for model performance but also ensures alignment between technical teams and business stakeholders. Performance metrics serve as both a development benchmark and a standard for continuous monitoring in production, helping teams maintain an effective and valuable ML system over time.</p>
+<p>A robust approach to performance metrics includes:</p>
+<ul>
+<li>Model performance metrics which measure predictive accuracy and reliability</li>
+<li>System performance metrics which gauge how well the overall ML system operates in a real-world environment</li>
+<li>Business performance metrics which measure the impact the ML system provides to the business.</li>
+</ul>
+<p>By incorporating all three, ML practitioners can ensure that the system is not only technically accurate but also capable of meeting the demands of production use and drives measurable improvements for the business. Let’s dive into each category in more detail.</p>
+<section id="technical-performance-metrics" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="technical-performance-metrics"><span class="header-section-number">2.3.1</span> Technical Performance Metrics</h3>
+<p>Technical performance metrics are essential for evaluating both the model’s accuracy and the system’s operational efficiency. These metrics allow teams to optimize not only the predictive power of the model but also its usability within a production environment. By considering both model and system performance metrics, teams can ensure the ML system is not only accurate but also performant, reliable, and capable of meeting operational requirements in production.</p>
+<ol type="1">
+<li><p><strong>Model Performance Metrics</strong>: These metrics evaluate the accuracy and reliability of the ML model in making predictions. These metrics include common metrics you likely have heard of before if you’ve done any ML tasks such as mean squared error, <span class="math inline">\(R^2\)</span>, and mean absolute error for regression problems; cross-entropy, gini index, precision, and recall for classification problems; or BLEU, BERTScore, and perplexity for large language models. The choice of metric depends on the type of ML task (e.g., classification, regression) and the consequences of different kinds of errors.</p></li>
+<li><p><strong>System Performance Metrics</strong>: While model accuracy is critical, it’s equally important to assess how well the overall ML system functions in real-world conditions. These metrics track the system’s efficiency, responsiveness, and reliability, ensuring that it can handle production demands. Metrics we often consider to measure system performance include:</p>
+<ul>
+<li><p><strong>Latency</strong>: Measures the time required for the system to make a prediction once data is available. Low latency is critical in real-time applications like fraud detection and autonomous vehicles. Imagine a pedestrian steps out in front of an autonomous vehicle, there needs to be nearly zero time (or nearly no latency) between the car’s ML system taking in that input and making a prediction to stop otherwise the consequence will be catostrophic! <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p></li>
+<li><p><strong>Throughput</strong>: Indicates the number of predictions the system can process per unit of time. High throughput is essential for large-scale applications, such as recommendation systems used by Netflix and Spotify. For example, Netflix has around 280 million customers that they need to produce recommendation predictions for on a daily to weekly basis. <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p></li>
+<li><p><strong>Uptime</strong>: Tracks the percentage of time the system is fully operational. Uptime is especially important for mission-critical systems, where outages can disrupt service and lead to lost revenue.</p></li>
+<li><p><strong>Scalability</strong>: Assesses the system’s ability to maintain performance as user demand or data volume increases, especially while needing to maintain real-time inference requirements. For example, imagine how user demand for Amazon surges on Black Friday! <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p></li>
+<li><p><strong>Resource Utilization</strong>: Tracks CPU, memory, and GPU usage to ensure efficient resource allocation, particularly relevant for cloud-based ML systems. Efficient resource utilization can significantly reduce costs, as discussed in <a href="https://arxiv.org/abs/2006.11092">Ramesh et al., 2020</a>.</p></li>
+</ul></li>
+</ol>
+<p>Considering both model and system performance metrics enables teams to build ML systems that are not only accurate but also highly responsive, efficient, and reliable in a production environment.</p>
+</section>
+<section id="business-performance-metrics" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="business-performance-metrics"><span class="header-section-number">2.3.2</span> Business Performance Metrics</h3>
+<p>While technical metrics are essential for evaluating the functionality of the ML system, business metrics ensure that the ML system drives meaningful impact for the organization. These metrics translate technical outputs into measurable business outcomes, aligning the ML system with the broader organizational goals. Some examples follow.</p>
+<ol type="1">
+<li><strong>Revenue Impact</strong>: For systems designed to drive sales or conversions, revenue-focused metrics quantify effectiveness. For example:
+<ul>
+<li><strong>Incremental Revenue</strong>: measures the additional revenue generated by the ML system compared to a baseline. This can demonstrate the impact of a recommendation system on customer purchases (<a href="https://www.mckinsey.com/featured-insights/artificial-intelligence/how-artificial-intelligence-can-deliver-real-value-to-companies">McKinsey, 2018</a>).</li>
+<li><strong>Conversion Rate</strong>: measures the percentage of users who complete a desired action after interacting with the ML system (e.g., making a purchase after receiving a recommendation).</li>
+</ul></li>
+<li><strong>Operational Efficiency</strong>: For applications focused on cost reduction or improving efficiency, business will tend to use metrics that capture the system’s ability to streamline processes such as:
+<ul>
+<li><strong>Cost Savings</strong>: measures the reduction in operational costs achieved by using the ML system, such as fewer maintenance visits with predictive maintenance models (<a href="https://www2.deloitte.com/global/en/pages/about-deloitte/articles/artificial-intelligence-potential-value.html">Deloitte, 2020</a>).</li>
+<li><strong>Process Time Reduction</strong>: measures the time saved in completing a process using the ML system, relevant in areas such as automated customer support ticket resolution (<a href="https://www.ibm.com/cloud/learn/ai-in-business">IBM, 2019</a>).</li>
+</ul></li>
+<li><strong>Customer Engagement</strong>: For ML systems that serve customers directly, engagement metrics help gauge relevance and user experience. For example:
+<ul>
+<li><strong>Click-Through Rate (CTR)</strong>: measures the percentage of users who engage with personalized content or recommendations. CTR is a common metric for digital content recommendations (<a href="https://dl.acm.org/doi/10.1145/2959100.2959190">Covington et al., 2016</a>).</li>
+<li><strong>User Retention Rate</strong>: measures the percentage of users who continue to engage with the platform over time, providing a longer-term view of the system’s relevance.</li>
+</ul></li>
+<li><strong>Accuracy in High-Stakes Decisions</strong>: For applications in areas like healthcare or finance, additional metrics measure the system’s ability to make accurate, high-impact decisions. For example:
+<ul>
+<li><strong>Reduction in Error Rates for High-Risk Cases</strong>: measures the reduction in error rates (false-positives or false-negatives) in high-stakes predictions (e.g., fraud detection), which can demonstrate the value of the ML system in risk mitigation (<a href="https://dl.acm.org/doi/10.5555/312028.312035">Fawcett &amp; Provost, 1997</a>).</li>
+<li><strong>Compliance and Risk Management Impact</strong>: measures the system’s role in meeting regulatory standards and reducing compliance risks, especially critical in regulated industries (<a href="https://gdpr-info.eu/">EU GDPR, 2018</a>).</li>
+</ul></li>
+</ol>
+<p>By defining and monitoring both technical and business metrics, ML teams can ensure their system is effective from both a technical and strategic perspective, delivering real business value.</p>
+</section>
+<section id="best-practices-for-implementing-performance-metrics" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="best-practices-for-implementing-performance-metrics"><span class="header-section-number">2.3.3</span> Best Practices for Implementing Performance Metrics</h3>
+<p>Successfully implementing performance metrics requires thoughtful integration into the ML system lifecycle. Here are some best practices commonly used to make metrics more effective. Later chapters will dive into the best practices focused on monitoring and setting thresholds and alerts.</p>
+<ol type="1">
+<li><p><strong>Set Benchmarks and Targets</strong>: Establish target values for each metric based on baseline performance, industry standards, and stakeholder expectations. Benchmarks help set realistic goals for model and system improvement (<a href="https://proceedings.neurips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf">Sculley et al., 2015</a>).</p></li>
+<li><p><strong>Use Multiple Metrics for a Holistic View</strong>: Relying on a single metric can lead to misleading conclusions. Using a combination of metrics—such as precision and latency, or recall and business impact—provides a balanced understanding of performance (<a href="https://academic.oup.com/bioinformatics/article/21/5/1509/253153">Saito &amp; Rehmsmeier, 2015</a>).</p></li>
+<li><p><strong>Monitor Metrics Continuously</strong>: Performance metrics should be monitored throughout the model lifecycle, including in production. Continuous monitoring helps detect issues like data drift or system degradation (<a href="https://dl.acm.org/doi/10.1145/3097983.3098043">Breck et al., 2017</a>).</p></li>
+<li><p><strong>Set Thresholds and Alerts</strong>: Define acceptable thresholds for critical metrics and set up alerts if the system’s performance falls below these levels. This allows for quick intervention to resolve potential issues before they impact users or business outcomes.</p></li>
+<li><p><strong>Regularly Re-Evaluate Metrics</strong>: As business needs and data sources evolve, so should the metrics. Periodic re-evaluation ensures that metrics remain relevant and continue to align with the organization’s priorities ([Pol</p></li>
+</ol>
+</section>
+</section>
+<section id="understanding-the-potential-value-of-a-solution" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="understanding-the-potential-value-of-a-solution"><span class="header-section-number">2.4</span> Understanding the Potential Value of a Solution</h2>
+<p>Before embarking on building an ML system, it is essential to evaluate the potential value that the solution will bring to the organization. Understanding this value helps justify the investment of time, resources, and budget, and ensures that the ML system aligns with the organization’s business objectives. Evaluating potential value involves asking the right questions, considering both tangible and intangible benefits, and aligning with stakeholder priorities to secure buy-in.</p>
+<section id="evaluating-impact-on-business-objectives" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="evaluating-impact-on-business-objectives"><span class="header-section-number">2.4.1</span> Evaluating Impact on Business Objectives</h3>
+<p>The success of an ML system is ultimately measured by its impact on business objectives. By evaluating how the system will improve key metrics — whether increasing revenue, reducing costs, enhancing customer satisfaction, or improving operational efficiency — teams can prioritize the features and use cases that will generate the greatest return on investment. The goal is to clearly articulate how the ML solution will contribute to the broader goals of the business, whether it’s through improved decision-making, optimized processes, or creating better customer experiences.</p>
+</section>
+<section id="questions-to-estimate-and-define-the-systems-value" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="questions-to-estimate-and-define-the-systems-value"><span class="header-section-number">2.4.2</span> Questions to Estimate and Define the System’s Value</h3>
+<p>To estimate and define the value of an ML system, it’s useful to ask the following questions:</p>
+<ol type="1">
+<li><p><strong>How Will the Solution Improve Business Outcomes?</strong> Consider the specific business outcomes that the ML system is intended to influence. For example, will a recommendation system increase sales by suggesting more relevant products to customers? And if so, what does the business reasonably expect those incremental sales to equate to? Or maybe the improved recommendation system will be able to make more time relevant predictions based on today’s trends or news, which could increase daily active users which could increase potential ad revenue. Or maybe the improved recommendation system is designed to reduce customer churn, which could lead to lower new customer acquisition costs. Answering these question helps determine just how the ML system is expected to benefit the organization and if the potential benefits justify the investment and ensures the solution is well-targeted.</p></li>
+<li><p><strong>What Are the Tangible and Intangible Benefits?</strong> When evaluating the potential value, it’s important to look beyond the immediate financial benefits. Tangible benefits, such as cost savings, increased revenue, or reduced processing time, are easier to quantify and often form the basis for ROI analysis. However, intangible benefits, like improved customer satisfaction, increased user engagement, enhanced employee productivity, or reduced risk, are equally important for long-term success but not as easy to quantify. For example, a fraud detection model may not only save money but also enhance customer trust—an intangible yet valuable outcome for the business. Although these are difficult to quantify, it is important to identify these potential benefits and determine if there is a way to quantify and track them.</p></li>
+</ol>
+</section>
+<section id="aligning-value-assessment-with-stakeholder-priorities" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="aligning-value-assessment-with-stakeholder-priorities"><span class="header-section-number">2.4.3</span> Aligning Value Assessment with Stakeholder Priorities</h3>
+<p>To secure buy-in, it’s critical to align the value assessment with stakeholder priorities. This involves understanding the goals and pain points of various stakeholders and clearly articulating how the ML solution addresses them. Stakeholders, such as business executives, team leads, and end users, each have different perspectives on what constitutes value. By tailoring the value assessment to address these perspectives, ML practitioners can better communicate the expected benefits and ensure everyone is aligned on the importance of the project.</p>
+<p>Involving stakeholders in this value assessment also provides an opportunity to identify potential risks, set realistic expectations, and agree on success criteria from the outset. When stakeholders see how the solution directly supports their goals, they are more likely to support the project and allocate the necessary resources to ensure its success.</p>
+<p>Understanding and clearly articulating the potential value of the ML solution lays a strong foundation for the project. It ensures that the system is designed to address the right problem, prioritizes outcomes that matter most to the business, and secures the support needed for successful development and deployment.</p>
+</section>
+</section>
+<section id="understanding-technical-requirements-to-determine-feasibility" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="understanding-technical-requirements-to-determine-feasibility"><span class="header-section-number">2.5</span> Understanding Technical Requirements to Determine Feasibility</h2>
+<p>Before building an ML system, it’s crucial to assess the technical requirements to determine the feasibility of the project. Defining these requirements upfront helps ensure that the solution is practical, achievable, and that the necessary resources are available. Technical requirements span several areas, including data, algorithms, infrastructure, deployment, and scalability. Understanding these requirements early allows teams to identify potential challenges and make informed decisions regarding the scope and direction of the project.</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>It’s important to note that you will not have complete information on the requirements that follow. However, getting as much understanding upfront can help drive key decisions to mitigate risks, and set the foundation for a successful project early in the process.</p>
+</div>
+</div>
+</div>
+<section id="defining-key-technical-requirements" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="defining-key-technical-requirements"><span class="header-section-number">2.5.1</span> Defining Key Technical Requirements</h3>
+<ol type="1">
+<li><p><strong>Data Requirements</strong>: Data is the foundation of any ML system, and understanding data requirements is vital for project success. This involves identifying data sources (e.g., internal databases, third-party APIs), assessing data quality (e.g., completeness, accuracy, consistency), and determining preprocessing needs, such as data cleaning, transformation, or augmentation. Ensuring that sufficient, high-quality data is available early in the project is crucial, as poor data quality can significantly impact model performance.</p></li>
+<li><p><strong>Algorithm Requirements</strong>: Choosing the appropriate algorithm involves considering the problem type, the complexity of potential solutions, and the interpretability needs of stakeholders. Some problems may require simple, interpretable models like linear regression, while others may benefit from more complex models, such as deep learning. The algorithm choice also impacts computation time, required data, and the ability to provide explanations for predictions—all of which influence feasibility.</p></li>
+<li><p><strong>Infrastructure Requirements</strong>: ML systems often demand significant computational resources for training and inference. Understanding infrastructure requirements includes determining compute needs (e.g., CPUs, GPUs), selecting appropriate software tools (e.g., TensorFlow, PyTorch), and evaluating cloud vs.&nbsp;on-premises options for scalability and cost-effectiveness. For projects with heavy resource demands, cloud services can provide a flexible solution, while smaller projects may be better suited to local infrastructure.</p></li>
+<li><p><strong>Deployment Requirements</strong>: Deployment considerations include the delivery method and the integration of the model within existing systems. This could involve setting up an API endpoint to deliver predictions, integrating the model into an application, or deploying the model on edge devices. A well-planned deployment pipeline is key to automating processes such as validation, testing, and deployment, ensuring that the model moves from development to production efficiently.</p></li>
+<li><p><strong>Scale Requirements</strong>: It’s important to understand the anticipated demand for the ML system and whether it will operate in a batch or real-time setting. For systems that require low latency (e.g., fraud detection), scalability must be a priority, ensuring the system can handle large numbers of requests without degrading performance. For batch processing tasks, the focus may be more on data throughput and the ability to handle large datasets effectively.</p></li>
+</ol>
+</section>
+<section id="addressing-gaps-in-resources-or-expertise" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="addressing-gaps-in-resources-or-expertise"><span class="header-section-number">2.5.2</span> Addressing Gaps in Resources or Expertise</h3>
+<p>Once the technical requirements have been defined, teams must assess whether they have the necessary resources and expertise to proceed. Gaps may exist in areas such as data availability, technical skills, or infrastructure capabilities. Addressing these gaps might involve acquiring additional data, seeking third-party services, or upskilling team members to meet project needs. Making feasibility adjustments—such as narrowing the project scope, choosing simpler algorithms, or relying on cloud infrastructure to meet compute demands—can also ensure that the project remains viable within existing constraints.</p>
+<p>Evaluating technical requirements in these areas ensures that the ML system is both feasible and aligned with available resources. By addressing these aspects early, teams can make informed decisions, mitigate risks, and set the foundation for a successful project.</p>
+</section>
+</section>
+<section id="recognizing-ml-system-development-as-an-iterative-process" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="recognizing-ml-system-development-as-an-iterative-process"><span class="header-section-number">2.6</span> Recognizing ML System Development as an Iterative Process</h2>
+<p>Developing an ML system is inherently an iterative process, involving continuous refinement, experimentation, and adaptation. Unlike traditional software development, where requirements and specifications are typically well-defined from the outset, ML systems evolve as they learn from data, integrate feedback, and adapt to changing business needs. Successful ML projects often require multiple rounds of model tuning, retraining, and adjustments to meet both technical and business objectives. Embracing this iterative nature helps ensure that the final solution is robust, scalable, and well-aligned with its intended purpose.</p>
+<p>As an ML project progresses, many of the topics discussed in this chapter—including performance metrics, the valuation of the project, technical requirements, and even the business problem itself—are likely to evolve. For instance: - <strong>Metrics to Assess</strong>: Initial metrics defined to assess model performance or system efficiency may need to change if they are found to be insufficient, misleading, or if stakeholder priorities shift. For example, a metric like accuracy may become less useful if a focus on precision and recall better reflects the business goal. - <strong>Valuation of the Project</strong>: The estimated value of the project may evolve as new opportunities or limitations arise during development. The intended business impact, such as increasing customer engagement, may need revaluation if customer behaviors change or if new data sources reveal additional insights. - <strong>Technical Requirements</strong>: Technical needs such as data quality, infrastructure, or deployment pipelines often need adjustments based on model experiments, results, and feasibility assessments. Iterative model training may reveal gaps in data that require new sources or different preprocessing techniques, or identify infrastructure constraints that necessitate changes to compute resources. - <strong>Business Problem</strong>: As the project progresses, the understanding of the business problem may change. Engaging with stakeholders and observing early results may lead to a deeper understanding of what needs to be solved, prompting refinements to the problem’s scope.</p>
+<p>This iterative process requires finding a balance between being flexible enough to adapt to new information while avoiding uncontrolled changes, known as <strong>scope creep</strong>. Scope creep can derail a project by causing a continuous expansion of objectives, leading to wasted resources, delays, and reduced effectiveness. To manage this, teams should establish clear, well-documented milestones and revisit them periodically to assess if changes are necessary and justified. Any adjustments should be based on insights gained during iterations, with stakeholders involved in the decision-making process to ensure alignment.</p>
+<p>Recognizing ML system development as an iterative process allows teams to embrace change when needed while maintaining focus on the ultimate goals. It fosters continuous improvement, ensuring that the final system is effective, meets business objectives, and is resilient to the dynamic nature of data and business environments. By embracing iteration thoughtfully and managing scope effectively, ML practitioners can deliver solutions that are both impactful and sustainable.</p>
+</section>
+<section id="summary" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">2.7</span> Summary</h2>
+<p>This chapter has outlined the crucial planning steps required before diving into the development of a machine learning (ML) system. Effective ML projects start with a deep understanding of the business problem, achieved by collaborating closely with stakeholders to ensure alignment between business needs and technical efforts. It is vital to evaluate whether the problem truly requires an ML solution, as not all issues benefit from the complexity and resource demands of machine learning. By avoiding unnecessary ML implementation, teams can focus resources on areas that provide meaningful impact.</p>
+<p>We also explored the importance of defining performance metrics to assess both technical and business outcomes, as well as evaluating the potential value of the solution to determine if it justifies the investment. Technical requirements, such as data availability, infrastructure, and deployment needs, must be understood early to ensure feasibility and identify gaps that could impede progress. Finally, we recognized that ML system development is inherently iterative. Changes to metrics, requirements, or even the business problem are likely as the project progresses, requiring a careful balance between flexibility and avoiding scope creep.</p>
+<p>The chapters that follow will equip you with the knowledge to understand and apply these foundational concepts, identify key decisions when designing an ML system, and effectively implement the tools and best practices required to build successful ML solutions. By building on this strong foundation, you will be better prepared to create ML systems that are impactful, adaptable, and well-aligned with organizational goals.</p>
+</section>
+<section id="exercise" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="exercise"><span class="header-section-number">2.8</span> Exercise</h2>
+<p>Consider a scenario where a healthcare organization wants to build an ML system to improve patient outcomes by predicting hospital readmissions. To help guide this example, read the first three pages (sections 1-1.4) of this <a href="https://psb.stanford.edu/psb-online/proceedings/psb17/shameer.pdf">real-life case study of Mount Sinai Hospital in New York City</a>. Use this example to help guide your answers to the following:</p>
+<ol type="1">
+<li><strong>Stakeholder Engagement</strong>
+<ul>
+<li>Who would the key stakeholders be for this project?</li>
+<li>What questions would you ask these stakeholders to ensure you understand the business problem?</li>
+<li>What assumptions might be uncovered during these discussions?</li>
+</ul></li>
+<li><strong>Evaluating ML Suitability</strong>
+<ul>
+<li>Assess whether ML is a suitable solution. What factors would you consider to determine if ML is appropriate for this problem?</li>
+<li>Provide an example of an alternative, non-ML approach that could be considered. What are the limitations of this approach compared to an ML approach?</li>
+</ul></li>
+<li><strong>Define Performance Metrics</strong>
+<ul>
+<li>Define three performance metrics for the ML system. Include at least one technical metric (e.g., accuracy), one system performance metric (e.g., latency), and one business metric (e.g., reduction in readmission rates).</li>
+<li>Explain why each of these metrics is important for evaluating the success of the ML system.</li>
+</ul></li>
+<li><strong>Understanding Value and Feasibility</strong>
+<ul>
+<li>Write a paragraph that outlines the potential value of the ML system to the healthcare organization. Consider both tangible (e.g., cost savings) and intangible (e.g., improved patient satisfaction) benefits.</li>
+<li>List some key technical requirements that would be helpful to understand early on before developing the solution (e.g., data, infrastructure). What gaps might exist, and how would you address them?</li>
+</ul></li>
+<li><strong>The Iterative Process</strong>
+<ul>
+<li>Describe why the development of this ML system would be an iterative process. Provide an example of something that could change during development (e.g., a performance metric, a technical requirement) and how you would manage this change to avoid scope creep.</li>
+</ul></li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-mattson2020mlperf" class="csl-entry" role="listitem">
+Mattson, Peter, Christine Cheng, Gregory Diamos, Cody Coleman, Paulius Micikevicius, David Patterson, Hanlin Tang, et al. 2020. <span>“Mlperf Training Benchmark.”</span> <em>Proceedings of Machine Learning and Systems</em> 2: 336–49.
+</div>
+<div id="ref-tolomei2017interpretable" class="csl-entry" role="listitem">
+Tolomei, Gabriele, Fabrizio Silvestri, Andrew Haines, and Mounia Lalmas. 2017. <span>“Interpretable Predictions of Tree-Based Ensembles via Actionable Feature Tweaking.”</span> In <em>Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 465–74.
+</div>
+<div id="ref-vemulapalli2023operationalizing" class="csl-entry" role="listitem">
+Vemulapalli, Gopichand. 2023. <span>“Operationalizing Machine Learning Best Practices for Scalable Production Deployments.”</span> <em>International Machine Learning Journal and Computer Engineering</em> 6 (6): 1–21.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Latency is well-covered in <span class="citation" data-cites="tolomei2017interpretable">Tolomei et al. (<a href="references.html#ref-tolomei2017interpretable" role="doc-biblioref">2017</a>)</span>, which discusses latency optimization for ML infrastructure.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><span class="citation" data-cites="mattson2020mlperf">Mattson et al. (<a href="references.html#ref-mattson2020mlperf" role="doc-biblioref">2020</a>)</span> explores techniques for optimizing throughput in production ML systems.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><span class="citation" data-cites="vemulapalli2023operationalizing">Vemulapalli (<a href="references.html#ref-vemulapalli2023operationalizing" role="doc-biblioref">2023</a>)</span> discusses some machine learning best practices for scalable production deployments.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01-intro-ml-system.html" class="pagination-link" aria-label="Introduction to Machine Learning System Design">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Machine Learning System Design</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/edit/main/02-before-we-build.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

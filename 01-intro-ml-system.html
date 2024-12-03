@@ -50,7 +50,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./summary.html" rel="next">
+<link href="./02-before-we-build.html" rel="next">
 <link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -153,6 +153,10 @@ div.csl-indent {
  <span class="menu-text">Welcome</span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Laying the Foundation</span></span>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./01-intro-ml-system.html" class="sidebar-item-text sidebar-link active">
@@ -161,10 +165,26 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Summary</span></span></a>
+  <a href="./02-before-we-build.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Before We Build</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">DataOps</span></span>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">ModelOps</span></span>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">DevOps</span></span>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">The Human Side of ML Systems</span></span>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
@@ -181,14 +201,14 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#ml-system-design" id="toc-ml-system-design" class="nav-link active" data-scroll-target="#ml-system-design"><span class="header-section-number">1.1</span> ML system design</a>
+  <li><a href="#ml-system-design" id="toc-ml-system-design" class="nav-link active" data-scroll-target="#ml-system-design"><span class="header-section-number">1.1</span> ML System Design</a>
   <ul class="collapse">
   <li><a href="#dataops-data-management-and-pipelines" id="toc-dataops-data-management-and-pipelines" class="nav-link" data-scroll-target="#dataops-data-management-and-pipelines"><span class="header-section-number">1.1.1</span> DataOps: Data Management and Pipelines</a></li>
   <li><a href="#modelops-model-lifecycle-management" id="toc-modelops-model-lifecycle-management" class="nav-link" data-scroll-target="#modelops-model-lifecycle-management"><span class="header-section-number">1.1.2</span> ModelOps: Model Lifecycle Management</a></li>
   <li><a href="#devops-practices" id="toc-devops-practices" class="nav-link" data-scroll-target="#devops-practices"><span class="header-section-number">1.1.3</span> DevOps Practices</a></li>
   </ul></li>
-  <li><a href="#why-ml-system-design-matters" id="toc-why-ml-system-design-matters" class="nav-link" data-scroll-target="#why-ml-system-design-matters"><span class="header-section-number">1.2</span> Why ML system design matters</a></li>
-  <li><a href="#design-principles-for-good-ml-system-design" id="toc-design-principles-for-good-ml-system-design" class="nav-link" data-scroll-target="#design-principles-for-good-ml-system-design"><span class="header-section-number">1.3</span> Design principles for good ML system design</a>
+  <li><a href="#why-ml-system-design-matters" id="toc-why-ml-system-design-matters" class="nav-link" data-scroll-target="#why-ml-system-design-matters"><span class="header-section-number">1.2</span> Why ML System Design Matters</a></li>
+  <li><a href="#design-principles-for-good-ml-system-design" id="toc-design-principles-for-good-ml-system-design" class="nav-link" data-scroll-target="#design-principles-for-good-ml-system-design"><span class="header-section-number">1.3</span> Design Principles for Good ML System Design</a>
   <ul class="collapse">
   <li><a href="#modularity-and-abstraction" id="toc-modularity-and-abstraction" class="nav-link" data-scroll-target="#modularity-and-abstraction"><span class="header-section-number">1.3.1</span> Modularity and Abstraction</a></li>
   <li><a href="#scalability" id="toc-scalability" class="nav-link" data-scroll-target="#scalability"><span class="header-section-number">1.3.2</span> Scalability</a></li>
@@ -237,8 +257,9 @@ div.csl-indent {
 <p>Machine Learning (ML) System Design is the discipline of creating reliable, scalable, and maintainable machine learning systems that solve real-world business problems. Unlike standard machine learning modeling, which focuses primarily on algorithm development and evaluation, ML System Design considers the broader ecosystem in which a model must operate. This involves defining the architecture, infrastructure, and processes that make a model functional and sustainable within production environments. As organizations increasingly rely on machine learning to make data-driven decisions, robust system design has become essential for delivering models that consistently meet organizational needs and can adapt to change.</p>
 <p>Effective ML system design enables organizations to avoid many pitfalls of deploying machine learning in production. Poorly designed systems can lead to issues like inaccurate predictions due to data drift, high operational costs, or significant downtime during retraining or model updates. By adhering to design principles such as modularity, scalability, and reproducibility, ML engineers and data scientists can develop systems that are more resilient and easier to manage. These principles form the backbone of good ML system design and help ensure that models can not only be deployed but also monitored, improved, and scaled as needed.</p>
 <p>This section will explore these design principles in detail and examine how they align with key stages of the ML system lifecycle, from data processing and model training to deployment, monitoring, and iteration. As Chip Huyen points out, “Machine learning in production is 10% modeling and 90% engineering” <span class="citation" data-cites="huyen2022designing">(<a href="references.html#ref-huyen2022designing" role="doc-biblioref">Huyen 2022</a>)</span>, highlighting how technical choices impact the system’s reliability and long-term value for the organization. Understanding ML System Design and the lifecycle of ML systems is foundational for anyone working in machine learning, as it highlights how technical choices impact the system’s overall reliability and long-term value for the organization.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/TXnxnop2Ljc?si=DVztC5Bd_B4RunwX" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <section id="ml-system-design" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="ml-system-design"><span class="header-section-number">1.1</span> ML system design</h2>
+<h2 data-number="1.1" class="anchored" data-anchor-id="ml-system-design"><span class="header-section-number">1.1</span> ML System Design</h2>
 <p>ML system design refers to the process of building, structuring, and integrating machine learning models into larger production environments to deliver reliable, scalable, and sustainable solutions. While traditional machine learning focuses on developing high-performing models, system design extends the focus to creating an entire ecosystem where these models can continuously operate, adapt, and provide value over time. It encompasses everything from data pipelines and infrastructure to model versioning, monitoring, and scaling, ensuring that machine learning projects align with organizational goals and can be maintained as data, requirements, and technology evolve.</p>
 <p>Therefore, ML system design includes multiple facets beyond the algorithms themselves:</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="TODO">
@@ -303,12 +324,12 @@ Driven by business requirements
 </section>
 </section>
 <section id="why-ml-system-design-matters" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="why-ml-system-design-matters"><span class="header-section-number">1.2</span> Why ML system design matters</h2>
+<h2 data-number="1.2" class="anchored" data-anchor-id="why-ml-system-design-matters"><span class="header-section-number">1.2</span> Why ML System Design Matters</h2>
 <p>ML system design addresses the challenges of productionizing machine learning. In a laboratory or research setting, machine learning models are often developed with a focus on achieving high accuracy or minimizing error on a given dataset. However, deploying these models in production involves a different set of concerns. In real-world applications, ML systems need to handle fluctuating data distributions, evolving user needs, and high availability. Without a robust design, machine learning models can quickly degrade in performance, lead to incorrect predictions, or even disrupt business operations.</p>
 <p>By prioritizing system design, organizations can build ML workflows that are both responsive to change and maintainable over time. This approach reduces technical debt—the accumulation of outdated or poorly designed code, data dependencies, and complex interactions that are difficult to fix — highlighted by the authors in <a href="https://proceedings.neurips.cc/paper_files/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf">Hidden Technical Debt in Machine Learning Systems</a> as a critical challenge in ML applications <span class="citation" data-cites="sculley2015hidden">(<a href="references.html#ref-sculley2015hidden" role="doc-biblioref">Sculley et al. 2015</a>)</span>. Poorly managed dependencies and hidden feedback loops, for instance, can lead to unpredictable model behavior and complicate future updates. Thoughtful ML system design mitigates these issues, allowing models to deliver consistent, reliable results while aligning predictions more closely with organizational metrics and objectives. Ultimately, well-architected ML systems are more adaptable, enabling models to evolve as business goals and data distributions shift over time.</p>
 </section>
 <section id="design-principles-for-good-ml-system-design" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="design-principles-for-good-ml-system-design"><span class="header-section-number">1.3</span> Design principles for good ML system design</h2>
+<h2 data-number="1.3" class="anchored" data-anchor-id="design-principles-for-good-ml-system-design"><span class="header-section-number">1.3</span> Design Principles for Good ML System Design</h2>
 <p>Creating an effective ML system involves more than just building an accurate model; it requires thoughtful design to ensure that the system remains reliable, scalable, and adaptable over time. Good ML system design incorporates a set of principles that help address real-world challenges in production environments, such as evolving data, model drift, and changing business requirements. The following design principles guide ML engineers and data scientists in building systems that meet these demands and deliver sustained business value.</p>
 <div class="callout callout-style-simple callout-tip callout-titled" title="TODO">
 <div class="callout-header d-flex align-content-center">
@@ -922,8 +943,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./summary.html" class="pagination-link" aria-label="Summary">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./02-before-we-build.html" class="pagination-link" aria-label="Before We Build">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Before We Build</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
