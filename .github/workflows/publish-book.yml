@@ -14,33 +14,23 @@ name: Render and publish book
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -el {0}
     permissions:
       contents: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Install environment
-        uses: conda-incubator/setup-miniconda@v3
+      - name: Install Jupyter
+        uses: actions/setup-python@v5
         with:
-          auto-update-conda: true
-          environment-file: bana7085.yml
-          activate-environment: bana7085
-
-      - name: Verify Conda Environment
-        run: conda info --envs && conda list
+          python-version: '>=3.10'
+      - run: pip install jupyter
         
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         with:
           # To install LaTeX to build PDF book
           tinytex: true
-      
-      - name: Install Jupyter
-        run: python3 -m pip install jupyter
         
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
