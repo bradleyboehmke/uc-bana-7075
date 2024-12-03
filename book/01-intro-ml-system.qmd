@@ -6,7 +6,9 @@ Effective ML system design enables organizations to avoid many pitfalls of deplo
 
 This section will explore these design principles in detail and examine how they align with key stages of the ML system lifecycle, from data processing and model training to deployment, monitoring, and iteration. As Chip Huyen points out, “Machine learning in production is 10% modeling and 90% engineering” [@huyen2022designing], highlighting how technical choices impact the system’s reliability and long-term value for the organization.  Understanding ML System Design and the lifecycle of ML systems is foundational for anyone working in machine learning, as it highlights how technical choices impact the system's overall reliability and long-term value for the organization.
 
-## ML system design
+{{< video https://youtu.be/TXnxnop2Ljc?si=DVztC5Bd_B4RunwX >}}
+
+## ML System Design
 
 ML system design refers to the process of building, structuring, and integrating machine learning models into larger production environments to deliver reliable, scalable, and sustainable solutions. While traditional machine learning focuses on developing high-performing models, system design extends the focus to creating an entire ecosystem where these models can continuously operate, adapt, and provide value over time. It encompasses everything from data pipelines and infrastructure to model versioning, monitoring, and scaling, ensuring that machine learning projects align with organizational goals and can be maintained as data, requirements, and technology evolve.
 
@@ -55,13 +57,13 @@ Model lifecycle management is similarly guided by business needs; frequent retra
 By aligning these elements with clear business objectives, organizations can create ML systems that are not only technically sound but also effective in achieving their strategic goals.
 :::
 
-## Why ML system design matters
+## Why ML System Design Matters
 
 ML system design addresses the challenges of productionizing machine learning. In a laboratory or research setting, machine learning models are often developed with a focus on achieving high accuracy or minimizing error on a given dataset. However, deploying these models in production involves a different set of concerns. In real-world applications, ML systems need to handle fluctuating data distributions, evolving user needs, and high availability. Without a robust design, machine learning models can quickly degrade in performance, lead to incorrect predictions, or even disrupt business operations.
 
 By prioritizing system design, organizations can build ML workflows that are both responsive to change and maintainable over time. This approach reduces technical debt—the accumulation of outdated or poorly designed code, data dependencies, and complex interactions that are difficult to fix — highlighted by the authors in [Hidden Technical Debt in Machine Learning Systems](https://proceedings.neurips.cc/paper_files/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf) as a critical challenge in ML applications [@sculley2015hidden]. Poorly managed dependencies and hidden feedback loops, for instance, can lead to unpredictable model behavior and complicate future updates. Thoughtful ML system design mitigates these issues, allowing models to deliver consistent, reliable results while aligning predictions more closely with organizational metrics and objectives. Ultimately, well-architected ML systems are more adaptable, enabling models to evolve as business goals and data distributions shift over time.
 
-## Design principles for good ML system design
+## Design Principles for Good ML System Design
 
 Creating an effective ML system involves more than just building an accurate model; it requires thoughtful design to ensure that the system remains reliable, scalable, and adaptable over time. Good ML system design incorporates a set of principles that help address real-world challenges in production environments, such as evolving data, model drift, and changing business requirements. The following design principles guide ML engineers and data scientists in building systems that meet these demands and deliver sustained business value.
 
