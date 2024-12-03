@@ -14,8 +14,13 @@ book:
 
   chapters:
     - index.qmd
+    - part: "Laying the Foundation"
     - 01-intro-ml-system.qmd
-    - summary.qmd
+    - 02-before-we-build.qmd
+    - part: "DataOps"
+    - part: "ModelOps"
+    - part: "DevOps"
+    - part: "The Human Side of ML Systems"
     - references.qmd
 
 bibliography: references.bib
