@@ -18,6 +18,8 @@ book:
     - 01-intro-ml-system.qmd
     - 02-before-we-build.qmd
     - part: "DataOps"
+    - 03-dataops-role.qmd
+    - 04-dataops-build.qmd
     - part: "ModelOps"
     - part: "DevOps"
     - part: "The Human Side of ML Systems"

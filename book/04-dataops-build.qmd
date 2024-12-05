@@ -1,0 +1,39 @@
+# Building and Managing Data Pipelines
+
+## Introduction to Data Pipelines
+
+- Definition of data pipelines and their importance in ML system design.
+- The role of DataOps in constructing scalable and reliable data workflows.
+
+## Tools for DataOps
+
+Overview (and examples) of commonly used tools for DataOps:
+
+- Data Ingestion: Apache Kafka, Apache NiFi, Airbyte.
+- Data Processing: Apache Spark, DBT, Pandas.
+- Data Validation: Great Expectations, TFDV (TensorFlow Data Validation).
+- Data Versioning: DVC, Delta Lake.
+
+## Building Data Pipelines
+
+Step-by-step guide to creating the components of a DataOps system.  This part will show system architecture diagrams to conceptually build a DataOps system
+
+- Designing an ingestion framework that accommodates multiple data sources.
+- Data cleaning, transformation, and feature extraction.
+- Incorporating data validation to ensure quality.
+- Versioning datasets for consistency and reproducibility.
+
+## Creating Scalable Data Pipelines
+
+- How to build data pipelines that scale to accommodate increasing data volumes.
+- Key considerations for scalability, such as distributed processing and fault tolerance.
+
+## Hands-On Example: Simple Data Pipeline for ML Workflows
+
+- Demonstrate a simple end-to-end data pipeline that ingests, processes, validates, and versions a dataset.
+- Walkthrough of using tools like Pandas, Great Expectations, and DVC to create a pipeline.
+
+## Conclusion and Key Takeaways
+
+- Summary of the key principles of DataOps and how to apply them in building effective data pipelines for ML.
+- Reflection on the importance of data quality, management, and scalability in ML workflows.
