@@ -141,7 +141,7 @@ Successfully implementing performance metrics requires thoughtful integration in
 
 4. **Set Thresholds and Alerts**: Define acceptable thresholds for critical metrics and set up alerts if the system’s performance falls below these levels. This allows for quick intervention to resolve potential issues before they impact users or business outcomes.
 
-5. **Regularly Re-Evaluate Metrics**: As business needs and data sources evolve, so should the metrics. Periodic re-evaluation ensures that metrics remain relevant and continue to align with the organization’s priorities ([Pol
+5. **Regularly Re-Evaluate Metrics**: As business needs and data sources evolve, so should the metrics. Periodic re-evaluation ensures that metrics remain relevant and continue to align with the organization’s priorities.
 
 
 ## Understanding the Potential Value of a Solution
@@ -160,7 +160,7 @@ To estimate and define the value of an ML system, it’s useful to ask the follo
    Consider the specific business outcomes that the ML system is intended to influence. For example, will a recommendation system increase sales by suggesting more relevant products to customers? And if so, what does the business reasonably expect those incremental sales to equate to? Or maybe the improved recommendation system will be able to make more time relevant predictions based on today's trends or news, which could increase daily active users which could increase potential ad revenue. Or maybe the improved recommendation system is designed to reduce customer churn, which could lead to lower new customer acquisition costs. Answering these question helps determine just how the ML system is expected to benefit the organization and if the potential benefits justify the investment and ensures the solution is well-targeted.
 
 2. **What Are the Tangible and Intangible Benefits?**
-   When evaluating the potential value, it’s important to look beyond the immediate financial benefits. Tangible benefits, such as cost savings, increased revenue, or reduced processing time, are easier to quantify and often form the basis for ROI analysis. However, intangible benefits, like improved customer satisfaction, increased user engagement, enhanced employee productivity, or reduced risk, are equally important for long-term success but not as easy to quantify. For example, a fraud detection model may not only save money but also enhance customer trust—an intangible yet valuable outcome for the business.  Although these are difficult to quantify, it is important to identify these potential benefits and determine if there is a way to quantify and track them.
+   When evaluating the potential value, it’s important to look beyond the immediate financial benefits. Tangible benefits, such as cost savings, increased revenue, or reduced processing time, are easier to quantify and often form the basis for return on investment analyses. However, intangible benefits, like improved customer satisfaction, increased user engagement, enhanced employee productivity, or reduced risk, are equally important for long-term success but not as easy to quantify. For example, a fraud detection model may not only save money but also enhance customer trust—an intangible yet valuable outcome for the business.  Although these are difficult to quantify, it is important to identify these potential benefits and determine if there is a way to quantify and track them.
 
 ### Aligning Value Assessment with Stakeholder Priorities
 
