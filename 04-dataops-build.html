@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>References – Machine Learning Design for Business</title>
+<title>4&nbsp; Building and Managing Data Pipelines – Machine Learning Design for Business</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -49,7 +30,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./04-dataops-build.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./03-dataops-role.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -99,7 +81,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">References</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-dataops-build.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Building and Managing Data Pipelines</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -179,7 +161,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-dataops-build.html" class="sidebar-item-text sidebar-link">
+  <a href="./04-dataops-build.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Building and Managing Data Pipelines</span></span></a>
   </div>
 </li>
@@ -197,7 +179,7 @@ div.csl-indent {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link active">
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -206,15 +188,26 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-data-pipelines" id="toc-introduction-to-data-pipelines" class="nav-link active" data-scroll-target="#introduction-to-data-pipelines"><span class="header-section-number">4.1</span> Introduction to Data Pipelines</a></li>
+  <li><a href="#tools-for-dataops" id="toc-tools-for-dataops" class="nav-link" data-scroll-target="#tools-for-dataops"><span class="header-section-number">4.2</span> Tools for DataOps</a></li>
+  <li><a href="#building-data-pipelines" id="toc-building-data-pipelines" class="nav-link" data-scroll-target="#building-data-pipelines"><span class="header-section-number">4.3</span> Building Data Pipelines</a></li>
+  <li><a href="#creating-scalable-data-pipelines" id="toc-creating-scalable-data-pipelines" class="nav-link" data-scroll-target="#creating-scalable-data-pipelines"><span class="header-section-number">4.4</span> Creating Scalable Data Pipelines</a></li>
+  <li><a href="#hands-on-example-simple-data-pipeline-for-ml-workflows" id="toc-hands-on-example-simple-data-pipeline-for-ml-workflows" class="nav-link" data-scroll-target="#hands-on-example-simple-data-pipeline-for-ml-workflows"><span class="header-section-number">4.5</span> Hands-On Example: Simple Data Pipeline for ML Workflows</a></li>
+  <li><a href="#conclusion-and-key-takeaways" id="toc-conclusion-and-key-takeaways" class="nav-link" data-scroll-target="#conclusion-and-key-takeaways"><span class="header-section-number">4.6</span> Conclusion and Key Takeaways</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/edit/main/04-dataops-build.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">References</h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Building and Managing Data Pipelines</span></h1>
 </div>
 
 
@@ -231,71 +224,56 @@ div.csl-indent {
 </header>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-amershi2019software" class="csl-entry" role="listitem">
-Amershi, Saleema, Andrew Begel, Christian Bird, Robert DeLine, Harald
-Gall, Ece Kamar, Nachiappan Nagappan, Besmira Nushi, and Thomas
-Zimmermann. 2019. <span>“Software Engineering for Machine Learning: A
-Case Study.”</span> In <em>2019 IEEE/ACM 41st International Conference
-on Software Engineering: Software Engineering in Practice
-(ICSE-SEIP)</em>, 291–300. IEEE.
-</div>
-<div id="ref-gama2014survey" class="csl-entry" role="listitem">
-Gama, João, Indrė Žliobaitė, Albert Bifet, Mykola Pechenizkiy, and
-Abdelhamid Bouchachia. 2014. <span>“A Survey on Concept Drift
-Adaptation.”</span> <em>ACM Computing Surveys (CSUR)</em> 46 (4): 1–37.
-</div>
-<div id="ref-huyen2022designing" class="csl-entry" role="listitem">
-Huyen, Chip. 2022. <em>Designing Machine Learning Systems</em>. "
-O’Reilly Media, Inc.".
-</div>
-<div id="ref-levine2020offline" class="csl-entry" role="listitem">
-Levine, Sergey, Aviral Kumar, George Tucker, and Justin Fu. 2020.
-<span>“Offline Reinforcement Learning: Tutorial, Review, and
-Perspectives on Open Problems.”</span> <em>arXiv Preprint
-arXiv:2005.01643</em>.
-</div>
-<div id="ref-mattson2020mlperf" class="csl-entry" role="listitem">
-Mattson, Peter, Christine Cheng, Gregory Diamos, Cody Coleman, Paulius
-Micikevicius, David Patterson, Hanlin Tang, et al. 2020. <span>“Mlperf
-Training Benchmark.”</span> <em>Proceedings of Machine Learning and
-Systems</em> 2: 336–49.
-</div>
-<div id="ref-papernot2017practical" class="csl-entry" role="listitem">
-Papernot, Nicolas, Patrick McDaniel, Ian Goodfellow, Somesh Jha, Z
-Berkay Celik, and Ananthram Swami. 2017. <span>“Practical Black-Box
-Attacks Against Machine Learning.”</span> In <em>Proceedings of the 2017
-ACM on Asia Conference on Computer and Communications Security</em>,
-506–19.
-</div>
-<div id="ref-polyzotis2019data" class="csl-entry" role="listitem">
-Polyzotis, Neoklis, Martin Zinkevich, Sudip Roy, Eric Breck, and Steven
-Whang. 2019. <span>“Data Validation for Machine Learning.”</span>
-<em>Proceedings of Machine Learning and Systems</em> 1: 334–47.
-</div>
-<div id="ref-sculley2015hidden" class="csl-entry" role="listitem">
-Sculley, David, Gary Holt, Daniel Golovin, Eugene Davydov, Todd
-Phillips, Dietmar Ebner, Vinay Chaudhary, Michael Young, Jean-Francois
-Crespo, and Dan Dennison. 2015. <span>“Hidden Technical Debt in Machine
-Learning Systems.”</span> <em>Advances in Neural Information Processing
-Systems</em> 28.
-</div>
-<div id="ref-tolomei2017interpretable" class="csl-entry" role="listitem">
-Tolomei, Gabriele, Fabrizio Silvestri, Andrew Haines, and Mounia Lalmas.
-2017. <span>“Interpretable Predictions of Tree-Based Ensembles via
-Actionable Feature Tweaking.”</span> In <em>Proceedings of the 23rd ACM
-SIGKDD International Conference on Knowledge Discovery and Data
-Mining</em>, 465–74.
-</div>
-<div id="ref-vemulapalli2023operationalizing" class="csl-entry" role="listitem">
-Vemulapalli, Gopichand. 2023. <span>“Operationalizing Machine Learning
-Best Practices for Scalable Production Deployments.”</span>
-<em>International Machine Learning Journal and Computer Engineering</em>
-6 (6): 1–21.
-</div>
-</div>
+<section id="introduction-to-data-pipelines" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="introduction-to-data-pipelines"><span class="header-section-number">4.1</span> Introduction to Data Pipelines</h2>
+<ul>
+<li>Definition of data pipelines and their importance in ML system design.</li>
+<li>The role of DataOps in constructing scalable and reliable data workflows.</li>
+</ul>
+</section>
+<section id="tools-for-dataops" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="tools-for-dataops"><span class="header-section-number">4.2</span> Tools for DataOps</h2>
+<p>Overview (and examples) of commonly used tools for DataOps:</p>
+<ul>
+<li>Data Ingestion: Apache Kafka, Apache NiFi, Airbyte.</li>
+<li>Data Processing: Apache Spark, DBT, Pandas.</li>
+<li>Data Validation: Great Expectations, TFDV (TensorFlow Data Validation).</li>
+<li>Data Versioning: DVC, Delta Lake.</li>
+</ul>
+</section>
+<section id="building-data-pipelines" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="building-data-pipelines"><span class="header-section-number">4.3</span> Building Data Pipelines</h2>
+<p>Step-by-step guide to creating the components of a DataOps system. This part will show system architecture diagrams to conceptually build a DataOps system</p>
+<ul>
+<li>Designing an ingestion framework that accommodates multiple data sources.</li>
+<li>Data cleaning, transformation, and feature extraction.</li>
+<li>Incorporating data validation to ensure quality.</li>
+<li>Versioning datasets for consistency and reproducibility.</li>
+</ul>
+</section>
+<section id="creating-scalable-data-pipelines" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="creating-scalable-data-pipelines"><span class="header-section-number">4.4</span> Creating Scalable Data Pipelines</h2>
+<ul>
+<li>How to build data pipelines that scale to accommodate increasing data volumes.</li>
+<li>Key considerations for scalability, such as distributed processing and fault tolerance.</li>
+</ul>
+</section>
+<section id="hands-on-example-simple-data-pipeline-for-ml-workflows" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="hands-on-example-simple-data-pipeline-for-ml-workflows"><span class="header-section-number">4.5</span> Hands-On Example: Simple Data Pipeline for ML Workflows</h2>
+<ul>
+<li>Demonstrate a simple end-to-end data pipeline that ingests, processes, validates, and versions a dataset.</li>
+<li>Walkthrough of using tools like Pandas, Great Expectations, and DVC to create a pipeline.</li>
+</ul>
+</section>
+<section id="conclusion-and-key-takeaways" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="conclusion-and-key-takeaways"><span class="header-section-number">4.6</span> Conclusion and Key Takeaways</h2>
+<ul>
+<li>Summary of the key principles of DataOps and how to apply them in building effective data pipelines for ML.</li>
+<li>Reflection on the importance of data quality, management, and scalability in ML workflows.</li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -717,11 +695,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./04-dataops-build.html" class="pagination-link" aria-label="Building and Managing Data Pipelines">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Building and Managing Data Pipelines</span></span>
+      <a href="./03-dataops-role.html" class="pagination-link" aria-label="The Role of DataOps">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Role of DataOps</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -729,4 +710,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/edit/main/references.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/edit/main/04-dataops-build.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

@@ -50,7 +50,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./03-dataops-role.html" rel="next">
 <link href="./01-intro-ml-system.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -202,6 +202,18 @@ window.Quarto = {
       <span class="sidebar-item-text sidebar-link text-start">
  <span class="menu-text">DataOps</span></span>
   </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-dataops-role.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Role of DataOps</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-dataops-build.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Building and Managing Data Pipelines</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <span class="sidebar-item-text sidebar-link text-start">
  <span class="menu-text">ModelOps</span></span>
@@ -413,7 +425,7 @@ Isn’t this a project manager responsibility?
 <li><p><strong>Use Multiple Metrics for a Holistic View</strong>: Relying on a single metric can lead to misleading conclusions. Using a combination of metrics—such as precision and latency, or recall and business impact—provides a balanced understanding of performance (<a href="https://academic.oup.com/bioinformatics/article/21/5/1509/253153">Saito &amp; Rehmsmeier, 2015</a>).</p></li>
 <li><p><strong>Monitor Metrics Continuously</strong>: Performance metrics should be monitored throughout the model lifecycle, including in production. Continuous monitoring helps detect issues like data drift or system degradation (<a href="https://dl.acm.org/doi/10.1145/3097983.3098043">Breck et al., 2017</a>).</p></li>
 <li><p><strong>Set Thresholds and Alerts</strong>: Define acceptable thresholds for critical metrics and set up alerts if the system’s performance falls below these levels. This allows for quick intervention to resolve potential issues before they impact users or business outcomes.</p></li>
-<li><p><strong>Regularly Re-Evaluate Metrics</strong>: As business needs and data sources evolve, so should the metrics. Periodic re-evaluation ensures that metrics remain relevant and continue to align with the organization’s priorities ([Pol</p></li>
+<li><p><strong>Regularly Re-Evaluate Metrics</strong>: As business needs and data sources evolve, so should the metrics. Periodic re-evaluation ensures that metrics remain relevant and continue to align with the organization’s priorities.</p></li>
 </ol>
 </section>
 </section>
@@ -429,7 +441,7 @@ Isn’t this a project manager responsibility?
 <p>To estimate and define the value of an ML system, it’s useful to ask the following questions:</p>
 <ol type="1">
 <li><p><strong>How Will the Solution Improve Business Outcomes?</strong> Consider the specific business outcomes that the ML system is intended to influence. For example, will a recommendation system increase sales by suggesting more relevant products to customers? And if so, what does the business reasonably expect those incremental sales to equate to? Or maybe the improved recommendation system will be able to make more time relevant predictions based on today’s trends or news, which could increase daily active users which could increase potential ad revenue. Or maybe the improved recommendation system is designed to reduce customer churn, which could lead to lower new customer acquisition costs. Answering these question helps determine just how the ML system is expected to benefit the organization and if the potential benefits justify the investment and ensures the solution is well-targeted.</p></li>
-<li><p><strong>What Are the Tangible and Intangible Benefits?</strong> When evaluating the potential value, it’s important to look beyond the immediate financial benefits. Tangible benefits, such as cost savings, increased revenue, or reduced processing time, are easier to quantify and often form the basis for ROI analysis. However, intangible benefits, like improved customer satisfaction, increased user engagement, enhanced employee productivity, or reduced risk, are equally important for long-term success but not as easy to quantify. For example, a fraud detection model may not only save money but also enhance customer trust—an intangible yet valuable outcome for the business. Although these are difficult to quantify, it is important to identify these potential benefits and determine if there is a way to quantify and track them.</p></li>
+<li><p><strong>What Are the Tangible and Intangible Benefits?</strong> When evaluating the potential value, it’s important to look beyond the immediate financial benefits. Tangible benefits, such as cost savings, increased revenue, or reduced processing time, are easier to quantify and often form the basis for return on investment analyses. However, intangible benefits, like improved customer satisfaction, increased user engagement, enhanced employee productivity, or reduced risk, are equally important for long-term success but not as easy to quantify. For example, a fraud detection model may not only save money but also enhance customer trust—an intangible yet valuable outcome for the business. Although these are difficult to quantify, it is important to identify these potential benefits and determine if there is a way to quantify and track them.</p></li>
 </ol>
 </section>
 <section id="aligning-value-assessment-with-stakeholder-priorities" class="level3" data-number="2.4.3">
@@ -471,8 +483,14 @@ Isn’t this a project manager responsibility?
 <section id="recognizing-ml-system-development-as-an-iterative-process" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="recognizing-ml-system-development-as-an-iterative-process"><span class="header-section-number">2.6</span> Recognizing ML System Development as an Iterative Process</h2>
 <p>Developing an ML system is inherently an iterative process, involving continuous refinement, experimentation, and adaptation. Unlike traditional software development, where requirements and specifications are typically well-defined from the outset, ML systems evolve as they learn from data, integrate feedback, and adapt to changing business needs. Successful ML projects often require multiple rounds of model tuning, retraining, and adjustments to meet both technical and business objectives. Embracing this iterative nature helps ensure that the final solution is robust, scalable, and well-aligned with its intended purpose.</p>
-<p>As an ML project progresses, many of the topics discussed in this chapter—including performance metrics, the valuation of the project, technical requirements, and even the business problem itself—are likely to evolve. For instance: - <strong>Metrics to Assess</strong>: Initial metrics defined to assess model performance or system efficiency may need to change if they are found to be insufficient, misleading, or if stakeholder priorities shift. For example, a metric like accuracy may become less useful if a focus on precision and recall better reflects the business goal. - <strong>Valuation of the Project</strong>: The estimated value of the project may evolve as new opportunities or limitations arise during development. The intended business impact, such as increasing customer engagement, may need revaluation if customer behaviors change or if new data sources reveal additional insights. - <strong>Technical Requirements</strong>: Technical needs such as data quality, infrastructure, or deployment pipelines often need adjustments based on model experiments, results, and feasibility assessments. Iterative model training may reveal gaps in data that require new sources or different preprocessing techniques, or identify infrastructure constraints that necessitate changes to compute resources. - <strong>Business Problem</strong>: As the project progresses, the understanding of the business problem may change. Engaging with stakeholders and observing early results may lead to a deeper understanding of what needs to be solved, prompting refinements to the problem’s scope.</p>
-<p>This iterative process requires finding a balance between being flexible enough to adapt to new information while avoiding uncontrolled changes, known as <strong>scope creep</strong>. Scope creep can derail a project by causing a continuous expansion of objectives, leading to wasted resources, delays, and reduced effectiveness. To manage this, teams should establish clear, well-documented milestones and revisit them periodically to assess if changes are necessary and justified. Any adjustments should be based on insights gained during iterations, with stakeholders involved in the decision-making process to ensure alignment.</p>
+<p>As an ML project progresses, many of the topics discussed in this chapter—including performance metrics, the valuation of the project, technical requirements, and even the business problem itself—are likely to evolve. For instance:</p>
+<ul>
+<li><strong>Metrics to Assess</strong>: Initial metrics defined to assess model performance or system efficiency may need to change if they are found to be insufficient, misleading, or if stakeholder priorities shift. For example, a metric like accuracy may become less useful if a focus on precision and recall better reflects the business goal.</li>
+<li><strong>Valuation of the Project</strong>: The estimated value of the project may evolve as new opportunities or limitations arise during development. The intended business impact, such as increasing customer engagement, may need revaluation if customer behaviors change or if new data sources reveal additional insights.</li>
+<li><strong>Technical Requirements</strong>: Technical needs such as data quality, infrastructure, or deployment pipelines often need adjustments based on model experiments, results, and feasibility assessments. Iterative model training may reveal gaps in data that require new sources or different preprocessing techniques, or identify infrastructure constraints that necessitate changes to compute resources.</li>
+<li><strong>Business Problem</strong>: As the project progresses, the understanding of the business problem may change. Engaging with stakeholders and observing early results may lead to a deeper understanding of what needs to be solved, prompting refinements to the problem’s scope.</li>
+</ul>
+<p>This iterative process requires finding a balance between being flexible enough to adapt to new information while avoiding uncontrolled changes, known as <strong><em>scope creep</em></strong>. Scope creep can derail a project by causing a continuous expansion of objectives, leading to wasted resources, delays, and reduced effectiveness. To manage this, teams should establish clear, well-documented milestones and revisit them periodically to assess if changes are necessary and justified. Any adjustments should be based on insights gained during iterations, with stakeholders involved in the decision-making process to ensure alignment.</p>
 <p>Recognizing ML system development as an iterative process allows teams to embrace change when needed while maintaining focus on the ultimate goals. It fosters continuous improvement, ensuring that the final system is effective, meets business objectives, and is resilient to the dynamic nature of data and business environments. By embracing iteration thoughtfully and managing scope effectively, ML practitioners can deliver solutions that are both impactful and sustainable.</p>
 </section>
 <section id="summary" class="level2" data-number="2.7">
@@ -959,8 +977,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./03-dataops-role.html" class="pagination-link" aria-label="The Role of DataOps">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Role of DataOps</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
