@@ -226,7 +226,7 @@ The chapters that follow will equip you with the knowledge to understand and app
 
 ## Exercise
 
-Consider a scenario where a healthcare organization wants to build an ML system to improve patient outcomes by predicting hospital readmissions.  To help guide this example, read the first three pages (sections 1-1.4) of this [real-life case study of Mount Sinai Hospital in New York City](https://psb.stanford.edu/psb-online/proceedings/psb17/shameer.pdf). Use this example to help guide your answers to the following:
+Consider a scenario where a healthcare organization wants to build an ML system to improve patient outcomes by predicting hospital readmissions.  To help guide this example, read the first three pages (sections 1-1.4) of this [real-life case study of Mount Sinai Hospital in New York City](https://psb.stanford.edu/psb-online/proceedings/psb17/shameer.pdf). Use this example to help guide you in answering the following questions as thoroughly as the given information allows:
 
 1. **Stakeholder Engagement**
    - Who would the key stakeholders be for this project?
