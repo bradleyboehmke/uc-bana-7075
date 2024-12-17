@@ -32,8 +32,7 @@ format:
     theme: cosmo
     code-link: true
     callout-appearance: simple
+    number-depth: 2
   pdf:
     documentclass: scrreprt
-
-
-
+    number-depth: 2
