@@ -193,12 +193,16 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction-to-dataops" id="toc-introduction-to-dataops" class="nav-link active" data-scroll-target="#introduction-to-dataops"><span class="header-section-number">3.1</span> Introduction to DataOps</a></li>
-  <li><a href="#data-ingestion" id="toc-data-ingestion" class="nav-link" data-scroll-target="#data-ingestion"><span class="header-section-number">3.2</span> Data Ingestion</a></li>
-  <li><a href="#data-processing" id="toc-data-processing" class="nav-link" data-scroll-target="#data-processing"><span class="header-section-number">3.3</span> Data Processing</a></li>
-  <li><a href="#data-validation" id="toc-data-validation" class="nav-link" data-scroll-target="#data-validation"><span class="header-section-number">3.4</span> Data Validation</a></li>
-  <li><a href="#data-versioning-and-lineage" id="toc-data-versioning-and-lineage" class="nav-link" data-scroll-target="#data-versioning-and-lineage"><span class="header-section-number">3.5</span> Data Versioning and Lineage</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.6</span> Summary</a></li>
+  <li><a href="#data-ingestion" id="toc-data-ingestion" class="nav-link active" data-scroll-target="#data-ingestion"><span class="header-section-number">3.1</span> Data Ingestion</a>
+  <ul class="collapse">
+  <li><a href="#understanding-data-sources" id="toc-understanding-data-sources" class="nav-link" data-scroll-target="#understanding-data-sources">Understanding Data Sources</a></li>
+  <li><a href="#batch-vs.-streaming-ingestion" id="toc-batch-vs.-streaming-ingestion" class="nav-link" data-scroll-target="#batch-vs.-streaming-ingestion">Batch vs.&nbsp;Streaming Ingestion</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  </ul></li>
+  <li><a href="#data-processing" id="toc-data-processing" class="nav-link" data-scroll-target="#data-processing"><span class="header-section-number">3.2</span> Data Processing</a></li>
+  <li><a href="#data-validation" id="toc-data-validation" class="nav-link" data-scroll-target="#data-validation"><span class="header-section-number">3.3</span> Data Validation</a></li>
+  <li><a href="#data-versioning-and-lineage" id="toc-data-versioning-and-lineage" class="nav-link" data-scroll-target="#data-versioning-and-lineage"><span class="header-section-number">3.4</span> Data Versioning and Lineage</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.5</span> Summary</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/edit/main/03-dataops-role.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -224,46 +228,186 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introduction-to-dataops" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="introduction-to-dataops"><span class="header-section-number">3.1</span> Introduction to DataOps</h2>
+<p>DataOps, short for Data Operations, is a collaborative and agile approach to designing, implementing, and managing data workflows. It is an essential pillar within the MLOps lifecycle, ensuring that data — the lifeblood of any machine learning system — is efficiently, reliably, and securely delivered to support model training and inference. While MLOps focuses on the end-to-end process of deploying and maintaining machine learning systems, DataOps hones in on the data-specific aspects, addressing the challenges of data management, processing, and quality control. By embedding DataOps practices into the MLOps framework, organizations can build scalable, reliable ML systems that deliver consistent and meaningful results.</p>
+<p>The primary goals of DataOps are to ensure that data pipelines are efficient, reliable, and produce high-quality data for machine learning workflows. These goals are achieved through robust processes for:</p>
 <ul>
-<li>Definition of DataOps and how it fits into the MLOps lifecycle.</li>
-<li>The goals of DataOps: efficient, reliable, and high-quality data management.</li>
-<li>How DataOps enables scalable and reliable ML systems.</li>
-<li>Core components of DataOps</li>
+<li>data ingestion, where data is collected from various sources;</li>
+<li>data processing, where raw data is cleaned and transformed;</li>
+<li>data validation, which enforces quality standards;</li>
+<li>data versioning and lineage, which provide traceability; and reproducibility.</li>
+</ul>
+<p>Together, these core components form the backbone of DataOps, enabling teams to handle growing data volumes, ensure compliance with regulations, and adapt to evolving business needs. By establishing a strong DataOps foundation, organizations can mitigate risks like data inconsistencies, inefficiencies, and errors, ultimately paving the way for successful ML systems.</p>
+<p>This chapter will discuss each of these core components and then the next chapter will start giving you the tools and patterns used to implement these components.</p>
+<section id="data-ingestion" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="data-ingestion"><span class="header-section-number">3.1</span> Data Ingestion</h2>
+<p>Data ingestion involves gathering and importing data from multiple sources into a system for storage, processing, and use in machine ML workflows. The nature of the data sources, their structure, and the method of ingestion play a significant role in determining the efficiency and reliability of the ML system. In this section, we will explore the fundamental differences between data sources, when to use them, and their advantages and disadvantages. We will also compare batch and streaming ingestion methods and their suitability for different scenarios.</p>
+<section id="understanding-data-sources" class="level3">
+<h3 class="anchored" data-anchor-id="understanding-data-sources">Understanding Data Sources</h3>
+<p>Data sources provide the foundation for machine learning (ML) workflows, and the choice of data source significantly impacts the design and effectiveness of the ML system. Each type of data source has unique characteristics, use cases, advantages, and limitations. Understanding these aspects is essential for building an efficient and scalable data ingestion pipeline.</p>
+<section id="databases" class="level4">
+<h4 class="anchored" data-anchor-id="databases">Databases</h4>
+<p>Databases are structured systems designed to store, manage, and retrieve data efficiently. They are commonly used for transactional data, such as customer records, sales transactions, or financial ledgers.</p>
+<ul>
+<li><p>When to Use: Databases are ideal when data is frequently updated, needs to be queried precisely, or must maintain high consistency. For example, an e-commerce application may use a relational database to track user purchases and manage inventory levels. NoSQL databases are better suited for dynamic or semi-structured data, such as user-generated content or real-time event logs.</p></li>
+<li><p>Advantages:</p>
+<ul>
+<li>Relational Databases (e.g., MySQL, PostgreSQL): Ensure data integrity through schema enforcement and strong consistency models.</li>
+<li>NoSQL Databases (e.g., MongoDB, DynamoDB): Offer flexibility for semi-structured or unstructured data and scale horizontally to handle growing data volumes.</li>
+</ul></li>
+<li><p>Disadvantages:</p>
+<ul>
+<li>Relational databases can struggle with scalability in high-throughput applications.</li>
+<li>NoSQL databases may not provide strong transactional guarantees, which could be problematic for certain use cases.</li>
+</ul></li>
 </ul>
 </section>
-<section id="data-ingestion" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="data-ingestion"><span class="header-section-number">3.2</span> Data Ingestion</h2>
+<section id="apis" class="level4">
+<h4 class="anchored" data-anchor-id="apis">APIs</h4>
+<p>APIs (Application Programming Interfaces) enable programmatic access to data from external systems or services. They are often used to fetch dynamic data, such as weather updates, financial market data, or social media interactions.</p>
 <ul>
-<li>Techniques for gathering data from multiple sources (e.g., databases, APIs, data lakes).</li>
-<li>Overview of batch vs.&nbsp;streaming data ingestion.</li>
+<li><p>When to Use: APIs are most useful when the data is maintained externally and needs to be accessed on-demand. For example, a stock-trading platform might fetch real-time price updates through a financial market API.</p></li>
+<li><p>Advantages:</p>
+<ul>
+<li>Provide a standardized way to access external data.</li>
+<li>Allow flexible querying of specific fields or data ranges.</li>
+<li>Enable real-time or near-real-time access to dynamic data.</li>
+</ul></li>
+<li><p>Disadvantages:</p>
+<ul>
+<li>API access can be rate-limited, introducing potential delays in data collection.</li>
+<li>Dependence on external systems may lead to availability or latency issues if the API provider experiences downtime.</li>
+<li>Often requires robust error handling and retries to ensure reliability.</li>
+</ul></li>
 </ul>
 </section>
-<section id="data-processing" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="data-processing"><span class="header-section-number">3.3</span> Data Processing</h2>
+<section id="data-lakes" class="level4">
+<h4 class="anchored" data-anchor-id="data-lakes">Data Lakes</h4>
+<p>Data lakes serve as centralized repositories for storing large volumes of raw, unstructured, and semi-structured data. They are designed to handle diverse datasets, such as logs, multimedia files, and IoT sensor readings.</p>
+<ul>
+<li><p>When to Use: Data lakes are ideal for big data, where the organization needs to store vast amounts of heterogeneous data for future exploration or processing. For instance, a media company might use a data lake to aggregate clickstream logs, user profiles, and video content metadata.</p></li>
+<li><p>Advantages:</p>
+<ul>
+<li>Enable storage of massive datasets at a low cost.</li>
+<li>Provide flexibility for processing data in various ways, such as using batch or streaming pipelines.</li>
+<li>Allow analysts and data scientists to explore raw data without predefined schemas.</li>
+</ul></li>
+<li><p>Disadvantages:</p>
+<ul>
+<li>Lack of enforced schema can lead to inconsistent data organization, often referred to as a “data swamp.”</li>
+<li>Slower access times compared to structured systems, especially for specific queries.</li>
+<li>Require strong governance and metadata management to maintain data discoverability and usability.</li>
+</ul></li>
+</ul>
+</section>
+<section id="real-time-data-streams" class="level4">
+<h4 class="anchored" data-anchor-id="real-time-data-streams">Real-Time Data Streams</h4>
+<p>Real-time data streams consist of continuous flows of data generated by sources like IoT devices, user interactions, or event-driven systems. They are commonly used for applications requiring immediate insights, such as fraud detection, predictive maintenance, or live recommendation engines.</p>
+<ul>
+<li><p>When to Use: Real-time streams are essential when time sensitivity is critical. For example, an autonomous vehicle must process sensor data streams in real-time to make split-second decisions.</p></li>
+<li><p>Advantages:</p>
+<ul>
+<li>Provide up-to-date information for time-sensitive applications.</li>
+<li>Support dynamic updating of ML models and dashboards in near real-time.</li>
+<li>Enable responsiveness to events as they occur, improving decision-making agility.</li>
+</ul></li>
+<li><p>Disadvantages:</p>
+<ul>
+<li>Require significant infrastructure to support continuous ingestion and processing.</li>
+<li>Can be complex to implement and maintain, especially for low-latency systems.</li>
+<li>Higher resource costs compared to batch processing due to the always-on nature of real-time systems.</li>
+</ul></li>
+</ul>
+</section>
+<section id="choosing-the-right-data-source" class="level4">
+<h4 class="anchored" data-anchor-id="choosing-the-right-data-source">Choosing the Right Data Source</h4>
+<p>Selecting the right data source depends on the specific requirements of the ML system and its intended use case. For instance:</p>
+<ul>
+<li>Use databases when precise, structured data is needed for queries and frequent updates are expected.</li>
+<li>Leverage APIs when data resides in external systems and must be fetched dynamically or on demand.</li>
+<li>Opt for data lakes when dealing with vast amounts of heterogeneous data that may be analyzed in diverse ways over time.</li>
+<li>Implement real-time data streams when time-sensitive insights or rapid responses are required.</li>
+</ul>
+<p>By understanding the fundamental differences and trade-offs between data sources, ML teams can design data ingestion pipelines tailored to their needs, ensuring efficient, reliable, and scalable workflows.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+You don’t always have a choice!
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>While choosing the ideal data source is important, you don’t always have a choice. In many cases, the data source is determined by external constraints—such as an organization’s existing infrastructure, third-party providers, or legacy systems. For example, if a company’s customer data is only available through a legacy database, you must work with that database, regardless of its limitations. Similarly, when pulling weather or stock market data, you may be limited to an API provided by the service provider, even if it introduces latency or rate limits. A critical part of data ingestion is recognizing these constraints early and designing the pipeline to work efficiently with the available data source.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="batch-vs.-streaming-ingestion" class="level3">
+<h3 class="anchored" data-anchor-id="batch-vs.-streaming-ingestion">Batch vs.&nbsp;Streaming Ingestion</h3>
+<p>In the previous section, we discussed the idea of real-time data streams. Let’s discuss this a little more. The method of data ingestion — batch or streaming — determines how data flows into the ML system. Each method has distinct characteristics suited to specific needs.</p>
+<p>Batch ingestion collects data in chunks or intervals, such as daily, weekly, monthly, etc. This method is ideal for scenarios where real-time data is not critical, and the focus is on processing large volumes of data efficiently. For example, an e-commerce company may use batch ingestion to aggregate and analyze customer orders from the previous day. The simplicity of batch ingestion makes it easier to implement, and it is more cost-effective since it requires fewer continuous resources. However, its periodic nature introduces latency, which may be unacceptable in time-sensitive applications.</p>
+<p>Streaming ingestion, by contrast, involves the continuous collection of data as it becomes available. This method is essential for use cases requiring real-time insights, such as fraud detection systems or live recommendation engines. Streaming allows systems to react immediately to new data, providing up-to-date results. However, this approach introduces higher complexity and infrastructure costs, as systems must be designed for low-latency processing and scalability. For instance, a financial institution detecting fraudulent transactions in real-time must ingest and process data streams from payment systems within milliseconds.</p>
+<p>In practice, organizations often adopt a hybrid approach, using batch ingestion for historical data and streaming ingestion for real-time updates. For example, a retail company may analyze historical sales trends using batch data while simultaneously processing live customer behavior data through streams. This strategy leverages the strengths of both methods, ensuring comprehensive and timely insights for ML systems.</p>
+</section>
+<section id="examples" class="level3">
+<h3 class="anchored" data-anchor-id="examples">Examples</h3>
+<p>Below are three scenarios describing machine learning systems that utilize different types of data sources and require varying ingestion methods. For each scenario:</p>
+<ol type="1">
+<li>Identify the data source(s) (e.g., database, API, real-time stream, data lake) that are being used, or that you believe should be used.</li>
+<li>Determine whether the ingestion process should be batch, streaming, or a hybrid approach.</li>
+<li>Justify your choice of ingestion method by considering the system’s requirements for latency, data volume, and frequency of updates.</li>
+</ol>
+<div class="callout callout-style-simple callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Scenarios
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Scenario 1: Predictive Maintenance for Industrial Machines</strong></p>
+<p>A manufacturing company is building an ML system to predict when machines on the production line will require maintenance to avoid unplanned downtime. The system collects data from IoT sensors installed on the machines. These sensors continuously send information such as temperature, vibration levels, and pressure readings. The ML system needs to analyze this incoming data in real time to provide timely predictions and alerts for potential breakdowns.</p>
+<p><strong>Scenario 2: Customer Segmentation for a Retail Business</strong></p>
+<p>A retail company wants to build an ML system to segment customers based on their purchase history, demographic data, and online behavior. The data comes from two sources: a relational database that stores historical transaction data and an API that provides weekly updates on recent marketing campaign responses. The system generates segmentation insights monthly for marketing teams to design personalized campaigns.</p>
+<p><strong>Scenario 3: Fraud Detection for Financial Transactions</strong></p>
+<p>A bank is developing an ML system to detect fraudulent transactions. The system receives data from real-time transaction streams as customers make payments using credit cards. The ML model must analyze each transaction immediately to flag suspicious activity and trigger appropriate alerts. Historical data stored in a data lake is also used periodically to retrain the fraud detection model.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="data-processing" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="data-processing"><span class="header-section-number">3.2</span> Data Processing</h2>
 <ul>
 <li>Data transformation, feature engineering, and cleaning.</li>
 <li>Structuring data for model consumption.</li>
 <li>Tools and methods for handling large-scale data processing.</li>
 </ul>
 </section>
-<section id="data-validation" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="data-validation"><span class="header-section-number">3.4</span> Data Validation</h2>
+<section id="data-validation" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="data-validation"><span class="header-section-number">3.3</span> Data Validation</h2>
 <ul>
 <li>Ensuring data quality through checks and validation procedures.</li>
 <li>Examples of common data validation practices and pitfalls.</li>
 </ul>
 </section>
-<section id="data-versioning-and-lineage" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="data-versioning-and-lineage"><span class="header-section-number">3.5</span> Data Versioning and Lineage</h2>
+<section id="data-versioning-and-lineage" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="data-versioning-and-lineage"><span class="header-section-number">3.4</span> Data Versioning and Lineage</h2>
 <ul>
 <li>Tracking data versions to ensure reproducibility.</li>
 <li>Understanding data lineage for transparency and compliance.</li>
 </ul>
 </section>
-<section id="summary" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.6</span> Summary</h2>
+<section id="summary" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.5</span> Summary</h2>
 <ul>
 <li>TBD</li>
 </ul>
