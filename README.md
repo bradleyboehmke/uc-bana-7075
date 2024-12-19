@@ -29,7 +29,7 @@ By the end of this course, students will:
 |               | Building scalable data pipelines                                      |
 | **3**         | **ModelOps - Model Training, Management, and Experiment Tracking**    |
 |               | Model training and experiment tracking                                |
-|               | Model cersioning and reproducibility                                  |
+|               | Model versioning and reproducibility                                  |
 | **4**         | **ModelOps - Model Deployment and Monitoring**                        |
 |               | Deployment Strategies for Machine Learning Models                     |
 |               | Monitoring and Maintaining Deployed Models                            |
