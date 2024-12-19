@@ -585,7 +585,7 @@ Data validation should not be confined to a single step in the pipeline. Instead
 
 Integrating validation at multiple stages creates a layered defense against data issues, ensuring that problems are addressed as they arise and minimizing downstream disruptions.
 
-![Incorporate Validation at Multiple Stages](https://images.ctfassets.net/ycwst8v1r2x5/3v4Vi7yvLbpOdJMPXtc24f/08c4a8bbee1a77b572385550c0625cef/ml_workflow_validation.png?w=960&h=491&q=85&fm=webp)
+![Incorporate Validation at Multiple Stages](images/ml_workflow_validation.png)
 :::
 
 ::: {.callout-note collapse="true"}
