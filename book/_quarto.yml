@@ -33,6 +33,8 @@ format:
     code-link: true
     callout-appearance: simple
     number-depth: 2
+    mermaid:
+      theme: neutral
   pdf:
     documentclass: scrreprt
     number-depth: 2
