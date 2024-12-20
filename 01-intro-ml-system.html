@@ -88,6 +88,10 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -274,17 +278,34 @@ div.csl-indent {
 <h2 data-number="1.1" class="anchored" data-anchor-id="ml-system-design"><span class="header-section-number">1.1</span> ML System Design</h2>
 <p>ML system design refers to the process of building, structuring, and integrating machine learning models into larger production environments to deliver reliable, scalable, and sustainable solutions. While traditional machine learning focuses on developing high-performing models, system design extends the focus to creating an entire ecosystem where these models can continuously operate, adapt, and provide value over time. It encompasses everything from data pipelines and infrastructure to model versioning, monitoring, and scaling, ensuring that machine learning projects align with organizational goals and can be maintained as data, requirements, and technology evolve.</p>
 <p>Therefore, ML system design includes multiple facets beyond the algorithms themselves:</p>
-<div class="callout callout-style-simple callout-tip callout-titled" title="TODO">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-ml-system" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ml-system-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-ml-system">flowchart LR
+  subgraph ML[ML System]
+    direction TB
+    subgraph DataOps
+    end
+    subgraph ModelOps
+    end
+    subgraph DevOps
+    end
+  end
+  A[Stakeholders] --&gt; ML
+  B[Business Requirements] --&gt; ML
+  ML --&gt; C[End Users]
+  DataOps --&gt; ModelOps --&gt; DevOps
+</pre>
 </div>
-<div class="callout-title-container flex-fill">
-TODO
 </div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ml-system-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.1: Components of an ML System.
+</figcaption>
+</figure>
 </div>
-<div class="callout-body-container callout-body">
-<p>Add wire diagram to depict ML system in an organization - showing business requirements driving MLOps components leading to the end user.</p>
 </div>
 </div>
 <section id="dataops-data-management-and-pipelines" class="level3">
@@ -386,7 +407,7 @@ TODO
 <p>Security and compliance are often overlooked in ML system design but are increasingly important, especially in regulated industries like healthcare, finance, and government. An ML system that processes sensitive data must include security measures to protect data integrity and confidentiality. Security considerations include encrypting data in transit and at rest, managing user access controls, and safeguarding against adversarial attacks <span class="citation" data-cites="papernot2017practical">(<a href="references.html#ref-papernot2017practical" role="doc-biblioref">Papernot et al. 2017</a>)</span>.</p>
 <p>Compliance involves ensuring that the ML system adheres to industry regulations and organizational policies. For instance, GDPR compliance may require an ML system to provide transparency into how predictions are made and to allow users to request data deletions. Designing with security and compliance in mind not only protects the organization but also builds trust with users and stakeholders.</p>
 <div class="callout callout-style-simple callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -395,7 +416,7 @@ What’s GDPR?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The <a href="https://gdpr-info.eu/">General Data Protection Regulation (GDPR)</a> is a comprehensive privacy law enacted by the European Union in 2018, aimed at protecting the personal data and privacy of individuals within the EU and the European Economic Area (EEA). GDPR sets strict guidelines on how organizations must collect, store, process, and share personal data, giving individuals more control over their information. Key principles of GDPR include data minimization, purpose limitation, and transparency, along with rights for individuals such as the right to access, correct, and delete their data. Non-compliance with GDPR can lead to significant fines, making it essential for companies, especially those dealing with machine learning systems, to prioritize data security and privacy to ensure compliance.</p>
 </div>
@@ -478,7 +499,7 @@ TODO
 </div>
 </div>
 <div class="callout callout-style-simple callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -487,7 +508,7 @@ Case Studies
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li>Netflix: <a href="https://dl.acm.org/doi/pdf/10.1145/2843948">Netflix’s Recommendation System: Algorithms, Business Value, and Innovation</a></li>
