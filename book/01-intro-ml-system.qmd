@@ -14,9 +14,24 @@ ML system design refers to the process of building, structuring, and integrating
 
 Therefore, ML system design includes multiple facets beyond the algorithms themselves:
 
-::: {.callout-tip title="TODO"}
-Add wire diagram to depict ML system in an organization - showing business requirements driving MLOps components leading to the end user.
-:::
+```{mermaid}
+%%| fig-cap: "Components of an ML System."
+%%| label: fig-ml-system
+flowchart LR
+  subgraph ML[ML System]
+    direction TB
+    subgraph DataOps
+    end
+    subgraph ModelOps
+    end
+    subgraph DevOps
+    end
+  end
+  A[Stakeholders] --> ML
+  B[Business Requirements] --> ML
+  ML --> C[End Users]
+  DataOps --> ModelOps --> DevOps
+```
 
 ### DataOps: Data Management and Pipelines
 
