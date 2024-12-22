@@ -2,6 +2,35 @@
 
 Building an effective machine learning (ML) system requires more than just technical knowledge and model-building skills. The success of an ML project depends heavily on the foundational planning that happens long before the first line of code is written or the first dataset is processed. This planning phase is essential to ensuring that the project aligns with the business goals, addresses the right problem, and is both technically feasible and valuable. In this chapter, we’ll explore the key considerations and actions to take before starting the development of an ML system.
 
+```{mermaid}
+%%| fig-cap: "Essential planning tasks to ensure that the project aligns with the business goals, addresses the right problem, and is both technically feasible and valuable."
+%%| label: fig-before-we-build
+
+flowchart LR
+  subgraph planning[Foundational Planning]
+    direction TB
+    subgraph p1[Understand the Business Problem]
+    end
+    subgraph p2[Determine ML Suitability]
+    end
+    subgraph p3[Define Performance Metrics]
+    end
+    subgraph p4[Understand the Potential Value]
+    end
+    subgraph p5[Understand Technical Requirements]
+    end
+  end
+
+  A[Stakeholders] --> planning
+  B[Business Requirements] --> planning
+  C[Data Scientists / ML Engineers] --> planning
+  D[End Users] --> planning
+  p1 --> p2 --> p3 --> p4 --> p5
+
+  planning --> building[ML System Development] --> planning
+
+```
+
 ## Working with Stakeholders to Understand the Business Problem
 
 The first step in any ML project is to collaborate closely with stakeholders to fully understand the business problem. This stage is critical because a thorough understanding of the problem directly impacts the translation of business needs into a solvable analytics problem, helps scope the project realistically, and ensures the ML system will truly meet organizational goals. Stakeholders include anyone with a vested interest in the project’s success—such as executives, department leads, data science teams, IT, and end users. Each group brings a unique perspective, and understanding their needs and expectations provides clarity on objectives, potential constraints, and the broader impact of the solution.
