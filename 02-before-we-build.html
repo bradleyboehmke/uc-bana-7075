@@ -88,6 +88,10 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -261,11 +265,7 @@ window.Quarto = {
   <li><a href="#questions-to-estimate-and-define-the-systems-value" id="toc-questions-to-estimate-and-define-the-systems-value" class="nav-link" data-scroll-target="#questions-to-estimate-and-define-the-systems-value">Questions to Estimate and Define the System’s Value</a></li>
   <li><a href="#aligning-value-assessment-with-stakeholder-priorities" id="toc-aligning-value-assessment-with-stakeholder-priorities" class="nav-link" data-scroll-target="#aligning-value-assessment-with-stakeholder-priorities">Aligning Value Assessment with Stakeholder Priorities</a></li>
   </ul></li>
-  <li><a href="#understanding-technical-requirements-to-determine-feasibility" id="toc-understanding-technical-requirements-to-determine-feasibility" class="nav-link" data-scroll-target="#understanding-technical-requirements-to-determine-feasibility"><span class="header-section-number">2.5</span> Understanding Technical Requirements to Determine Feasibility</a>
-  <ul class="collapse">
-  <li><a href="#defining-key-technical-requirements" id="toc-defining-key-technical-requirements" class="nav-link" data-scroll-target="#defining-key-technical-requirements">Defining Key Technical Requirements</a></li>
-  <li><a href="#addressing-gaps-in-resources-or-expertise" id="toc-addressing-gaps-in-resources-or-expertise" class="nav-link" data-scroll-target="#addressing-gaps-in-resources-or-expertise">Addressing Gaps in Resources or Expertise</a></li>
-  </ul></li>
+  <li><a href="#understanding-technical-requirements-to-determine-feasibility" id="toc-understanding-technical-requirements-to-determine-feasibility" class="nav-link" data-scroll-target="#understanding-technical-requirements-to-determine-feasibility"><span class="header-section-number">2.5</span> Understanding Technical Requirements to Determine Feasibility</a></li>
   <li><a href="#recognizing-ml-system-development-as-an-iterative-process" id="toc-recognizing-ml-system-development-as-an-iterative-process" class="nav-link" data-scroll-target="#recognizing-ml-system-development-as-an-iterative-process"><span class="header-section-number">2.6</span> Recognizing ML System Development as an Iterative Process</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">2.7</span> Summary</a></li>
   <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">2.8</span> Exercise</a></li>
@@ -295,6 +295,45 @@ window.Quarto = {
 
 
 <p>Building an effective machine learning (ML) system requires more than just technical knowledge and model-building skills. The success of an ML project depends heavily on the foundational planning that happens long before the first line of code is written or the first dataset is processed. This planning phase is essential to ensuring that the project aligns with the business goals, addresses the right problem, and is both technically feasible and valuable. In this chapter, we’ll explore the key considerations and actions to take before starting the development of an ML system.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-before-we-build" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-before-we-build-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-before-we-build">flowchart LR
+  subgraph planning[Foundational Planning]
+    direction TB
+    subgraph p1[Understand the Business Problem]
+    end
+    subgraph p2[Determine ML Suitability]
+    end
+    subgraph p3[Define Performance Metrics]
+    end
+    subgraph p4[Understand the Potential Value]
+    end
+    subgraph p5[Understand Technical Requirements]
+    end
+  end
+
+  A[Stakeholders] --&gt; planning
+  B[Business Requirements] --&gt; planning
+  C[Data Scientists / ML Engineers] --&gt; planning
+  D[End Users] --&gt; planning
+  p1 --&gt; p2 --&gt; p3 --&gt; p4 --&gt; p5
+
+  planning --&gt; building[ML System Development] --&gt; planning
+
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-before-we-build-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: Essential planning tasks to ensure that the project aligns with the business goals, addresses the right problem, and is both technically feasible and valuable.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <section id="working-with-stakeholders-to-understand-the-business-problem" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="working-with-stakeholders-to-understand-the-business-problem"><span class="header-section-number">2.1</span> Working with Stakeholders to Understand the Business Problem</h2>
 <p>The first step in any ML project is to collaborate closely with stakeholders to fully understand the business problem. This stage is critical because a thorough understanding of the problem directly impacts the translation of business needs into a solvable analytics problem, helps scope the project realistically, and ensures the ML system will truly meet organizational goals. Stakeholders include anyone with a vested interest in the project’s success—such as executives, department leads, data science teams, IT, and end users. Each group brings a unique perspective, and understanding their needs and expectations provides clarity on objectives, potential constraints, and the broader impact of the solution.</p>
@@ -335,33 +374,207 @@ Isn’t this a project manager responsibility?
 <p>Determining if a problem requires an ML solution involves assessing whether the business objectives demand certain characteristics that ML can uniquely provide.</p>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/2sr8Y3gjDSA?si=W44BBbkPOS03hI0G" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 <p>Some essential considerations include:</p>
-<ol type="1">
-<li><p><strong>Learning Complex Patterns from Data</strong>: ML excels when the solution requires identifying complex, often non-linear relationships within data that are difficult to capture using rules-based or traditional statistical approaches. If the problem involves intricate patterns that need to be learned from large volumes of data, ML may be appropriate. For example, ML can be effective at analyzing the complex and non-linear relationships between a customer’s purchase history, browsing behavior, and demographic characteristics to generate personalized product recommendations.</p></li>
-<li><p><strong>Availability of Quality Data</strong>: ML solutions require substantial and high-quality data for training and testing. Without sufficient data, the model cannot learn the patterns or features necessary to make accurate predictions. Data availability should include not only a large enough sample size but also a diverse dataset that represents the full range of scenarios the model will encounter in production. If quality data is unavailable, ML is unlikely to perform well and may not be worth pursuing.</p></li>
-<li><p><strong>Making Predictions on Unseen Data</strong>: ML is suitable for problems where we need the system to make predictions on new, unseen data that will continue to arrive over time. For instance, in fraud detection, the goal is for the system to recognize fraudulent behavior in real-time as new transactions occur. This is an inherently predictive task and well-suited to ML, where models trained on historical fraud data can be applied to identify anomalies in new transactions.</p></li>
-</ol>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Learning Complex Patterns from Data
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>ML excels when the solution requires identifying complex, often non-linear relationships within data that are difficult to capture using rules-based or traditional statistical approaches. If the problem involves intricate patterns that need to be learned from large volumes of data, ML may be appropriate. For example, ML can be effective at analyzing the complex and non-linear relationships between a customer’s purchase history, browsing behavior, and demographic characteristics to generate personalized product recommendations.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Availability of Quality Data
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>ML solutions require substantial and high-quality data for training and testing. Without sufficient data, the model cannot learn the patterns or features necessary to make accurate predictions. Data availability should include not only a large enough sample size but also a diverse dataset that represents the full range of scenarios the model will encounter in production. If quality data is unavailable, ML is unlikely to perform well and may not be worth pursuing.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Making Predictions on Unseen Data
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>ML is suitable for problems where we need the system to make predictions on new, unseen data that will continue to arrive over time. For instance, in fraud detection, the goal is for the system to recognize fraudulent behavior in real-time as new transactions occur. This is an inherently predictive task and well-suited to ML, where models trained on historical fraud data can be applied to identify anomalies in new transactions.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="ml-is-not-always-the-answer" class="level3">
 <h3 class="anchored" data-anchor-id="ml-is-not-always-the-answer">ML is Not Always the Answer</h3>
 <p>Machine learning is a powerful tool, but it’s not a one-size-fits-all solution. Yet, in today’s fast-paced tech landscape, it’s common for business leaders to latch onto popular trends like ML, AI, and automation, believing that these technologies can solve a wide range of problems or offer an innovative edge. However, the reality is that many problems don’t require the complexity or resources of an ML system and can actually be addressed more effectively with simpler approaches. Below are examples of problems that often don’t meet the suitability criteria for ML, illustrating why a different solution may be more appropriate.</p>
-<ol type="1">
-<li><p><strong>Rule-Based Decision Systems</strong>: If a problem can be solved with straightforward rules or conditions, then ML is likely unnecessary. For example, an e-commerce site offering a standard discount based on membership level (e.g., 10% off for premium members) may not need a predictive model to calculate discounts. A simple rule-based system is faster to implement, more interpretable, and easier to maintain. Business leaders sometimes assume that ML will increase personalization or provide better insights, but in some cases, it may only add complexity without significant, meaningful benefits.</p></li>
-<li><p><strong>Basic Data Retrieval and Filtering</strong>: When a task involves retrieving specific records or filtering data based on fixed criteria, ML is overkill. For instance, if a business wants a list of customers who made a purchase within the last month, a structured query in a database will suffice. ML could add unnecessary processing time, reduce transparency, and complicate data workflows without providing any added value. Leaders may be drawn to the idea of “automating data processes with ML,” but it’s critical to recognize that traditional data querying and reporting tools are often more efficient and will suffice when the goal is to simply slice and dice our data.</p></li>
-<li><p><strong>Static Reporting and Descriptive Analytics</strong>: ML is valuable for uncovering patterns, making predictions, or adapting to new data, but if the goal is simply to summarize historical data or calculate aggregate statistics (e.g., total sales last quarter or average customer lifetime value), traditional data analysis tools are more suitable. ML brings no additional value to tasks that involve reporting known facts. Although ML may sound impressive, using it for simple reporting can lead to unnecessary costs in computation, maintenance, and monitoring.</p></li>
-<li><p><strong>Tasks with Deterministic Outputs</strong>: When a problem has predictable, deterministic outputs based on clear rules, ML can be redundant. For example, payroll tax calculation, which follows specific formulas, does not require a model to “learn” the process. Hard-coded logic or rule-based systems are not only more accurate in such cases but also eliminate potential errors introduced by an ML model. Business leaders sometimes believe that ML will “future-proof” deterministic tasks, but simpler systems are usually more reliable, cost-effective, and transparent.</p></li>
-<li><p><strong>Heavily Regulated Decisions Requiring Full Transparency</strong>: In industries such as finance or healthcare, strict regulations often require full transparency for every decision, making ML—especially complex models—an unsuitable choice. For instance, mortgage approvals based on a set of criteria are better handled by rules-based systems to ensure regulatory compliance and easy interpretability. While ML can provide valuable insights, its lack of interpretability in some models makes it challenging to justify for highly regulated tasks. Business leaders may be drawn to ML’s perceived sophistication, but in some cases, a rules-based approach may be more practical and reliable.</p></li>
-</ol>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Rule-Based Decision Systems
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If a problem can be solved with straightforward rules or conditions, then ML is likely unnecessary. For example, an e-commerce site offering a standard discount based on membership level (e.g., 10% off for premium members) may not need a predictive model to calculate discounts. A simple rule-based system is faster to implement, more interpretable, and easier to maintain. Business leaders sometimes assume that ML will increase personalization or provide better insights, but in some cases, it may only add complexity without significant, meaningful benefits.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Basic Data Retrieval and Filtering
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>When a task involves retrieving specific records or filtering data based on fixed criteria, ML is overkill. For instance, if a business wants a list of customers who made a purchase within the last month, a structured query in a database will suffice. ML could add unnecessary processing time, reduce transparency, and complicate data workflows without providing any added value. Leaders may be drawn to the idea of “automating data processes with ML,” but it’s critical to recognize that traditional data querying and reporting tools are often more efficient and will suffice when the goal is to simply slice and dice our data.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Static Reporting and Descriptive Analytics
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>ML is valuable for uncovering patterns, making predictions, or adapting to new data, but if the goal is simply to summarize historical data or calculate aggregate statistics (e.g., total sales last quarter or average customer lifetime value), traditional data analysis tools are more suitable. ML brings no additional value to tasks that involve reporting known facts. Although ML may sound impressive, using it for simple reporting can lead to unnecessary costs in computation, maintenance, and monitoring.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tasks with Deterministic Outputs
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>When a problem has predictable, deterministic outputs based on clear rules, ML can be redundant. For example, payroll tax calculation, which follows specific formulas, does not require a model to “learn” the process. Hard-coded logic or rule-based systems are not only more accurate in such cases but also eliminate potential errors introduced by an ML model. Business leaders sometimes believe that ML will “future-proof” deterministic tasks, but simpler systems are usually more reliable, cost-effective, and transparent.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Heavily Regulated Decisions Requiring Full Transparency
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>In industries such as finance or healthcare, strict regulations often require full transparency for every decision, making ML—especially complex models—an unsuitable choice. For instance, mortgage approvals based on a set of criteria are better handled by rules-based systems to ensure regulatory compliance and easy interpretability. While ML can provide valuable insights, its lack of interpretability in some models makes it challenging to justify for highly regulated tasks. Business leaders may be drawn to ML’s perceived sophistication, but in some cases, a rules-based approach may be more practical and reliable.</p>
+</div>
+</div>
+</div>
 <p>These examples, although not comprehensive, highlight the importance of carefully evaluating whether ML is truly the right tool for the job. ML can be ideal when there’s a need to learn from complex patterns in data, make predictions on new data, or adapt dynamically over time. However, using ML for problems that don’t meet these criteria or have additional concerns as mentioned above, can waste resources, reduce transparency, and increase project complexity. Recognizing when a simpler method will be more effective is a critical skill for data scientists and ML practitioners. Avoiding unnecessary ML solutions allows teams to focus their resources where they will add the most value, while helping business leaders make more informed, strategic technology decisions.</p>
 </section>
 <section id="pitfalls-of-using-ml-unnecessarily" class="level3">
 <h3 class="anchored" data-anchor-id="pitfalls-of-using-ml-unnecessarily">Pitfalls of Using ML Unnecessarily</h3>
 <p>Using ML when it’s not needed can create more problems than it solves. ML is powerful but also complex, requiring specialized skills, infrastructure, and ongoing maintenance. When ML is applied unnecessarily, organizations risk:</p>
-<ol type="1">
-<li><p><strong>Increased Complexity and Maintenance Costs</strong>: ML systems require regular monitoring, retraining, and validation to ensure they remain accurate and reliable. For example, if an ML model is deployed to handle a task that could be addressed with simple rules, the organization may end up dedicating time and resources to monitor and maintain an over-engineered solution that adds little value. Traditional software solutions often require far less maintenance and are more stable over time.</p></li>
-<li><p><strong>Reduced Interpretability and Transparency</strong>: ML models, especially complex ones like neural networks, can be difficult to interpret. In situations where transparency is crucial—such as compliance with regulations or gaining end-user trust—a rules-based approach might be preferable. Using ML without necessity can lead to resistance from stakeholders who need clear explanations for the system’s outputs.</p></li>
-<li><p><strong>Waste of Time and Resources</strong>: Developing an ML system demands resources for data preparation, model selection, and deployment, as well as ongoing maintenance and infrastructure support. If the problem does not require ML, these resources could be better spent on other areas, such as enhancing customer experience or improving data quality.</p></li>
-<li><p><strong>Potential for Errors and Misinterpretations</strong>: ML models are not infallible and can produce unexpected or incorrect results, especially when faced with data outside their training set. For example, if an ML model is applied to a problem that is straightforward or deterministic, it may introduce unnecessary variability or errors, which could lead to costly mistakes. For example, a recommendation system that misclassifies products might negatively impact user experience and decrease trust in the system.</p></li>
-</ol>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Increased Complexity and Maintenance Costs
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>ML systems require regular monitoring, retraining, and validation to ensure they remain accurate and reliable. For example, if an ML model is deployed to handle a task that could be addressed with simple rules, the organization may end up dedicating time and resources to monitor and maintain an over-engineered solution that adds little value. Traditional software solutions often require far less maintenance and are more stable over time.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Reduced Interpretability and Transparency
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>ML models, especially complex ones like neural networks, can be difficult to interpret. In situations where transparency is crucial—such as compliance with regulations or gaining end-user trust—a rules-based approach might be preferable. Using ML without necessity can lead to resistance from stakeholders who need clear explanations for the system’s outputs.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Waste of Time and Resources
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Developing an ML system demands resources for data preparation, model selection, and deployment, as well as ongoing maintenance and infrastructure support. If the problem does not require ML, these resources could be better spent on other areas, such as enhancing customer experience or improving data quality.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Potential for Errors and Misinterpretations
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>ML models are not infallible and can produce unexpected or incorrect results, especially when faced with data outside their training set. For example, if an ML model is applied to a problem that is straightforward or deterministic, it may introduce unnecessary variability or errors, which could lead to costly mistakes. For example, a recommendation system that misclassifies products might negatively impact user experience and decrease trust in the system.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="defining-performance-metrics-for-the-ml-system" class="level2" data-number="2.3">
@@ -373,48 +586,169 @@ Isn’t this a project manager responsibility?
 <li>System performance metrics which gauge how well the overall ML system operates in a real-world environment</li>
 <li>Business performance metrics which measure the impact the ML system provides to the business.</li>
 </ul>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-performance-metrics" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-performance-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-performance-metrics">flowchart LR
+  subgraph ML[ML System]
+    direction BT
+    subgraph p0[Overall System Performance]
+    end
+    subgraph tech[Technical performance]
+      subgraph p1[Model performance metrics]
+      end
+      subgraph p2[System performance metrics]
+      end
+    end
+    subgraph p3[Business performance metrics]
+    end
+
+   p1 --&gt; p0
+   p2 --&gt; p0
+   p3 --&gt; p0
+  end
+
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-performance-metrics-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.2: Understanding an ML sytems performance requires multiple types of performance metrics: (1) model performance metrics, (2) system performance metrics, and (3) business performance metrics.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <p>By incorporating all three, ML practitioners can ensure that the system is not only technically accurate but also capable of meeting the demands of production use and drives measurable improvements for the business. Let’s dive into each category in more detail.</p>
 <section id="technical-performance-metrics" class="level3">
 <h3 class="anchored" data-anchor-id="technical-performance-metrics">Technical Performance Metrics</h3>
 <p>Technical performance metrics are essential for evaluating both the model’s accuracy and the system’s operational efficiency. These metrics allow teams to optimize not only the predictive power of the model but also its usability within a production environment. By considering both model and system performance metrics, teams can ensure the ML system is not only accurate but also performant, reliable, and capable of meeting operational requirements in production.</p>
-<ol type="1">
-<li><p><strong>Model Performance Metrics</strong>: These metrics evaluate the accuracy and reliability of the ML model in making predictions. These metrics include common metrics you likely have heard of before if you’ve done any ML tasks such as mean squared error, <span class="math inline">\(R^2\)</span>, and mean absolute error for regression problems; cross-entropy, gini index, precision, and recall for classification problems; or BLEU, BERTScore, and perplexity for large language models. The choice of metric depends on the type of ML task (e.g., classification, regression) and the consequences of different kinds of errors.</p></li>
-<li><p><strong>System Performance Metrics</strong>: While model accuracy is critical, it’s equally important to assess how well the overall ML system functions in real-world conditions. These metrics track the system’s efficiency, responsiveness, and reliability, ensuring that it can handle production demands. Metrics we often consider to measure system performance include:</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Model Performance Metrics
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>These metrics evaluate the accuracy and reliability of the ML model in making predictions. These metrics include common metrics you likely have heard of before if you’ve done any ML tasks such as mean squared error, <span class="math inline">\(R^2\)</span>, and mean absolute error for regression problems; cross-entropy, gini index, precision, and recall for classification problems; or BLEU, BERTScore, and perplexity for large language models. The choice of metric depends on the type of ML task (e.g., classification, regression) and the consequences of different kinds of errors.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+System Performance Metrics
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>While model accuracy is critical, it’s equally important to assess how well the overall ML system functions in real-world conditions. These metrics track the system’s efficiency, responsiveness, and reliability, ensuring that it can handle production demands. Metrics we often consider to measure system performance include:</p>
 <ul>
 <li><p><strong>Latency</strong>: Measures the time required for the system to make a prediction once data is available. Low latency is critical in real-time applications like fraud detection and autonomous vehicles. Imagine a pedestrian steps out in front of an autonomous vehicle, there needs to be nearly zero time (or nearly no latency) between the car’s ML system taking in that input and making a prediction to stop otherwise the consequence will be catostrophic! <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p></li>
 <li><p><strong>Throughput</strong>: Indicates the number of predictions the system can process per unit of time. High throughput is essential for large-scale applications, such as recommendation systems used by Netflix and Spotify. For example, Netflix has around 280 million customers that they need to produce recommendation predictions for on a daily to weekly basis. <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p></li>
 <li><p><strong>Uptime</strong>: Tracks the percentage of time the system is fully operational. Uptime is especially important for mission-critical systems, where outages can disrupt service and lead to lost revenue.</p></li>
 <li><p><strong>Scalability</strong>: Assesses the system’s ability to maintain performance as user demand or data volume increases, especially while needing to maintain real-time inference requirements. For example, imagine how user demand for Amazon surges on Black Friday! <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p></li>
 <li><p><strong>Resource Utilization</strong>: Tracks CPU, memory, and GPU usage to ensure efficient resource allocation, particularly relevant for cloud-based ML systems. Efficient resource utilization can significantly reduce costs, as discussed in <a href="https://arxiv.org/abs/2006.11092">Ramesh et al., 2020</a>.</p></li>
-</ul></li>
-</ol>
+</ul>
+</div>
+</div>
+</div>
 <p>Considering both model and system performance metrics enables teams to build ML systems that are not only accurate but also highly responsive, efficient, and reliable in a production environment.</p>
 </section>
 <section id="business-performance-metrics" class="level3">
 <h3 class="anchored" data-anchor-id="business-performance-metrics">Business Performance Metrics</h3>
 <p>While technical metrics are essential for evaluating the functionality of the ML system, business metrics ensure that the ML system drives meaningful impact for the organization. These metrics translate technical outputs into measurable business outcomes, aligning the ML system with the broader organizational goals. Some examples follow.</p>
-<ol type="1">
-<li><strong>Revenue Impact</strong>: For systems designed to drive sales or conversions, revenue-focused metrics quantify effectiveness. For example:
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Revenue Impact
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For systems designed to drive sales or conversions, revenue-focused metrics quantify effectiveness. For example:</p>
 <ul>
 <li><strong>Incremental Revenue</strong>: measures the additional revenue generated by the ML system compared to a baseline. This can demonstrate the impact of a recommendation system on customer purchases (<a href="https://www.mckinsey.com/featured-insights/artificial-intelligence/how-artificial-intelligence-can-deliver-real-value-to-companies">McKinsey, 2018</a>).</li>
 <li><strong>Conversion Rate</strong>: measures the percentage of users who complete a desired action after interacting with the ML system (e.g., making a purchase after receiving a recommendation).</li>
-</ul></li>
-<li><strong>Operational Efficiency</strong>: For applications focused on cost reduction or improving efficiency, business will tend to use metrics that capture the system’s ability to streamline processes such as:
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Operational Efficiency
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For applications focused on cost reduction or improving efficiency, business will tend to use metrics that capture the system’s ability to streamline processes such as:</p>
 <ul>
 <li><strong>Cost Savings</strong>: measures the reduction in operational costs achieved by using the ML system, such as fewer maintenance visits with predictive maintenance models (<a href="https://www2.deloitte.com/global/en/pages/about-deloitte/articles/artificial-intelligence-potential-value.html">Deloitte, 2020</a>).</li>
 <li><strong>Process Time Reduction</strong>: measures the time saved in completing a process using the ML system, relevant in areas such as automated customer support ticket resolution (<a href="https://www.ibm.com/cloud/learn/ai-in-business">IBM, 2019</a>).</li>
-</ul></li>
-<li><strong>Customer Engagement</strong>: For ML systems that serve customers directly, engagement metrics help gauge relevance and user experience. For example:
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Customer Engagement
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For ML systems that serve customers directly, engagement metrics help gauge relevance and user experience. For example:</p>
 <ul>
 <li><strong>Click-Through Rate (CTR)</strong>: measures the percentage of users who engage with personalized content or recommendations. CTR is a common metric for digital content recommendations (<a href="https://dl.acm.org/doi/10.1145/2959100.2959190">Covington et al., 2016</a>).</li>
 <li><strong>User Retention Rate</strong>: measures the percentage of users who continue to engage with the platform over time, providing a longer-term view of the system’s relevance.</li>
-</ul></li>
-<li><strong>Accuracy in High-Stakes Decisions</strong>: For applications in areas like healthcare or finance, additional metrics measure the system’s ability to make accurate, high-impact decisions. For example:
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Accuracy in High-Stakes Decisions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For applications in areas like healthcare or finance, additional metrics measure the system’s ability to make accurate, high-impact decisions. For example:</p>
 <ul>
 <li><strong>Reduction in Error Rates for High-Risk Cases</strong>: measures the reduction in error rates (false-positives or false-negatives) in high-stakes predictions (e.g., fraud detection), which can demonstrate the value of the ML system in risk mitigation (<a href="https://dl.acm.org/doi/10.5555/312028.312035">Fawcett &amp; Provost, 1997</a>).</li>
 <li><strong>Compliance and Risk Management Impact</strong>: measures the system’s role in meeting regulatory standards and reducing compliance risks, especially critical in regulated industries (<a href="https://gdpr-info.eu/">EU GDPR, 2018</a>).</li>
-</ul></li>
-</ol>
+</ul>
+</div>
+</div>
+</div>
 <p>By defining and monitoring both technical and business metrics, ML teams can ensure their system is effective from both a technical and strategic perspective, delivering real business value.</p>
 </section>
 <section id="best-practices-for-implementing-performance-metrics" class="level3">
@@ -453,8 +787,8 @@ Isn’t this a project manager responsibility?
 </section>
 <section id="understanding-technical-requirements-to-determine-feasibility" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="understanding-technical-requirements-to-determine-feasibility"><span class="header-section-number">2.5</span> Understanding Technical Requirements to Determine Feasibility</h2>
-<p>Before building an ML system, it’s crucial to assess the technical requirements to determine the feasibility of the project. Defining these requirements upfront helps ensure that the solution is practical, achievable, and that the necessary resources are available. Technical requirements span several areas, including data, algorithms, infrastructure, deployment, and scalability. Understanding these requirements early allows teams to identify potential challenges and make informed decisions regarding the scope and direction of the project.</p>
-<div class="callout callout-style-simple callout-note">
+<p>Before building an ML system, it’s crucial to assess the technical requirements to determine the feasibility of the project. Defining these requirements upfront helps ensure that the solution is practical, achievable, and that the necessary resources are available.</p>
+<div class="callout callout-style-simple callout-tip">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -464,25 +798,166 @@ Isn’t this a project manager responsibility?
 </div>
 </div>
 </div>
-<section id="defining-key-technical-requirements" class="level3">
-<h3 class="anchored" data-anchor-id="defining-key-technical-requirements">Defining Key Technical Requirements</h3>
-<ol type="1">
-<li><p><strong>Data Requirements</strong>: Data is the foundation of any ML system, and understanding data requirements is vital for project success. This involves identifying data sources (e.g., internal databases, third-party APIs), assessing data quality (e.g., completeness, accuracy, consistency), and determining preprocessing needs, such as data cleaning, transformation, or augmentation. Ensuring that sufficient, high-quality data is available early in the project is crucial, as poor data quality can significantly impact model performance.</p></li>
-<li><p><strong>Algorithm Requirements</strong>: Choosing the appropriate algorithm involves considering the problem type, the complexity of potential solutions, and the interpretability needs of stakeholders. Some problems may require simple, interpretable models like linear regression, while others may benefit from more complex models, such as deep learning. The algorithm choice also impacts computation time, required data, and the ability to provide explanations for predictions—all of which influence feasibility.</p></li>
-<li><p><strong>Infrastructure Requirements</strong>: ML systems often demand significant computational resources for training and inference. Understanding infrastructure requirements includes determining compute needs (e.g., CPUs, GPUs), selecting appropriate software tools (e.g., TensorFlow, PyTorch), and evaluating cloud vs.&nbsp;on-premises options for scalability and cost-effectiveness. For projects with heavy resource demands, cloud services can provide a flexible solution, while smaller projects may be better suited to local infrastructure.</p></li>
-<li><p><strong>Deployment Requirements</strong>: Deployment considerations include the delivery method and the integration of the model within existing systems. This could involve setting up an API endpoint to deliver predictions, integrating the model into an application, or deploying the model on edge devices. A well-planned deployment pipeline is key to automating processes such as validation, testing, and deployment, ensuring that the model moves from development to production efficiently.</p></li>
-<li><p><strong>Scale Requirements</strong>: It’s important to understand the anticipated demand for the ML system and whether it will operate in a batch or real-time setting. For systems that require low latency (e.g., fraud detection), scalability must be a priority, ensuring the system can handle large numbers of requests without degrading performance. For batch processing tasks, the focus may be more on data throughput and the ability to handle large datasets effectively.</p></li>
-</ol>
-</section>
-<section id="addressing-gaps-in-resources-or-expertise" class="level3">
-<h3 class="anchored" data-anchor-id="addressing-gaps-in-resources-or-expertise">Addressing Gaps in Resources or Expertise</h3>
+<p>Technical requirements span several areas, including data, algorithms, infrastructure, deployment, and scalability. Understanding these requirements early allows teams to identify potential challenges and make informed decisions regarding the scope and direction of the project.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-tech-rqmts" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tech-rqmts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-tech-rqmts">flowchart LR
+  subgraph ML[ML System]
+    direction BT
+    subgraph p0[Overall Technical Requirements]
+    end
+    subgraph p1[Data requirements]
+    end
+    subgraph p2[Algorithm requirements]
+    end
+    subgraph p3[Infrastructure requirements]
+    end
+    subgraph p4[Deployment requirements]
+    end
+    subgraph p5[Scale requirements]
+    end
+
+   p1 --&gt; p0
+   p2 --&gt; p0
+   p3 --&gt; p0
+   p4 --&gt; p0
+   p5 --&gt; p0
+  end
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tech-rqmts-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.3: Technical requirements span several areas, including data, algorithms, infrastructure, deployment, and scalability.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Data Requirements
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Data is the foundation of any ML system, and understanding data requirements is vital for project success. This involves identifying data sources (e.g., internal databases, third-party APIs), assessing data quality (e.g., completeness, accuracy, consistency), and determining preprocessing needs, such as data cleaning, transformation, or augmentation. Ensuring that sufficient, high-quality data is available early in the project is crucial, as poor data quality can significantly impact model performance.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Algorithm Requirements
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Choosing the appropriate algorithm involves considering the problem type, the complexity of potential solutions, and the interpretability needs of stakeholders. Some problems may require simple, interpretable models like linear regression, while others may benefit from more complex models, such as deep learning. The algorithm choice also impacts computation time, required data, and the ability to provide explanations for predictions—all of which influence feasibility.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Infrastructure Requirements
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>ML systems often demand significant computational resources for training and inference. Understanding infrastructure requirements includes determining compute needs (e.g., CPUs, GPUs), selecting appropriate software tools (e.g., TensorFlow, PyTorch), and evaluating cloud vs.&nbsp;on-premises options for scalability and cost-effectiveness. For projects with heavy resource demands, cloud services can provide a flexible solution, while smaller projects may be better suited to local infrastructure.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Deployment Requirements
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Deployment considerations include the delivery method and the integration of the model within existing systems. This could involve setting up an API endpoint to deliver predictions, integrating the model into an application, or deploying the model on edge devices. A well-planned deployment pipeline is key to automating processes such as validation, testing, and deployment, ensuring that the model moves from development to production efficiently.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Scale Requirements
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>It’s important to understand the anticipated demand for the ML system and whether it will operate in a batch or real-time setting. For systems that require low latency (e.g., fraud detection), scalability must be a priority, ensuring the system can handle large numbers of requests without degrading performance. For batch processing tasks, the focus may be more on data throughput and the ability to handle large datasets effectively.</p>
+</div>
+</div>
+</div>
 <p>Once the technical requirements have been defined, teams must assess whether they have the necessary resources and expertise to proceed. Gaps may exist in areas such as data availability, technical skills, or infrastructure capabilities. Addressing these gaps might involve acquiring additional data, seeking third-party services, or upskilling team members to meet project needs. Making feasibility adjustments—such as narrowing the project scope, choosing simpler algorithms, or relying on cloud infrastructure to meet compute demands—can also ensure that the project remains viable within existing constraints.</p>
 <p>Evaluating technical requirements in these areas ensures that the ML system is both feasible and aligned with available resources. By addressing these aspects early, teams can make informed decisions, mitigate risks, and set the foundation for a successful project.</p>
-</section>
 </section>
 <section id="recognizing-ml-system-development-as-an-iterative-process" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="recognizing-ml-system-development-as-an-iterative-process"><span class="header-section-number">2.6</span> Recognizing ML System Development as an Iterative Process</h2>
 <p>Developing an ML system is inherently an iterative process, involving continuous refinement, experimentation, and adaptation. Unlike traditional software development, where requirements and specifications are typically well-defined from the outset, ML systems evolve as they learn from data, integrate feedback, and adapt to changing business needs. Successful ML projects often require multiple rounds of model tuning, retraining, and adjustments to meet both technical and business objectives. Embracing this iterative nature helps ensure that the final solution is robust, scalable, and well-aligned with its intended purpose.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-iterative" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-iterative-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-iterative">flowchart LR
+  subgraph planning[Foundational Planning]
+    direction TB
+    subgraph p1[Understand the Business Problem]
+    end
+    subgraph p2[Determine ML Suitability]
+    end
+    subgraph p3[Define Performance Metrics]
+    end
+    subgraph p4[Understand the Potential Value]
+    end
+    subgraph p5[Understand Technical Requirements]
+    end
+  end
+
+  p1 --&gt; p2 --&gt; p3 --&gt; p4 --&gt; p5
+
+  planning --"Iteration"--&gt; building[ML System Development] --"Iteration"--&gt; planning
+
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-iterative-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.4: Developing an ML system is inherently an iterative process, involving continuous refinement, experimentation, and adaptation as more information is learned through the planning and ML system development process.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <p>As an ML project progresses, many of the topics discussed in this chapter—including performance metrics, the valuation of the project, technical requirements, and even the business problem itself—are likely to evolve. For instance:</p>
 <ul>
 <li><strong>Metrics to Assess</strong>: Initial metrics defined to assess model performance or system efficiency may need to change if they are found to be insufficient, misleading, or if stakeholder priorities shift. For example, a metric like accuracy may become less useful if a focus on precision and recall better reflects the business goal.</li>

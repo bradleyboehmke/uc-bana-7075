@@ -88,6 +88,10 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -266,12 +270,29 @@ div.csl-indent {
 
 <p>DataOps, short for Data Operations, is a collaborative and agile approach to designing, implementing, and managing data workflows. It is an essential pillar within the MLOps lifecycle, ensuring that data — the lifeblood of any machine learning system — is efficiently, reliably, and securely delivered to support model training and inference. While MLOps focuses on the end-to-end process of deploying and maintaining machine learning systems, DataOps hones in on the data-specific aspects, addressing the challenges of data management, processing, and quality control. By embedding DataOps practices into the MLOps framework, organizations can build scalable, reliable ML systems that deliver consistent and meaningful results.</p>
 <p>The primary goals of DataOps are to ensure that data pipelines are efficient, reliable, and produce high-quality data for machine learning workflows. These goals are achieved through robust processes for:</p>
-<ul>
-<li>data ingestion, where data is collected from various sources;</li>
-<li>data processing, where raw data is cleaned and transformed;</li>
-<li>data validation, which enforces quality standards;</li>
-<li>data versioning and lineage, which provide traceability; and reproducibility.</li>
-</ul>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-devops" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-devops-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-devops">classDiagram
+    class DataOps {
+      - Data ingestion, where data is collected from various sources;
+      - Data processing, where raw data is cleaned and transformed;
+      - Data validation, which enforces quality standards;
+      - Data versioning &amp; lineage, which provide traceability; and reproducibility.
+    }
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-devops-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: DataOps includes efficient and reliable data ingestion, processing, validation, and versioning/lineage workflows to ensure that data is as high-quality as possible for the rest of the ML system.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <p>Together, these core components form the backbone of DataOps, enabling teams to handle growing data volumes, ensure compliance with regulations, and adapt to evolving business needs. By establishing a strong DataOps foundation, organizations can mitigate risks like data inconsistencies, inefficiencies, and errors, ultimately paving the way for successful ML systems.</p>
 <p>This chapter will discuss each of these core components and then the next chapter will start giving you the tools and patterns used to implement these components.</p>
 <section id="data-ingestion" class="level2" data-number="3.1">
@@ -431,7 +452,75 @@ You don’t always have a choice!
 <h3 class="anchored" data-anchor-id="batch-vs.-streaming-ingestion">Batch vs.&nbsp;Streaming Ingestion</h3>
 <p>In the previous section, we discussed the idea of real-time data streams. Let’s discuss this a little more. The method of data ingestion — batch or streaming — determines how data flows into the ML system. Each method has distinct characteristics suited to specific needs.</p>
 <p>Batch ingestion collects data in chunks or intervals, such as daily, weekly, monthly, etc. This method is ideal for scenarios where real-time data is not critical, and the focus is on processing large volumes of data efficiently. For example, an e-commerce company may use batch ingestion to aggregate and analyze customer orders from the previous day. The simplicity of batch ingestion makes it easier to implement, and it is more cost-effective since it requires fewer continuous resources. However, its periodic nature introduces latency, which may be unacceptable in time-sensitive applications.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-batch" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-batch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-batch">flowchart LR
+    subgraph Monday
+      direction TB
+      ob1[observation] --&gt; id1[(Data source)]
+      ob2[observation] --&gt; id1
+      ob3[observation] --&gt; id1
+    end
+    subgraph Tuesday
+      direction TB
+      ob4[observation] --&gt; id2[(Data source)]
+      ob5[observation] --&gt; id2
+      ob6[observation] --&gt; id2
+    end
+    subgraph Wednesday
+      direction TB
+      ob7[observation] --&gt; id3[(Data source)]
+      ob8[observation] --&gt; id3
+      ob9[observation] --&gt; id3
+    end
+    processing[Batch data processing]
+    downstream[Downstream ML system processes]
+
+    Monday --&gt; processing
+    Tuesday --&gt; processing
+    Wednesday --&gt; processing
+    processing --&gt; downstream
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-batch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Batch processing collects data in chunks or intervals, such as on a daily cadence. In this example, every day a batch process is ran where data is ingested from its relevant data sources, processed and fed to downstream processes in the ML system.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <p>Streaming ingestion, by contrast, involves the continuous collection of data as it becomes available. This method is essential for use cases requiring real-time insights, such as fraud detection systems or live recommendation engines. Streaming allows systems to react immediately to new data, providing up-to-date results. However, this approach introduces higher complexity and infrastructure costs, as systems must be designed for low-latency processing and scalability. For instance, a financial institution detecting fraudulent transactions in real-time must ingest and process data streams from payment systems within milliseconds.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-streaming" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-streaming-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-streaming">flowchart LR
+    ob1[observation] --&gt; processing[Real-time data processing]
+    ob2[observation] --&gt; processing
+    ob3[observation] --&gt; processing
+    ob4[observation] --&gt; processing
+    ob5[observation] --&gt; processing
+
+    processing --&gt; downstream[Downstream ML system processes]
+    processing --&gt; id3[(Database)]
+
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-streaming-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: Streaming, or real-time, systems process each observation as it comes in and then feeds that data to downstream ML systems and, simoultaneously, to a database for longterm storage.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <p>In practice, organizations often adopt a hybrid approach, using batch ingestion for historical data and streaming ingestion for real-time updates. For example, a retail company may analyze historical sales trends using batch data while simultaneously processing live customer behavior data through streams. This strategy leverages the strengths of both methods, ensuring comprehensive and timely insights for ML systems.</p>
 </section>
 <section id="examples" class="level3">
