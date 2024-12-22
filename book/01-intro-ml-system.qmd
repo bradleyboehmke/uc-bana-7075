@@ -83,7 +83,7 @@ By prioritizing system design, organizations can build ML workflows that are bot
 Creating an effective ML system involves more than just building an accurate model; it requires thoughtful design to ensure that the system remains reliable, scalable, and adaptable over time. Good ML system design incorporates a set of principles that help address real-world challenges in production environments, such as evolving data, model drift, and changing business requirements. The following design principles guide ML engineers and data scientists in building systems that meet these demands and deliver sustained business value.
 
 ```{mermaid}
-%%| fig-cap: "ML System Principles."
+%%| fig-cap: "Principles that create reliable, scalable, and adaptable machine learning systems."
 %%| label: fig-ml-system-principles
 
 classDiagram
@@ -154,9 +154,23 @@ These principles — modularity, scalability, reproducibility, automation, monit
 
 Good ML system design requires a holistic approach that considers how key elements and design principles intersect with each stage of the ML system lifecycle. The ML lifecycle can be broken down into distinct stages: data processing, model development, deployment, monitoring, and continuous improvement. By aligning design principles with these stages, organizations can create systems that are not only effective at deployment but sustainable, adaptable, and closely aligned with business objectives over the long term.
 
-::: {.callout-tip title="TODO"}
-Add image that shows ML system lifecycle stages
-:::
+```{mermaid}
+%%| fig-cap: "ML design principles should be considered across all stages of the ML lifecycle. By doing so, organizations can create systems that are not only effective at deployment but sustainable, adaptable, and closely aligned with business objectives over the long term."
+%%| label: fig-ml-system-principles-lifecycle
+
+sequenceDiagram
+    participant dp as Data Ingestion & Processing
+    participant md as Model Development
+    participant dep as Deployment
+
+    Note over dp,dep: Modularity and Abstraction
+    Note over dp,dep: Scalability
+    Note over dp,dep: Reproducibility
+    Note over dp,dep: Automation
+    Note over dp,dep: Monitoring and Maintenance
+    Note over dp,dep: Security and Compliance
+    Note over dp,dep: Adaptability and Flexibility
+```
 
 ### Data Processing
 
