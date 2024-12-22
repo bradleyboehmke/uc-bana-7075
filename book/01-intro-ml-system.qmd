@@ -82,9 +82,21 @@ By prioritizing system design, organizations can build ML workflows that are bot
 
 Creating an effective ML system involves more than just building an accurate model; it requires thoughtful design to ensure that the system remains reliable, scalable, and adaptable over time. Good ML system design incorporates a set of principles that help address real-world challenges in production environments, such as evolving data, model drift, and changing business requirements. The following design principles guide ML engineers and data scientists in building systems that meet these demands and deliver sustained business value.
 
-::: {.callout-tip title="TODO"}
-Add image that shows all principles
-:::
+```{mermaid}
+%%| fig-cap: "ML System Principles."
+%%| label: fig-ml-system-principles
+
+classDiagram
+    class Principles {
+      Modularity and Abstraction
+      Scalability
+      Reproducibility
+      Automation
+      Monitoring and Maintenance
+      Security and Compliance
+      Adaptability and Flexibility
+    }
+```
 
 ### Modularity and Abstraction
 
