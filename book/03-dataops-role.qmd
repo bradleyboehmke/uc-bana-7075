@@ -4,10 +4,18 @@ DataOps, short for Data Operations, is a collaborative and agile approach to des
 
 The primary goals of DataOps are to ensure that data pipelines are efficient, reliable, and produce high-quality data for machine learning workflows. These goals are achieved through robust processes for:
 
-- data ingestion, where data is collected from various sources;
-- data processing, where raw data is cleaned and transformed;
-- data validation, which enforces quality standards;
-- data versioning and lineage, which provide traceability; and reproducibility.
+```{mermaid}
+%%| fig-cap: "DataOps includes efficient and reliable data ingestion, processing, validation, and versioning/lineage workflows to ensure that data is as high-quality as possible for the rest of the ML system."
+%%| label: fig-devops
+
+classDiagram
+    class DataOps {
+      - Data ingestion, where data is collected from various sources;
+      - Data processing, where raw data is cleaned and transformed;
+      - Data validation, which enforces quality standards;
+      - Data versioning & lineage, which provide traceability; and reproducibility.
+    }
+```
 
 Together, these core components form the backbone of DataOps, enabling teams to handle growing data volumes, ensure compliance with regulations, and adapt to evolving business needs. By establishing a strong DataOps foundation, organizations can mitigate risks like data inconsistencies, inefficiencies, and errors, ultimately paving the way for successful ML systems.
 
@@ -112,7 +120,55 @@ In the previous section, we discussed the idea of real-time data streams.  Let's
 
 Batch ingestion collects data in chunks or intervals, such as daily, weekly, monthly, etc. This method is ideal for scenarios where real-time data is not critical, and the focus is on processing large volumes of data efficiently. For example, an e-commerce company may use batch ingestion to aggregate and analyze customer orders from the previous day. The simplicity of batch ingestion makes it easier to implement, and it is more cost-effective since it requires fewer continuous resources. However, its periodic nature introduces latency, which may be unacceptable in time-sensitive applications.
 
+```{mermaid}
+%%| fig-cap: "Batch processing collects data in chunks or intervals, such as on a daily cadence.  In this example, every day a batch process is ran where data is ingested from its relevant data sources, processed and fed to downstream processes in the ML system."
+%%| label: fig-batch
+
+flowchart LR
+    subgraph Monday
+      direction TB
+      ob1[observation] --> id1[(Data source)]
+      ob2[observation] --> id1
+      ob3[observation] --> id1
+    end
+    subgraph Tuesday
+      direction TB
+      ob4[observation] --> id2[(Data source)]
+      ob5[observation] --> id2
+      ob6[observation] --> id2
+    end
+    subgraph Wednesday
+      direction TB
+      ob7[observation] --> id3[(Data source)]
+      ob8[observation] --> id3
+      ob9[observation] --> id3
+    end
+    processing[Batch data processing]
+    downstream[Downstream ML system processes]
+
+    Monday --> processing
+    Tuesday --> processing
+    Wednesday --> processing
+    processing --> downstream
+```
+
 Streaming ingestion, by contrast, involves the continuous collection of data as it becomes available. This method is essential for use cases requiring real-time insights, such as fraud detection systems or live recommendation engines. Streaming allows systems to react immediately to new data, providing up-to-date results. However, this approach introduces higher complexity and infrastructure costs, as systems must be designed for low-latency processing and scalability. For instance, a financial institution detecting fraudulent transactions in real-time must ingest and process data streams from payment systems within milliseconds.
+
+```{mermaid}
+%%| fig-cap: "Streaming, or real-time, systems process each observation as it comes in and then feeds that data to downstream ML systems and, simoultaneously, to a database for longterm storage."
+%%| label: fig-streaming
+
+flowchart LR
+    ob1[observation] --> processing[Real-time data processing]
+    ob2[observation] --> processing
+    ob3[observation] --> processing
+    ob4[observation] --> processing
+    ob5[observation] --> processing
+
+    processing --> downstream[Downstream ML system processes]
+    processing --> id3[(Database)]
+
+```
 
 In practice, organizations often adopt a hybrid approach, using batch ingestion for historical data and streaming ingestion for real-time updates. For example, a retail company may analyze historical sales trends using batch data while simultaneously processing live customer behavior data through streams. This strategy leverages the strengths of both methods, ensuring comprehensive and timely insights for ML systems.
 
