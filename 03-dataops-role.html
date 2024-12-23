@@ -243,6 +243,7 @@ div.csl-indent {
   <li><a href="#challenges-in-implementing-data-versioning-and-lineage" id="toc-challenges-in-implementing-data-versioning-and-lineage" class="nav-link" data-scroll-target="#challenges-in-implementing-data-versioning-and-lineage">Challenges in Implementing Data Versioning and Lineage</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.5</span> Summary</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">3.6</span> Exercise</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/edit/main/03-dataops-role.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -1822,6 +1823,125 @@ Ensuring Scalability with Growing Data Volumes
 <p>This chapter explored the foundational role of DataOps within the MLOps lifecycle, focusing on the key processes and principles that enable the efficient, reliable, and high-quality flow of data to support machine learning systems. From data ingestion to data validation, versioning, and lineage, we examined how these processes address common challenges in data management while ensuring the scalability and reliability of ML workflows.</p>
 <p>Key highlights included the importance of understanding data sources and their ingestion methods, the transformative role of data processing and feature engineering, and the critical need for robust data validation practices. We also delved into the benefits of data versioning and lineage, which enable traceability, reproducibility, and compliance in increasingly complex data ecosystems.</p>
 <p>While this chapter provided a conceptual and practical understanding of each DataOps process, the next chapter will shift focus to application. Readers will explore how these processes come together in an end-to-end DataOps pipeline, gaining hands-on insights into building and managing scalable, effective workflows. This transition from theory to practice is designed to solidify your understanding of DataOps and its critical role in delivering reliable and impactful machine learning systems.</p>
+</section>
+<section id="exercise" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="exercise"><span class="header-section-number">3.6</span> Exercise</h2>
+<p>This exercise is designed to engage you in a thought experiment that explores the practical applications of DataOps concepts. Each scenario below requires critical thinking and reflection on the principles discussed in this chapter. The scenarios are designed to be a bit vague so you can feel free to make certain assumptions regarding the scenario or even identify additional questions that need to be answered.</p>
+<div class="callout callout-style-simple callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-51-contents" aria-controls="callout-51" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Part 1: Data Ingestion Design
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-51" class="callout-51-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Imagine you are building an ML system for a ride-sharing company to predict rider demand in real-time.</p>
+<p><strong>Scenario Details</strong>:</p>
+<ul>
+<li><strong>Historical Trip Data</strong>: Stored in a relational database, this includes features like pickup/dropoff locations, trip durations, fares, and timestamps for trips over the past five years. Updates occur nightly.</li>
+<li><strong>Real-Time Weather Updates</strong>: Obtained from a third-party API, the weather data includes temperature, precipitation, and wind speed, updated every 10 minutes. However, the API has a limit of 1000 requests per hour.</li>
+<li><strong>Driver Availability Data</strong>: Streamed from an internal system, this data provides the location and status (available, occupied, offline) of drivers in real-time, updated every second.</li>
+</ul>
+<p><strong>Questions to Consider</strong>:</p>
+<ol type="1">
+<li>For each data source, would you choose batch, streaming, or hybrid ingestion? Justify your decision.</li>
+<li>What challenges might arise when combining these sources into a unified pipeline (e.g., mismatched data formats, latency)?</li>
+<li>If the weather API experiences downtime or exceeds rate limits, how would you ensure the pipeline continues functioning without compromising predictions?</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-52-contents" aria-controls="callout-52" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Part 2: Data Validation Strategy
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-52" class="callout-52-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>You are working on a fraud detection system for an e-commerce platform.</p>
+<p><strong>Scenario Details</strong>:</p>
+<ul>
+<li><strong>Transactional Data</strong>: Includes payment amounts, timestamps, and location information. This data is streamed in real-time as customers complete purchases.</li>
+<li><strong>Customer Demographic Data</strong>: Stored in a central database, this data includes customer age, location, and preferred payment method. Updates are infrequent, typically occurring during customer registration or profile edits.</li>
+</ul>
+<p><strong>Questions to Consider</strong>:</p>
+<ol type="1">
+<li>What specific validation checks would you implement for:
+<ul>
+<li>Real-time transactional data (e.g., ensuring timestamps are sequential, payment amounts are positive)?</li>
+<li>Customer demographic data (e.g., completeness of profiles, consistency between locations and timestamps)?</li>
+</ul></li>
+<li>Where in the pipeline would you implement these checks to ensure high-quality data without introducing significant latency (i.e.&nbsp;during data ingestion, after data processing)?</li>
+<li>In a scenario where real-time data includes unexpected values or incomplete fields, what fallback mechanisms would you put in place to avoid disruptions?</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-53-contents" aria-controls="callout-53" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Part 3: Data Versioning and Lineage in Practice
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-53" class="callout-53-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>You are tasked with designing a churn prediction model for a subscription-based video streaming service.</p>
+<p><strong>Scenario Details:</strong></p>
+<ul>
+<li><strong>User Activity Logs</strong>: Include data on session duration, content watched, and browsing patterns. Logs are collected continuously and stored in a data lake.</li>
+<li><strong>Subscription Details</strong>: Include plan type, renewal dates, and payment status. This data is updated monthly and stored in a relational database.</li>
+<li><strong>Support Ticket Interactions</strong>: Contain customer issues, resolutions, and timestamps. These are logged as they occur, with potential delays in updates due to manual entry.</li>
+</ul>
+<p><strong>Questions to Consider:</strong></p>
+<ol type="1">
+<li>How would you use data versioning to track changes in user activity logs, ensuring you can reproduce model training results even as new data is added?</li>
+<li>What specific lineage information would you prioritize capturing (e.g., transformations applied to raw activity logs, dependencies between features)?</li>
+<li>If regulatory compliance (e.g., GDPR, which requires traceability of user data usage) is a factor, how might you adjust your versioning and lineage strategy?</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-54-contents" aria-controls="callout-54" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Part 4: Reflection on DataOps Challenges
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-54" class="callout-54-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Reflect on a hypothetical scenario where your ML pipeline for a financial institution fails in production.</p>
+<p><strong>Scenario (Failure) Details:</strong></p>
+<ul>
+<li>A schema change in the credit card transaction dataset (e.g., renaming “customer_id” to “user_id”) was not communicated to the team.</li>
+<li>The batch ingestion process for monthly transaction summaries included corrupted records due to network interruptions during transfer.</li>
+<li>Real-time streaming data from payment terminals introduced inconsistencies in timestamps due to system clock misalignments.</li>
+</ul>
+<p><strong>Questions to Consider:</strong></p>
+<ol type="1">
+<li>Which specific DataOps practices (e.g., schema validation, data versioning, lineage tracking) could have prevented these failures?</li>
+<li>What steps could you take to proactively handle similar challenges in the future, such as designing validation workflows or automating schema change notifications?</li>
+<li>How would you balance thorough validation checks with maintaining pipeline performance, especially in a high-throughput environment like financial fraud detection?</li>
+</ol>
+</div>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
