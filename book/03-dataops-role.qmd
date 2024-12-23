@@ -127,21 +127,21 @@ Batch ingestion collects data in chunks or intervals, such as daily, weekly, mon
 flowchart LR
     subgraph Monday
       direction TB
-      ob1[observation] --> id1[(Data source)]
-      ob2[observation] --> id1
-      ob3[observation] --> id1
+      ob1(observation) --> id1[(Data source)]
+      ob2(observation) --> id1
+      ob3(observation) --> id1
     end
     subgraph Tuesday
       direction TB
-      ob4[observation] --> id2[(Data source)]
-      ob5[observation] --> id2
-      ob6[observation] --> id2
+      ob4(observation) --> id2[(Data source)]
+      ob5(observation) --> id2
+      ob6(observation) --> id2
     end
     subgraph Wednesday
       direction TB
-      ob7[observation] --> id3[(Data source)]
-      ob8[observation] --> id3
-      ob9[observation] --> id3
+      ob7(observation) --> id3[(Data source)]
+      ob8(observation) --> id3
+      ob9(observation) --> id3
     end
     processing[Batch data processing]
     downstream[Downstream ML system processes]
@@ -159,11 +159,11 @@ Streaming ingestion, by contrast, involves the continuous collection of data as 
 %%| label: fig-streaming
 
 flowchart LR
-    ob1[observation] --> processing[Real-time data processing]
-    ob2[observation] --> processing
-    ob3[observation] --> processing
-    ob4[observation] --> processing
-    ob5[observation] --> processing
+    ob1(observation) --> processing[Real-time data processing]
+    ob2(observation) --> processing
+    ob3(observation) --> processing
+    ob4(observation) --> processing
+    ob5(observation) --> processing
 
     processing --> downstream[Downstream ML system processes]
     processing --> id3[(Database)]
@@ -413,6 +413,17 @@ Feature engineering is the process of transforming raw data into meaningful inpu
 
 At its core, feature engineering serves to bridge the gap between raw data and a machine learning model’s input requirements. Raw data, while abundant, often contains noise, irrelevant details, or complexities that hinder model performance. Feature engineering transforms this raw data into a more structured, interpretable, and informative format, making it easier for the model to identify patterns and relationships.
 
+```{mermaid}
+%%| fig-cap: "Feature engineering serves to bridge the gap between raw data and a machine learning model’s input requirements."
+%%| label: fig-feat-eng
+
+flowchart LR
+    data[(Raw Data)] --> feat{Feature<br>Engineering}
+    feat --> mldata[(Model Input<br>Requirements)]
+    mldata --> ml[Model Building]
+
+```
+
 For example:
 
 - In a customer churn prediction model, raw transactional data might be transformed into features like "average purchase frequency" or "days since last purchase" to better capture customer behavior.
@@ -513,20 +524,20 @@ Data leakage occurs when information that would not be available during real-wor
 
 In MLOps, where the goal is to create scalable, reliable, and production-ready machine learning systems, data leakage poses significant challenges:
 
-1. Decreased Model Generalizability: Models trained with leaked data perform exceptionally well during testing but fail to generalize to unseen production data, undermining their real-world utility. In MLOps, this can result in costly failures when the system is deployed.
-2. Wasted Resources: The entire MLOps lifecycle—from data collection and preprocessing to model deployment and monitoring—is resource-intensive. Data leakage can render these efforts futile, as models with leakage often need to be retrained from scratch, incurring additional time and costs.
-3. Erosion of Trust: A key aspect of MLOps is building trust in machine learning systems among stakeholders. Data leakage creates inflated performance metrics that can lead to overconfidence in the model’s capabilities, only to have those expectations shattered in production.
-4. Compromised Monitoring and Feedback Loops: In MLOps, monitoring is crucial to detect issues like drift and degradation. A model trained with leakage may produce unreliable predictions in production, complicating efforts to establish effective monitoring and feedback loops.
+1. **Decreased Model Generalizability**: Models trained with leaked data perform exceptionally well during testing but fail to generalize to unseen production data, undermining their real-world utility. In MLOps, this can result in costly failures when the system is deployed.
+2. **Wasted Resources**: The entire MLOps lifecycle—from data collection and preprocessing to model deployment and monitoring—is resource-intensive. Data leakage can render these efforts futile, as models with leakage often need to be retrained from scratch, incurring additional time and costs.
+3. **Erosion of Trust**: A key aspect of MLOps is building trust in machine learning systems among stakeholders. Data leakage creates inflated performance metrics that can lead to overconfidence in the model’s capabilities, only to have those expectations shattered in production.
+4. **Compromised Monitoring and Feedback Loops**: In MLOps, monitoring is crucial to detect issues like drift and degradation. A model trained with leakage may produce unreliable predictions in production, complicating efforts to establish effective monitoring and feedback loops.
 
 #### How to Prevent Data Leakage in MLOps
 
 To build reliable and scalable ML systems in an MLOps workflow, rigorous practices are required to prevent data leakage:
 
-1. Dataset Isolation: In an MLOps pipeline, ensure strict separation of training, validation, and test datasets. Automation tools should enforce this separation to prevent accidental overlap during preprocessing or feature generation.
-2. Pipeline Validation: Validate the entire data pipeline to ensure that no future information is incorporated into the training process. This includes ensuring that scaling parameters (e.g., mean, standard deviation) or imputation values are calculated exclusively on training data.
-3. Feature Engineering Audits: Conduct regular audits of features to detect and remove any that are derived from the target variable or contain post-event information. Tools like feature importance scores or explainability frameworks can help identify problematic features.
-4. Versioning and Traceability: Use data versioning tools (e.g., DVC) to track changes in datasets and features over time. In MLOps, this ensures that any unintended leakage introduced during pipeline updates can be identified and corrected.
-5. Continuous Monitoring: In production, monitor model performance closely to detect signs of data leakage, such as an unexpected drop in accuracy or a sharp divergence between training and production metrics. Early detection can mitigate the impact and guide retraining efforts.
+1. **Dataset Isolation**: In an MLOps pipeline, ensure strict separation of training, validation, and test datasets. Automation tools should enforce this separation to prevent accidental overlap during preprocessing or feature generation.
+2. **Pipeline Validation**: Validate the entire data pipeline to ensure that no future information is incorporated into the training process. This includes ensuring that scaling parameters (e.g., mean, standard deviation) or imputation values are calculated exclusively on training data.
+3. **Feature Engineering Audits**: Conduct regular audits of features to detect and remove any that are derived from the target variable or contain post-event information. Tools like feature importance scores or explainability frameworks can help identify problematic features.
+4. **Versioning and Traceability**: Use data versioning tools (e.g., DVC) to track changes in datasets and features over time. In MLOps, this ensures that any unintended leakage introduced during pipeline updates can be identified and corrected.
+5. **Continuous Monitoring**: In production, monitor model performance closely to detect signs of data leakage, such as an unexpected drop in accuracy or a sharp divergence between training and production metrics. Early detection can mitigate the impact and guide retraining efforts.
 
 In an MLOps framework, preventing data leakage is not just a best practice but a foundational requirement for delivering reliable and maintainable machine learning systems. Leakage not only compromises the accuracy and robustness of models but also disrupts the iterative workflows that are central to MLOps, such as continuous integration, deployment, and monitoring. By prioritizing robust data handling practices and pipeline validations, MLOps teams can ensure that their models are not only performant but also trustworthy and sustainable in production environments.
 
@@ -720,8 +731,40 @@ In the world of machine learning and data-driven workflows, the reliability and 
 ::: {.callout-important}
 **Data versioning** focuses on capturing and maintaining historical versions of datasets. By recording each change, teams can roll back to previous versions, compare outcomes across iterations, and confidently experiment with new approaches.
 
+```{mermaid}
+%%| fig-cap: "Data versioning tracks historical versions of a given dataset. This makes it explicit as to which instance of the dataset was used for a given model (i.e. v1.1.0) and also allows rolling back to previous versions (i.e. v1.0.2) if necessary."
+%%| label: fig-data-versioning
+%%{init: {'gitGraph': {'mainBranchName': 'CustomerTransactions'}} }%%
+
+gitGraph
+   commit  id: "v1.0.0"
+   commit  id: "v1.0.1"
+   commit  id: "v1.0.2"
+   branch new_feature
+   commit id: "add new feature"
+   checkout CustomerTransactions
+   merge new_feature
+   commit  id: "v1.1.0"
+
+```
+
 **Data lineage**, on the other hand, documents the entire journey of data—from its origin to the final output—capturing how it was processed, transformed, and consumed. This traceability is essential for debugging, auditing, and understanding the impact of upstream changes on downstream processes.
 
+```{mermaid}
+%%| fig-cap: "Data lineage tracks the movement and transformations of data from its original source(s) to its destination, including how the data was changed and why."
+%%| label: fig-data-lineage
+
+flowchart LR
+  db1[(Data<br>source 1)] --> p1[/processing<br>step 1/]
+  p1 -->  p2[/processing<br>step 2/]
+  db2[(Data<br>source 2)] --> p2
+  p2 -->  p3[/processing<br>step 3/]
+  db3[(Data<br>source 3)] --> p3
+  p3 --> p4[/processing<br>step 4/]
+  p4 --> p5[/processing<br>step 5/]
+  p5 --> db4[(Final<br>processed<br>data)]
+
+```
 :::
 
 Together, data versioning and lineage create a transparent, reliable foundation for machine learning systems. They enable teams to meet regulatory requirements, mitigate risks, and streamline collaboration, making these practices indispensable in modern DataOps workflows.
