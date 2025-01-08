@@ -47,6 +47,133 @@ By applying the foundational concepts of DataOps, such pipelines are not only ro
 
 In this chapter, we will build on the foundational knowledge from the previous chapter to design and implement data pipelines that embody the principles of DataOps. Through hands-on examples and practical guidance, you will learn how to construct workflows that transform raw data into reliable inputs for machine learning systems, setting the stage for scalable and effective solutions.
 
+## ETL vs. ELT Paradigms
+
+When designing data pipelines, there are two primary paradigms: **Extract, Transform, Load (ETL)** and **Extract, Load, Transform (ELT)**. These paradigms represent distinct approaches to organizing and processing data as it flows through pipelines, each with its own strengths and trade-offs. Choosing between ETL and ELT (or a hybrid approach) requires an understanding of your organization’s technical infrastructure, data requirements, and use cases.
+
+### **Extract, Transform, Load (ETL)**
+
+The **ETL** paradigm embodies a traditional, structured approach to data pipelines. It follows a linear process:
+
+1. **Extract** data from various sources, such as relational databases, APIs, or CSV files.
+2. **Transform** the extracted data into a clean, structured format using techniques like cleaning, aggregation, and enrichment.
+3. **Load** the transformed data into a target system, such as a relational database or data warehouse.
+
+```{mermaid}
+%%| fig-cap: "In the ETL paradigm, the pipeline ingests the data, then processes the data prior to storing the data in their target destination."
+%%| label: fig-etl
+
+flowchart LR
+    ob1(Raw data source) --> processing[Data processing]
+    ob2(Raw data source) --> processing
+    ob3(Raw data source) --> processing
+    processing --> id3[(Data storage)]
+```
+
+ETL pipelines focus on preparing high-quality, ready-to-use data before it enters the storage system. In ETL workflows, the **data processing** phase discussed earlier plays a central role. Transformations are performed early in the pipeline to ensure data quality and structure before it reaches the storage layer.
+
+::: {.callout-note collapse="true"}
+## When to Use ETL
+
+- When working with traditional data warehouses or legacy systems that prioritize structured and clean data.
+- In use cases requiring strict data governance and pre-defined schemas, such as regulatory compliance reporting.
+- When downstream applications depend on consistent, pre-processed datasets.
+:::
+
+::: {.callout-note collapse="true"}
+## Advantages
+
+- Simplifies downstream workflows by ensuring data is pre-processed and ready for use.
+- Reduces storage costs by retaining only clean and structured data.
+- Aligns well with environments that require high data integrity.
+:::
+
+::: {.callout-note collapse="true"}
+##  Challenges
+
+- Upfront transformations can delay data availability.
+- Scaling ETL pipelines to handle large datasets or real-time workflows can be resource-intensive.
+- Rigid processes may struggle to adapt to rapidly changing data needs.
+:::
+
+::: {.callout-note collapse="true"}
+## Example
+
+Imagine a financial institution that extracts transaction data, transforms it into a consistent format by applying currency conversions and anomaly detection, and loads the cleaned data into a warehouse for fraud detection reports.
+:::
+
+### **Extract, Load, Transform (ELT)**
+
+The **ELT** paradigm, a more modern approach, inverts the transformation and loading steps:
+
+1. **Extract** data from various sources, often retaining its raw format.
+2. **Load** the extracted data directly into a scalable storage system, such as a data lake or cloud-based data warehouse.
+3. **Transform** the data within the storage system using its computational resources, tailoring transformations to specific analytical needs.
+
+```{mermaid}
+%%| fig-cap: "In the ELT paradigm, the pipeline ingests data directly into the destination system and transforms it in parallel or after the fact."
+%%| label: fig-elt
+
+flowchart LR
+    ob1(Raw data source) --> id3[(Data storage)]
+    ob2(Raw data source) --> id3
+    ob3(Raw data source) --> id3
+    id3 --> processing[Data processing] --> id3
+```
+
+In ELT workflows, the **data ingestion** phase emphasizes rapid loading of raw data into storage, enabling flexibility for later transformations. Also, by storing the data in its raw form, ELT better handles structured, unstructured, and semi-structured data and allows downstream analytics on this data to more easily adapt.
+
+::: {.callout-note collapse="true"}
+## When to Use ELT
+
+- When leveraging cloud-native platforms like Snowflake, BigQuery, or AWS Redshift, which support high-speed storage and in-database transformations.
+- In workflows requiring rapid ingestion and the ability to adapt transformations for different use cases.
+- When storing raw data is essential for exploratory analysis or regulatory purposes.
+:::
+
+::: {.callout-note collapse="true"}
+## Advantages
+
+- Enables faster data ingestion by deferring transformations.
+- Supports diverse and flexible transformations tailored to specific analyses.
+- Scales well with large data volumes, leveraging modern storage and processing systems.
+:::
+
+::: {.callout-note collapse="true"}
+## Challenges
+
+- Requires advanced infrastructure to handle and process raw data efficiently.
+- Higher storage costs due to the retention of raw, unprocessed data.
+- Ad-hoc transformations can lead to inconsistencies if not governed properly.
+:::
+
+::: {.callout-note collapse="true"}
+## Example
+
+An e-commerce platform ingests raw clickstream data into a cloud data warehouse. When needed, transformations such as sessionizing user behavior or aggregating purchase trends are applied directly within the warehouse for personalized recommendations or sales forecasting.
+:::
+
+### Comparing ETL and ELT
+
+| Aspect                | ETL                                     | ELT                                      |
+|-----------------------|-----------------------------------------|------------------------------------------|
+| **Data Transformation** | Before loading into storage             | After loading into storage               |
+| **Storage Requirements** | Lower, as only processed data is stored | Higher, as raw data is retained          |
+| **Processing Time**    | Slower ingestion due to upfront transformations | Faster ingestion with deferred transformations |
+| **Flexibility**       | Limited; transformations are predefined | High; transformations can be ad hoc      |
+| **Infrastructure**    | Suitable for legacy systems or traditional data warehouses | Ideal for modern, scalable systems       |
+
+::: {.callout-tip collapse="false"}
+## Choosing the Right Paradigm
+
+As highlighted in the previous chapter, the goals of DataOps — efficiency, reliability, and scalability — should guide the choice of ETL, ELT, or a hybrid approach. Consider:
+
+- **ETL** is well-suited for structured environments and use cases that demand immediate access to clean, well-processed data.
+- **ELT** shines in cloud-native or big data ecosystems where raw data flexibility and scalability are critical.
+
+Both paradigms have their strengths, and many organizations blend elements of each. For example, a retail company might use ETL for compliance reporting while leveraging ELT for real-time inventory analysis. By understanding these paradigms within the broader DataOps framework, teams can design pipelines that meet both technical and business requirements effectively.
+:::
+
 ## Tools for DataOps
 
 Building effective and scalable data pipelines requires leveraging specialized tools at each stage of the DataOps lifecycle. From data ingestion to processing, validation, and versioning, the ecosystem of tools available is vast and continually expanding. This section provides an overview of commonly used tools, highlighting their capabilities, trade-offs, and when they might be most appropriate. Additionally, this space is dynamic, with new tools regularly introduced to address evolving challenges. Therefore, the goal is not to become tied to a specific tool but to understand the broader landscape and make informed decisions based on your pipeline's requirements.
@@ -115,12 +242,12 @@ A transformation tool that applies SQL to prepare data for analytics workflows. 
 :::
 
 ::: {.callout-note collapse="true"}
-## [Pandas](https://pandas.pydata.org/)
+## [Polars](https://pola.rs/)
 
-A Python library for data manipulation and analysis, offering rich functionality for handling structured data.
+An open source Python & Rust library for data manipulation and analysis, offering rich functionality for handling structured data with performance in mind.
 
-  - **When to Use**: Small to medium datasets or for prototyping workflows.
-  - **Limitations**: Not designed for distributed systems or real-time processing.
+  - **When to Use**: Small to large datasets or for prototyping workflows. A great substitute for Pandas when performance and speed are required.
+  - **Limitations**: Not designed for real-time processing.
 :::
 
 ::: {.callout-note collapse="true"}
@@ -205,24 +332,78 @@ The DataOps tooling landscape is dynamic, with new tools and frameworks regularl
 
 By focusing on the principles of DataOps and staying informed about the ever-changing ecosystem, teams can design resilient and adaptable pipelines. In the following sections, we’ll explore how to combine these tools into cohesive workflows and build scalable, efficient data pipelines for machine learning systems.
 
-## Building Data Pipelines
+## Hands-On Example: A YouTube Data Pipeline
 
-Step-by-step guide to creating the components of a DataOps system.  This part will show system architecture diagrams to conceptually build a DataOps system
+Now that you've learned a bit about data pipelines, common paradigms, and tooling involved, let's apply some of these concepts to create a simplified data pipeline that demonstrates how to ingest, process, and prepare YouTube data for downstream machine learning (ML) workflows. We’ll focus on collecting data like video titles, transcripts, views, likes, and comments. This example ties together concepts from previous chapters, including data ingestion, processing, validation, and versioning.
 
-- Designing an ingestion framework that accommodates multiple data sources.
-- Data cleaning, transformation, and feature extraction.
-- Incorporating data validation to ensure quality.
-- Versioning datasets for consistency and reproducibility.
+### Pipeline Design
+
+The pipeline design we'll use will resemble more of an ETL process than an ELT.  This is mainly for storage simplicity since this pipeline is run locally (whether that be on my machine or your machine) rather than in a cloud environment where storage capacity constraints are less of an issue.
+
+We'll use a couple of APIs to ingest our data, perform a little bit of data processing to clean and prepare our data for future analyses, and then illustrate some basic data validation along with versioning and storing our final prepared data.
+
+```{mermaid}
+%%| fig-cap: "High-level architecture of our data pipeline, which leverages an ETL process to ingest, process, validate, version and then store our data."
+%%| label: fig-youtube-pipeline
+
+flowchart LR
+    subgraph ingest[Data Ingestion]
+      direction LR
+      subgraph p1[Ingest Video IDs]
+      end
+      subgraph p2[Ingest Video Stats]
+      end
+      subgraph p3[Ingest Video Transcript]
+      end
+    end
+    p1 --> p2
+    p1 --> p3
+    ingest --> process(Process Raw Data)
+    process --> Validate --> Version --> data[(Data storage)]
+```
+
+::: {.callout-note collapse="true"}
+## Basic Requirements
+
+If you'd like to follow along and execute this code then there are a few requirements you'll need on your end.
+
+First, you'll need to make sure you have the following Python libraries installed:
+
+{{< embed ../DataOps/youtube-data-pipeline.ipynb#dataops-rqmts >}}
+
+Next, to simplify this example I have created helper functions to [abstract](http://localhost:4761/01-intro-ml-system.html#modularity-and-abstraction) away a lot of the finer code details.  You can see this in the following imports where I am importing helper functions from the `dataops_utils.py` module. If you want to reproduce this pipeline then you can download the dataops_utils.py script [here]().
+
+{{< embed ../DataOps/youtube-data-pipeline.ipynb#requirements echo=true >}}
+
+Lastly, We'll be using the YouTube Data API to extract metadata and video information. To follow along, ensure you have:
+
+- A Google Cloud account.
+- Access to the [YouTube Data API](https://developers.google.com/youtube/v3) to include an API key.  See [here to get started](https://developers.google.com/youtube/v3/getting-started).
+
+Once you have a Youtube API key then you're ready to go!  The next code chunk sets your API key and establishes the API URL and the channel ID.  Note, I'm a golf junkie so the channel ID I am using is for [Grant Horvat](https://www.youtube.com/@GrantHorvatGolfs), a Youtube golfer with nearly 1 million followers.^[Feel free to explore a different Youtube channel. Note that the channel ID is different than the Youtube handle. For example, Grant Horvat's Youtube handle is `@GrantHorvatGolfs` but his channel ID is UCgUueMmSpcl-aCTt5CuCKQw. The easiest way to find a channel's ID is to go to the channel metadata where information for listed for "About", "Links", and "Channel details". At the bottom of the pop up window is an option to "Share Channel" and then "Copy Channel ID".]
+
+{{< embed ../DataOps/youtube-data-pipeline.ipynb#pipeline-envars echo=true >}}
+:::
+
+::: {.callout-note collapse="true"}
+## Data Ingestion
+
+The first step is to ingest the Youtube data.  To do so, we need to follow three steps:
+
+1. Ingest all the video IDs provided by a given channel.
+     {{< embed ../DataOps/youtube-data-pipeline.ipynb#ingest-video-ids echo=true >}}
+2. Use the ingested video IDs to ingest Youtube stats for each video such as total views, likes, and comments.
+     {{< embed ../DataOps/youtube-data-pipeline.ipynb#ingest-video-stats echo=true >}}
+3. And lastly, ingest the transcript for each video.
+     {{< embed ../DataOps/youtube-data-pipeline.ipynb#final-raw-data echo=true >}}
+     
+:::
+
 
 ## Creating Scalable Data Pipelines
 
 - How to build data pipelines that scale to accommodate increasing data volumes.
 - Key considerations for scalability, such as distributed processing and fault tolerance.
-
-## Hands-On Example: Simple Data Pipeline for ML Workflows
-
-- Demonstrate a simple end-to-end data pipeline that ingests, processes, validates, and versions a dataset.
-- Walkthrough of using tools like Pandas, Great Expectations, and DVC to create a pipeline.
 
 ## Conclusion and Key Takeaways
 
