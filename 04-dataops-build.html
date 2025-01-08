@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -68,6 +102,10 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -198,7 +236,13 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#the-importance-of-data-pipelines-in-ml-system-design" id="toc-the-importance-of-data-pipelines-in-ml-system-design" class="nav-link" data-scroll-target="#the-importance-of-data-pipelines-in-ml-system-design">The Importance of Data Pipelines in ML System Design</a></li>
   <li><a href="#the-role-of-dataops-in-constructing-scalable-and-reliable-pipelines" id="toc-the-role-of-dataops-in-constructing-scalable-and-reliable-pipelines" class="nav-link" data-scroll-target="#the-role-of-dataops-in-constructing-scalable-and-reliable-pipelines">The Role of DataOps in Constructing Scalable and Reliable Pipelines</a></li>
   </ul></li>
-  <li><a href="#tools-for-dataops" id="toc-tools-for-dataops" class="nav-link" data-scroll-target="#tools-for-dataops"><span class="header-section-number">4.2</span> Tools for DataOps</a>
+  <li><a href="#etl-vs.-elt-paradigms" id="toc-etl-vs.-elt-paradigms" class="nav-link" data-scroll-target="#etl-vs.-elt-paradigms"><span class="header-section-number">4.2</span> ETL vs.&nbsp;ELT Paradigms</a>
+  <ul class="collapse">
+  <li><a href="#extract-transform-load-etl" id="toc-extract-transform-load-etl" class="nav-link" data-scroll-target="#extract-transform-load-etl"><strong>Extract, Transform, Load (ETL)</strong></a></li>
+  <li><a href="#extract-load-transform-elt" id="toc-extract-load-transform-elt" class="nav-link" data-scroll-target="#extract-load-transform-elt"><strong>Extract, Load, Transform (ELT)</strong></a></li>
+  <li><a href="#comparing-etl-and-elt" id="toc-comparing-etl-and-elt" class="nav-link" data-scroll-target="#comparing-etl-and-elt">Comparing ETL and ELT</a></li>
+  </ul></li>
+  <li><a href="#tools-for-dataops" id="toc-tools-for-dataops" class="nav-link" data-scroll-target="#tools-for-dataops"><span class="header-section-number">4.3</span> Tools for DataOps</a>
   <ul class="collapse">
   <li><a href="#data-ingestion-tools" id="toc-data-ingestion-tools" class="nav-link" data-scroll-target="#data-ingestion-tools">Data Ingestion Tools</a></li>
   <li><a href="#data-processing-tools" id="toc-data-processing-tools" class="nav-link" data-scroll-target="#data-processing-tools">Data Processing Tools</a></li>
@@ -206,9 +250,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#data-versioning-tools" id="toc-data-versioning-tools" class="nav-link" data-scroll-target="#data-versioning-tools">Data Versioning Tools</a></li>
   <li><a href="#navigating-a-rapidly-evolving-ecosystem" id="toc-navigating-a-rapidly-evolving-ecosystem" class="nav-link" data-scroll-target="#navigating-a-rapidly-evolving-ecosystem">Navigating a Rapidly Evolving Ecosystem</a></li>
   </ul></li>
-  <li><a href="#building-data-pipelines" id="toc-building-data-pipelines" class="nav-link" data-scroll-target="#building-data-pipelines"><span class="header-section-number">4.3</span> Building Data Pipelines</a></li>
-  <li><a href="#creating-scalable-data-pipelines" id="toc-creating-scalable-data-pipelines" class="nav-link" data-scroll-target="#creating-scalable-data-pipelines"><span class="header-section-number">4.4</span> Creating Scalable Data Pipelines</a></li>
-  <li><a href="#hands-on-example-simple-data-pipeline-for-ml-workflows" id="toc-hands-on-example-simple-data-pipeline-for-ml-workflows" class="nav-link" data-scroll-target="#hands-on-example-simple-data-pipeline-for-ml-workflows"><span class="header-section-number">4.5</span> Hands-On Example: Simple Data Pipeline for ML Workflows</a></li>
+  <li><a href="#hands-on-example-a-youtube-data-pipeline" id="toc-hands-on-example-a-youtube-data-pipeline" class="nav-link" data-scroll-target="#hands-on-example-a-youtube-data-pipeline"><span class="header-section-number">4.4</span> Hands-On Example: A YouTube Data Pipeline</a>
+  <ul class="collapse">
+  <li><a href="#pipeline-design" id="toc-pipeline-design" class="nav-link" data-scroll-target="#pipeline-design">Pipeline Design</a></li>
+  </ul></li>
+  <li><a href="#creating-scalable-data-pipelines" id="toc-creating-scalable-data-pipelines" class="nav-link" data-scroll-target="#creating-scalable-data-pipelines"><span class="header-section-number">4.5</span> Creating Scalable Data Pipelines</a></li>
   <li><a href="#conclusion-and-key-takeaways" id="toc-conclusion-and-key-takeaways" class="nav-link" data-scroll-target="#conclusion-and-key-takeaways"><span class="header-section-number">4.6</span> Conclusion and Key Takeaways</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/edit/main/04-dataops-build.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -275,28 +321,55 @@ ul.task-list li input[type="checkbox"] {
 <p>In this chapter, we will build on the foundational knowledge from the previous chapter to design and implement data pipelines that embody the principles of DataOps. Through hands-on examples and practical guidance, you will learn how to construct workflows that transform raw data into reliable inputs for machine learning systems, setting the stage for scalable and effective solutions.</p>
 </section>
 </section>
-<section id="tools-for-dataops" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="tools-for-dataops"><span class="header-section-number">4.2</span> Tools for DataOps</h2>
-<p>Building effective and scalable data pipelines requires leveraging specialized tools at each stage of the DataOps lifecycle. From data ingestion to processing, validation, and versioning, the ecosystem of tools available is vast and continually expanding. This section provides an overview of commonly used tools, highlighting their capabilities, trade-offs, and when they might be most appropriate. Additionally, this space is dynamic, with new tools regularly introduced to address evolving challenges. Therefore, the goal is not to become tied to a specific tool but to understand the broader landscape and make informed decisions based on your pipeline’s requirements.</p>
-<section id="data-ingestion-tools" class="level3">
-<h3 class="anchored" data-anchor-id="data-ingestion-tools">Data Ingestion Tools</h3>
-<p>Efficiently gathering data from diverse sources is the foundation of any pipeline. Ingestion tools vary from those tailored for real-time streaming to solutions focused on batch processing and ease of integration. Some examples include:</p>
+<section id="etl-vs.-elt-paradigms" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="etl-vs.-elt-paradigms"><span class="header-section-number">4.2</span> ETL vs.&nbsp;ELT Paradigms</h2>
+<p>When designing data pipelines, there are two primary paradigms: <strong>Extract, Transform, Load (ETL)</strong> and <strong>Extract, Load, Transform (ELT)</strong>. These paradigms represent distinct approaches to organizing and processing data as it flows through pipelines, each with its own strengths and trade-offs. Choosing between ETL and ELT (or a hybrid approach) requires an understanding of your organization’s technical infrastructure, data requirements, and use cases.</p>
+<section id="extract-transform-load-etl" class="level3">
+<h3 class="anchored" data-anchor-id="extract-transform-load-etl"><strong>Extract, Transform, Load (ETL)</strong></h3>
+<p>The <strong>ETL</strong> paradigm embodies a traditional, structured approach to data pipelines. It follows a linear process:</p>
+<ol type="1">
+<li><strong>Extract</strong> data from various sources, such as relational databases, APIs, or CSV files.</li>
+<li><strong>Transform</strong> the extracted data into a clean, structured format using techniques like cleaning, aggregation, and enrichment.</li>
+<li><strong>Load</strong> the transformed data into a target system, such as a relational database or data warehouse.</li>
+</ol>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-etl" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-etl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-etl">flowchart LR
+    ob1(Raw data source) --&gt; processing[Data processing]
+    ob2(Raw data source) --&gt; processing
+    ob3(Raw data source) --&gt; processing
+    processing --&gt; id3[(Data storage)]
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-etl-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.1: In the ETL paradigm, the pipeline ingests the data, then processes the data prior to storing the data in their target destination.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>ETL pipelines focus on preparing high-quality, ready-to-use data before it enters the storage system. In ETL workflows, the <strong>data processing</strong> phase discussed earlier plays a central role. Transformations are performed early in the pipeline to ensure data quality and structure before it reaches the storage layer.</p>
 <div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<a href="https://kafka.apache.org/">Apache Kafka</a>
+When to Use ETL
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>A distributed event-streaming platform designed for high-throughput, real-time data ingestion. Kafka is widely used in applications like fraud detection, IoT data pipelines, and real-time analytics.</p>
 <ul>
-<li><strong>When to Use</strong>: Ideal for high-velocity, low-latency systems.</li>
-<li><strong>Limitations</strong>: Steep learning curve and resource-heavy for smaller use cases.</li>
+<li>When working with traditional data warehouses or legacy systems that prioritize structured and clean data.</li>
+<li>In use cases requiring strict data governance and pre-defined schemas, such as regulatory compliance reporting.</li>
+<li>When downstream applications depend on consistent, pre-processed datasets.</li>
 </ul>
 </div>
 </div>
@@ -307,16 +380,16 @@ ul.task-list li input[type="checkbox"] {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<a href="https://nifi.apache.org/">Apache NiFi</a>
+Advantages
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>A flow-based programming tool that automates data movement and transformation with a user-friendly interface. NiFi supports a wide range of data sources and formats.</p>
 <ul>
-<li><strong>When to Use</strong>: Low-code scenarios requiring rapid integration of multiple data sources.</li>
-<li><strong>Limitations</strong>: Less suited for complex, high-throughput pipelines.</li>
+<li>Simplifies downstream workflows by ensuring data is pre-processed and ready for use.</li>
+<li>Reduces storage costs by retaining only clean and structured data.</li>
+<li>Aligns well with environments that require high data integrity.</li>
 </ul>
 </div>
 </div>
@@ -327,16 +400,16 @@ ul.task-list li input[type="checkbox"] {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<a href="https://github.com/airbytehq/airbyte">Airbyte</a>
+Challenges
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>An open-source data integration platform focused on moving data into data warehouses or lakes. Its extensive library of connectors simplifies ingesting data from various APIs and databases.</p>
 <ul>
-<li><strong>When to Use</strong>: Batch ingestion with diverse source compatibility.</li>
-<li><strong>Limitations</strong>: Primarily batch-focused and may require configuration for real-time pipelines.</li>
+<li>Upfront transformations can delay data availability.</li>
+<li>Scaling ETL pipelines to handle large datasets or real-time workflows can be resource-intensive.</li>
+<li>Rigid processes may struggle to adapt to rapidly changing data needs.</li>
 </ul>
 </div>
 </div>
@@ -347,11 +420,267 @@ ul.task-list li input[type="checkbox"] {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<a href="https://www.fivetran.com/">Fivetran</a>
+Example
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Imagine a financial institution that extracts transaction data, transforms it into a consistent format by applying currency conversions and anomaly detection, and loads the cleaned data into a warehouse for fraud detection reports.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="extract-load-transform-elt" class="level3">
+<h3 class="anchored" data-anchor-id="extract-load-transform-elt"><strong>Extract, Load, Transform (ELT)</strong></h3>
+<p>The <strong>ELT</strong> paradigm, a more modern approach, inverts the transformation and loading steps:</p>
+<ol type="1">
+<li><strong>Extract</strong> data from various sources, often retaining its raw format.</li>
+<li><strong>Load</strong> the extracted data directly into a scalable storage system, such as a data lake or cloud-based data warehouse.</li>
+<li><strong>Transform</strong> the data within the storage system using its computational resources, tailoring transformations to specific analytical needs.</li>
+</ol>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-elt" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-elt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-elt">flowchart LR
+    ob1(Raw data source) --&gt; id3[(Data storage)]
+    ob2(Raw data source) --&gt; id3
+    ob3(Raw data source) --&gt; id3
+    id3 --&gt; processing[Data processing] --&gt; id3
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-elt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.2: In the ELT paradigm, the pipeline ingests data directly into the destination system and transforms it in parallel or after the fact.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In ELT workflows, the <strong>data ingestion</strong> phase emphasizes rapid loading of raw data into storage, enabling flexibility for later transformations. Also, by storing the data in its raw form, ELT better handles structured, unstructured, and semi-structured data and allows downstream analytics on this data to more easily adapt.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+When to Use ELT
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>When leveraging cloud-native platforms like Snowflake, BigQuery, or AWS Redshift, which support high-speed storage and in-database transformations.</li>
+<li>In workflows requiring rapid ingestion and the ability to adapt transformations for different use cases.</li>
+<li>When storing raw data is essential for exploratory analysis or regulatory purposes.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Advantages
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>Enables faster data ingestion by deferring transformations.</li>
+<li>Supports diverse and flexible transformations tailored to specific analyses.</li>
+<li>Scales well with large data volumes, leveraging modern storage and processing systems.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Challenges
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>Requires advanced infrastructure to handle and process raw data efficiently.</li>
+<li>Higher storage costs due to the retention of raw, unprocessed data.</li>
+<li>Ad-hoc transformations can lead to inconsistencies if not governed properly.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Example
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>An e-commerce platform ingests raw clickstream data into a cloud data warehouse. When needed, transformations such as sessionizing user behavior or aggregating purchase trends are applied directly within the warehouse for personalized recommendations or sales forecasting.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="comparing-etl-and-elt" class="level3">
+<h3 class="anchored" data-anchor-id="comparing-etl-and-elt">Comparing ETL and ELT</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 38%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Aspect</th>
+<th>ETL</th>
+<th>ELT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Data Transformation</strong></td>
+<td>Before loading into storage</td>
+<td>After loading into storage</td>
+</tr>
+<tr class="even">
+<td><strong>Storage Requirements</strong></td>
+<td>Lower, as only processed data is stored</td>
+<td>Higher, as raw data is retained</td>
+</tr>
+<tr class="odd">
+<td><strong>Processing Time</strong></td>
+<td>Slower ingestion due to upfront transformations</td>
+<td>Faster ingestion with deferred transformations</td>
+</tr>
+<tr class="even">
+<td><strong>Flexibility</strong></td>
+<td>Limited; transformations are predefined</td>
+<td>High; transformations can be ad hoc</td>
+</tr>
+<tr class="odd">
+<td><strong>Infrastructure</strong></td>
+<td>Suitable for legacy systems or traditional data warehouses</td>
+<td>Ideal for modern, scalable systems</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Choosing the Right Paradigm
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>As highlighted in the previous chapter, the goals of DataOps — efficiency, reliability, and scalability — should guide the choice of ETL, ELT, or a hybrid approach. Consider:</p>
+<ul>
+<li><strong>ETL</strong> is well-suited for structured environments and use cases that demand immediate access to clean, well-processed data.</li>
+<li><strong>ELT</strong> shines in cloud-native or big data ecosystems where raw data flexibility and scalability are critical.</li>
+</ul>
+<p>Both paradigms have their strengths, and many organizations blend elements of each. For example, a retail company might use ETL for compliance reporting while leveraging ELT for real-time inventory analysis. By understanding these paradigms within the broader DataOps framework, teams can design pipelines that meet both technical and business requirements effectively.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="tools-for-dataops" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="tools-for-dataops"><span class="header-section-number">4.3</span> Tools for DataOps</h2>
+<p>Building effective and scalable data pipelines requires leveraging specialized tools at each stage of the DataOps lifecycle. From data ingestion to processing, validation, and versioning, the ecosystem of tools available is vast and continually expanding. This section provides an overview of commonly used tools, highlighting their capabilities, trade-offs, and when they might be most appropriate. Additionally, this space is dynamic, with new tools regularly introduced to address evolving challenges. Therefore, the goal is not to become tied to a specific tool but to understand the broader landscape and make informed decisions based on your pipeline’s requirements.</p>
+<section id="data-ingestion-tools" class="level3">
+<h3 class="anchored" data-anchor-id="data-ingestion-tools">Data Ingestion Tools</h3>
+<p>Efficiently gathering data from diverse sources is the foundation of any pipeline. Ingestion tools vary from those tailored for real-time streaming to solutions focused on batch processing and ease of integration. Some examples include:</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<a href="https://kafka.apache.org/">Apache Kafka</a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A distributed event-streaming platform designed for high-throughput, real-time data ingestion. Kafka is widely used in applications like fraud detection, IoT data pipelines, and real-time analytics.</p>
+<ul>
+<li><strong>When to Use</strong>: Ideal for high-velocity, low-latency systems.</li>
+<li><strong>Limitations</strong>: Steep learning curve and resource-heavy for smaller use cases.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<a href="https://nifi.apache.org/">Apache NiFi</a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A flow-based programming tool that automates data movement and transformation with a user-friendly interface. NiFi supports a wide range of data sources and formats.</p>
+<ul>
+<li><strong>When to Use</strong>: Low-code scenarios requiring rapid integration of multiple data sources.</li>
+<li><strong>Limitations</strong>: Less suited for complex, high-throughput pipelines.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<a href="https://github.com/airbytehq/airbyte">Airbyte</a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>An open-source data integration platform focused on moving data into data warehouses or lakes. Its extensive library of connectors simplifies ingesting data from various APIs and databases.</p>
+<ul>
+<li><strong>When to Use</strong>: Batch ingestion with diverse source compatibility.</li>
+<li><strong>Limitations</strong>: Primarily batch-focused and may require configuration for real-time pipelines.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<a href="https://www.fivetran.com/">Fivetran</a>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>A managed data integration tool that simplifies data ingestion by automating schema handling and updates. It’s widely used for moving data into analytics-ready storage solutions.</p>
 <ul>
@@ -366,7 +695,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="data-processing-tools">Data Processing Tools</h3>
 <p>Processing raw data into clean, structured, and feature-rich formats is critical to preparing it for machine learning workflows. Many tools exist but the following are a few popular tools that support various scales and complexities of data transformation.</p>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -375,7 +704,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>A powerful engine for distributed data processing. Spark supports both batch and streaming data workflows, making it suitable for big data and ML pipelines.</p>
 <ul>
@@ -386,7 +715,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -395,7 +724,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>A transformation tool that applies SQL to prepare data for analytics workflows. DBT is particularly useful for pipelines that involve data warehouses.</p>
 <ul>
@@ -406,27 +735,27 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<a href="https://pandas.pydata.org/">Pandas</a>
+<a href="https://pola.rs/">Polars</a>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>A Python library for data manipulation and analysis, offering rich functionality for handling structured data.</p>
+<p>An open source Python &amp; Rust library for data manipulation and analysis, offering rich functionality for handling structured data with performance in mind.</p>
 <ul>
-<li><strong>When to Use</strong>: Small to medium datasets or for prototyping workflows.</li>
-<li><strong>Limitations</strong>: Not designed for distributed systems or real-time processing.</li>
+<li><strong>When to Use</strong>: Small to large datasets or for prototyping workflows. A great substitute for Pandas when performance and speed are required.</li>
+<li><strong>Limitations</strong>: Not designed for real-time processing.</li>
 </ul>
 </div>
 </div>
 </div>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -435,7 +764,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>A workflow orchestration tool that enables robust scheduling and monitoring of data processing tasks.</p>
 <ul>
@@ -450,7 +779,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="data-validation-tools">Data Validation Tools</h3>
 <p>Ensuring the integrity and accuracy of data is essential to building reliable pipelines. Validation tools help detect anomalies, enforce schema compliance, and improve data quality. Some popular data validation tools include:</p>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -459,7 +788,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>A framework for defining, executing, and documenting data validation checks. It integrates well with modern data stacks.</p>
 <ul>
@@ -470,7 +799,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -479,7 +808,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>A library designed for detecting anomalies and validating schema in ML datasets.</p>
 <ul>
@@ -490,7 +819,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -499,7 +828,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>A library developed by AWS for validating large datasets using Spark. It focuses on automated quality checks and anomaly detection.</p>
 <ul>
@@ -514,7 +843,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="data-versioning-tools">Data Versioning Tools</h3>
 <p>Versioning ensures traceability and reproducibility by tracking changes to datasets and workflows. It is vital for debugging, compliance, and collaboration. Some common data versioning tools include:</p>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -523,7 +852,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>A Git-like tool for versioning data, models, and pipelines. It integrates seamlessly with Git repositories.</p>
 <ul>
@@ -534,7 +863,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -543,7 +872,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>A storage layer that adds versioning and ACID transactions to data lakes. It works well with distributed systems like Apache Spark.</p>
 <ul>
@@ -554,7 +883,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout callout-style-simple callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -563,7 +892,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>A Git-like version control system for data lakes. It enables branching and snapshotting of data workflows.</p>
 <ul>
@@ -586,28 +915,192 @@ ul.task-list li input[type="checkbox"] {
 <p>By focusing on the principles of DataOps and staying informed about the ever-changing ecosystem, teams can design resilient and adaptable pipelines. In the following sections, we’ll explore how to combine these tools into cohesive workflows and build scalable, efficient data pipelines for machine learning systems.</p>
 </section>
 </section>
-<section id="building-data-pipelines" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="building-data-pipelines"><span class="header-section-number">4.3</span> Building Data Pipelines</h2>
-<p>Step-by-step guide to creating the components of a DataOps system. This part will show system architecture diagrams to conceptually build a DataOps system</p>
+<section id="hands-on-example-a-youtube-data-pipeline" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="hands-on-example-a-youtube-data-pipeline"><span class="header-section-number">4.4</span> Hands-On Example: A YouTube Data Pipeline</h2>
+<p>Now that you’ve learned a bit about data pipelines, common paradigms, and tooling involved, let’s apply some of these concepts to create a simplified data pipeline that demonstrates how to ingest, process, and prepare YouTube data for downstream machine learning (ML) workflows. We’ll focus on collecting data like video titles, transcripts, views, likes, and comments. This example ties together concepts from previous chapters, including data ingestion, processing, validation, and versioning.</p>
+<section id="pipeline-design" class="level3">
+<h3 class="anchored" data-anchor-id="pipeline-design">Pipeline Design</h3>
+<p>The pipeline design we’ll use will resemble more of an ETL process than an ELT. This is mainly for storage simplicity since this pipeline is run locally (whether that be on my machine or your machine) rather than in a cloud environment where storage capacity constraints are less of an issue.</p>
+<p>We’ll use a couple of APIs to ingest our data, perform a little bit of data processing to clean and prepare our data for future analyses, and then illustrate some basic data validation along with versioning and storing our final prepared data.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-youtube-pipeline" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-youtube-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-youtube-pipeline">flowchart LR
+    subgraph ingest[Data Ingestion]
+      direction LR
+      subgraph p1[Ingest Video IDs]
+      end
+      subgraph p2[Ingest Video Stats]
+      end
+      subgraph p3[Ingest Video Transcript]
+      end
+    end
+    p1 --&gt; p2
+    p1 --&gt; p3
+    ingest --&gt; process(Process Raw Data)
+    process --&gt; Validate --&gt; Version --&gt; data[(Data storage)]
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-youtube-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.3: High-level architecture of our data pipeline, which leverages an ETL process to ingest, process, validate, version and then store our data.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Basic Requirements
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If you’d like to follow along and execute this code then there are a few requirements you’ll need on your end.</p>
+<p>First, you’ll need to make sure you have the following Python libraries installed:</p>
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-13">
+<div id="cell-13" class="cell" data-tags="[&quot;dataops-rqmts&quot;]" data-execution_count="6">
+<div class="cell-output cell-output-stdout">
+<pre><code>Python version: 3.13.1 | packaged by conda-forge | (main, Dec  5 2024, 21:18:03) [Clang 18.1.8 ]
+
+jupyterlab==4.1.6
+matplotlib==3.8.0
+polars==0.20.21
+python-dotenv==0.21.0
+tqdm==4.63.0
+youtube_transcript_api==0.6.2</code></pre>
+</div>
+</div>
+</div>
+<p>Next, to simplify this example I have created helper functions to <a href="http://localhost:4761/01-intro-ml-system.html#modularity-and-abstraction">abstract</a> away a lot of the finer code details. You can see this in the following imports where I am importing helper functions from the <code>dataops_utils.py</code> module. If you want to reproduce this pipeline then you can download the dataops_utils.py script <a href="">here</a>.</p>
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-2">
+<div id="cell-2" class="cell" data-tags="[&quot;requirements&quot;]" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataops_utils <span class="im">import</span> (</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    ingest_channel_video_ids,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    ingest_video_stats,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    ingest_video_transcript,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>Lastly, We’ll be using the YouTube Data API to extract metadata and video information. To follow along, ensure you have:</p>
 <ul>
-<li>Designing an ingestion framework that accommodates multiple data sources.</li>
-<li>Data cleaning, transformation, and feature extraction.</li>
-<li>Incorporating data validation to ensure quality.</li>
-<li>Versioning datasets for consistency and reproducibility.</li>
+<li>A Google Cloud account.</li>
+<li>Access to the <a href="https://developers.google.com/youtube/v3">YouTube Data API</a> to include an API key. See <a href="https://developers.google.com/youtube/v3/getting-started">here to get started</a>.</li>
 </ul>
+<p>Once you have a Youtube API key then you’re ready to go! The next code chunk sets your API key and establishes the API URL and the channel ID. Note, I’m a golf junkie so the channel ID I am using is for <a href="https://www.youtube.com/@GrantHorvatGolfs">Grant Horvat</a>, a Youtube golfer with nearly 1 million followers.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-3">
+<div id="cell-3" class="cell" data-tags="[&quot;pipeline-envars&quot;]" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># I have my API key set as an environment variable</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>API_KEY <span class="op">=</span> os.getenv(<span class="st">'YOUTUBE_API_KEY'</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># In your case you can add your API key here</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> API_KEY <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    API_KEY <span class="op">=</span> <span class="st">"INSERT_YOUR_YOUTUBE_API_KEY"</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>BASE_URL <span class="op">=</span> <span class="st">"https://www.googleapis.com/youtube/v3"</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>CHANNEL_ID <span class="op">=</span> <span class="st">'UCgUueMmSpcl-aCTt5CuCKQw'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Data Ingestion
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The first step is to ingest the Youtube data. To do so, we need to follow three steps:</p>
+<ol type="1">
+<li>Ingest all the video IDs provided by a given channel.</li>
+</ol>
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-5">
+<div id="cell-5" class="cell" data-tags="[&quot;ingest-video-ids&quot;]" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ingest Youtube video IDs</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>video_ids <span class="op">=</span> ingest_channel_video_ids(API_KEY, CHANNEL_ID)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of what the first record looks like</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>video_ids[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>{'channel_id': 'UCgUueMmSpcl-aCTt5CuCKQw',
+ 'video_id': 'fSHh01YT0-Q',
+ 'datetime': '2025-01-07T18:50:32Z',
+ 'title': 'Tiger Woods hits the ball off the heel.'}</code></pre>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Use the ingested video IDs to ingest Youtube stats for each video such as total views, likes, and comments.</li>
+</ol>
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-6">
+<div id="cell-6" class="cell" data-tags="[&quot;ingest-video-stats&quot;]" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ingest Youtube video statistics</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>video_data <span class="op">=</span> ingest_video_stats(video_ids, API_KEY)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of the stats collected for the first video</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>video_data[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>{'channel_id': 'UCgUueMmSpcl-aCTt5CuCKQw',
+ 'video_id': 'fSHh01YT0-Q',
+ 'datetime': '2025-01-07T18:50:32Z',
+ 'title': 'Tiger Woods hits the ball off the heel.',
+ 'views': '31413',
+ 'likes': '1109',
+ 'comments': '16'}</code></pre>
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li>And lastly, ingest the transcript for each video.</li>
+</ol>
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-7">
+<div id="cell-7" class="cell" data-tags="[&quot;final-raw-data&quot;]" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ingest Youtube video transcripts</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>video_data <span class="op">=</span> ingest_video_transcript(video_data)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of the final raw data that includes</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># video ID, title, date, stats, and transcript</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>video_data[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>{'channel_id': 'UCgUueMmSpcl-aCTt5CuCKQw',
+ 'video_id': 'fSHh01YT0-Q',
+ 'datetime': '2025-01-07T18:50:32Z',
+ 'title': 'Tiger Woods hits the ball off the heel.',
+ 'views': '31413',
+ 'likes': '1109',
+ 'comments': '16',
+ 'transcript': "over the course of my career I've always hit the ball off the heel this is one of the reason why I still use my old te's O Okay so if I'm going to hit one in play that's how high you would Tee It Up if I have to hit one in play if I have to hit one out of the wind okay I like that what's wrong with that wow that's right at the pole this keeps you on top and Swinging more left and as I said I would try and hit it for me over a course of my career I've always hit ball off the heel"}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
-<section id="creating-scalable-data-pipelines" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="creating-scalable-data-pipelines"><span class="header-section-number">4.4</span> Creating Scalable Data Pipelines</h2>
+</section>
+<section id="creating-scalable-data-pipelines" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="creating-scalable-data-pipelines"><span class="header-section-number">4.5</span> Creating Scalable Data Pipelines</h2>
 <ul>
 <li>How to build data pipelines that scale to accommodate increasing data volumes.</li>
 <li>Key considerations for scalability, such as distributed processing and fault tolerance.</li>
-</ul>
-</section>
-<section id="hands-on-example-simple-data-pipeline-for-ml-workflows" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="hands-on-example-simple-data-pipeline-for-ml-workflows"><span class="header-section-number">4.5</span> Hands-On Example: Simple Data Pipeline for ML Workflows</h2>
-<ul>
-<li>Demonstrate a simple end-to-end data pipeline that ingests, processes, validates, and versions a dataset.</li>
-<li>Walkthrough of using tools like Pandas, Great Expectations, and DVC to create a pipeline.</li>
 </ul>
 </section>
 <section id="conclusion-and-key-takeaways" class="level2" data-number="4.6">
@@ -618,6 +1111,12 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 
 
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Feel free to explore a different Youtube channel. Note that the channel ID is different than the Youtube handle. For example, Grant Horvat’s Youtube handle is <code>@GrantHorvatGolfs</code> but his channel ID is UCgUueMmSpcl-aCTt5CuCKQw. The easiest way to find a channel’s ID is to go to the channel metadata where information for listed for “About”, “Links”, and “Channel details”. At the bottom of the pop up window is an option to “Share Channel” and then “Copy Channel ID”.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
