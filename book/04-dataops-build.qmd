@@ -1,4 +1,11 @@
-# Putting DataOps into Practice
+---
+title: Putting DataOps into Practice
+notebook-links: true
+notebook-view:
+  - notebook: ../DataOps/youtube-data-pipeline.ipynb
+    title: "Example Youtube Data Pipeline"
+    url: https://github.com/bradleyboehmke/uc-bana-7085/blob/main/DataOps/youtube-data-pipeline.ipynb
+---
 
 In the previous chapter, we explored the foundational concepts of DataOps, focusing on the importance of processes such as data ingestion, validation, versioning, and lineage in building reliable machine learning systems. Now, it’s time to take these concepts from theory to practice by applying them to create data pipelines. Data pipelines form the backbone of any modern ML system, serving as the structured, automated pathways through which data flows from raw sources to actionable insights.
 
@@ -396,7 +403,7 @@ The first step is to ingest the Youtube data.  To do so, we need to follow three
      {{< embed ../DataOps/youtube-data-pipeline.ipynb#ingest-video-stats echo=true >}}
 3. And lastly, ingest the transcript for each video.
      {{< embed ../DataOps/youtube-data-pipeline.ipynb#final-raw-data echo=true >}}
-     
+
 :::
 
 
