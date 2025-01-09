@@ -196,6 +196,8 @@ Technical performance metrics are essential for evaluating both the model’s ac
 ## Model Performance Metrics
 
 These metrics evaluate the accuracy and reliability of the ML model in making predictions. These metrics include common metrics you likely have heard of before if you've done any ML tasks such as mean squared error, $R^2$, and mean absolute error for regression problems; cross-entropy, gini index, precision, and recall for classification problems; or BLEU, BERTScore, and perplexity for large language models. The choice of metric depends on the type of ML task (e.g., classification, regression) and the consequences of different kinds of errors.
+
+**Further reading**: Selecting the Right Metric for evaluating Machine Learning Models - [Part 1](https://medium.com/usf-msds/choosing-the-right-metric-for-machine-learning-models-part-1-a99d7d7414e4), [Part 2](https://medium.com/usf-msds/choosing-the-right-metric-for-evaluating-machine-learning-models-part-2-86d5649a5428)
 :::
 
 ::: {.callout-note collapse="true"}
@@ -419,6 +421,14 @@ This chapter has outlined the crucial planning steps required before diving into
 We also explored the importance of defining performance metrics to assess both technical and business outcomes, as well as evaluating the potential value of the solution to determine if it justifies the investment. Technical requirements, such as data availability, infrastructure, and deployment needs, must be understood early to ensure feasibility and identify gaps that could impede progress. Finally, we recognized that ML system development is inherently iterative. Changes to metrics, requirements, or even the business problem are likely as the project progresses, requiring a careful balance between flexibility and avoiding scope creep.
 
 The chapters that follow will equip you with the knowledge to understand and apply these foundational concepts, identify key decisions when designing an ML system, and effectively implement the tools and best practices required to build successful ML solutions. By building on this strong foundation, you will be better prepared to create ML systems that are impactful, adaptable, and well-aligned with organizational goals.
+
+::: {.callout-tip collapse="true"}
+## Further Reading
+
+- [Designing ML-powered Software](https://ml-ops.org/content/phase-zero): This reading has a great section focused on the ***Machine Learning Canvas***, a tool to structure the ML project, help to specify the core requirements, and answer the question -- *what do we want to achieve for the end-users of the predictive system?*
+
+![The Machine Learning Canvas](images/machine-learning-canvas.jpg)
+:::
 
 ## Exercise
 
