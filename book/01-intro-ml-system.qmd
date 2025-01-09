@@ -12,6 +12,20 @@ This section will explore these design principles in detail and examine how they
 
 ML system design refers to the process of building, structuring, and integrating machine learning models into larger production environments to deliver reliable, scalable, and sustainable solutions. While traditional machine learning focuses on developing high-performing models, system design extends the focus to creating an entire ecosystem where these models can continuously operate, adapt, and provide value over time. It encompasses everything from data pipelines and infrastructure to model versioning, monitoring, and scaling, ensuring that machine learning projects align with organizational goals and can be maintained as data, requirements, and technology evolve.
 
+::: {.callout-tip collapse="true"}
+## Complexities of an ML System
+
+ML systems are very complex and require various engineering tasks such as:
+
+- **Data Engineering**: data acquisition & data preparation,
+- **ML Model Engineering**: ML model training & serving, and
+- **Code Engineering**: integrating ML model into the final product.
+
+Consequently, ***ML System Design*** and ***ML Engineering*** are often used synonymously.
+
+![The Complexities of an ML System (https://ml-ops.org)](images/ml-system.jpg)
+:::
+
 Therefore, ML system design includes multiple facets beyond the algorithms themselves:
 
 ```{mermaid}
