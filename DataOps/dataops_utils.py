@@ -122,7 +122,7 @@ def ingest_video_transcript(video_data):
             transcript_text = ' '.join(text_list)
         # if not available set as n/a
         except:
-            transcript_text = "n/a"
+            transcript_text = None
 
         video_data[index]['transcript'] = transcript_text
 
