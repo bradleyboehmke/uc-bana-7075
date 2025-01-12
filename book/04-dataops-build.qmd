@@ -369,8 +369,7 @@ flowchart LR
     process --> Validate --> Version --> data[(Data storage)]
 ```
 
-::: {.callout-note collapse="true"}
-## Basic Requirements
+### Basic Requirements
 
 If you'd like to follow along and execute this code then there are a few requirements you'll need on your end.
 
@@ -390,10 +389,8 @@ Lastly, We'll be using the YouTube Data API to extract metadata and video inform
 Once you have a Youtube API key then you're ready to go!  The next code chunk sets your API key and establishes the API URL and the channel ID.  Note, I'm a golf junkie so the channel ID I am using is for [Grant Horvat](https://www.youtube.com/@GrantHorvatGolfs), a Youtube golfer with nearly 1 million followers.^[Feel free to explore a different Youtube channel. Note that the channel ID is different than the Youtube handle. For example, Grant Horvat's Youtube handle is `@GrantHorvatGolfs` but his channel ID is UCgUueMmSpcl-aCTt5CuCKQw. The easiest way to find a channel's ID is to go to the channel metadata where information for listed for "About", "Links", and "Channel details". At the bottom of the pop up window is an option to "Share Channel" and then "Copy Channel ID".]
 
 {{< embed ../DataOps/youtube-data-pipeline.ipynb#pipeline-envars echo=true >}}
-:::
 
-::: {.callout-note collapse="true"}
-## Data Ingestion
+### Data Ingestion
 
 The first step is to ingest the Youtube data.  To do so, we need to follow three steps:
 
@@ -404,7 +401,33 @@ The first step is to ingest the Youtube data.  To do so, we need to follow three
 3. And lastly, ingest the transcript for each video.
      {{< embed ../DataOps/youtube-data-pipeline.ipynb#final-raw-data echo=true >}}
 
+### Data Processing
+
+For data preprocessing, we're going to first convert our data to a Pandas DataFrame
+
+{{< embed ../DataOps/youtube-data-pipeline.ipynb#data-preprocess-dataframe echo=true >}}
+
+And then clean our data by:
+
+1. **Removing missing values**. There are a few videos with no transcript text because the videos have no talking in them.
+2. **Removing duplicate observations**. Just in case there is duplication in video information during the downloading process.
+3. **Remove any inconsistent data types**. This avoids errors during data processing and ensures consistency in operations applied to the data.
+4. **Remove any observations that have invalid datetime values**. This ensures chronological accuracy for any time-based analysis or trends.
+5. **Remove any videos with minimal number of views**. This filters out content that may not provide enough engagement data for meaningful insights.
+6. **Remove any videos with very little transcript text**. This ensures that the remaining data contains sufficient content for natural language processing or text-based analysis.
+7. **Clean the title and transcript text**. This removes unnecessary noise, such as non-character string values (i.e. unicode characters), making the text suitable for analysis.
+
+{{< embed ../DataOps/youtube-data-pipeline.ipynb#data-preprocess-clean echo=true >}}
+
+::: {.callout-warning}
+While there are many advanced techniques for preprocessing text data—such as more thorough cleaning, lemmatization, or converting text into embeddings for model input—the intent of this section is to focus on building a simplified example of an end-to-end data pipeline. These additional steps can significantly enhance the quality and utility of text data, but they are outside the scope of this example, which is designed to highlight the core concepts and practical steps involved in creating a data pipeline.
 :::
+
+### Data Validation
+
+
+
+### Data Versioning
 
 
 ## Creating Scalable Data Pipelines
