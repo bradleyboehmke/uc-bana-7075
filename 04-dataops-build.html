@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -107,6 +107,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-diagram/mermaid.min.js"></script>
 <script src="site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -967,14 +970,16 @@ Basic Requirements
 <div class="callout-body-container callout-body">
 <p>If you’d like to follow along and execute this code then there are a few requirements you’ll need on your end.</p>
 <p>First, you’ll need to make sure you have the following Python libraries installed:</p>
-<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-13">
-<div id="cell-13" class="cell" data-tags="[&quot;dataops-rqmts&quot;]" data-execution_count="6">
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-17">
+<div id="cell-17" class="cell" data-tags="[&quot;dataops-rqmts&quot;]" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
-<pre><code>Python version: 3.13.1 | packaged by conda-forge | (main, Dec  5 2024, 21:18:03) [Clang 18.1.8 ]
+<pre><code>Python version: 3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 08:28:27) [Clang 14.0.6 ]
 
+great_expectations==1.3.1
 jupyterlab==4.1.6
 matplotlib==3.8.0
-polars==0.20.21
+numpy==1.26.4
+pandas&lt;=2.2
 python-dotenv==0.21.0
 tqdm==4.63.0
 youtube_transcript_api==0.6.2</code></pre>
@@ -984,14 +989,18 @@ youtube_transcript_api==0.6.2</code></pre>
 <p>Next, to simplify this example I have created helper functions to <a href="http://localhost:4761/01-intro-ml-system.html#modularity-and-abstraction">abstract</a> away a lot of the finer code details. You can see this in the following imports where I am importing helper functions from the <code>dataops_utils.py</code> module. If you want to reproduce this pipeline then you can download the dataops_utils.py script <a href="">here</a>.</p>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-2">
 <div id="cell-2" class="cell" data-tags="[&quot;requirements&quot;]" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataops_utils <span class="im">import</span> (</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    ingest_channel_video_ids,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    ingest_video_stats,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    ingest_video_transcript,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> great_expectations <span class="im">as</span> gx</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> unicodedata</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataops_utils <span class="im">import</span> (</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    ingest_channel_video_ids,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    ingest_video_stats,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    ingest_video_transcript,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>Lastly, We’ll be using the YouTube Data API to extract metadata and video information. To follow along, ensure you have:</p>
@@ -1063,9 +1072,9 @@ Data Ingestion
  'video_id': 'fSHh01YT0-Q',
  'datetime': '2025-01-07T18:50:32Z',
  'title': 'Tiger Woods hits the ball off the heel.',
- 'views': '31413',
- 'likes': '1109',
- 'comments': '16'}</code></pre>
+ 'views': '59334',
+ 'likes': '1881',
+ 'comments': '30'}</code></pre>
 </div>
 </div>
 </div>
@@ -1085,9 +1094,9 @@ Data Ingestion
  'video_id': 'fSHh01YT0-Q',
  'datetime': '2025-01-07T18:50:32Z',
  'title': 'Tiger Woods hits the ball off the heel.',
- 'views': '31413',
- 'likes': '1109',
- 'comments': '16',
+ 'views': '59334',
+ 'likes': '1881',
+ 'comments': '30',
  'transcript': "over the course of my career I've always hit the ball off the heel this is one of the reason why I still use my old te's O Okay so if I'm going to hit one in play that's how high you would Tee It Up if I have to hit one in play if I have to hit one out of the wind okay I like that what's wrong with that wow that's right at the pole this keeps you on top and Swinging more left and as I said I would try and hit it for me over a course of my career I've always hit ball off the heel"}</code></pre>
 </div>
 </div>
