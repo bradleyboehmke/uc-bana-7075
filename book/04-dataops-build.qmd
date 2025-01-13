@@ -425,17 +425,217 @@ While there are many advanced techniques for preprocessing text data—such as m
 
 ### Data Validation
 
+Next, we'll validate our data.  To do so we'll use [Great Expectations](https://greatexpectations.io/) and, first, we need to create a data and define our data assets.
 
+{{< embed ../DataOps/youtube-data-pipeline.ipynb#validate-setup echo=true >}}
+
+Now that the infrastructure is set up, we'll go through a process of validating that our data meets certain expectations. This code defines a data validation suite to ensure the integrity of our cleaned YouTube dataset. It consists of three primary validation steps:
+
+1. **Column Existence Validation**: It verifies that all required columns (`channel_id`, `video_id`, `datetime`, `title`, `views`, `likes`, `comments`, `transcript`, and `transcript_length`) are present in the dataset. This step ensures that the essential structure of the dataset is intact.
+
+2. **Data Type Validation**: It checks that each column contains values of the expected data type, such as `Object` for textual data (`channel_id`, `video_id`, `title`, and `transcript`), `Timestamp` for date-related fields, and `int64` for numerical fields (`views`, `likes`, `comments`, and `transcript_length`). This ensures that data types align with the intended use of each column.
+
+3. **Null Value Validation**: It confirms that no empty or null values exist in the critical columns. This guarantees that the dataset is complete and avoids errors caused by missing data in downstream processes.
+
+Finally, the code executes the validation suite against a data batch and prints whether all validation checks were successful. This ensures the dataset meets the defined quality standards before being used in the data pipeline.
+
+{{< embed ../DataOps/youtube-data-pipeline.ipynb#validate-data echo=true >}}
+
+::: {.callout-tip}
+The validation checks implemented here represent just a small subset of the capabilities available with Great Expectations. This powerful tool provides a wide array of validation checks, enabling you to ensure data quality at a much deeper level. For instance, you can validate the distribution of values to check for expected statistical patterns, ensure cardinality constraints to avoid duplicate or excessive values, or verify that data adheres to specific patterns (e.g., email formats or numeric ranges). These additional validations can further enhance the robustness and reliability of your data pipelines. Explore the full range of options here: Great Expectations Documentation - Expectations.
+:::
 
 ### Data Versioning
 
+For our purposes, we're going to store the final `cleaned_data` to our project directory and then we're going to use [DVC](https://dvc.org/) (Data Version Control) to version and track changes to our data.
 
-## Creating Scalable Data Pipelines
+::: {.callout-warning}
+DVC assumes you are working within a **Git repository**, as it relies on Git for tracking the metadata of your data files and pipelines.
 
-- How to build data pipelines that scale to accommodate increasing data volumes.
-- Key considerations for scalability, such as distributed processing and fault tolerance.
+- **If you’re familiar with Git**: You can follow along with this example as long as you are working within a Git repository. Make sure you have initialized a Git repository (`git init`) in your project directory and have basic knowledge of Git commands.
 
-## Conclusion and Key Takeaways
+- **If Git is new to you**: Don’t worry! You can still follow along to understand the process conceptually, even if you don’t execute the Git commands. Later chapters in this book will provide a deeper dive into Git, equipping you with the knowledge to implement version control effectively.
 
-- Summary of the key principles of DataOps and how to apply them in building effective data pipelines for ML.
-- Reflection on the importance of data quality, management, and scalability in ML workflows.
+For now, focus on understanding how DVC integrates with data pipelines to manage and version datasets systematically.
+:::
+
+So, first, we'll store our final data as a parquet file, which is just a more efficient approach than storing as a CSV file.
+
+{{< embed ../DataOps/youtube-data-pipeline.ipynb#store-clean-data echo=true >}}
+
+Next, we need to initialize DVC in our project by running the following command in the project root.
+
+```zsh
+dvc init
+```
+
+This initializes a .dvc directory with a few internal files to track data and pipeline versions. These should be added to Git.
+
+```zsh
+git status
+Changes to be committed:
+        new file:   .dvc/.gitignore
+        new file:   .dvc/config
+        ...
+git commit -m "Initialize DVC"
+```
+
+Next, you need to use `dvc add` to start tracking the dataset file.  This command creates a `.dvc` file (youtube_video_data.parquet.dvc) to track the file’s metadata and location.  It also adds a `.gitignore` file so that the actual .parquet data file is not committed to git; instead the .parquet.dvc metadata file is committed.
+
+```zsh
+git add data/youtube_video_data.parquet.dvc data/.gitignore
+```
+
+Next, run the following commands to track and tag the dataset changes in Git.
+
+```zsh
+git commit -m 'Initial processed Youtube data'
+git tag -a "v1.0" -m "Youtube data v1.0"
+```
+
+If you have a remote storage location (e.g., AWS S3, Google Drive, Azure Blob Storage) configured for DVC, you can also push the data asset to that location to ensure it is stored offsite and sharable to the rest of your team/organization.
+
+```zsh
+dvc remote add -d myremote s3://mybucket/myproject
+dvc push
+```
+
+Now, say we re-run this pipeline next week and get additional video data.  We can just follow this same procedure to save and version the updated data:
+
+```zsh
+# Write the cleaned data to a parquet file
+cleaned_data.to_parquet('data/youtube_video_data.parquet', index=False)
+
+# Track the updated file
+git add data/youtube_video_data.parquet.dvc
+
+# Commit the changes
+git commit -m 'Updated Youtube data'
+git tag -a "v2.0" -m "Youtube data v2.0"
+```
+
+::: {.callout-tip}
+Our example demonstrates only the **basic functionality** of DVC, showcasing how it can be used to version datasets within a pipeline. However, DVC offers a wide range of additional features, including:
+
+- Tracking and managing **entire pipelines**.
+- Handling **large datasets** efficiently with external storage integrations.
+- Automating **experiment tracking** and comparisons.
+
+To explore the full potential of DVC and learn how to leverage its advanced capabilities, check out the official documentation at [https://dvc.org/doc](https://dvc.org/doc). This resource provides comprehensive guidance and examples for incorporating DVC into robust, end-to-end workflows.
+:::
+
+## Creating Reliable & Scalable Data Pipelines
+
+Designing reliable and scalable data pipelines requires adherence to the [foundational principles](https://bradleyboehmke.github.io/uc-bana-7085/01-intro-ml-system.html#design-principles-for-good-ml-system-design) that we discussed that promote maintainability, reproducibility, and efficiency. The hands-on example of the YouTube data pipeline demonstrates some of these design principles; however, there are areas where improvements could further align the pipeline with these principles.
+
+### Principles Incorporated in the YouTube Data Pipeline
+
+::: {.callout-note collapse="true"}
+## Modularity and Abstraction
+
+- **What We Did**: The pipeline uses a modular design by encapsulating reusable functions within the `dataops_utils` module. This abstraction reduces complexity and makes the codebase more manageable, enabling easier updates and debugging.
+- **Why It Matters**: Modularity ensures that individual components, such as data cleaning, validation, and versioning, are independently testable and maintainable. Abstraction allows users to focus on higher-level logic without worrying about low-level details.
+:::
+
+::: {.callout-note collapse="true"}
+## Reproducibility
+
+- **What We Did**: By incorporating Git for version control and DVC for dataset tracking, the pipeline ensures that every step—from data ingestion to cleaning—can be reproduced with consistent results.
+- **Why It Matters**: Reproducibility is essential for debugging, auditing, and collaboration, especially when multiple team members work on the same project or when retraining models on historical data.
+:::
+
+::: {.callout-note collapse="true"}
+## Data Validation
+
+- **What We Did**: The pipeline integrates **Great Expectations** to validate the structure and quality of the dataset. This ensures that the data meets predefined criteria before it is processed further.
+- **Why It Matters**: Validation prevents poor-quality data from contaminating downstream workflows, thereby enhancing reliability and trust in the pipeline.
+:::
+
+### Limitations and Areas for Improvement
+
+::: {.callout-note collapse="true"}
+## Scalability
+
+- **Current Challenge**: The YouTube API imposes daily quota limits on data retrieval, constraining the volume of data that can be ingested. This makes the pipeline less scalable for large-scale applications.
+- **Potential Solution**: To overcome this limitation, consider implementing data caching strategies, batching requests over multiple days, or leveraging additional API keys across multiple accounts to distribute the load.
+:::
+
+::: {.callout-note collapse="true"}
+## Automation
+
+- **Current Challenge**: The pipeline is not automated and requires manual execution for each step. This limits its reliability and scalability in production environments.
+- **Potential Solution**: Incorporate workflow automation tools such as Apache Airflow or Prefect to schedule and monitor the pipeline. Automating these tasks would enhance reliability and reduce manual intervention.
+:::
+
+::: {.callout-note collapse="true"}
+## Fault Tolerance
+
+- **Current Challenge**: The pipeline lacks mechanisms to handle failures gracefully, such as retrying failed API calls or dealing with incomplete datasets.
+- **Potential Solution**: Introduce error-handling routines and logging mechanisms to ensure that the pipeline can recover from failures without disrupting downstream processes.
+:::
+
+::: {.callout-note collapse="true"}
+## Scalable Storage and Compute
+
+- **Current Challenge**: The pipeline is designed for small-scale use and does not leverage distributed computing or scalable storage solutions.
+- **Potential Solution**: Transition to cloud-based storage systems like AWS S3 or Google Cloud Storage and integrate distributed computing frameworks such as Apache Spark for handling large datasets.
+:::
+
+### Balancing Design Principles
+
+While the YouTube data pipeline incorporates key design principles such as modularity, abstraction, and reproducibility, there are trade-offs due to its simplicity. The primary objective of this example was to illustrate the foundational steps in building a data pipeline, rather than creating a production-ready system. For real-world applications, enhancing scalability, automation, and fault tolerance would be critical to align fully with the design principles of reliable and scalable systems.
+
+By continuously iterating on these principles, teams can evolve simple pipelines into robust, production-ready systems capable of handling complex, large-scale workflows.
+
+## Summary
+
+In this chapter, we explored the practical aspects of building data pipelines to support robust machine learning workflows. By combining the principles and concepts introduced in the previous chapter, we demonstrated how to design, implement, and validate a data pipeline using tools like Pandas, Great Expectations, and DVC. The YouTube data pipeline provided a hands-on example of how data ingestion, processing, validation, and versioning can come together to create a cohesive system.
+
+We also compared the ETL and ELT paradigms, highlighting their applications and trade-offs, and discussed how the design principles for good ML systems—such as modularity, abstraction, and reproducibility—can guide the creation of reliable and scalable pipelines. While the example illustrated foundational techniques, it also highlighted areas for improvement, such as addressing scalability and automation challenges.
+
+This chapter aimed to provide you with the foundational knowledge and tools to build data pipelines tailored to your needs. As you advance, you’ll encounter more complex requirements and additional tools to refine and scale your workflows. In the next chapter
+
+## Exercise
+
+This exercise will help you apply the concepts covered in this chapter to design and evaluate a data pipeline. The focus is on understanding the design principles, tools, and processes involved in building reliable and scalable data pipelines.
+
+::: {.callout-note collapse="true"}
+## Part 1: Conceptual Design
+
+**Scenario**: Imagine you are tasked with building a data pipeline for an online retail store. The pipeline should:
+
+- Ingest daily sales data from a transactional database and inventory updates from an API.
+- Process the data to calculate daily revenue and identify low-stock items.
+- Validate the data for missing or inconsistent records.
+- Version the processed data for auditing and historical tracking.
+
+**Task**:
+
+- Sketch a conceptual design for this pipeline. Include the steps for ingestion, processing, validation, and versioning.
+- Identify which tools from this chapter (e.g., Pandas, Great Expectations, DVC) you would use for each step and justify your choice.
+:::
+
+::: {.callout-note collapse="true"}
+## Part 2: Hands-On Experimentation
+
+Using the YouTube pipeline example as a reference, answer the following:
+
+1. **Modify the Pipeline**:
+   - Extend the provided YouTube pipeline to include additional validation checks (e.g., ensure `views` is greater than `likes` or that `transcript_length` is within a realistic range).
+   - What changes did you make to the validation suite, and why?
+
+2. **Experiment with Versioning**:
+   - Create a new version of the `cleaned_data` DataFrame by simulating a change in the input data (e.g., remove videos with fewer than 10,000 views).
+   - Use DVC to version the new dataset and compare it to the original version. What do the differences reveal?
+:::
+
+::: {.callout-note collapse="true"}
+## Part 3: Reflecting on Design Principles
+
+1. **Evaluate the Pipeline**:
+   - Review the YouTube pipeline example and your modified pipeline. How well do they incorporate the design principles from Chapter 1 (e.g., modularity, scalability, reproducibility)?
+   - Identify one principle that could be improved in your pipeline design. How would you address this in a future iteration?
+
+2. **Scenario-Based Discussion**:
+   - Imagine that the YouTube API introduces stricter [quota limits](https://developers.google.com/youtube/v3/guides/quota_and_compliance_audits). How would this impact the pipeline? Propose a solution to handle such constraints while ensuring the pipeline remains functional and reliable.
+:::
