@@ -373,6 +373,10 @@ flowchart LR
 
 If you'd like to follow along and execute this code then there are a few requirements you'll need on your end.
 
+::: {.callout-tip}
+You can find the requirements, source code for the data pipeline, and helper functions [here](https://github.com/bradleyboehmke/uc-bana-7085/tree/main/DataOps).
+:::
+
 First, you'll need to make sure you have the following Python libraries installed:
 
 {{< embed ../DataOps/youtube-data-pipeline.ipynb#dataops-rqmts >}}
