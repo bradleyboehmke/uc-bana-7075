@@ -1,11 +1,8 @@
-import requests
-import logging
 import json
+
+import requests
 from tqdm import tqdm
 from youtube_transcript_api import YouTubeTranscriptApi
-
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s: %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 
 
 def ingest_page_video_ids(response: requests.models.Response) -> list:
@@ -24,17 +21,16 @@ def ingest_page_video_ids(response: requests.models.Response) -> list:
 
     page_video_id_list = []
 
-    for raw_item in json.loads(response.text)['items']:
-
+    for raw_item in json.loads(response.text)["items"]:
         # only execute for youtube videos
-        if raw_item['id']['kind'] != "youtube#video":
+        if raw_item["id"]["kind"] != "youtube#video":
             continue
 
         video_record = {}
-        video_record['channel_id'] = raw_item['snippet']['channelId']
-        video_record['video_id'] = raw_item['id']['videoId']
-        video_record['datetime'] = raw_item['snippet']['publishedAt']
-        video_record['title'] = raw_item['snippet']['title']
+        video_record["channel_id"] = raw_item["snippet"]["channelId"]
+        video_record["video_id"] = raw_item["id"]["videoId"]
+        video_record["datetime"] = raw_item["snippet"]["publishedAt"]
+        video_record["title"] = raw_item["snippet"]["title"]
 
         page_video_id_list.append(video_record)
 
@@ -59,7 +55,7 @@ def ingest_channel_video_ids(api_key, channel_id, page_token=None):
         ID (video_id), publish date & time (datetime), and title (title).
     """
     # base URL
-    url = 'https://www.googleapis.com/youtube/v3/search'
+    url = "https://www.googleapis.com/youtube/v3/search"
 
     # intialize list to store video data
     channel_video_id_list = []
@@ -67,7 +63,14 @@ def ingest_channel_video_ids(api_key, channel_id, page_token=None):
     # extract video data across multiple search result pages
     while page_token != 0:
         # define parameters for API call
-        params = {"key": api_key, 'channelId': channel_id, 'part': ["snippet","id"], 'order': "date", 'maxResults':50, 'pageToken': page_token}
+        params = {
+            "key": api_key,
+            "channelId": channel_id,
+            "part": ["snippet", "id"],
+            "order": "date",
+            "maxResults": 50,
+            "pageToken": page_token,
+        }
         # make get request
         response = requests.get(url, params=params)
 
@@ -76,12 +79,11 @@ def ingest_channel_video_ids(api_key, channel_id, page_token=None):
 
         try:
             # grab next page token
-            page_token = json.loads(response.text)['nextPageToken']
+            page_token = json.loads(response.text)["nextPageToken"]
         except:
             # if no next page token kill while loop
             page_token = 0
 
-    logging.info(f"{len(channel_video_id_list)} video IDs have been ingested.")
     return channel_video_id_list
 
 
@@ -98,32 +100,37 @@ def ingest_video_stats(video_id_data, api_key):
         with the count of each video's views, likes, and comments.
     """
     num_iterations = len(video_id_data)
-    for index, video in tqdm(enumerate(video_id_data), total=num_iterations, bar_format='[{elapsed}<{remaining}] {n_fmt}/{total_fmt} | {l_bar}{bar} {rate_fmt}{postfix}'):
-        url = f'https://www.googleapis.com/youtube/v3/videos?id={video['video_id']}&key={api_key}&part=statistics'
+    for index, video in tqdm(
+        enumerate(video_id_data),
+        total=num_iterations,
+        bar_format="[{elapsed}<{remaining}] {n_fmt}/{total_fmt} | {l_bar}{bar} {rate_fmt}{postfix}",
+    ):
+        url = f"https://www.googleapis.com/youtube/v3/videos?id={video['video_id']}&key={api_key}&part=statistics"
         response = requests.get(url)
-        stats = json.loads(response.text)['items'][0]['statistics']
+        stats = json.loads(response.text)["items"][0]["statistics"]
 
-        video_id_data[index]['views'] = stats['viewCount']
-        video_id_data[index]['likes'] = stats['likeCount']
-        video_id_data[index]['comments'] = stats['commentCount']
+        video_id_data[index]["views"] = stats["viewCount"]
+        video_id_data[index]["likes"] = stats["likeCount"]
+        video_id_data[index]["comments"] = stats["commentCount"]
 
-    logging.info(f"Stats for {len(video_id_data)} video IDs have been ingested.")
     return video_id_data
 
 
 def ingest_video_transcript(video_data):
-
     num_iterations = len(video_data)
-    for index, video in tqdm(enumerate(video_data), total=num_iterations, bar_format='[{elapsed}<{remaining}] {n_fmt}/{total_fmt} | {l_bar}{bar} {rate_fmt}{postfix}'):
-
+    for index, video in tqdm(
+        enumerate(video_data),
+        total=num_iterations,
+        bar_format="[{elapsed}<{remaining}] {n_fmt}/{total_fmt} | {l_bar}{bar} {rate_fmt}{postfix}",
+    ):
         try:
-            transcript = YouTubeTranscriptApi.get_transcript(video['video_id'])
-            text_list = [transcript[i]['text'] for i in range(len(transcript))]
-            transcript_text = ' '.join(text_list)
+            transcript = YouTubeTranscriptApi.get_transcript(video["video_id"])
+            text_list = [transcript[i]["text"] for i in range(len(transcript))]
+            transcript_text = " ".join(text_list)
         # if not available set as n/a
         except:
             transcript_text = None
 
-        video_data[index]['transcript'] = transcript_text
+        video_data[index]["transcript"] = transcript_text
 
     return video_data
