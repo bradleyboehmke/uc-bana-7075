@@ -110,6 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 
 
 </head>
@@ -263,8 +264,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#data-validation" id="toc-data-validation" class="nav-link" data-scroll-target="#data-validation">Data Validation</a></li>
   <li><a href="#data-versioning" id="toc-data-versioning" class="nav-link" data-scroll-target="#data-versioning">Data Versioning</a></li>
   </ul></li>
-  <li><a href="#creating-scalable-data-pipelines" id="toc-creating-scalable-data-pipelines" class="nav-link" data-scroll-target="#creating-scalable-data-pipelines"><span class="header-section-number">4.5</span> Creating Scalable Data Pipelines</a></li>
-  <li><a href="#conclusion-and-key-takeaways" id="toc-conclusion-and-key-takeaways" class="nav-link" data-scroll-target="#conclusion-and-key-takeaways"><span class="header-section-number">4.6</span> Conclusion and Key Takeaways</a></li>
+  <li><a href="#creating-reliable-scalable-data-pipelines" id="toc-creating-reliable-scalable-data-pipelines" class="nav-link" data-scroll-target="#creating-reliable-scalable-data-pipelines"><span class="header-section-number">4.5</span> Creating Reliable &amp; Scalable Data Pipelines</a>
+  <ul class="collapse">
+  <li><a href="#principles-incorporated-in-the-youtube-data-pipeline" id="toc-principles-incorporated-in-the-youtube-data-pipeline" class="nav-link" data-scroll-target="#principles-incorporated-in-the-youtube-data-pipeline">Principles Incorporated in the YouTube Data Pipeline</a></li>
+  <li><a href="#limitations-and-areas-for-improvement" id="toc-limitations-and-areas-for-improvement" class="nav-link" data-scroll-target="#limitations-and-areas-for-improvement">Limitations and Areas for Improvement</a></li>
+  <li><a href="#balancing-design-principles" id="toc-balancing-design-principles" class="nav-link" data-scroll-target="#balancing-design-principles">Balancing Design Principles</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">4.6</span> Summary</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">4.7</span> Exercise</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/edit/main/04-dataops-build.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7085/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -966,11 +973,12 @@ Figure&nbsp;4.3: High-level architecture of our data pipeline, which leverages a
 <h3 class="anchored" data-anchor-id="basic-requirements">Basic Requirements</h3>
 <p>If you’d like to follow along and execute this code then there are a few requirements you’ll need on your end.</p>
 <p>First, you’ll need to make sure you have the following Python libraries installed:</p>
-<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-17">
-<div id="cell-17" class="cell" data-tags="[&quot;dataops-rqmts&quot;]" data-execution_count="4">
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-19">
+<div id="cell-19" class="cell" data-tags="[&quot;dataops-rqmts&quot;]" data-execution_count="12">
 <div class="cell-output cell-output-stdout">
 <pre><code>Python version: 3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 08:28:27) [Clang 14.0.6 ]
 
+dvc==3.59.0
 great_expectations==1.3.1
 jupyterlab==4.1.6
 matplotlib==3.8.0
@@ -990,13 +998,14 @@ youtube_transcript_api==0.6.2</code></pre>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> unicodedata</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataops_utils <span class="im">import</span> (</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    ingest_channel_video_ids,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    ingest_video_stats,</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    ingest_video_transcript,</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dataops_utils <span class="im">import</span> (</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    ingest_channel_video_ids,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    ingest_video_stats,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    ingest_video_transcript,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>Lastly, We’ll be using the YouTube Data API to extract metadata and video information. To follow along, ensure you have:</p>
@@ -1005,8 +1014,8 @@ youtube_transcript_api==0.6.2</code></pre>
 <li>Access to the <a href="https://developers.google.com/youtube/v3">YouTube Data API</a> to include an API key. See <a href="https://developers.google.com/youtube/v3/getting-started">here to get started</a>.</li>
 </ul>
 <p>Once you have a Youtube API key then you’re ready to go! The next code chunk sets your API key and establishes the API URL and the channel ID. Note, I’m a golf junkie so the channel ID I am using is for <a href="https://www.youtube.com/@GrantHorvatGolfs">Grant Horvat</a>, a Youtube golfer with nearly 1 million followers.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-3">
-<div id="cell-3" class="cell" data-tags="[&quot;pipeline-envars&quot;]" data-execution_count="2">
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-4">
+<div id="cell-4" class="cell" data-tags="[&quot;pipeline-envars&quot;]" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># I have my API key set as an environment variable</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>API_KEY <span class="op">=</span> os.getenv(<span class="st">'YOUTUBE_API_KEY'</span>)</span>
@@ -1026,62 +1035,62 @@ youtube_transcript_api==0.6.2</code></pre>
 <ol type="1">
 <li>Ingest all the video IDs provided by a given channel.</li>
 </ol>
-<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-5">
-<div id="cell-5" class="cell" data-tags="[&quot;ingest-video-ids&quot;]" data-execution_count="3">
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-6">
+<div id="cell-6" class="cell" data-tags="[&quot;ingest-video-ids&quot;]" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ingest Youtube video IDs</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>video_ids <span class="op">=</span> ingest_channel_video_ids(API_KEY, CHANNEL_ID)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of what the first record looks like</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>video_ids[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>{'channel_id': 'UCgUueMmSpcl-aCTt5CuCKQw',
- 'video_id': 'fSHh01YT0-Q',
- 'datetime': '2025-01-07T18:50:32Z',
- 'title': 'Tiger Woods hits the ball off the heel.'}</code></pre>
+ 'video_id': 'wzrIKGcOlsU',
+ 'datetime': '2025-01-13T17:00:24Z',
+ 'title': 'Rory McIlroy has another gear.'}</code></pre>
 </div>
 </div>
 </div>
 <ol start="2" type="1">
 <li>Use the ingested video IDs to ingest Youtube stats for each video such as total views, likes, and comments.</li>
 </ol>
-<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-6">
-<div id="cell-6" class="cell" data-tags="[&quot;ingest-video-stats&quot;]" data-execution_count="4">
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-7">
+<div id="cell-7" class="cell" data-tags="[&quot;ingest-video-stats&quot;]" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ingest Youtube video statistics</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>video_data <span class="op">=</span> ingest_video_stats(video_ids, API_KEY)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of the stats collected for the first video</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>video_data[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>{'channel_id': 'UCgUueMmSpcl-aCTt5CuCKQw',
- 'video_id': 'fSHh01YT0-Q',
- 'datetime': '2025-01-07T18:50:32Z',
- 'title': 'Tiger Woods hits the ball off the heel.',
- 'views': '59334',
- 'likes': '1881',
- 'comments': '30'}</code></pre>
+ 'video_id': 'wzrIKGcOlsU',
+ 'datetime': '2025-01-13T17:00:24Z',
+ 'title': 'Rory McIlroy has another gear.',
+ 'views': '3142',
+ 'likes': '304',
+ 'comments': '16'}</code></pre>
 </div>
 </div>
 </div>
 <ol start="3" type="1">
 <li>And lastly, ingest the transcript for each video.</li>
 </ol>
-<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-7">
-<div id="cell-7" class="cell" data-tags="[&quot;final-raw-data&quot;]" data-execution_count="5">
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-8">
+<div id="cell-8" class="cell" data-tags="[&quot;final-raw-data&quot;]" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ingest Youtube video transcripts</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>video_data <span class="op">=</span> ingest_video_transcript(video_data)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of the final raw data that includes</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># video ID, title, date, stats, and transcript</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>video_data[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>{'channel_id': 'UCgUueMmSpcl-aCTt5CuCKQw',
- 'video_id': 'fSHh01YT0-Q',
- 'datetime': '2025-01-07T18:50:32Z',
- 'title': 'Tiger Woods hits the ball off the heel.',
- 'views': '59334',
- 'likes': '1881',
- 'comments': '30',
- 'transcript': "over the course of my career I've always hit the ball off the heel this is one of the reason why I still use my old te's O Okay so if I'm going to hit one in play that's how high you would Tee It Up if I have to hit one in play if I have to hit one out of the wind okay I like that what's wrong with that wow that's right at the pole this keeps you on top and Swinging more left and as I said I would try and hit it for me over a course of my career I've always hit ball off the heel"}</code></pre>
+ 'video_id': 'wzrIKGcOlsU',
+ 'datetime': '2025-01-13T17:00:24Z',
+ 'title': 'Rory McIlroy has another gear.',
+ 'views': '3142',
+ 'likes': '304',
+ 'comments': '16',
+ 'transcript': "I've never seen you go after the ball like this there it is wow that was it that was so good 190 190 nice that was hit well good what was that 72 as well that was good that was nice that was FL that was nice 127 A2 191 that's gone 34 there you go"}</code></pre>
 </div>
 </div>
 </div>
@@ -1089,11 +1098,11 @@ youtube_transcript_api==0.6.2</code></pre>
 <section id="data-processing" class="level3">
 <h3 class="anchored" data-anchor-id="data-processing">Data Processing</h3>
 <p>For data preprocessing, we’re going to first convert our data to a Pandas DataFrame</p>
-<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-9">
-<div id="cell-9" class="cell" data-tags="[&quot;data-preprocess-dataframe&quot;]" data-execution_count="6">
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-10">
+<div id="cell-10" class="cell" data-tags="[&quot;data-preprocess-dataframe&quot;]" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>raw_data <span class="op">=</span> pd.DataFrame(video_data)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>raw_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
@@ -1115,57 +1124,57 @@ youtube_transcript_api==0.6.2</code></pre>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>UCgUueMmSpcl-aCTt5CuCKQw</td>
-<td>fSHh01YT0-Q</td>
-<td>2025-01-07T18:50:32Z</td>
-<td>Tiger Woods hits the ball off the heel.</td>
-<td>59334</td>
-<td>1881</td>
-<td>30</td>
-<td>over the course of my career I've always hit t...</td>
+<td>wzrIKGcOlsU</td>
+<td>2025-01-13T17:00:24Z</td>
+<td>Rory McIlroy has another gear.</td>
+<td>3142</td>
+<td>304</td>
+<td>16</td>
+<td>I've never seen you go after the ball like thi...</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
 <td>UCgUueMmSpcl-aCTt5CuCKQw</td>
-<td>erzLT7fy2r0</td>
-<td>2025-01-07T17:56:07Z</td>
-<td>Tiger Woods liked my golf swing!</td>
-<td>115716</td>
-<td>4212</td>
-<td>72</td>
-<td>what's wrong with that yeah that came off you ...</td>
+<td>Pz42jFngEzM</td>
+<td>2025-01-13T03:25:25Z</td>
+<td>Thank you. 1 Million ❤️</td>
+<td>59474</td>
+<td>6757</td>
+<td>428</td>
+<td>[Music] so sick let's go [Music]</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
 <td>UCgUueMmSpcl-aCTt5CuCKQw</td>
-<td>3O08SnyZ88U</td>
-<td>2025-01-07T17:07:04Z</td>
-<td>Tiger Woods teaches me how to hit it straight!</td>
-<td>482074</td>
-<td>15750</td>
-<td>124</td>
-<td>what did you do in your career when you had a ...</td>
+<td>fSHh01YT0-Q</td>
+<td>2025-01-07T18:50:32Z</td>
+<td>Tiger Woods hits the ball off the heel.</td>
+<td>64116</td>
+<td>2055</td>
+<td>30</td>
+<td>over the course of my career I've always hit t...</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
 <td>UCgUueMmSpcl-aCTt5CuCKQw</td>
-<td>E6gPs8E4138</td>
-<td>2025-01-07T17:00:07Z</td>
-<td>Tiger Woods Gives Me a Golf Lesson</td>
-<td>1664852</td>
-<td>71879</td>
-<td>4097</td>
-<td>all right guys today's the day today is the da...</td>
+<td>erzLT7fy2r0</td>
+<td>2025-01-07T17:56:07Z</td>
+<td>Tiger Woods liked my golf swing!</td>
+<td>122584</td>
+<td>4486</td>
+<td>76</td>
+<td>what's wrong with that yeah that came off you ...</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
 <td>UCgUueMmSpcl-aCTt5CuCKQw</td>
-<td>WktrsZC8VJI</td>
-<td>2024-12-26T20:00:02Z</td>
-<td>It’s Coming to an End. (Episode 7)</td>
-<td>519212</td>
-<td>16328</td>
-<td>1193</td>
-<td>we are headed to our final video on my channel...</td>
+<td>3O08SnyZ88U</td>
+<td>2025-01-07T17:07:04Z</td>
+<td>Tiger Woods teaches me how to hit it straight!</td>
+<td>555884</td>
+<td>18286</td>
+<td>142</td>
+<td>what did you do in your career when you had a ...</td>
 </tr>
 </tbody>
 </table>
@@ -1184,8 +1193,8 @@ youtube_transcript_api==0.6.2</code></pre>
 <li><strong>Remove any videos with very little transcript text</strong>. This ensures that the remaining data contains sufficient content for natural language processing or text-based analysis.</li>
 <li><strong>Clean the title and transcript text</strong>. This removes unnecessary noise, such as non-character string values (i.e.&nbsp;unicode characters), making the text suitable for analysis.</li>
 </ol>
-<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-10">
-<div id="cell-10" class="cell" data-tags="[&quot;data-preprocess-clean&quot;]" data-execution_count="7">
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-11">
+<div id="cell-11" class="cell" data-tags="[&quot;data-preprocess-clean&quot;]" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with missing data</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>cleaned_data <span class="op">=</span> raw_data.dropna()</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1224,7 +1233,7 @@ youtube_transcript_api==0.6.2</code></pre>
 <span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>cleaned_data[<span class="st">'transcript'</span>] <span class="op">=</span> cleaned_data[<span class="st">'transcript'</span>].<span class="bu">apply</span>(clean_text)</span>
 <span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>cleaned_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
@@ -1247,62 +1256,62 @@ youtube_transcript_api==0.6.2</code></pre>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>wzrIKGcOlsU</td>
+<td>2025-01-13 17:00:24+00:00</td>
+<td>Rory McIlroy has another gear.</td>
+<td>3142</td>
+<td>304</td>
+<td>16</td>
+<td>I've never seen you go after the ball like thi...</td>
+<td>246</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>Pz42jFngEzM</td>
+<td>2025-01-13 03:25:25+00:00</td>
+<td>Thank you. 1 Million</td>
+<td>59474</td>
+<td>6757</td>
+<td>428</td>
+<td>[Music] so sick let's go [Music]</td>
+<td>32</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
 <td>fSHh01YT0-Q</td>
 <td>2025-01-07 18:50:32+00:00</td>
 <td>Tiger Woods hits the ball off the heel.</td>
-<td>59334</td>
-<td>1881</td>
+<td>64116</td>
+<td>2055</td>
 <td>30</td>
 <td>over the course of my career I've always hit t...</td>
 <td>483</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
+<td data-quarto-table-cell-role="th">3</td>
 <td>UCgUueMmSpcl-aCTt5CuCKQw</td>
 <td>erzLT7fy2r0</td>
 <td>2025-01-07 17:56:07+00:00</td>
 <td>Tiger Woods liked my golf swing!</td>
-<td>115716</td>
-<td>4212</td>
-<td>72</td>
+<td>122584</td>
+<td>4486</td>
+<td>76</td>
 <td>what's wrong with that yeah that came off you ...</td>
 <td>208</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
+<td data-quarto-table-cell-role="th">4</td>
 <td>UCgUueMmSpcl-aCTt5CuCKQw</td>
 <td>3O08SnyZ88U</td>
 <td>2025-01-07 17:07:04+00:00</td>
 <td>Tiger Woods teaches me how to hit it straight!</td>
-<td>482074</td>
-<td>15750</td>
-<td>124</td>
+<td>555884</td>
+<td>18286</td>
+<td>142</td>
 <td>what did you do in your career when you had a ...</td>
 <td>646</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
-<td>E6gPs8E4138</td>
-<td>2025-01-07 17:00:07+00:00</td>
-<td>Tiger Woods Gives Me a Golf Lesson</td>
-<td>1664852</td>
-<td>71879</td>
-<td>4097</td>
-<td>all right guys today's the day today is the da...</td>
-<td>16046</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
-<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
-<td>WktrsZC8VJI</td>
-<td>2024-12-26 20:00:02+00:00</td>
-<td>Its Coming to an End. (Episode 7)</td>
-<td>519212</td>
-<td>16328</td>
-<td>1193</td>
-<td>we are headed to our final video on my channel...</td>
-<td>56511</td>
 </tr>
 </tbody>
 </table>
@@ -1324,24 +1333,420 @@ youtube_transcript_api==0.6.2</code></pre>
 </section>
 <section id="data-validation" class="level3">
 <h3 class="anchored" data-anchor-id="data-validation">Data Validation</h3>
+<p>Next, we’ll validate our data. To do so we’ll use <a href="https://greatexpectations.io/">Great Expectations</a> and, first, we need to create a data and define our data assets.</p>
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-13">
+<div id="cell-13" class="cell" data-tags="[&quot;validate-setup&quot;]" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create Data Context.</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>context <span class="op">=</span> gx.get_context()</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create Data Source, Data Asset, Batch Definition, and Batch.</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>data_source <span class="op">=</span> context.data_sources.add_pandas(<span class="st">"pandas"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>data_asset <span class="op">=</span> data_source.add_dataframe_asset(name<span class="op">=</span><span class="st">"Youtube video data"</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>batch_definition <span class="op">=</span> data_asset.add_batch_definition_whole_dataframe(<span class="st">"batch definition"</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>batch <span class="op">=</span> batch_definition.get_batch(batch_parameters<span class="op">=</span>{<span class="st">"dataframe"</span>: cleaned_data})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>Now that the infrastructure is set up, we’ll go through a process of validating that our data meets certain expectations. This code defines a data validation suite to ensure the integrity of our cleaned YouTube dataset. It consists of three primary validation steps:</p>
+<ol type="1">
+<li><p><strong>Column Existence Validation</strong>: It verifies that all required columns (<code>channel_id</code>, <code>video_id</code>, <code>datetime</code>, <code>title</code>, <code>views</code>, <code>likes</code>, <code>comments</code>, <code>transcript</code>, and <code>transcript_length</code>) are present in the dataset. This step ensures that the essential structure of the dataset is intact.</p></li>
+<li><p><strong>Data Type Validation</strong>: It checks that each column contains values of the expected data type, such as <code>Object</code> for textual data (<code>channel_id</code>, <code>video_id</code>, <code>title</code>, and <code>transcript</code>), <code>Timestamp</code> for date-related fields, and <code>int64</code> for numerical fields (<code>views</code>, <code>likes</code>, <code>comments</code>, and <code>transcript_length</code>). This ensures that data types align with the intended use of each column.</p></li>
+<li><p><strong>Null Value Validation</strong>: It confirms that no empty or null values exist in the critical columns. This guarantees that the dataset is complete and avoids errors caused by missing data in downstream processes.</p></li>
+</ol>
+<p>Finally, the code executes the validation suite against a data batch and prints whether all validation checks were successful. This ensures the dataset meets the defined quality standards before being used in the data pipeline.</p>
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-14">
+<div id="cell-14" class="cell" data-tags="[&quot;validate-data&quot;]" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an Expectation Suite</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>suite <span class="op">=</span> gx.ExpectationSuite(name<span class="op">=</span><span class="st">"Youtube video data expectations"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the Expectation Suite to the Data Context</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>suite <span class="op">=</span> context.suites.add(suite)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Validate columns exist</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnToExist(column<span class="op">=</span><span class="st">'channel_id'</span>))</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnToExist(column<span class="op">=</span><span class="st">'video_id'</span>))</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnToExist(column<span class="op">=</span><span class="st">'datetime'</span>))</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnToExist(column<span class="op">=</span><span class="st">'title'</span>))</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnToExist(column<span class="op">=</span><span class="st">'views'</span>))</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnToExist(column<span class="op">=</span><span class="st">'likes'</span>))</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnToExist(column<span class="op">=</span><span class="st">'comments'</span>))</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnToExist(column<span class="op">=</span><span class="st">'transcript'</span>))</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnToExist(column<span class="op">=</span><span class="st">'transcript_length'</span>))</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Validate data types</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToBeOfType(</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">'channel_id'</span>, type_<span class="op">=</span><span class="st">"object"</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToBeOfType(</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">'video_id'</span>, type_<span class="op">=</span><span class="st">"object"</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToBeOfType(</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">'datetime'</span>, type_<span class="op">=</span><span class="st">"Timestamp"</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToBeOfType(</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">'title'</span>, type_<span class="op">=</span><span class="st">"object"</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToBeOfType(</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">'views'</span>, type_<span class="op">=</span><span class="st">"int64"</span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToBeOfType(</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">'likes'</span>, type_<span class="op">=</span><span class="st">"int64"</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToBeOfType(</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">'comments'</span>, type_<span class="op">=</span><span class="st">"int64"</span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToBeOfType(</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">'transcript'</span>, type_<span class="op">=</span><span class="st">"object"</span></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToBeOfType(</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">'transcript_length'</span>, type_<span class="op">=</span><span class="st">"int64"</span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Validate no empty values exist</span></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(column<span class="op">=</span><span class="st">'channel_id'</span>))</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(column<span class="op">=</span><span class="st">'video_id'</span>))</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(column<span class="op">=</span><span class="st">'datetime'</span>))</span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(column<span class="op">=</span><span class="st">'title'</span>))</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(column<span class="op">=</span><span class="st">'views'</span>))</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(column<span class="op">=</span><span class="st">'likes'</span>))</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(column<span class="op">=</span><span class="st">'comments'</span>))</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(column<span class="op">=</span><span class="st">'transcript'</span>))</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>suite.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(column<span class="op">=</span><span class="st">'transcript_length'</span>))</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Validate results</span></span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>validation_results <span class="op">=</span> batch.validate(suite)</span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(validation_results.success)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id":"8bdda22c8821490f90255ceae3cb659a","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>True</code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>The validation checks implemented here represent just a small subset of the capabilities available with Great Expectations. This powerful tool provides a wide array of validation checks, enabling you to ensure data quality at a much deeper level. For instance, you can validate the distribution of values to check for expected statistical patterns, ensure cardinality constraints to avoid duplicate or excessive values, or verify that data adheres to specific patterns (e.g., email formats or numeric ranges). These additional validations can further enhance the robustness and reliability of your data pipelines. Explore the full range of options here: Great Expectations Documentation - Expectations.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="data-versioning" class="level3">
 <h3 class="anchored" data-anchor-id="data-versioning">Data Versioning</h3>
-</section>
-</section>
-<section id="creating-scalable-data-pipelines" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="creating-scalable-data-pipelines"><span class="header-section-number">4.5</span> Creating Scalable Data Pipelines</h2>
+<p>For our purposes, we’re going to store the final <code>cleaned_data</code> to our project directory and then we’re going to use <a href="https://dvc.org/">DVC</a> (Data Version Control) to version and track changes to our data.</p>
+<div class="callout callout-style-simple callout-warning">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>DVC assumes you are working within a <strong>Git repository</strong>, as it relies on Git for tracking the metadata of your data files and pipelines.</p>
 <ul>
-<li>How to build data pipelines that scale to accommodate increasing data volumes.</li>
-<li>Key considerations for scalability, such as distributed processing and fault tolerance.</li>
+<li><p><strong>If you’re familiar with Git</strong>: You can follow along with this example as long as you are working within a Git repository. Make sure you have initialized a Git repository (<code>git init</code>) in your project directory and have basic knowledge of Git commands.</p></li>
+<li><p><strong>If Git is new to you</strong>: Don’t worry! You can still follow along to understand the process conceptually, even if you don’t execute the Git commands. Later chapters in this book will provide a deeper dive into Git, equipping you with the knowledge to implement version control effectively.</p></li>
 </ul>
-</section>
-<section id="conclusion-and-key-takeaways" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="conclusion-and-key-takeaways"><span class="header-section-number">4.6</span> Conclusion and Key Takeaways</h2>
+<p>For now, focus on understanding how DVC integrates with data pipelines to manage and version datasets systematically.</p>
+</div>
+</div>
+</div>
+<p>So, first, we’ll store our final data as a parquet file, which is just a more efficient approach than storing as a CSV file.</p>
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7085/uc-bana-7085/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-16">
+<div id="cell-16" class="cell" data-tags="[&quot;store-clean-data&quot;]" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure the directory exists</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>os.makedirs(<span class="st">'data'</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Write the cleaned data to a parquet file</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>cleaned_data.to_parquet(<span class="st">'data/youtube_video_data.parquet'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>Next, we need to initialize DVC in our project by running the following command in the project root.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dvc</span> init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This initializes a .dvc directory with a few internal files to track data and pipeline versions. These should be added to Git.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Changes</span> to be committed:</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        <span class="ex">new</span> file:   .dvc/.gitignore</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        <span class="ex">new</span> file:   .dvc/config</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        <span class="ex">...</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Initialize DVC"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next, you need to use <code>dvc add</code> to start tracking the dataset file. This command creates a <code>.dvc</code> file (youtube_video_data.parquet.dvc) to track the file’s metadata and location. It also adds a <code>.gitignore</code> file so that the actual .parquet data file is not committed to git; instead the .parquet.dvc metadata file is committed.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add data/youtube_video_data.parquet.dvc data/.gitignore</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next, run the following commands to track and tag the dataset changes in Git.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">'Initial processed Youtube data'</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="at">-a</span> <span class="st">"v1.0"</span> <span class="at">-m</span> <span class="st">"Youtube data v1.0"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you have a remote storage location (e.g., AWS S3, Google Drive, Azure Blob Storage) configured for DVC, you can also push the data asset to that location to ensure it is stored offsite and sharable to the rest of your team/organization.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dvc</span> remote add <span class="at">-d</span> myremote s3://mybucket/myproject</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ex">dvc</span> push</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, say we re-run this pipeline next week and get additional video data. We can just follow this same procedure to save and version the updated data:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write the cleaned data to a parquet file</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="ex">cleaned_data.to_parquet</span><span class="er">(</span><span class="st">'data/youtube_video_data.parquet'</span><span class="ex">,</span> index=False<span class="kw">)</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Track the updated file</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add data/youtube_video_data.parquet.dvc</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Commit the changes</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">'Updated Youtube data'</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="at">-a</span> <span class="st">"v2.0"</span> <span class="at">-m</span> <span class="st">"Youtube data v2.0"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Our example demonstrates only the <strong>basic functionality</strong> of DVC, showcasing how it can be used to version datasets within a pipeline. However, DVC offers a wide range of additional features, including:</p>
 <ul>
-<li>Summary of the key principles of DataOps and how to apply them in building effective data pipelines for ML.</li>
-<li>Reflection on the importance of data quality, management, and scalability in ML workflows.</li>
+<li>Tracking and managing <strong>entire pipelines</strong>.</li>
+<li>Handling <strong>large datasets</strong> efficiently with external storage integrations.</li>
+<li>Automating <strong>experiment tracking</strong> and comparisons.</li>
 </ul>
+<p>To explore the full potential of DVC and learn how to leverage its advanced capabilities, check out the official documentation at <a href="https://dvc.org/doc">https://dvc.org/doc</a>. This resource provides comprehensive guidance and examples for incorporating DVC into robust, end-to-end workflows.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="creating-reliable-scalable-data-pipelines" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="creating-reliable-scalable-data-pipelines"><span class="header-section-number">4.5</span> Creating Reliable &amp; Scalable Data Pipelines</h2>
+<p>Designing reliable and scalable data pipelines requires adherence to the <a href="https://bradleyboehmke.github.io/uc-bana-7085/01-intro-ml-system.html#design-principles-for-good-ml-system-design">foundational principles</a> that we discussed that promote maintainability, reproducibility, and efficiency. The hands-on example of the YouTube data pipeline demonstrates some of these design principles; however, there are areas where improvements could further align the pipeline with these principles.</p>
+<section id="principles-incorporated-in-the-youtube-data-pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="principles-incorporated-in-the-youtube-data-pipeline">Principles Incorporated in the YouTube Data Pipeline</h3>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Modularity and Abstraction
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>What We Did</strong>: The pipeline uses a modular design by encapsulating reusable functions within the <code>dataops_utils</code> module. This abstraction reduces complexity and makes the codebase more manageable, enabling easier updates and debugging.</li>
+<li><strong>Why It Matters</strong>: Modularity ensures that individual components, such as data cleaning, validation, and versioning, are independently testable and maintainable. Abstraction allows users to focus on higher-level logic without worrying about low-level details.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Reproducibility
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>What We Did</strong>: By incorporating Git for version control and DVC for dataset tracking, the pipeline ensures that every step—from data ingestion to cleaning—can be reproduced with consistent results.</li>
+<li><strong>Why It Matters</strong>: Reproducibility is essential for debugging, auditing, and collaboration, especially when multiple team members work on the same project or when retraining models on historical data.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Data Validation
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-26" class="callout-26-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>What We Did</strong>: The pipeline integrates <strong>Great Expectations</strong> to validate the structure and quality of the dataset. This ensures that the data meets predefined criteria before it is processed further.</li>
+<li><strong>Why It Matters</strong>: Validation prevents poor-quality data from contaminating downstream workflows, thereby enhancing reliability and trust in the pipeline.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="limitations-and-areas-for-improvement" class="level3">
+<h3 class="anchored" data-anchor-id="limitations-and-areas-for-improvement">Limitations and Areas for Improvement</h3>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Scalability
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-27" class="callout-27-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Current Challenge</strong>: The YouTube API imposes daily quota limits on data retrieval, constraining the volume of data that can be ingested. This makes the pipeline less scalable for large-scale applications.</li>
+<li><strong>Potential Solution</strong>: To overcome this limitation, consider implementing data caching strategies, batching requests over multiple days, or leveraging additional API keys across multiple accounts to distribute the load.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Automation
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-28" class="callout-28-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Current Challenge</strong>: The pipeline is not automated and requires manual execution for each step. This limits its reliability and scalability in production environments.</li>
+<li><strong>Potential Solution</strong>: Incorporate workflow automation tools such as Apache Airflow or Prefect to schedule and monitor the pipeline. Automating these tasks would enhance reliability and reduce manual intervention.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-29-contents" aria-controls="callout-29" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Fault Tolerance
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-29" class="callout-29-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Current Challenge</strong>: The pipeline lacks mechanisms to handle failures gracefully, such as retrying failed API calls or dealing with incomplete datasets.</li>
+<li><strong>Potential Solution</strong>: Introduce error-handling routines and logging mechanisms to ensure that the pipeline can recover from failures without disrupting downstream processes.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-30-contents" aria-controls="callout-30" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Scalable Storage and Compute
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-30" class="callout-30-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Current Challenge</strong>: The pipeline is designed for small-scale use and does not leverage distributed computing or scalable storage solutions.</li>
+<li><strong>Potential Solution</strong>: Transition to cloud-based storage systems like AWS S3 or Google Cloud Storage and integrate distributed computing frameworks such as Apache Spark for handling large datasets.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="balancing-design-principles" class="level3">
+<h3 class="anchored" data-anchor-id="balancing-design-principles">Balancing Design Principles</h3>
+<p>While the YouTube data pipeline incorporates key design principles such as modularity, abstraction, and reproducibility, there are trade-offs due to its simplicity. The primary objective of this example was to illustrate the foundational steps in building a data pipeline, rather than creating a production-ready system. For real-world applications, enhancing scalability, automation, and fault tolerance would be critical to align fully with the design principles of reliable and scalable systems.</p>
+<p>By continuously iterating on these principles, teams can evolve simple pipelines into robust, production-ready systems capable of handling complex, large-scale workflows.</p>
+</section>
+</section>
+<section id="summary" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">4.6</span> Summary</h2>
+<p>In this chapter, we explored the practical aspects of building data pipelines to support robust machine learning workflows. By combining the principles and concepts introduced in the previous chapter, we demonstrated how to design, implement, and validate a data pipeline using tools like Pandas, Great Expectations, and DVC. The YouTube data pipeline provided a hands-on example of how data ingestion, processing, validation, and versioning can come together to create a cohesive system.</p>
+<p>We also compared the ETL and ELT paradigms, highlighting their applications and trade-offs, and discussed how the design principles for good ML systems—such as modularity, abstraction, and reproducibility—can guide the creation of reliable and scalable pipelines. While the example illustrated foundational techniques, it also highlighted areas for improvement, such as addressing scalability and automation challenges.</p>
+<p>This chapter aimed to provide you with the foundational knowledge and tools to build data pipelines tailored to your needs. As you advance, you’ll encounter more complex requirements and additional tools to refine and scale your workflows. In the next chapter</p>
+</section>
+<section id="exercise" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="exercise"><span class="header-section-number">4.7</span> Exercise</h2>
+<p>This exercise will help you apply the concepts covered in this chapter to design and evaluate a data pipeline. The focus is on understanding the design principles, tools, and processes involved in building reliable and scalable data pipelines.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-31-contents" aria-controls="callout-31" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Part 1: Conceptual Design
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-31" class="callout-31-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Scenario</strong>: Imagine you are tasked with building a data pipeline for an online retail store. The pipeline should:</p>
+<ul>
+<li>Ingest daily sales data from a transactional database and inventory updates from an API.</li>
+<li>Process the data to calculate daily revenue and identify low-stock items.</li>
+<li>Validate the data for missing or inconsistent records.</li>
+<li>Version the processed data for auditing and historical tracking.</li>
+</ul>
+<p><strong>Task</strong>:</p>
+<ul>
+<li>Sketch a conceptual design for this pipeline. Include the steps for ingestion, processing, validation, and versioning.</li>
+<li>Identify which tools from this chapter (e.g., Pandas, Great Expectations, DVC) you would use for each step and justify your choice.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-32-contents" aria-controls="callout-32" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Part 2: Hands-On Experimentation
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-32" class="callout-32-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Using the YouTube pipeline example as a reference, answer the following:</p>
+<ol type="1">
+<li><strong>Modify the Pipeline</strong>:
+<ul>
+<li>Extend the provided YouTube pipeline to include additional validation checks (e.g., ensure <code>views</code> is greater than <code>likes</code> or that <code>transcript_length</code> is within a realistic range).</li>
+<li>What changes did you make to the validation suite, and why?</li>
+</ul></li>
+<li><strong>Experiment with Versioning</strong>:
+<ul>
+<li>Create a new version of the <code>cleaned_data</code> DataFrame by simulating a change in the input data (e.g., remove videos with fewer than 10,000 views).</li>
+<li>Use DVC to version the new dataset and compare it to the original version. What do the differences reveal?</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-33-contents" aria-controls="callout-33" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Part 3: Reflecting on Design Principles
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-33" class="callout-33-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Evaluate the Pipeline</strong>:
+<ul>
+<li>Review the YouTube pipeline example and your modified pipeline. How well do they incorporate the design principles from Chapter 1 (e.g., modularity, scalability, reproducibility)?</li>
+<li>Identify one principle that could be improved in your pipeline design. How would you address this in a future iteration?</li>
+</ul></li>
+<li><strong>Scenario-Based Discussion</strong>:
+<ul>
+<li>Imagine that the YouTube API introduces stricter <a href="https://developers.google.com/youtube/v3/guides/quota_and_compliance_audits">quota limits</a>. How would this impact the pipeline? Propose a solution to handle such constraints while ensuring the pipeline remains functional and reliable.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
 
 
 </section>
