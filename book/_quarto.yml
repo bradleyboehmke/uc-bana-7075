@@ -21,6 +21,7 @@ book:
     - 03-dataops-role.qmd
     - 04-dataops-build.qmd
     - part: "ModelOps"
+    - 05-modelops-role.qmd
     - part: "DevOps"
     - part: "The Human Side of ML Systems"
     - references.qmd
