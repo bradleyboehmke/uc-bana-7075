@@ -10,8 +10,6 @@ ModelOps bridges the gap between experimentation and real-world application, add
 
 ModelOps encompasses several interconnected components that ensure the efficient management, deployment, and monitoring of machine learning models throughout their lifecycle. Each component plays a critical role in building a robust and scalable system. Below, we provide a high-level overview of these key components, setting the foundation for deeper exploration in subsequent sections and chapters.
 
-#TODO: Create & add image
-
 ::: {.callout-note collapse="true"}
 ## Model Training
 
