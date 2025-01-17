@@ -232,7 +232,7 @@ This exercise will require you to read the paper [*Machine Learning Operations (
 ::: {.callout-note collapse="true"}
 ## Case Study
 
-Revisit the [hospital readmission prediction case study exercise](https://bradleyboehmke.github.io/uc-bana-7085/02-before-we-build.html#exercise) from Chapter 2.
+Revisit the [hospital readmission prediction case study exercise](https://bradleyboehmke.github.io/uc-bana-7075/02-before-we-build.html#exercise) from Chapter 2.
 
 Using the Architecture and Workflow section and Figure 4 as a guide...
 

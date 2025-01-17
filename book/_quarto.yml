@@ -6,7 +6,7 @@ book:
   author: "Brad Boehmke"
   date: today
   search: true
-  repo-url: https://github.com/bradleyboehmke/uc-bana-7085
+  repo-url: https://github.com/bradleyboehmke/uc-bana-7075
   repo-branch: main
   repo-actions: [edit, issue]
   downloads: [pdf, epub]

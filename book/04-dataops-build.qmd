@@ -4,7 +4,7 @@ notebook-links: true
 notebook-view:
   - notebook: ../DataOps/youtube-data-pipeline.ipynb
     title: "Example Youtube Data Pipeline"
-    url: https://github.com/bradleyboehmke/uc-bana-7085/blob/main/DataOps/youtube-data-pipeline.ipynb
+    url: https://github.com/bradleyboehmke/uc-bana-7075/blob/main/DataOps/youtube-data-pipeline.ipynb
 ---
 
 In the previous chapter, we explored the foundational concepts of DataOps, focusing on the importance of processes such as data ingestion, validation, versioning, and lineage in building reliable machine learning systems. Now, it’s time to take these concepts from theory to practice by applying them to create data pipelines. Data pipelines form the backbone of any modern ML system, serving as the structured, automated pathways through which data flows from raw sources to actionable insights.
@@ -374,7 +374,7 @@ flowchart LR
 If you'd like to follow along and execute this code then there are a few requirements you'll need on your end.
 
 ::: {.callout-tip}
-You can find the requirements, source code for the data pipeline, and helper functions [here](https://github.com/bradleyboehmke/uc-bana-7085/tree/main/DataOps).
+You can find the requirements, source code for the data pipeline, and helper functions [here](https://github.com/bradleyboehmke/uc-bana-7075/tree/main/DataOps).
 :::
 
 First, you'll need to make sure you have the following Python libraries installed:
@@ -530,7 +530,7 @@ To explore the full potential of DVC and learn how to leverage its advanced capa
 
 ## Creating Reliable & Scalable Data Pipelines
 
-Designing reliable and scalable data pipelines requires adherence to the [foundational principles](https://bradleyboehmke.github.io/uc-bana-7085/01-intro-ml-system.html#design-principles-for-good-ml-system-design) that we discussed that promote maintainability, reproducibility, and efficiency. The hands-on example of the YouTube data pipeline demonstrates some of these design principles; however, there are areas where improvements could further align the pipeline with these principles.
+Designing reliable and scalable data pipelines requires adherence to the [foundational principles](https://bradleyboehmke.github.io/uc-bana-7075/01-intro-ml-system.html#design-principles-for-good-ml-system-design) that we discussed that promote maintainability, reproducibility, and efficiency. The hands-on example of the YouTube data pipeline demonstrates some of these design principles; however, there are areas where improvements could further align the pipeline with these principles.
 
 ### Principles Incorporated in the YouTube Data Pipeline
 

@@ -1,4 +1,4 @@
-UC BANA 7085 Machine Learning Design for Business
+UC BANA 7075 Machine Learning Design for Business
 ================
 
 **By [Brad Boehmke](https://github.com/bradleyboehmke) 🚀**
@@ -42,4 +42,3 @@ By the end of this course, students will:
 | **7**         | **The Human Side of ML Systems**                                      |
 |               | Collaborating & managing stakeholders and cross-functional teams      |
 |               | Responsible ML/AI                                                     |
-

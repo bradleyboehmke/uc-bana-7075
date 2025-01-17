@@ -1,0 +1,11 @@
+# install with `conda env create -bana7075.yaml`
+# activate with `conda activate bana7075`
+
+name: bana7075
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.10
+  - jupyter
+  - nbformat
