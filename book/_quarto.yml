@@ -9,7 +9,7 @@ book:
   repo-url: https://github.com/bradleyboehmke/uc-bana-7075
   repo-branch: main
   repo-actions: [edit, issue]
-  downloads: [pdf, epub]
+  downloads: [epub]
   sharing: [twitter]
 
   chapters:
@@ -37,6 +37,3 @@ format:
     number-depth: 2
     mermaid:
       theme: neutral
-  pdf:
-    documentclass: scrreprt
-    number-depth: 2

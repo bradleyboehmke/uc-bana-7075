@@ -31,7 +31,7 @@ jobs:
         with:
           version: pre-release
           # To install LaTeX to build PDF book
-          tinytex: true
+          #tinytex: true
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
