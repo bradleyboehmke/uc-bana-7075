@@ -112,7 +112,7 @@ classDiagram
     }
 ```
 
-### Modularity and Abstraction
+### Modularity and Abstraction {#sec-design-principles}
 
 Modularity is the practice of dividing a system into independent, self-contained components, each responsible for a specific function. In an ML system, this could mean separating data ingestion, preprocessing, training, and monitoring into distinct modules that can operate independently [@sculley2015hidden]. This modularity simplifies updates and maintenance, as each component can be modified or scaled without disrupting the entire system. For example, if a new feature engineering technique improves model accuracy, it can be implemented in the data preprocessing module without affecting the deployment pipeline.
 
