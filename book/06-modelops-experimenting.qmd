@@ -191,7 +191,7 @@ Effective experiment tracking in machine learning involves systematically loggin
 
 These components form the backbone of a well-structured experiment tracking workflow, ensuring that every step of the machine learning lifecycle is documented, reproducible, and actionable. In the next section, we’ll bring these components to life with a hands-on example using MLflow. This will demonstrate how to implement an experiment tracking system in practice.
 
-## Hands-On Example: Implementing Experiment Tracking
+## Hands-On Example: Implementing Experiment Tracking {#sec-experiment-tracking}
 
 In this section, we’ll demonstrate an experiment tracking workflow using MLflow. We'll highlight the key components of experiment tracking as we log a few model experiments, showcasing how MLflow helps to track, compare, and analyze their results systematically.
 
