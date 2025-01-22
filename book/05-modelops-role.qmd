@@ -4,7 +4,23 @@ In the rapidly evolving landscape of machine learning, building a successful ML 
 
 ModelOps bridges the gap between experimentation and real-world application, addressing the challenges that arise when transitioning models from development to production. It encompasses a wide array of practices, including experiment tracking for reproducibility, model versioning to manage iterations, deployment strategies for real-time and batch use cases, and monitoring to ensure models perform well under changing conditions. This chapter explores the vital role of ModelOps in modern ML workflows, emphasizing its importance in creating robust, maintainable, and high-performing systems that meet both business and technical objectives.
 
-#TODO: Create & add image
+```{mermaid}
+%%| fig-cap: "ModelOps is the management of the lifecycle of machine learning models and includes experiment tracking, model versioning, model deployment, and model monitoring."
+%%| label: fig-modelops-role
+flowchart RL
+    subgraph dt[DataOps]
+    direction LR
+    end
+    subgraph ml[ModelOps]
+    direction LR
+    m1[Model Experimentation]
+    m2[Model Versioning]
+    m3[Model Deployment]
+    m4[Model Monitoring]
+    m1 --> m2 --> m3 --> m4 --> m1
+    end
+    dt --> ml --> dt
+```
 
 ## Key Components of ModelOps
 
