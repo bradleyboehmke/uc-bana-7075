@@ -1,0 +1,86 @@
+---
+title: "Introduction to ML System Design"
+author: "BANA 7075"
+format: revealjs
+---
+
+# Introduction to ML System Design
+
+- **Definition**: Crafting reliable, scalable, and maintainable machine learning systems that address real-world business challenges.
+- **Importance**: Ensures models operate effectively within production environments, delivering consistent value.
+
+---
+
+# Key Components of ML System Design
+
+- **DataOps**: Management of data workflows and pipelines.
+- **ModelOps**: Overseeing the model lifecycle, including deployment and monitoring.
+- **DevOps**: Integration of development and operations for seamless delivery.
+
+---
+
+# DataOps: Data Management and Pipelines
+
+- **Data Acquisition**: Collecting relevant data from diverse sources.
+- **Data Preparation**: Cleaning, transforming, and organizing data for analysis.
+- **Data Versioning**: Tracking changes to datasets to ensure reproducibility.
+
+---
+
+# ModelOps: Model Lifecycle Management
+
+- **Model Training**: Developing models using historical data.
+- **Model Deployment**: Integrating models into production systems.
+- **Model Monitoring**: Tracking performance and retraining as necessary.
+
+---
+
+# DevOps Practices in ML Systems
+
+- **Continuous Integration (CI)**: Regularly merging code changes to a shared repository.
+- **Continuous Deployment (CD)**: Automating the release of updates to production.
+- **Infrastructure as Code (IaC)**: Managing infrastructure through code for consistency.
+
+---
+
+# Why ML System Design Matters
+
+- **Scalability**: Ability to handle growing amounts of work seamlessly.
+- **Reliability**: Ensures consistent performance and minimizes downtime.
+- **Maintainability**: Facilitates easy updates and adaptability to new requirements.
+
+---
+
+# Design Principles for Effective ML Systems
+
+- **Modularity and Abstraction**: Breaking systems into interchangeable components.
+- **Reproducibility**: Ensuring consistent results across different environments.
+- **Automation**: Reducing manual intervention through automated processes.
+- **Monitoring and Maintenance**: Proactively identifying and resolving issues.
+- **Security and Compliance**: Protecting data and adhering to regulations.
+- **Adaptability and Flexibility**: Easily accommodating changes in technology or requirements.
+
+---
+
+# ML System Lifecycle Stages
+
+1. **Data Processing**: Collecting and preparing data.
+2. **Model Development**: Training and validating models.
+3. **Deployment**: Integrating models into production.
+4. **Monitoring and Maintenance**: Tracking performance and updating models.
+5. **Continuous Improvement**: Iterating based on feedback and new data.
+
+---
+
+# Summary
+
+- ML System Design is crucial for deploying effective machine learning solutions in business contexts.
+- Incorporating DataOps, ModelOps, and DevOps practices ensures robust and scalable systems.
+- Adhering to key design principles enhances system reliability and adaptability.
+
+---
+
+# Questions and Discussion
+
+- Open floor for questions regarding ML System Design concepts.
+- Discussion on how these principles apply to real-world business scenarios.

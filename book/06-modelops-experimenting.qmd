@@ -1,4 +1,4 @@
-# Model Training and Experiment Tracking
+# Model Training and Experiment Tracking {#sec-model-experimentation}
 
 Model training is the cornerstone of machine learning, where algorithms learn patterns from data to make predictions or decisions. The process involves feeding a machine learning model with labeled data, enabling it to map inputs to desired outputs. This stage is critical because the effectiveness of the entire ML system hinges on the model’s ability to generalize from training data to unseen scenarios. However, achieving high performance is rarely straightforward and often requires iterative experimentation.
 
@@ -365,7 +365,7 @@ Experiment tracking is a cornerstone of ModelOps, ensuring reproducibility, perf
 
 In the next chapter, we will build on this foundation by delving into model versioning and registration, showcasing how to manage and deploy trained models systematically. This step will further integrate and solidify the principles of scalable and reliable ModelOps practices.
 
-## Exercise
+## Exercise {#sec-model-experimentation-exercise}
 
 This exercise has three parts: **conceptual design**, **hands-on experimentation**, and **reflection on design principles**. The goal is to gain practical experience in experiment tracking with MLflow while considering how key principles of good ML system design apply to model experimentation.
 

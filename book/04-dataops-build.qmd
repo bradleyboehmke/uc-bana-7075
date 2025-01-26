@@ -181,7 +181,7 @@ As highlighted in the previous chapter, the goals of DataOps — efficiency, rel
 Both paradigms have their strengths, and many organizations blend elements of each. For example, a retail company might use ETL for compliance reporting while leveraging ELT for real-time inventory analysis. By understanding these paradigms within the broader DataOps framework, teams can design pipelines that meet both technical and business requirements effectively.
 :::
 
-## Tools for DataOps
+## Tools for DataOps {#sec-dataops-tools}
 
 Building effective and scalable data pipelines requires leveraging specialized tools at each stage of the DataOps lifecycle. From data ingestion to processing, validation, and versioning, the ecosystem of tools available is vast and continually expanding. This section provides an overview of commonly used tools, highlighting their capabilities, trade-offs, and when they might be most appropriate. Additionally, this space is dynamic, with new tools regularly introduced to address evolving challenges. Therefore, the goal is not to become tied to a specific tool but to understand the broader landscape and make informed decisions based on your pipeline's requirements.
 
