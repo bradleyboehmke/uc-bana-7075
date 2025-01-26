@@ -1,0 +1,12 @@
+digest: 71bb0a32
+name: dataset
+profile: '{"num_rows": 800, "num_elements": 6400}'
+schema: '{"mlflow_colspec": [{"type": "double", "name": "average_temperature", "required":
+  true}, {"type": "double", "name": "rainfall", "required": true}, {"type": "long",
+  "name": "weekend", "required": true}, {"type": "long", "name": "holiday", "required":
+  true}, {"type": "double", "name": "price_per_kg", "required": true}, {"type": "long",
+  "name": "promo", "required": true}, {"type": "double", "name": "previous_days_demand",
+  "required": true}, {"type": "long", "name": "demand", "required": true}]}'
+source: '{"tags": {"mlflow.user": "b294776", "mlflow.source.name": "/opt/anaconda3/lib/python3.12/site-packages/ipykernel_launcher.py",
+  "mlflow.source.type": "LOCAL"}}'
+source_type: code

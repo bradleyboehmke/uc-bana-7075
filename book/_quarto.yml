@@ -23,6 +23,7 @@ book:
     - part: "ModelOps"
     - 05-modelops-role.qmd
     - 06-modelops-experimenting.qmd
+    - 07-modelops-versioning.qmd
     - part: "DevOps"
     - part: "The Human Side of ML Systems"
     - references.qmd

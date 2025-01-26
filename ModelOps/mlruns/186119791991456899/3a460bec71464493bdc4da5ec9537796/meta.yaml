@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/ModelOps/mlruns/186119791991456899/3a460bec71464493bdc4da5ec9537796/artifacts
+end_time: 1737915604736
+entry_point_name: ''
+experiment_id: '186119791991456899'
+lifecycle_stage: active
+run_id: 3a460bec71464493bdc4da5ec9537796
+run_name: Random Forest
+run_uuid: 3a460bec71464493bdc4da5ec9537796
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1737915601595
+status: 3
+tags: []
+user_id: b294776

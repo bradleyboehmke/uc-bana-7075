@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/ModelOps/mlruns/186119791991456899/9729fd97ce074ee2862cc32e1089c513/artifacts
+end_time: 1737915665873
+entry_point_name: ''
+experiment_id: '186119791991456899'
+lifecycle_stage: active
+run_id: 9729fd97ce074ee2862cc32e1089c513
+run_name: Random Forest Hyperparameter Tuning
+run_uuid: 9729fd97ce074ee2862cc32e1089c513
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1737915660330
+status: 3
+tags: []
+user_id: b294776
