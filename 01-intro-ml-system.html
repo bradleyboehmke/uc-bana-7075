@@ -190,6 +190,12 @@ div.csl-indent {
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Model Training and Experiment Tracking</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-modelops-versioning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Versioning and Reproducibility</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <span class="sidebar-item-text sidebar-link text-start">
  <span class="menu-text">DevOps</span></span>
@@ -221,9 +227,9 @@ div.csl-indent {
   <li><a href="#devops-practices" id="toc-devops-practices" class="nav-link" data-scroll-target="#devops-practices">DevOps Practices</a></li>
   </ul></li>
   <li><a href="#why-ml-system-design-matters" id="toc-why-ml-system-design-matters" class="nav-link" data-scroll-target="#why-ml-system-design-matters"><span class="header-section-number">1.2</span> Why ML System Design Matters</a></li>
-  <li><a href="#design-principles-for-good-ml-system-design" id="toc-design-principles-for-good-ml-system-design" class="nav-link" data-scroll-target="#design-principles-for-good-ml-system-design"><span class="header-section-number">1.3</span> Design Principles for Good ML System Design</a>
+  <li><a href="#sec-design-principles" id="toc-sec-design-principles" class="nav-link" data-scroll-target="#sec-design-principles"><span class="header-section-number">1.3</span> Design Principles for Good ML System Design</a>
   <ul class="collapse">
-  <li><a href="#sec-design-principles" id="toc-sec-design-principles" class="nav-link" data-scroll-target="#sec-design-principles">Modularity and Abstraction</a></li>
+  <li><a href="#modularity-and-abstraction" id="toc-modularity-and-abstraction" class="nav-link" data-scroll-target="#modularity-and-abstraction">Modularity and Abstraction</a></li>
   <li><a href="#scalability" id="toc-scalability" class="nav-link" data-scroll-target="#scalability">Scalability</a></li>
   <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility">Reproducibility</a></li>
   <li><a href="#automation" id="toc-automation" class="nav-link" data-scroll-target="#automation">Automation</a></li>
@@ -386,8 +392,8 @@ Driven by business requirements
 <p>ML system design addresses the challenges of productionizing machine learning. In a laboratory or research setting, machine learning models are often developed with a focus on achieving high accuracy or minimizing error on a given dataset. However, deploying these models in production involves a different set of concerns. In real-world applications, ML systems need to handle fluctuating data distributions, evolving user needs, and high availability. Without a robust design, machine learning models can quickly degrade in performance, lead to incorrect predictions, or even disrupt business operations.</p>
 <p>By prioritizing system design, organizations can build ML workflows that are both responsive to change and maintainable over time. This approach reduces technical debt—the accumulation of outdated or poorly designed code, data dependencies, and complex interactions that are difficult to fix — highlighted by the authors in <a href="https://proceedings.neurips.cc/paper_files/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf">Hidden Technical Debt in Machine Learning Systems</a> as a critical challenge in ML applications <span class="citation" data-cites="sculley2015hidden">(<a href="references.html#ref-sculley2015hidden" role="doc-biblioref">Sculley et al. 2015</a>)</span>. Poorly managed dependencies and hidden feedback loops, for instance, can lead to unpredictable model behavior and complicate future updates. Thoughtful ML system design mitigates these issues, allowing models to deliver consistent, reliable results while aligning predictions more closely with organizational metrics and objectives. Ultimately, well-architected ML systems are more adaptable, enabling models to evolve as business goals and data distributions shift over time.</p>
 </section>
-<section id="design-principles-for-good-ml-system-design" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="design-principles-for-good-ml-system-design"><span class="header-section-number">1.3</span> Design Principles for Good ML System Design</h2>
+<section id="sec-design-principles" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="sec-design-principles"><span class="header-section-number">1.3</span> Design Principles for Good ML System Design</h2>
 <p>Creating an effective ML system involves more than just building an accurate model; it requires thoughtful design to ensure that the system remains reliable, scalable, and adaptable over time. Good ML system design incorporates a set of principles that help address real-world challenges in production environments, such as evolving data, model drift, and changing business requirements. The following design principles guide ML engineers and data scientists in building systems that meet these demands and deliver sustained business value.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
@@ -415,8 +421,8 @@ Figure&nbsp;1.2: Principles that create reliable, scalable, and adaptable machin
 </div>
 </div>
 </div>
-<section id="sec-design-principles" class="level3">
-<h3 class="anchored" data-anchor-id="sec-design-principles">Modularity and Abstraction</h3>
+<section id="modularity-and-abstraction" class="level3">
+<h3 class="anchored" data-anchor-id="modularity-and-abstraction">Modularity and Abstraction</h3>
 <p>Modularity is the practice of dividing a system into independent, self-contained components, each responsible for a specific function. In an ML system, this could mean separating data ingestion, preprocessing, training, and monitoring into distinct modules that can operate independently <span class="citation" data-cites="sculley2015hidden">(<a href="references.html#ref-sculley2015hidden" role="doc-biblioref">Sculley et al. 2015</a>)</span>. This modularity simplifies updates and maintenance, as each component can be modified or scaled without disrupting the entire system. For example, if a new feature engineering technique improves model accuracy, it can be implemented in the data preprocessing module without affecting the deployment pipeline.</p>
 <p>Abstraction, on the other hand, hides complex details within each module, making the system easier to manage and more accessible to team members who don’t need to understand every technical detail. As noted by <span class="citation" data-cites="huyen2022designing">Huyen (<a href="references.html#ref-huyen2022designing" role="doc-biblioref">2022</a>)</span>, abstraction helps bridge the gap between data scientists, engineers, and business stakeholders, allowing each to focus on high-level functionality without needing an in-depth understanding of every process. Together, modularity and abstraction improve collaboration, flexibility, and ease of scaling within ML systems.</p>
 </section>

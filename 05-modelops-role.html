@@ -89,6 +89,10 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -186,6 +190,12 @@ div.csl-indent {
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Model Training and Experiment Tracking</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-modelops-versioning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Versioning and Reproducibility</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <span class="sidebar-item-text sidebar-link text-start">
  <span class="menu-text">DevOps</span></span>
@@ -245,7 +255,35 @@ div.csl-indent {
 
 <p>In the rapidly evolving landscape of machine learning, building a successful ML system requires more than just high-quality data and powerful algorithms. While DataOps focuses on preparing and managing data pipelines, ModelOps takes over to manage the lifecycle of machine learning models, from training and experimentation to deployment and monitoring. As a critical subset of MLOps, ModelOps ensures that models are not only trained effectively but also deployed, tracked, and maintained in production environments with scalability and reliability in mind.</p>
 <p>ModelOps bridges the gap between experimentation and real-world application, addressing the challenges that arise when transitioning models from development to production. It encompasses a wide array of practices, including experiment tracking for reproducibility, model versioning to manage iterations, deployment strategies for real-time and batch use cases, and monitoring to ensure models perform well under changing conditions. This chapter explores the vital role of ModelOps in modern ML workflows, emphasizing its importance in creating robust, maintainable, and high-performing systems that meet both business and technical objectives.</p>
-<p>#TODO: Create &amp; add image</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-modelops-role" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-modelops-role-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-modelops-role">flowchart RL
+    subgraph dt[DataOps]
+    direction LR
+    end
+    subgraph ml[ModelOps]
+    direction LR
+    m1[Model Experimentation]
+    m2[Model Versioning]
+    m3[Model Deployment]
+    m4[Model Monitoring]
+    m1 --&gt; m2 --&gt; m3 --&gt; m4 --&gt; m1
+    end
+    dt --&gt; ml --&gt; dt
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-modelops-role-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.1: ModelOps is the management of the lifecycle of machine learning models and includes experiment tracking, model versioning, model deployment, and model monitoring.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <section id="key-components-of-modelops" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="key-components-of-modelops"><span class="header-section-number">5.1</span> Key Components of ModelOps</h2>
 <p>ModelOps encompasses several interconnected components that ensure the efficient management, deployment, and monitoring of machine learning models throughout their lifecycle. Each component plays a critical role in building a robust and scalable system. Below, we provide a high-level overview of these key components, setting the foundation for deeper exploration in subsequent sections and chapters.</p>
