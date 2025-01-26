@@ -404,7 +404,7 @@ This method leverages the MLflow user interface to manually register a model fro
 For workflows requiring automation, you can register models programmatically within your code. There's actually a few different ways you can do this.
 
 ::: {.callout-tip}
-See [this notebook](TBD) for the entire source code.
+See [this notebook](https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/model-registration.ipynb) for the entire source code.
 :::
 
 The first is to search existing runs in our experiment:
@@ -477,7 +477,7 @@ Although this chapter focused on the fundamentals of versioning and reproducibil
 
 ## Exercise
 
-In this exercise, you'll extend your work from the previous chapter's exercise (see [Section @sec-model-experimentation-exercise]) to include model versioning. Building on the California home prediction task, you will use MLflow to register and version your models, enabling clear traceability and management of model iterations. 
+In this exercise, you'll extend your work from the previous chapter's exercise (see [Section @sec-model-experimentation-exercise]) to include model versioning. Building on the California home prediction task, you will use MLflow to register and version your models, enabling clear traceability and management of model iterations.
 
 ::: {.callout-note collapse="true"}
 ## Part 1: Conceptual Design
