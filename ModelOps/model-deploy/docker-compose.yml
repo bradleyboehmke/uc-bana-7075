@@ -1,0 +1,11 @@
+services:
+  model-deploy:
+    image: model-deploy-app  # Set a custom, shorter image name
+    build: .
+    ports:
+      - "5000:5000"
+      - "8501:8501"
+    environment:
+      - MLFLOW_TRACKING_URI=file:///app/mlflow_registry/mlruns
+    volumes:
+      - /Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/ModelOps/mlruns:/app/mlflow_registry/mlruns

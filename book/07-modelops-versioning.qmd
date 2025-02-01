@@ -1,4 +1,4 @@
-# Model Versioning and Reproducibility
+# Model Versioning and Reproducibility {#sec-model-versioning-chapter}
 
 As machine learning systems become more integral to business operations, the need for reliable, traceable, and maintainable workflows grows exponentially. Model versioning and reproducibility lie at the heart of achieving this reliability, forming the foundation for robust ModelOps practices. These concepts ensure that teams can iterate on models, track their evolution, and reproduce results across different environments and timelines, even in the face of complex pipelines and evolving data.
 
@@ -317,7 +317,7 @@ The choice of tools depends on the specific needs of your team and infrastructur
 
 By aligning tools with workflow requirements, teams can establish robust model versioning practices that seamlessly extend the experiment tracking processes outlined in the previous chapter.
 
-## Hands-On Example: Implementing Model Versioning
+## Hands-On Example: Implementing Model Versioning {#sec-model-version-example}
 
 In the previous chapter, we explored how MLflow can be used to track experiments, documenting essential components like datasets, hyperparameters, and metrics for apple demand forecasting models (see [Section @sec-experiment-tracking]). This experiment tracking provided a solid foundation for organizing and comparing various model iterations. However, tracking experiments is only part of the journey. Once a model is ready to transition from experimentation to production, effective management and versioning become critical.
 

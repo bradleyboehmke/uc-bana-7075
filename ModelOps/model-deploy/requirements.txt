@@ -1,9 +1,6 @@
 fastapi==0.115.7
 mlflow==2.12.2
-numpy==1.26.4
 pandas==2.1.4
 python-multipart==0.0.20
-scikit-learn==1.5.1
 streamlit==1.37.1
 uvicorn==0.34.0
-xgboost==2.1.3
