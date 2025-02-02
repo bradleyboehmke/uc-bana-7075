@@ -475,9 +475,9 @@ We highlighted key components of model versioning, showing how it acts as an ext
 
 Although this chapter focused on the fundamentals of versioning and reproducibility, we laid the foundation for the next chapter, which will delve into deploying and serving machine learning models. With deployment strategies, model lifecycle monitoring, and real-world applications ahead, the concepts explored here will serve as an essential bridge to operationalizing your models in production environments.
 
-## Exercise
+## Exercise {#sec-model-version-exercise}
 
-In this exercise, you'll extend your work from the previous chapter's exercise (see [Section @sec-model-experimentation-exercise]) to include model versioning. Building on the California home prediction task, you will use MLflow to register and version your models, enabling clear traceability and management of model iterations.
+In this exercise, you'll extend your work from the previous chapter's exercise (see [Exercise @sec-model-experimentation-exercise]) to include model versioning. Building on the California home prediction task, you will use MLflow to register and version your models, enabling clear traceability and management of model iterations.
 
 ::: {.callout-note collapse="true"}
 ## Part 1: Conceptual Design
