@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Brad Boehmke">
-<meta name="dcterms.date" content="2025-02-02">
 
-<title>Machine Learning Design for Business</title>
+<title>9&nbsp; Model Monitoring – Machine Learning Design for Business</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -66,7 +30,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01-intro-ml-system.html" rel="next">
+<link href="./references.html" rel="next">
+<link href="./08-modelops-deployment.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -117,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Welcome</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-modelops-role.html">ModelOps</a></li><li class="breadcrumb-item"><a href="./09-modelops-monitoring.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Model Monitoring</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -149,7 +114,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Welcome</span></a>
   </div>
 </li>
@@ -234,7 +199,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./09-modelops-monitoring.html" class="sidebar-item-text sidebar-link">
+  <a href="./09-modelops-monitoring.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Model Monitoring</span></span></a>
   </div>
 </li>
@@ -264,41 +229,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a>
+  <li><a href="#why-is-model-monitoring-important" id="toc-why-is-model-monitoring-important" class="nav-link active" data-scroll-target="#why-is-model-monitoring-important"><span class="header-section-number">9.1</span> Why is Model Monitoring Important?</a>
   <ul class="collapse">
-  <li><a href="#who-should-read-this" id="toc-who-should-read-this" class="nav-link" data-scroll-target="#who-should-read-this">Who should read this</a></li>
-  <li><a href="#conventions-used-in-this-book" id="toc-conventions-used-in-this-book" class="nav-link" data-scroll-target="#conventions-used-in-this-book">Conventions used in this book</a></li>
-  <li><a href="#software-used-throughout-this-book" id="toc-software-used-throughout-this-book" class="nav-link" data-scroll-target="#software-used-throughout-this-book">Software used throughout this book</a></li>
-  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional resources</a></li>
+  <li><a href="#key-reasons-for-model-monitoring" id="toc-key-reasons-for-model-monitoring" class="nav-link" data-scroll-target="#key-reasons-for-model-monitoring">Key Reasons for Model Monitoring</a></li>
+  <li><a href="#types-of-model-monitoring" id="toc-types-of-model-monitoring" class="nav-link" data-scroll-target="#types-of-model-monitoring">Types of Model Monitoring</a></li>
   </ul></li>
+  <li><a href="#key-components-of-model-monitoring" id="toc-key-components-of-model-monitoring" class="nav-link" data-scroll-target="#key-components-of-model-monitoring"><span class="header-section-number">9.2</span> Key Components of Model Monitoring</a></li>
+  <li><a href="#tools-for-model-monitoring" id="toc-tools-for-model-monitoring" class="nav-link" data-scroll-target="#tools-for-model-monitoring"><span class="header-section-number">9.3</span> Tools for Model Monitoring</a></li>
+  <li><a href="#hands-on-example-implementing-model-monitoring" id="toc-hands-on-example-implementing-model-monitoring" class="nav-link" data-scroll-target="#hands-on-example-implementing-model-monitoring"><span class="header-section-number">9.4</span> Hands-On Example: Implementing Model Monitoring</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">9.5</span> Summary</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">9.6</span> Exercise</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/09-modelops-monitoring.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-modelops-role.html">ModelOps</a></li><li class="breadcrumb-item"><a href="./09-modelops-monitoring.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Model Monitoring</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Machine Learning Design for Business</h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Model Monitoring</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Brad Boehmke </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">February 2, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -308,83 +264,280 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="welcome" class="level1 unnumbered">
-<h1 class="unnumbered">Welcome</h1>
-<p>Welcome to <strong><em>Machine Learning Design for Business</em></strong>! This is the the online textbook that compliments the UC BANA 7075 course. This course aims to provide a framework for developing real-world machine learning systems that are deployable, reliable, and scalable. You will be introduced to <strong><em>MLOps</em></strong> as the intersection of DataOps, ModelOps, and DevOps; combined, these concepts provide scalable, reliable, and repeatable machine learning workflows. You will learn how MLOps enables organizations to overcome challenges in operationalizing machine learning models. Along the way, you will learn about important organizational issues including privacy, fairness, security, stakeholder management, project collaboration, and more!</p>
-<p>Throughout this textbook you’ll find embedded lectures, hands-on exercises, and additional resources that will allow you to explore the tools, techniques, and best practices required to successfully design and deploy machine learning systems in today’s organizations.</p>
-<section id="who-should-read-this" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="who-should-read-this">Who should read this</h2>
-<p>This book is ideal for graduate students, data scientists, engineers, and analytics professionals who want to bridge the gap between building machine learning models and deploying them into reliable, scalable production environments. Those looking to deepen their understanding of operationalizing ML models will benefit from hands-on experience with MLOps workflows, including data management, model deployment, and monitoring. Individuals with a basic background in machine learning or software development will gain practical skills to streamline the machine learning lifecycle and align their work with organizational and business goals.</p>
-<p>This book is also valuable for those interested in cross-functional collaboration, providing insights into how data science teams can work alongside engineering and business units to achieve successful machine learning outcomes.</p>
-<p>This book is technical in nature, designed to provide hands-on experience in deploying, monitoring, and managing machine learning systems. While it’s possible to successfully complete the book with minimal coding experience, having some familiarity with Python and basic machine learning concepts will be beneficial for understanding and applying the material. The course introduces technical tools and workflows, but it’s structured to guide students of various backgrounds through each step. Those with prior experience in Python or ML will have a smoother time grasping the concepts and may find it easier to implement projects independently. However, foundational knowledge in programming or machine learning is not strictly required, as core principles and step-by-step instructions are provided to support all readers in building effective MLOps pipelines.</p>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>If you are new to Python, I recommend you check out <a href="https://bradleyboehmke.github.io/uc-bana-6043">https://bradleyboehmke.github.io/uc-bana-6043</a> to get up to speed with the basics.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="conventions-used-in-this-book" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="conventions-used-in-this-book">Conventions used in this book</h2>
-<p>The following typographical conventions are used in this book:</p>
-<ul>
-<li><strong><em>strong italic</em></strong>: indicates new terms,</li>
-<li><strong>bold</strong>: indicates package &amp; file names,</li>
-<li><code>inline code</code>: monospaced highlighted text indicates functions or other commands that could be typed literally by the user,</li>
-<li>code chunk: indicates commands or other text that could be typed literally by the user</li>
-</ul>
-<div id="102f9a9c" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>3</code></pre>
-</div>
-</div>
-<p>In addition to the general text used throughout, you will notice the following code chunks with images:</p>
-<div class="callout callout-style-simple callout-tip">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Signifies a tip or suggestion</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Signifies a general note</p>
-</div>
-</div>
-</div>
 <div class="callout callout-style-simple callout-warning">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>Signifies a warning or caution</p>
+<p>Reading Time: TBD</p>
 </div>
 </div>
 </div>
+<p>Deploying a machine learning model is not the final step in an ML workflow, it’s just the beginning. Once a model is in production, its performance can degrade over time due to changes in data patterns, evolving user behavior, or shifts in external factors that were not present in the training data. Without a robust monitoring system in place, organizations risk relying on outdated or inaccurate predictions, which can lead to poor business decisions and financial losses.</p>
+<p>Model monitoring provides a structured way to continuously track and evaluate model performance, ensuring reliability and accountability in production environments. It helps detect issues such as data drift (when the input data distribution changes), concept drift (when the relationship between inputs and outputs evolves), and operational failures (such as increased response times or system crashes). By implementing real-time monitoring, data teams can identify problems early, trigger alerts, and take corrective action — whether by retraining the model, adjusting its parameters, or even rolling back to a previous version.</p>
+<p>This chapter will explore the different <strong>types of model monitoring</strong>, the <strong>key components of an effective monitoring system</strong>, and <strong>popular tools</strong> used to track model performance. We’ll also walk through a hands-on example, where we implement a basic monitoring system for the Apple Demand Forecasting Model introduced in previous chapters. By the end, you’ll understand how to build scalable, automated monitoring pipelines that keep models performant and aligned with business objectives.</p>
+<section id="why-is-model-monitoring-important" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="why-is-model-monitoring-important"><span class="header-section-number">9.1</span> Why is Model Monitoring Important?</h2>
+<p>Machine learning models do not exist in a static environment—once deployed, they are exposed to new and evolving data that may differ from what they were trained on. Without continuous monitoring, model performance can degrade, leading to inaccurate predictions and potentially costly business decisions. Model monitoring is a critical component of an operational ML system, ensuring that models remain reliable, fair, and performant in real-world applications.</p>
+<section id="key-reasons-for-model-monitoring" class="level3">
+<h3 class="anchored" data-anchor-id="key-reasons-for-model-monitoring">Key Reasons for Model Monitoring</h3>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ensuring Performance Consistency
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Over time, models may experience a decline in accuracy or other evaluation metrics due to shifts in data distributions or changes in real-world conditions. Monitoring helps track performance trends and detect issues early.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Detecting Data Drift and Concept Drift
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Models rely on patterns in historical data to make predictions. If these patterns shift (data drift) or the relationship between input features and predictions changes (concept drift), the model may no longer be valid. Monitoring helps catch these shifts before they cause significant problems.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Maintaining Business Value
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A poorly monitored model can lead to incorrect recommendations, financial losses, or compliance risks, depending on the application. By continuously tracking performance, organizations can proactively intervene when necessary.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ensuring Operational Stability
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Beyond accuracy, models must also function efficiently in production environments. Monitoring helps track API response times, infrastructure performance, and overall system health.</p>
+</div>
+</div>
+</div>
+<p>To address these challenges, model monitoring systems track various aspects of model performance, including predictive accuracy, data consistency, and operational efficiency.</p>
 </section>
-<section id="software-used-throughout-this-book" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="software-used-throughout-this-book">Software used throughout this book</h2>
-<p>TBD</p>
+<section id="types-of-model-monitoring" class="level3">
+<h3 class="anchored" data-anchor-id="types-of-model-monitoring">Types of Model Monitoring</h3>
+<p>Effective model monitoring involves tracking multiple dimensions of model performance, data integrity, and system stability. The key types of monitoring include:</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Performance Monitoring
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Performance monitoring tracks a model’s predictive accuracy over time to ensure that it continues to produce reliable outputs. Common metrics include:</p>
+<ul>
+<li><strong>Regression models:</strong> RMSE (Root Mean Squared Error), MAE (Mean Absolute Error), R²</li>
+<li><strong>Classification models:</strong> Accuracy, Precision, Recall, F1-score, AUC-ROC</li>
+<li><strong>Forecasting models:</strong> MAPE (Mean Absolute Percentage Error), MSE (Mean Squared Error)</li>
+</ul>
+<p>When a model’s performance declines beyond an acceptable threshold, teams can investigate the cause and take corrective action, such as retraining the model with fresh data or adjusting its hyperparameters.</p>
+<p><strong>Example:</strong> A demand forecasting model for a grocery retailer consistently achieves an RMSE of 50 units per week. However, after a few months, the RMSE increases to 120 units, indicating that the model’s predictions are becoming less reliable. Monitoring helps flag this change and allows the team to retrain the model with updated data.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Data Drift Monitoring
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Data drift occurs when the statistical properties of input features change over time. This can lead to unexpected model behavior and degraded performance. Monitoring data drift involves tracking feature distributions and identifying deviations from the training data.</p>
+<p><strong>Key Indicators of Data Drift:</strong></p>
+<ul>
+<li>Changes in mean, variance, or distribution of input features.</li>
+<li>Increased outliers in newly ingested data.</li>
+<li>Shift in feature correlations compared to the training dataset.</li>
+</ul>
+<p><strong>Example:</strong> A machine learning model used for predicting loan approvals was trained on demographic data from five years ago. As economic conditions evolve, the average income distribution of applicants shifts, leading to a significant change in predictions. Data drift monitoring detects this shift and signals the need to update the model.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Concept Drift Monitoring
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Concept drift happens when the relationship between input features and predictions changes over time. Unlike data drift (which concerns changes in input data distribution), concept drift affects how a model interprets data.</p>
+<p><strong>Common Causes of Concept Drift:</strong></p>
+<ul>
+<li>Changes in user behavior (e.g., customer preferences shift).</li>
+<li>Market changes affecting feature importance.</li>
+<li>Seasonality or external factors introducing new trends.</li>
+</ul>
+<p><strong>Example:</strong> A recommendation system for an e-commerce website suggests products based on past user behavior. However, as new shopping trends emerge (e.g., a sudden rise in eco-friendly products), user preferences change. Concept drift monitoring helps detect these shifts and prompts model adjustments.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Operational Monitoring
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Operational monitoring focuses on ensuring the reliability and efficiency of model-serving infrastructure. It tracks key deployment metrics, including:</p>
+<ul>
+<li><strong>API Latency:</strong> Response time of the model’s predictions.</li>
+<li><strong>Infrastructure Load:</strong> Resource consumption (CPU, memory, GPU usage).</li>
+<li><strong>Error Logs:</strong> Detecting system failures, API timeouts, or unusual error rates.</li>
+</ul>
+<p><strong>Example:</strong> A fraud detection model deployed as an API for real-time transactions experiences an increase in response times from 100ms to 2 seconds. This delay could impact the customer experience and lead to transaction failures. Operational monitoring alerts engineers to the issue so they can optimize the model-serving pipeline.</p>
+</div>
+</div>
+</div>
+<p>Model monitoring is a crucial part of maintaining ML models in production, ensuring they remain accurate, robust, and scalable. Whether tracking predictive performance, detecting data drift, or maintaining operational stability, effective monitoring allows teams to intervene before performance issues impact business decisions. In the next section, we will explore the <strong>key components</strong> of a robust model monitoring system, providing insights into what should be tracked and why.</p>
 </section>
-<section id="additional-resources" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="additional-resources">Additional resources</h2>
-<p>TBD</p>
+</section>
+<section id="key-components-of-model-monitoring" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="key-components-of-model-monitoring"><span class="header-section-number">9.2</span> Key Components of Model Monitoring</h2>
+<ul>
+<li><strong>Data Logging &amp; Storage:</strong>
+<ul>
+<li>Tracking incoming data and model predictions for auditing and troubleshooting.</li>
+</ul></li>
+<li><strong>Model Performance Metrics:</strong>
+<ul>
+<li>Continuous evaluation of model accuracy, precision-recall, and business KPIs.</li>
+</ul></li>
+<li><strong>Drift Detection Mechanisms:</strong>
+<ul>
+<li>Statistical tests and monitoring frameworks for detecting data and concept drift.</li>
+</ul></li>
+<li><strong>Alerting &amp; Automation:</strong>
+<ul>
+<li>Setting up real-time alerts for model degradation.</li>
+</ul></li>
+<li><strong>Retraining Triggers:</strong>
+<ul>
+<li>Automating model retraining when performance drops below a threshold.</li>
+</ul></li>
+</ul>
+</section>
+<section id="tools-for-model-monitoring" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="tools-for-model-monitoring"><span class="header-section-number">9.3</span> Tools for Model Monitoring</h2>
+<ul>
+<li><strong>Open-Source Monitoring Tools:</strong>
+<ul>
+<li><strong>Evidently AI</strong>: Data and concept drift detection, performance monitoring.</li>
+<li><strong>WhyLabs</strong>: Scalable ML monitoring with automated anomaly detection.</li>
+<li><strong>Fiddler AI</strong>: Explainability and bias detection in models.</li>
+<li><strong>Arize AI</strong>: Model observability with real-time performance tracking.</li>
+</ul></li>
+<li><strong>Cloud-Based Solutions:</strong>
+<ul>
+<li><strong>AWS SageMaker Model Monitor</strong>: Cloud-native monitoring in AWS.</li>
+<li><strong>Google Vertex AI Model Monitoring</strong>: Detecting drift in Google Cloud.</li>
+<li><strong>Azure ML Monitoring</strong>: Integrated ML monitoring in Azure.</li>
+</ul></li>
+<li><strong>Logging &amp; APM Tools (For Operational Monitoring):</strong>
+<ul>
+<li><strong>Prometheus &amp; Grafana</strong>: Infrastructure and latency monitoring.</li>
+<li><strong>Datadog &amp; New Relic</strong>: API and service performance tracking.</li>
+</ul></li>
+</ul>
+</section>
+<section id="hands-on-example-implementing-model-monitoring" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="hands-on-example-implementing-model-monitoring"><span class="header-section-number">9.4</span> Hands-On Example: Implementing Model Monitoring</h2>
+<ul>
+<li><strong>Scenario:</strong> Monitor the deployed <strong>Apple Demand Forecasting Model</strong> from the previous chapter.</li>
+<li><strong>Steps to Implement Monitoring:</strong>
+<ol type="1">
+<li><strong>Set up Logging</strong>: Store incoming requests and predictions.</li>
+<li><strong>Track Performance Metrics</strong>: Log RMSE, MAPE, and demand forecasting accuracy.</li>
+<li><strong>Detect Data Drift</strong>: Compare real-time input distributions with training data.</li>
+<li><strong>Set Up Alerts</strong>: Notify when performance falls below a threshold.</li>
+<li><strong>Automate Model Retraining (Optional)</strong>: Trigger retraining when drift is detected.</li>
+</ol></li>
+</ul>
+</section>
+<section id="summary" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">9.5</span> Summary</h2>
+<ul>
+<li><strong>Importance of Continuous Monitoring</strong>: Ensuring long-term reliability of ML models.</li>
+<li><strong>Types of Monitoring</strong>: Performance, data drift, concept drift, operational.</li>
+<li><strong>Key Components</strong>: Logging, metrics, drift detection, alerting, retraining.</li>
+<li><strong>Tools</strong>: Open-source, cloud-native, and APM solutions.</li>
+<li><strong>Next Steps</strong>: The following chapters will discuss how to integrate monitoring with automated ML workflows.</li>
+</ul>
+</section>
+<section id="exercise" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="exercise"><span class="header-section-number">9.6</span> Exercise</h2>
+<ul>
+<li><strong>Conceptual Design:</strong>
+<ul>
+<li>Identify key performance metrics and drift detection methods for monitoring a real-world ML system.</li>
+</ul></li>
+<li><strong>Hands-On Task:</strong>
+<ul>
+<li>Using <strong>Evidently AI</strong>, monitor a sample dataset for data drift.</li>
+<li>Simulate incoming requests and track performance over time.</li>
+<li>Set up an alerting mechanism for degraded model performance.</li>
+</ul></li>
+<li><strong>Reflection on Monitoring Challenges:</strong>
+<ul>
+<li>What challenges might arise in deploying a real-world monitoring system?</li>
+<li>How do design principles from Chapter 1 apply to model monitoring?</li>
+</ul></li>
+</ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -807,10 +960,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./08-modelops-deployment.html" class="pagination-link" aria-label="Model Deployment">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Model Deployment</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01-intro-ml-system.html" class="pagination-link" aria-label="ML System Design">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">ML System Design</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -819,4 +975,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/09-modelops-monitoring.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
