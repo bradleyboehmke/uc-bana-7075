@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./08-modelops-deployment.html" rel="next">
 <link href="./06-modelops-experimenting.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -210,6 +210,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Versioning and Reproducibility</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-modelops-deployment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Model Deployment</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <span class="sidebar-item-text sidebar-link text-start">
  <span class="menu-text">DevOps</span></span>
@@ -242,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#key-components-of-model-versioning" id="toc-key-components-of-model-versioning" class="nav-link" data-scroll-target="#key-components-of-model-versioning"><span class="header-section-number">7.2</span> Key Components of Model Versioning</a></li>
   <li><a href="#tools-for-model-versioning-and-reproducibility" id="toc-tools-for-model-versioning-and-reproducibility" class="nav-link" data-scroll-target="#tools-for-model-versioning-and-reproducibility"><span class="header-section-number">7.3</span> Tools for Model Versioning and Reproducibility</a></li>
-  <li><a href="#hands-on-example-implementing-model-versioning" id="toc-hands-on-example-implementing-model-versioning" class="nav-link" data-scroll-target="#hands-on-example-implementing-model-versioning"><span class="header-section-number">7.4</span> Hands-On Example: Implementing Model Versioning</a>
+  <li><a href="#sec-model-version-example" id="toc-sec-model-version-example" class="nav-link" data-scroll-target="#sec-model-version-example"><span class="header-section-number">7.4</span> Hands-On Example: Implementing Model Versioning</a>
   <ul class="collapse">
   <li><a href="#setting-the-stage" id="toc-setting-the-stage" class="nav-link" data-scroll-target="#setting-the-stage">Setting the Stage</a></li>
   <li><a href="#registering-models" id="toc-registering-models" class="nav-link" data-scroll-target="#registering-models">Registering Models</a></li>
@@ -250,7 +256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#reproducibility-of-registered-model" id="toc-reproducibility-of-registered-model" class="nav-link" data-scroll-target="#reproducibility-of-registered-model">Reproducibility of Registered Model</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">7.5</span> Summary</a></li>
-  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">7.6</span> Exercise</a></li>
+  <li><a href="#sec-model-version-exercise" id="toc-sec-model-version-exercise" class="nav-link" data-scroll-target="#sec-model-version-exercise"><span class="header-section-number">7.6</span> Exercise</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/07-modelops-versioning.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -259,7 +265,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Versioning and Reproducibility</span></h1>
+<h1 class="title"><span id="sec-model-versioning-chapter" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Versioning and Reproducibility</span></span></h1>
 </div>
 
 
@@ -824,8 +830,8 @@ BentoML
 </ul>
 <p>By aligning tools with workflow requirements, teams can establish robust model versioning practices that seamlessly extend the experiment tracking processes outlined in the previous chapter.</p>
 </section>
-<section id="hands-on-example-implementing-model-versioning" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="hands-on-example-implementing-model-versioning"><span class="header-section-number">7.4</span> Hands-On Example: Implementing Model Versioning</h2>
+<section id="sec-model-version-example" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="sec-model-version-example"><span class="header-section-number">7.4</span> Hands-On Example: Implementing Model Versioning</h2>
 <p>In the previous chapter, we explored how MLflow can be used to track experiments, documenting essential components like datasets, hyperparameters, and metrics for apple demand forecasting models (see <a href="06-modelops-experimenting.html#sec-experiment-tracking" class="quarto-xref">Section&nbsp;<span>6.4</span></a>). This experiment tracking provided a solid foundation for organizing and comparing various model iterations. However, tracking experiments is only part of the journey. Once a model is ready to transition from experimentation to production, effective management and versioning become critical.</p>
 <p>This section builds on the previous hands-on example by demonstrating how to leverage the <a href="https://mlflow.org/docs/latest/model-registry.html">MLflow Model Registry</a> to implement model versioning. Model versioning ensures that every model iteration—along with its configuration, artifacts, and performance metrics—is systematically managed. It also facilitates reproducibility, traceability, and seamless lifecycle transitions.</p>
 <p>In this hands-on example, we’ll revisit the apple demand forecasting problem and illustrate how to register, manage, and compare multiple model versions using the MLflow Model Registry. By the end of this section, you will understand how to:</p>
@@ -1136,9 +1142,9 @@ BentoML
 <p>We highlighted key components of model versioning, showing how it acts as an extension of experiment tracking, and introduced tools like MLflow, DVC, and TensorFlow Serving, which streamline versioning and foster reliable model management. Through a hands-on example, we demonstrated how to register models using MLflow, both through the user interface and programmatically, showcasing the value of tagging and aliasing for managing model stages and deployment readiness.</p>
 <p>Although this chapter focused on the fundamentals of versioning and reproducibility, we laid the foundation for the next chapter, which will delve into deploying and serving machine learning models. With deployment strategies, model lifecycle monitoring, and real-world applications ahead, the concepts explored here will serve as an essential bridge to operationalizing your models in production environments.</p>
 </section>
-<section id="exercise" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="exercise"><span class="header-section-number">7.6</span> Exercise</h2>
-<p>In this exercise, you’ll extend your work from the previous chapter’s exercise (see <a href="06-modelops-experimenting.html#sec-model-experimentation-exercise" class="quarto-xref">Section&nbsp;<span>6.7</span></a>) to include model versioning. Building on the California home prediction task, you will use MLflow to register and version your models, enabling clear traceability and management of model iterations.</p>
+<section id="sec-model-version-exercise" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="sec-model-version-exercise"><span class="header-section-number">7.6</span> Exercise</h2>
+<p>In this exercise, you’ll extend your work from the previous chapter’s exercise (see <a href="06-modelops-experimenting.html#sec-model-experimentation-exercise" class="quarto-xref">Exercise&nbsp;<span>6.7</span></a>) to include model versioning. Building on the California home prediction task, you will use MLflow to register and version your models, enabling clear traceability and management of model iterations.</p>
 <div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1667,8 +1673,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./08-modelops-deployment.html" class="pagination-link" aria-label="Model Deployment">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Model Deployment</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
