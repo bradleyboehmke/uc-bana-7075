@@ -30,6 +30,7 @@ book:
         - 06-modelops-experimenting.qmd
         - 07-modelops-versioning.qmd
         - 08-modelops-deployment.qmd
+        - 09-modelops-monitoring.qmd
     - part: "DevOps"
     - part: "The Human Side of ML Systems"
     - references.qmd
