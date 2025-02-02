@@ -421,7 +421,7 @@ By understanding your deployment requirements and the strengths of these framewo
 
 ## Hands-On Example: Deploying a Machine Learning Model
 
-In this hands-on example, we’ll build on the apple demand forecasting model from previous chapters, demonstrating how to deploy it for **real-time** or **batch inference** using **MLFlow**, **FastAPI** and **Docker**. This example provides a practical, simplified view of how to bring a trained model into production-like environments.
+In this hands-on example, we’ll build on the apple demand forecasting model from previous chapters, demonstrating how to deploy it for **real-time** or **batch inference** using **MLFlow**, **FastAPI**, **Streamlit** and **Docker**. This example provides a practical, simplified view of how to bring a trained model into production-like environments.
 
 The goal of this exercise is to simulate a complete deployment pipeline that includes:
 
@@ -483,15 +483,17 @@ You'll also need to ensure you have completed the previous hands-on examples whe
 
 #### 3. Dataset for Predictions
 
-For these examples, we'll use simulated test data to feed into our deployed model to make predictions.  You can use this [`test_data.csv`](TBD) file or create your own test data using [this notebook](TBD).
+For these examples, we'll use simulated test data to feed into our deployed model to make predictions.  The following represents a single input that could be fed into our model to mimic a real-time prediction.  You can use this [`test_data.csv`](https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/test_data.csv) file.
 
-```{python}
-import pandas as pd
+{{< embed ../ModelOps/model-create-test-data.ipynb#single-input echo=false >}}
 
-# Load the test data
-test_data = pd.read_csv("../ModelOps/test_data.csv")
-print(test_data.head())
-```
+And the following represents multiple inputs that could be fed into our model to mimic a batch prediction.  You can use this [`test_batch_data.csv`](https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/test_batch_data.csv) file.
+
+{{< embed ../ModelOps/model-create-test-data.ipynb#batch-input echo=false >}}
+
+::: {.callout-tip}
+Feel free to generate your own test data using this [notebook](https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/model-create-test-data.ipynb).
+:::
 
 ### Retrieving the Trained Model from MLflow
 
@@ -503,7 +505,7 @@ Before deploying the model, we need to retrieve it from the MLflow Model Registr
 I currently have 4 models versions.  Depending on what you did in the previous chapter you may have more or less models versioned.
 :::
 
-Now, that these model's are registered, we can load the latest version of this model programmatically and make predictions with it.  The following code shows an example of loading the latest model and making a prediction using simulated test data:
+Now, that these model's are registered, we can load the latest version of this model programmatically and make predictions with it.  The following code^[See this notebook: [https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/model-retrieval.ipynb](https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/model-retrieval.ipynb)] shows an example of loading the latest model and making a prediction using simulated test data:
 
 {{< embed ../ModelOps/model-retrieval.ipynb#model-retrieval echo=true >}}
 
@@ -523,21 +525,21 @@ For a grocery chain retailer, having a deployed API means that various business 
 
 For example:
 
-- A **warehouse system** could call this API every morning to predict **how many apples** each store is expected to sell in the coming days. This allows the retailer to optimize deliveries and reduce waste.
+- A **warehouse system** could call this API every morning to predict how many apples each store is expected to sell in the coming days. This allows the retailer to optimize deliveries and reduce waste.
 - A **pricing system** could query the API and adjust apple prices dynamically based on predicted demand, running promotions when demand is low or adjusting supply when demand spikes.
 - A **dashboard** used by regional managers might fetch daily demand forecasts via this API to monitor trends and make data-driven stocking decisions.
 
-Rather than requiring manual calculations or data science expertise at each store, this API could allow **automated, real-time access** to apple demand forecasts across the retailer's entire network.
+Rather than requiring manual calculations or data science expertise at each store, this API could allow automated, real-time access to apple demand forecasts across the retailer's entire network.
 
 ::: {.callout-note collapse="true"}
 ## Understanding APIs
 
-As a **data scientist**, you may not be responsible for deploying models at scale, but understanding how APIs work helps you bridge the gap between model development and practical business impact. This section walks you through **building and testing a simple API locally**, showing how predictions can be served dynamically.
+As a **data scientist**, you may not be responsible for deploying models at scale, but understanding how APIs work helps you bridge the gap between model development and practical business impact. This section walks you through building and testing a simple API locally, showing how predictions can be served dynamically.
 
-Even if you don’t plan to build production APIs, reading through this section will help you appreciate the complexities involved in model deployment. **At a minimum, understanding API-based deployment** will allow you to better collaborate with software engineers and DevOps teams, ensuring your models are integrated seamlessly into the company’s workflows.
+Even if you don’t plan to build production APIs, reading through this section will help you appreciate the complexities involved in model deployment. At a minimum, understanding API-based deployment will allow you to better collaborate with software engineers and DevOps teams, ensuring your models are integrated seamlessly into the company’s workflows.
 :::
 
-Our first task is to create a new Python script called `fastapi_app.py` and add the following code.
+Our first task is to create a new Python script called `fastapi_app.py`^[See this python script: [https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/fastapi_app.py](https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/fastapi_app.py)] and add the following code.
 
 Note the key components in this code includes:
 
@@ -688,7 +690,7 @@ In the next section, we will walk through how to integrate Streamlit with FastAP
 
 #### Streamlit App for Model Predictions
 
-First, we'll create a new Python script called `streamlit_app.py`.  This script should be in the sameproject directory as the `fastapi_app.py` script you created in the last section.
+First, we'll create a new Python script called `streamlit_app.py`^[See this python script: [https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/streamlit_app.py](https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/streamlit_app.py)].  This script should be in the sameproject directory as the `fastapi_app.py` script you created in the last section.
 
 ```bash
 📂 project_directory/
@@ -740,7 +742,7 @@ This starts the Streamlit UI on `http://127.0.0.1:8501` and will send API reques
 ::: {.callout-note collapse="true"}
 ## Option 2: Running FastAPI and Streamlit from a Single Script
 
-If you want to start both applications from one script, you can use Python’s `multiprocessing` module to run them in parallel.  You'll need to create a new script titled `fastapi_streamlit.py` that is in the same directory as your other app scripts.
+If you want to start both applications from one script, you can use Python’s `multiprocessing` module to run them in parallel.  You'll need to create a new script titled `fastapi_streamlit.py`^[See this python script: [https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/fastapi_streamlit.py](https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/fastapi_streamlit.py)] that is in the same directory as your other app scripts.
 
 ```bash
 📂 project_directory/
@@ -794,7 +796,7 @@ To fully support FastAPI, Streamlit, and MLflow, our project will be structured 
 ```
 
 ::: {.callout-note}
-You can find this directory and all the files discussed here: TBD
+You can find this directory and all the files discussed here: [https://github.com/bradleyboehmke/uc-bana-7075/tree/main/ModelOps/model-deploy](https://github.com/bradleyboehmke/uc-bana-7075/tree/main/ModelOps/model-deploy).
 :::
 
 
@@ -967,17 +969,15 @@ While the topic of model evaluation is beyond the scope of this chapter, resourc
 
 ## Summary
 
-### **Summary**
-
 In this chapter, we explored the critical aspects of **model deployment**, building on previous discussions of model tracking and versioning. We began by outlining key considerations for deploying machine learning models, covering factors such as inference type, deployment environments, and collaboration with engineering teams. From there, we delved into deployment strategies, comparing batch and real-time inference while also examining different production update strategies like Canary, Blue-Green, and Shadow Deployments.
 
-To bring these concepts to life, we walked through a **hands-on example**, demonstrating how to deploy a trained apple demand forecasting model using **FastAPI**, **Streamlit** and **Docker**. This included retrieving a versioned model from MLflow, developing an API to serve predictions, and containerizing the application for a reliable and scalable deployment pipeline. By following this process, we showcased how a deployed model can integrate into a retailer’s inventory management system, enabling automated, data-driven decision-making.
+To bring these concepts to life, we walked through a **hands-on example**, demonstrating how to deploy a trained apple demand forecasting model using **FastAPI**, **Streamlit** and **Docker**. This included retrieving a versioned model from MLflow, developing an API to serve predictions, creating a front-end UI to interact with FastAPI and view the predictions, and containerizing the application for a reliable and scalable deployment pipeline.
 
 While deployment ensures a model is accessible in production, the work does not stop there. Once deployed, models must be **monitored continuously** to detect performance degradation, data drift, and unexpected failures. In the next chapter, we will focus on **model monitoring**, covering best practices, tools, and strategies to ensure that models continue to deliver accurate and reliable predictions in real-world conditions.
 
 ## Exercise
 
-In this exercise, you will build upon the California housing price prediction task from previous exercises and take the next step: **deploying your trained model as an API and integrating a user-friendly Streamlit app as a front-end interface**. This will simulate a real-world scenario where users can interact with the model through an application.
+In this exercise, you will build upon the California housing price prediction task from previous exercises^[See [Exercise @sec-model-experimentation-exercise] and [Exercise @sec-model-version-exercise]] and take the next step: **deploying your trained model as an API and integrating a user-friendly Streamlit app as a front-end interface**. This will simulate a real-world scenario where users can interact with the model through an application.
 
 ::: {.callout-note collapse="true"}
 ## Part 1: Conceptual Design
@@ -993,40 +993,39 @@ Before jumping into implementation, think about how this model would be used in 
    - How would you ensure that the deployed model is reliable and scalable?
 
 3. **System Integration**:
-   - How could this model integrate into a **real estate application** or **property valuation tool**?
+   - How could this model integrate into a real estate application or property valuation tool?
    - What external systems (e.g., databases, business intelligence dashboards) might need access to the model’s predictions?
 :::
 
 ::: {.callout-note collapse="true"}
 ## Part 2: Hands-On Experimentation
 
-Now, you will **deploy your trained California housing price model** as a FastAPI-based REST API, containerize it with Docker, and then integrate a **Streamlit front-end UI**.
+Now, you will deploy your trained California housing price model as a FastAPI-based REST API, create a Streamlit front-end UI to interact with FastAPI, and containerize it with Docker.
 
 1. **Retrieve Your Trained Model**
-   - Load your **previously trained California housing price model** from MLflow.
+   - Load your previously trained California housing price model from MLflow.
    - Ensure that you are retrieving the correct version from the MLflow model registry.
 
 2. **Build a FastAPI Application**
-   - Create a **FastAPI** app that exposes an endpoint (`/predict`) to receive requests and return predicted house prices.
-   - Allow the API to accept both **a single input** (for real-time inference) and **a CSV file** (for batch inference).
+   - Create a FastAPI app that exposes an endpoint (`/predict`) to receive requests and return predicted house prices.
+   - Allow the API to accept both a single input (for real-time inference) and a CSV file (for batch inference).
 
 3. **Create a Streamlit UI for Model Interaction**
-   - Build a **Streamlit app** that serves as a user-friendly front end to interact with the model.
+   - Build a Streamlit app that serves as a user-friendly front end to interact with the model.
    - The app should:
-     - Allow users to **input features manually** for real-time predictions.
-     - Enable **uploading a CSV file** for batch predictions.
-     - Display the **model’s predictions** in a clear and structured format.
+     - Allow users to input features manually for real-time predictions.
+     - Enable uploading a CSV file for batch predictions.
+     - Display the model’s predictions in a clear and structured format.
    - The Streamlit app should send requests to the FastAPI backend and display the returned predictions.
 
-
 4. **Containerize the API with Docker**
-   - Write a **Dockerfile** to package the FastAPI and Streamlit application.
+   - Write a Dockerfile to package the FastAPI and Streamlit application.
    - Build and run the Docker container locally to ensure the API is functioning correctly.
 
 5. **Test the End-to-End System**
-   - Run the **FastAPI server** and the **Streamlit app** simultaneously.
+   - Run the FastAPI server and the Streamlit app simultaneously.
    - Test making predictions through both the Streamlit UI and direct API calls (via `curl` or `requests`).
-   - Try making a prediction for **a single home** and for **multiple homes** using a CSV file.
+   - Try making a prediction for a single home and for multiple homes using a CSV file.
 :::
 
 ::: {.callout-note collapse="true"}
@@ -1036,9 +1035,10 @@ Now that you’ve deployed your model, reflect on the process:
 
 1. **Challenges & Optimizations**
    - What challenges did you face while deploying the model?
-   - How could you optimize this deployment for **scalability** and **performance**?
+   - How could you optimize this deployment for scalability and performance?
 
-2. **Next Steps**
-   - If you needed to deploy this model in a **cloud environment** (AWS, GCP, or Azure), what steps would be required?
-   - How would you monitor this model post-deployment to ensure it maintains performance over time?
+2. **Design Principles in Deployment**
+   - Review the ML system design principles discussed in [Section @sec-design-principles].
+   - How does your deployment incorporate principles like modularity, scalability, reproducibility, or adaptability/flexibility?
+   - What design trade-offs did you encounter, and how would you improve your deployment using these principles?
 :::
