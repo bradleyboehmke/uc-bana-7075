@@ -6,6 +6,8 @@ book:
   author: "Brad Boehmke"
   date: today
   search: true
+  sidebar:
+    style: docked
   repo-url: https://github.com/bradleyboehmke/uc-bana-7075
   repo-branch: main
   repo-actions: [edit, issue]
@@ -15,16 +17,19 @@ book:
   chapters:
     - index.qmd
     - part: "Laying the Foundation"
-    - 01-intro-ml-system.qmd
-    - 02-before-we-build.qmd
+      chapters:
+        - 01-intro-ml-system.qmd
+        - 02-before-we-build.qmd
     - part: "DataOps"
-    - 03-dataops-role.qmd
-    - 04-dataops-build.qmd
+      chapters:
+        - 03-dataops-role.qmd
+        - 04-dataops-build.qmd
     - part: "ModelOps"
-    - 05-modelops-role.qmd
-    - 06-modelops-experimenting.qmd
-    - 07-modelops-versioning.qmd
-    - 08-modelops-deployment.qmd
+      chapters:
+        - 05-modelops-role.qmd
+        - 06-modelops-experimenting.qmd
+        - 07-modelops-versioning.qmd
+        - 08-modelops-deployment.qmd
     - part: "DevOps"
     - part: "The Human Side of ML Systems"
     - references.qmd
