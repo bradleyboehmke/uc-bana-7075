@@ -1,5 +1,9 @@
 # Model Training and Experiment Tracking {#sec-model-experimentation}
 
+::: {.callout-warning}
+Reading Time: 40-55 minutes
+:::
+
 Model training is the cornerstone of machine learning, where algorithms learn patterns from data to make predictions or decisions. The process involves feeding a machine learning model with labeled data, enabling it to map inputs to desired outputs. This stage is critical because the effectiveness of the entire ML system hinges on the model’s ability to generalize from training data to unseen scenarios. However, achieving high performance is rarely straightforward and often requires iterative experimentation.
 
 Training a model is not a one-and-done process. It involves an iterative cycle of hypothesis testing, parameter tuning, and evaluation to optimize performance. Data scientists experiment with hyperparameters, datasets, preprocessing techniques, and algorithms to achieve the best outcomes. Each experiment builds on the previous, gradually refining the model’s capabilities. This trial-and-error approach, while powerful, introduces complexities, especially when dealing with multiple experiments, diverse datasets, and varying metrics.

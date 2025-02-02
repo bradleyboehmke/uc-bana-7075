@@ -7,6 +7,10 @@ notebook-view:
     url: https://github.com/bradleyboehmke/uc-bana-7075/blob/main/DataOps/youtube-data-pipeline.ipynb
 ---
 
+::: {.callout-warning}
+Reading Time: 45-60 minutes
+:::
+
 In the previous chapter, we explored the foundational concepts of DataOps, focusing on the importance of processes such as data ingestion, validation, versioning, and lineage in building reliable machine learning systems. Now, it’s time to take these concepts from theory to practice by applying them to create data pipelines. Data pipelines form the backbone of any modern ML system, serving as the structured, automated pathways through which data flows from raw sources to actionable insights.
 
 A **data pipeline** is a series of interconnected steps that collect, process, validate, and transform data into formats ready for machine learning workflows. Whether you’re ingesting data from multiple sources, cleaning and preparing it for modeling, or ensuring its integrity through validation and versioning, pipelines make it possible to handle these tasks efficiently and consistently. They are essential for ensuring scalability, reliability, and repeatability in ML systems, especially in environments where data is constantly changing or arriving in real-time.

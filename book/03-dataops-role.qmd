@@ -1,5 +1,9 @@
 # The Role of DataOps
 
+::: {.callout-warning}
+Reading Time: 40-55 minutes
+:::
+
 DataOps, short for Data Operations, is a collaborative and agile approach to designing, implementing, and managing data workflows. It is an essential pillar within the MLOps lifecycle, ensuring that data — the lifeblood of any machine learning system — is efficiently, reliably, and securely delivered to support model training and inference. While MLOps focuses on the end-to-end process of deploying and maintaining machine learning systems, DataOps hones in on the data-specific aspects, addressing the challenges of data management, processing, and quality control. By embedding DataOps practices into the MLOps framework, organizations can build scalable, reliable ML systems that deliver consistent and meaningful results.
 
 The primary goals of DataOps are to ensure that data pipelines are efficient, reliable, and produce high-quality data for machine learning workflows. These goals are achieved through robust processes for:

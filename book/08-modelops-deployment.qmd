@@ -1,5 +1,10 @@
 # Model Deployment
 
+::: {.callout-warning}
+Reading Time: 45-60 minutes
+:::
+
+
 Model deployment is the pivotal stage in the machine learning lifecycle where a trained and validated model transitions from development to production. While the earlier stages of the process—like model training, experimentation tracking, and versioning—focus on optimizing model performance and ensuring reproducibility, deployment brings these efforts to life by delivering actionable insights in real-world environments. A deployed model is not just a static artifact but an operational component that interacts with live data to provide predictions, influence decisions, and generate value for businesses.
 
 ::: {.callout-note}
