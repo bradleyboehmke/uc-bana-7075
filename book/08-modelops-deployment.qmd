@@ -424,7 +424,7 @@ The right tool depends on several factors:
 
 By understanding your deployment requirements and the strengths of these frameworks, you can select the right combination to ensure your models are deployed efficiently and effectively.
 
-## Hands-On Example: Deploying a Machine Learning Model
+## Hands-On Example: Deploying a Machine Learning Model {#sec-model-deploy-example}
 
 In this hands-on example, we’ll build on the apple demand forecasting model from previous chapters, demonstrating how to deploy it for **real-time** or **batch inference** using **MLFlow**, **FastAPI**, **Streamlit** and **Docker**. This example provides a practical, simplified view of how to bring a trained model into production-like environments.
 
@@ -709,7 +709,7 @@ The `streamlit_app.py` script will contain the following code:
 {{< include ../ModelOps/streamlit_app.py >}}
 ```
 
-#### Running FastAPI and Streamlit Together
+#### Running FastAPI and Streamlit Together {#sec-fastapi-streamlit-together}
 
 Since FastAPI serves as the backend for model inference and Streamlit acts as the frontend UI, both applications need to run simultaneously and communicate with each other. There are several ways to achieve this depending on whether you're in a development or production environment.
 
