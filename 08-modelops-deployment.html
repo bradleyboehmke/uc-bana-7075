@@ -270,7 +270,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#deployment-environments" id="toc-deployment-environments" class="nav-link" data-scroll-target="#deployment-environments">Deployment Environments</a></li>
   </ul></li>
   <li><a href="#tools-and-frameworks-for-model-deployment" id="toc-tools-and-frameworks-for-model-deployment" class="nav-link" data-scroll-target="#tools-and-frameworks-for-model-deployment"><span class="header-section-number">8.3</span> Tools and Frameworks for Model Deployment</a></li>
-  <li><a href="#hands-on-example-deploying-a-machine-learning-model" id="toc-hands-on-example-deploying-a-machine-learning-model" class="nav-link" data-scroll-target="#hands-on-example-deploying-a-machine-learning-model"><span class="header-section-number">8.4</span> Hands-On Example: Deploying a Machine Learning Model</a>
+  <li><a href="#sec-model-deploy-example" id="toc-sec-model-deploy-example" class="nav-link" data-scroll-target="#sec-model-deploy-example"><span class="header-section-number">8.4</span> Hands-On Example: Deploying a Machine Learning Model</a>
   <ul class="collapse">
   <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
   <li><a href="#retrieving-the-trained-model-from-mlflow" id="toc-retrieving-the-trained-model-from-mlflow" class="nav-link" data-scroll-target="#retrieving-the-trained-model-from-mlflow">Retrieving the Trained Model from MLflow</a></li>
@@ -1068,8 +1068,8 @@ AWS SageMaker
 </ul>
 <p>By understanding your deployment requirements and the strengths of these frameworks, you can select the right combination to ensure your models are deployed efficiently and effectively.</p>
 </section>
-<section id="hands-on-example-deploying-a-machine-learning-model" class="level2" data-number="8.4">
-<h2 data-number="8.4" class="anchored" data-anchor-id="hands-on-example-deploying-a-machine-learning-model"><span class="header-section-number">8.4</span> Hands-On Example: Deploying a Machine Learning Model</h2>
+<section id="sec-model-deploy-example" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="sec-model-deploy-example"><span class="header-section-number">8.4</span> Hands-On Example: Deploying a Machine Learning Model</h2>
 <p>In this hands-on example, we’ll build on the apple demand forecasting model from previous chapters, demonstrating how to deploy it for <strong>real-time</strong> or <strong>batch inference</strong> using <strong>MLFlow</strong>, <strong>FastAPI</strong>, <strong>Streamlit</strong> and <strong>Docker</strong>. This example provides a practical, simplified view of how to bring a trained model into production-like environments.</p>
 <p>The goal of this exercise is to simulate a complete deployment pipeline that includes:</p>
 <ul>
@@ -1734,8 +1734,8 @@ Internal Tools: Rapid Experimentation Before Full Integration
 <span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
 <span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>            st.error(<span class="st">"Error processing batch prediction."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="running-fastapi-and-streamlit-together" class="level4">
-<h4 class="anchored" data-anchor-id="running-fastapi-and-streamlit-together">Running FastAPI and Streamlit Together</h4>
+<section id="sec-fastapi-streamlit-together" class="level4">
+<h4 class="anchored" data-anchor-id="sec-fastapi-streamlit-together">Running FastAPI and Streamlit Together</h4>
 <p>Since FastAPI serves as the backend for model inference and Streamlit acts as the frontend UI, both applications need to run simultaneously and communicate with each other. There are several ways to achieve this depending on whether you’re in a development or production environment.</p>
 <ol type="1">
 <li><strong>Running them separately in different terminal windows</strong> (best for local development).</li>

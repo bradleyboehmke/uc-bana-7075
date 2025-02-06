@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -235,8 +269,22 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#types-of-model-monitoring" id="toc-types-of-model-monitoring" class="nav-link" data-scroll-target="#types-of-model-monitoring">Types of Model Monitoring</a></li>
   </ul></li>
   <li><a href="#key-components-of-model-monitoring" id="toc-key-components-of-model-monitoring" class="nav-link" data-scroll-target="#key-components-of-model-monitoring"><span class="header-section-number">9.2</span> Key Components of Model Monitoring</a></li>
-  <li><a href="#tools-for-model-monitoring" id="toc-tools-for-model-monitoring" class="nav-link" data-scroll-target="#tools-for-model-monitoring"><span class="header-section-number">9.3</span> Tools for Model Monitoring</a></li>
-  <li><a href="#hands-on-example-implementing-model-monitoring" id="toc-hands-on-example-implementing-model-monitoring" class="nav-link" data-scroll-target="#hands-on-example-implementing-model-monitoring"><span class="header-section-number">9.4</span> Hands-On Example: Implementing Model Monitoring</a></li>
+  <li><a href="#tools-for-model-monitoring" id="toc-tools-for-model-monitoring" class="nav-link" data-scroll-target="#tools-for-model-monitoring"><span class="header-section-number">9.3</span> Tools for Model Monitoring</a>
+  <ul class="collapse">
+  <li><a href="#open-source-monitoring-tools" id="toc-open-source-monitoring-tools" class="nav-link" data-scroll-target="#open-source-monitoring-tools">Open-Source Monitoring Tools</a></li>
+  <li><a href="#cloud-based-monitoring-solutions" id="toc-cloud-based-monitoring-solutions" class="nav-link" data-scroll-target="#cloud-based-monitoring-solutions">Cloud-Based Monitoring Solutions</a></li>
+  <li><a href="#logging-apm-tools-for-operational-monitoring" id="toc-logging-apm-tools-for-operational-monitoring" class="nav-link" data-scroll-target="#logging-apm-tools-for-operational-monitoring">Logging &amp; APM Tools (For Operational Monitoring)</a></li>
+  </ul></li>
+  <li><a href="#hands-on-example-implementing-model-monitoring" id="toc-hands-on-example-implementing-model-monitoring" class="nav-link" data-scroll-target="#hands-on-example-implementing-model-monitoring"><span class="header-section-number">9.4</span> Hands-On Example: Implementing Model Monitoring</a>
+  <ul class="collapse">
+  <li><a href="#why-is-this-important" id="toc-why-is-this-important" class="nav-link" data-scroll-target="#why-is-this-important">Why is This Important?</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#setting-up-the-monitoring-infrastructure" id="toc-setting-up-the-monitoring-infrastructure" class="nav-link" data-scroll-target="#setting-up-the-monitoring-infrastructure">Setting Up the Monitoring Infrastructure</a></li>
+  <li><a href="#monitoring-model-performance-with-evidently-ai" id="toc-monitoring-model-performance-with-evidently-ai" class="nav-link" data-scroll-target="#monitoring-model-performance-with-evidently-ai">Monitoring Model Performance with Evidently AI</a></li>
+  <li><a href="#setting-up-operational-monitoring-with-prometheus-and-grafana" id="toc-setting-up-operational-monitoring-with-prometheus-and-grafana" class="nav-link" data-scroll-target="#setting-up-operational-monitoring-with-prometheus-and-grafana">Setting Up Operational Monitoring with Prometheus and Grafana</a></li>
+  <li><a href="#automating-monitoring-alerts" id="toc-automating-monitoring-alerts" class="nav-link" data-scroll-target="#automating-monitoring-alerts">Automating Monitoring &amp; Alerts</a></li>
+  <li><a href="#reflection-next-steps" id="toc-reflection-next-steps" class="nav-link" data-scroll-target="#reflection-next-steps">Reflection &amp; Next Steps</a></li>
+  </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">9.5</span> Summary</a></li>
   <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">9.6</span> Exercise</a></li>
   </ul>
@@ -276,7 +324,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>Deploying a machine learning model is not the final step in an ML workflow, it’s just the beginning. Once a model is in production, its performance can degrade over time due to changes in data patterns, evolving user behavior, or shifts in external factors that were not present in the training data. Without a robust monitoring system in place, organizations risk relying on outdated or inaccurate predictions, which can lead to poor business decisions and financial losses.</p>
 <p>Model monitoring provides a structured way to continuously track and evaluate model performance, ensuring reliability and accountability in production environments. It helps detect issues such as data drift (when the input data distribution changes), concept drift (when the relationship between inputs and outputs evolves), and operational failures (such as increased response times or system crashes). By implementing real-time monitoring, data teams can identify problems early, trigger alerts, and take corrective action — whether by retraining the model, adjusting its parameters, or even rolling back to a previous version.</p>
-<p>This chapter will explore the different <strong>types of model monitoring</strong>, the <strong>key components of an effective monitoring system</strong>, and <strong>popular tools</strong> used to track model performance. We’ll also walk through a hands-on example, where we implement a basic monitoring system for the Apple Demand Forecasting Model introduced in previous chapters. By the end, you’ll understand how to build scalable, automated monitoring pipelines that keep models performant and aligned with business objectives.</p>
+<p>This chapter will explore the different <strong>types of model monitoring</strong>, the <strong>key components of an effective monitoring system</strong>, and <strong>popular tools</strong> used to track model performance. We’ll also walk through a hands-on example, where we implement a basic monitoring system for the apple demand forecasting model introduced in previous chapters. By the end, you’ll understand how to build scalable, automated monitoring pipelines that keep models performant and aligned with business objectives.</p>
 <section id="why-is-model-monitoring-important" class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="why-is-model-monitoring-important"><span class="header-section-number">9.1</span> Why is Model Monitoring Important?</h2>
 <p>Machine learning models do not exist in a static environment—once deployed, they are exposed to new and evolving data that may differ from what they were trained on. Without continuous monitoring, model performance can degrade, leading to inaccurate predictions and potentially costly business decisions. Model monitoring is a critical component of an operational ML system, ensuring that models remain reliable, fair, and performant in real-world applications.</p>
@@ -370,6 +418,21 @@ Performance Monitoring
 <li><strong>Forecasting models:</strong> MAPE (Mean Absolute Percentage Error), MSE (Mean Squared Error)</li>
 </ul>
 <p>When a model’s performance declines beyond an acceptable threshold, teams can investigate the cause and take corrective action, such as retraining the model with fresh data or adjusting its hyperparameters.</p>
+<div id="fig-model-decay" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-model-decay-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/model-decay-monitoring.jpg" class="img-fluid figure-img"></p>
+<figcaption>Model Decay</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-model-decay-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.1: Performance monitoring tracks a model’s predictive accuracy over time. The decrease of the performance metric can be used to trigger model retraining, which leads to model recovery. <a href="https://ml-ops.org/content/mlops-principles#monitoring">source</a>
+</figcaption>
+</figure>
+</div>
 <p><strong>Example:</strong> A demand forecasting model for a grocery retailer consistently achieves an RMSE of 50 units per week. However, after a few months, the RMSE increases to 120 units, indicating that the model’s predictions are becoming less reliable. Monitoring helps flag this change and allows the team to retrain the model with updated data.</p>
 </div>
 </div>
@@ -393,7 +456,36 @@ Data Drift Monitoring
 <li>Increased outliers in newly ingested data.</li>
 <li>Shift in feature correlations compared to the training dataset.</li>
 </ul>
-<p><strong>Example:</strong> A machine learning model used for predicting loan approvals was trained on demographic data from five years ago. As economic conditions evolve, the average income distribution of applicants shifts, leading to a significant change in predictions. Data drift monitoring detects this shift and signals the need to update the model.</p>
+<p><strong>Example:</strong></p>
+<p>Imagine a retail chain that uses machine learning to predict how many products of a particular type they need to stock in each of their stores. They trained their model using historical sales data from the past few years.</p>
+<p>Until now, most of their sales have been in physical stores, and their model has become quite good at forecasting demand for in-store products. However, as the retailer ran a marketing campaign to promote their new mobile app, there’s been a significant shift towards online sales, especially for some product categories.</p>
+<p>The training data didn’t have enough online sales information, so the model didn’t perform as well for this segment. But it didn’t matter much because online sales were a small part of their business. With the surge in online shopping, the quality of the model’s forecasts has significantly dropped, affecting their ability to manage inventory effectively.</p>
+<p>This shift in sales channels, from predominantly in-store to largely online, is an example of data drift.</p>
+<div id="fig-data-drift" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-data-drift-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/data-drift-monitoring.png" class="img-fluid figure-img"></p>
+<figcaption>Data Drift</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-data-drift-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.2: An example of data drift is a change in sales distribution by channel. <a href="https://www.evidentlyai.com/ml-in-production/data-drift">source</a>
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Read more about data drift here: https://www.evidentlyai.com/ml-in-production/data-drift</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -409,14 +501,41 @@ Concept Drift Monitoring
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Concept drift happens when the relationship between input features and predictions changes over time. Unlike data drift (which concerns changes in input data distribution), concept drift affects how a model interprets data.</p>
+<p>Concept drift happens when the relationship between input features and predictions changes over time. Unlike data drift (which concerns changes in input data distribution), concept drift affects how a model interprets data. While data drift describes changes in the data distribution, concept drift relates to changes in the relationships between input and target variables. Basically, concept drift means that whatever your model is predicting – it is changing.</p>
 <p><strong>Common Causes of Concept Drift:</strong></p>
 <ul>
 <li>Changes in user behavior (e.g., customer preferences shift).</li>
 <li>Market changes affecting feature importance.</li>
 <li>Seasonality or external factors introducing new trends.</li>
 </ul>
-<p><strong>Example:</strong> A recommendation system for an e-commerce website suggests products based on past user behavior. However, as new shopping trends emerge (e.g., a sudden rise in eco-friendly products), user preferences change. Concept drift monitoring helps detect these shifts and prompts model adjustments.</p>
+<p><strong>Example:</strong></p>
+<p>A recommendation system for an e-commerce website suggests products based on past user behavior. However, as new shopping trends emerge (e.g., a sudden rise in eco-friendly products), user preferences change. Concept drift monitoring helps detect these shifts and prompts model adjustments.</p>
+<p>Another instance could be the onset of COVID-19, which transformed how people shopped and disrupted logistical patterns. In these cases, all previously created models became almost obsolete.</p>
+<div id="fig-concept-drift" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-concept-drift-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/concept-drift.png" class="img-fluid figure-img"></p>
+<figcaption>Concept Drift</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-concept-drift-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.3: Whereas data drift refers to the shifts in input feature distributions, concept drift refers to shifts in the relationships between model inputs and outputs. <a href="https://www.evidentlyai.com/ml-in-production/data-drift">source</a>
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Read more about concept drift here: https://www.evidentlyai.com/ml-in-production/data-drift</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -447,65 +566,1183 @@ Operational Monitoring
 </section>
 <section id="key-components-of-model-monitoring" class="level2" data-number="9.2">
 <h2 data-number="9.2" class="anchored" data-anchor-id="key-components-of-model-monitoring"><span class="header-section-number">9.2</span> Key Components of Model Monitoring</h2>
+<p>Ensuring the reliability and accuracy of machine learning models in production requires a robust monitoring system. A well-designed model monitoring framework consists of multiple key components that provide insights into performance, data integrity, and operational stability. In this section, we break down the essential components of model monitoring and how they align with the four primary types of monitoring: <strong><em>performance monitoring, data drift monitoring, concept drift monitoring, and operational monitoring</em></strong>.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Data Logging &amp; Storage
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>One of the foundational elements of model monitoring is <strong>comprehensive data logging</strong>. Every input fed into the model and every output generated should be logged and stored to enable retrospective analysis, debugging, and compliance auditing.</p>
+<p><strong>What Needs to Be Logged?</strong></p>
 <ul>
-<li><strong>Data Logging &amp; Storage:</strong>
-<ul>
-<li>Tracking incoming data and model predictions for auditing and troubleshooting.</li>
-</ul></li>
-<li><strong>Model Performance Metrics:</strong>
-<ul>
-<li>Continuous evaluation of model accuracy, precision-recall, and business KPIs.</li>
-</ul></li>
-<li><strong>Drift Detection Mechanisms:</strong>
-<ul>
-<li>Statistical tests and monitoring frameworks for detecting data and concept drift.</li>
-</ul></li>
-<li><strong>Alerting &amp; Automation:</strong>
-<ul>
-<li>Setting up real-time alerts for model degradation.</li>
-</ul></li>
-<li><strong>Retraining Triggers:</strong>
-<ul>
-<li>Automating model retraining when performance drops below a threshold.</li>
-</ul></li>
+<li><strong>Input Features</strong> – The actual data used for making predictions.</li>
+<li><strong>Model Predictions</strong> – The output generated by the model.</li>
+<li><strong>Ground Truth Labels</strong> – The actual observed outcomes (when available).</li>
+<li><strong>Metadata</strong> – Additional details such as timestamps, user IDs, or session information.</li>
+<li><strong>Infrastructure Logs</strong> – CPU/memory usage, response times, request logs.</li>
 </ul>
+<p><strong>Why It Matters?</strong></p>
+<ul>
+<li>Enables <strong>troubleshooting</strong> when unexpected behavior occurs.</li>
+<li>Supports <strong>comparative analysis</strong> between different model versions.</li>
+<li>Facilitates <strong>model retraining</strong> by capturing historical data distributions.</li>
+<li>Aids in <strong>regulatory compliance</strong> by ensuring transparency.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<p>Imagine a fraud detection model deployed at a financial institution. Logging transaction details (e.g., amount, location, device used) alongside fraud predictions allows auditors to investigate flagged transactions and detect inconsistencies in the model’s decision-making.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Model Performance Metrics
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Tracking model performance over time ensures that predictions remain accurate and aligned with business goals. A model that performed well during training may degrade in production due to changing data distributions, adversarial behavior, or unanticipated scenarios.</p>
+<p><strong>Key Metrics to Track</strong></p>
+<ul>
+<li><strong>Classification Models:</strong> Accuracy, Precision, Recall, F1-score, AUC-ROC.</li>
+<li><strong>Regression Models:</strong> RMSE, MAE, R², MAPE.</li>
+<li><strong>Forecasting Models:</strong> Mean Squared Error (MSE), Symmetric Mean Absolute Percentage Error (SMAPE).</li>
+<li><strong>Operational Metrics:</strong> Prediction latency, inference throughput.</li>
+</ul>
+<p><strong>Why It Matters?</strong></p>
+<ul>
+<li>Detects <strong>gradual performance degradation</strong> over time.</li>
+<li>Helps diagnose if the model is suffering from <strong>overfitting</strong> or <strong>underfitting</strong>.</li>
+<li>Allows teams to <strong>compare different models</strong> before making updates.</li>
+<li>Helps assess whether a model meets <strong>business KPI objectives</strong>.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<p>A customer support chatbot tracks its accuracy by monitoring whether users rephrase or repeat their questions after receiving responses. A decline in accuracy over time could indicate <strong>drift in language patterns</strong>, requiring the chatbot’s model to be retrained with updated conversations.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Data Drift Detection
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Data drift occurs when the distribution of <strong>input features</strong> changes over time, making the model less reliable. This often happens due to seasonal trends, user behavior shifts, or external factors like economic fluctuations.</p>
+<p><strong>What to Monitor?</strong></p>
+<ul>
+<li><strong>Feature Statistics</strong> – Mean, variance, correlation between features.</li>
+<li><strong>Categorical Changes</strong> – Shift in frequency of categorical variables.</li>
+<li><strong>New Feature Values</strong> – The emergence of previously unseen data points.</li>
+</ul>
+<p><strong>Why It Matters?</strong></p>
+<ul>
+<li>Prevents models from making predictions based on <strong>outdated assumptions</strong>.</li>
+<li>Helps ensure models are <strong>trained on data distributions similar to production data</strong>.</li>
+<li>Flags changes in data pipelines that may introduce <strong>unexpected biases</strong>.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<p>A credit risk model was trained with past banking data assuming most applicants were full-time employees. Over time, the number of gig economy workers applying for loans increases significantly, leading to <strong>data drift</strong>. If not detected, the model may underperform or systematically <strong>reject new valid applicants</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Concept Drift Detection
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Concept drift refers to <strong>changes in the relationship between inputs and outputs</strong>. Even if the input data distribution remains stable, the way features correlate with predictions may shift, leading to unreliable models.</p>
+<p><strong>Types of Concept Drift</strong></p>
+<ul>
+<li><strong>Sudden Drift:</strong> A major shift in feature importance occurs abruptly.</li>
+<li><strong>Incremental Drift:</strong> The relationship between input and output changes gradually.</li>
+<li><strong>Recurring Drift:</strong> Seasonal effects cause relationships to fluctuate over time.</li>
+</ul>
+<p><strong>Why It Matters?</strong></p>
+<ul>
+<li>Ensures models do not rely on <strong>outdated assumptions</strong>.</li>
+<li>Identifies scenarios where the <strong>meaning of labels changes</strong>.</li>
+<li>Helps teams decide <strong>when to retrain models</strong> based on changing trends.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<p>A product recommendation model trained pre-pandemic suggested travel-related products based on user browsing patterns. However, during the pandemic, <strong>consumer behavior changed drastically</strong>, and prior patterns no longer correlated with purchase behavior. The model’s relevance degraded due to <strong>concept drift</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Infrastructure and API Monitoring
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Beyond model predictions, monitoring the <strong>technical health</strong> of deployed models is equally important. Even the most accurate models can fail to provide value if they suffer from <strong>downtime, latency issues, or resource constraints</strong>.</p>
+<p><strong>Key Infrastructure Metrics</strong></p>
+<ul>
+<li><strong>API Latency</strong> – Time taken for the model to return a prediction.</li>
+<li><strong>Request Volume</strong> – Number of prediction requests per second.</li>
+<li><strong>System Load</strong> – CPU and memory consumption during inference.</li>
+<li><strong>Failure Rate</strong> – Frequency of errors or timeouts in serving predictions.</li>
+</ul>
+<p><strong>Why It Matters?</strong></p>
+<ul>
+<li>Prevents <strong>service disruptions</strong> by identifying infrastructure bottlenecks.</li>
+<li>Ensures <strong>scalability</strong> of model inference under high loads.</li>
+<li>Flags <strong>API outages</strong> before they impact users.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<p>An e-commerce company deploys a dynamic pricing model that adjusts product prices in real time. If the model’s API slows down significantly on Black Friday due to high traffic, it could lead to <strong>delayed price updates and revenue loss</strong>. Monitoring API latency ensures infrastructure auto-scaling is triggered to handle increased demand.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Automated Alerts &amp; Retraining Triggers
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Once an issue is detected—whether it’s a drop in accuracy, data drift, or increased latency—it’s crucial to have an automated mechanism to trigger <strong>alerts and model updates</strong>.</p>
+<p><strong>Common Alerting Triggers</strong></p>
+<ul>
+<li><strong>Performance Threshold Breach:</strong> When accuracy falls below a pre-defined limit.</li>
+<li><strong>Significant Data Drift:</strong> A major shift in feature distributions.</li>
+<li><strong>Inference Latency Spikes:</strong> If model response time exceeds expectations.</li>
+</ul>
+<p><strong>Retraining Triggers</strong></p>
+<ul>
+<li><strong>Scheduled Retraining:</strong> Periodic model updates (e.g., weekly, monthly).</li>
+<li><strong>Adaptive Retraining:</strong> Triggered only when performance degradation is detected.</li>
+<li><strong>Event-Driven Retraining:</strong> Initiated based on major business events (e.g., new product launches).</li>
+</ul>
+<p><strong>Why It Matters?</strong></p>
+<ul>
+<li>Ensures models remain <strong>adaptive</strong> to new data patterns.</li>
+<li>Reduces <strong>manual intervention</strong> in model maintenance.</li>
+<li>Provides a structured way to <strong>validate and replace models safely</strong>.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<p>A financial forecasting model detects a <strong>sudden spike in stock market volatility</strong>. A retraining trigger is activated, updating the model with the latest market data to prevent outdated predictions.</p>
+</div>
+</div>
+</div>
+<p>A comprehensive model monitoring framework tracks data quality, model performance, drift, and operational stability to ensure models remain reliable in production. Without proper monitoring, businesses risk deploying models that degrade silently, leading to poor decisions and lost revenue.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Collaboration in Model Monitoring
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>While understanding model monitoring is crucial for ML practitioners, not all components need to be built from scratch. Many organizations already have observability tools and monitoring infrastructure in place for API health, system performance, and automated alerting. Data scientists and ML engineers often work collaboratively with DevOps, IT, and software engineering teams to integrate ML-specific monitoring into existing platforms.</p>
+<p>The key takeaway? As a data scientist or ML engineer, you should understand what needs to be monitored and how to interpret issues, but implementation may involve leveraging existing tools and working closely with platform engineers.</p>
+</div>
+</div>
+</div>
+<p>In the next section, we will explore the tools and frameworks available to implement these monitoring components efficiently.</p>
 </section>
 <section id="tools-for-model-monitoring" class="level2" data-number="9.3">
 <h2 data-number="9.3" class="anchored" data-anchor-id="tools-for-model-monitoring"><span class="header-section-number">9.3</span> Tools for Model Monitoring</h2>
+<p>Selecting the right tools for monitoring machine learning models depends on the specific <strong>monitoring needs, infrastructure, and scalability requirements</strong> of your organization. There is a growing ecosystem of <strong>open-source</strong> and <strong>cloud-based</strong> tools designed to track model performance, detect drift, and ensure reliability in production environments. Additionally, traditional Application Performance Monitoring (APM) tools play a critical role in operational monitoring to ensure API uptime and infrastructure stability.</p>
+<p>Below, we explore some of the key tools across different categories.</p>
+<div class="callout callout-style-simple callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+A Rapidly Evolving Landscape
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Model monitoring is a rapidly growing area within MLOps, with new tools and frameworks constantly emerging. Keeping up with all available tools can be overwhelming, but that shouldn’t be the primary focus. Instead of trying to learn every tool, data scientists and ML engineers should focus on understanding the core principles of model monitoring—tracking model performance, detecting drift, ensuring operational stability, and automating alerts. Once these fundamentals are clear, selecting the right tool becomes much easier, as the choice will be driven by the specific needs of the model and deployment environment.</p>
+</div>
+</div>
+</div>
+<section id="open-source-monitoring-tools" class="level3">
+<h3 class="anchored" data-anchor-id="open-source-monitoring-tools">Open-Source Monitoring Tools</h3>
+<p>Open-source tools provide flexible, customizable solutions for monitoring models without vendor lock-in. They are particularly useful and popular for detecting drift, tracking model performance over time, and ensuring model explainability.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Evidently AI
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Evidently AI is an open-source tool designed for monitoring data and concept drift, as well as tracking model performance over time. It also provides a set of prebuilt reports that visualize key monitoring metrics.</p>
 <ul>
-<li><strong>Open-Source Monitoring Tools:</strong>
+<li><strong>Key Features</strong>:
 <ul>
-<li><strong>Evidently AI</strong>: Data and concept drift detection, performance monitoring.</li>
-<li><strong>WhyLabs</strong>: Scalable ML monitoring with automated anomaly detection.</li>
-<li><strong>Fiddler AI</strong>: Explainability and bias detection in models.</li>
-<li><strong>Arize AI</strong>: Model observability with real-time performance tracking.</li>
+<li>Prebuilt dashboards for <strong>monitoring feature drift and prediction distributions</strong>.</li>
+<li>Statistical tests to flag <strong>significant data changes</strong> over time.</li>
+<li>Integrates with Jupyter Notebooks, Airflow, and other pipelines.</li>
 </ul></li>
-<li><strong>Cloud-Based Solutions:</strong>
+<li><strong>When to Use</strong>: If you need <strong>lightweight, flexible</strong> monitoring integrated into <strong>existing ML workflows</strong>.</li>
+<li><strong>Advantages</strong>:
 <ul>
-<li><strong>AWS SageMaker Model Monitor</strong>: Cloud-native monitoring in AWS.</li>
-<li><strong>Google Vertex AI Model Monitoring</strong>: Detecting drift in Google Cloud.</li>
-<li><strong>Azure ML Monitoring</strong>: Integrated ML monitoring in Azure.</li>
+<li>Supports both batch and real-time monitoring.</li>
+<li>Easy-to-use dashboard for quick insights.</li>
+<li>Works well with Jupyter notebooks for exploratory analysis.</li>
 </ul></li>
-<li><strong>Logging &amp; APM Tools (For Operational Monitoring):</strong>
+<li><strong>Disadvantages</strong>:
 <ul>
-<li><strong>Prometheus &amp; Grafana</strong>: Infrastructure and latency monitoring.</li>
-<li><strong>Datadog &amp; New Relic</strong>: API and service performance tracking.</li>
+<li>Requires manual setup and integration into ML pipelines.</li>
+<li>May not scale well for large enterprise use cases without additional infrastructure.</li>
 </ul></li>
+<li>🔗 <a href="https://docs.evidentlyai.com/">Evidently AI Documentation</a></li>
 </ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+WhyLabs
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>WhyLabs is a scalable ML monitoring solution that provides anomaly detection for models in production. It integrates with tools like Evidently AI for enhanced drift detection.</p>
+<ul>
+<li><strong>Key Features</strong>:
+<ul>
+<li>AI-powered <strong>drift detection</strong> and <strong>explainability insights</strong>.</li>
+<li><strong>Automated alerts</strong> when model performance deteriorates.</li>
+<li>Privacy-friendly <strong>data logging without sending raw data</strong>.</li>
+</ul></li>
+<li><strong>When to Use</strong>: If you need a <strong>scalable, cloud-native monitoring tool</strong> that integrates well with <strong>production systems</strong>.</li>
+<li><strong>Advantages</strong>:
+<ul>
+<li>Uses AI-driven anomaly detection to proactively flag potential issues.</li>
+<li>Scales well for large datasets and high-throughput models.</li>
+<li>Provides automated root cause analysis to explain model failures.</li>
+</ul></li>
+<li><strong>Disadvantages</strong>:
+<ul>
+<li>The open-source version (WhyLogs) requires additional engineering effort for full automation.</li>
+<li>The cloud-based version (WhyLabs) involves additional costs for enterprise-grade monitoring.</li>
+</ul></li>
+<li>🔗 <a href="https://whylabs.ai/">WhyLabs Documentation</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Fiddler AI
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Fiddler AI is designed for explainability, bias detection, and monitoring ML models in production. It allows teams to understand model decisions, identify biases, and track drift over time.</p>
+<ul>
+<li><strong>Key Features</strong>:
+<ul>
+<li>Advanced <strong>feature attribution and interpretability</strong> methods.</li>
+<li>Bias detection to ensure <strong>fairness in model predictions</strong>.</li>
+<li>Real-time monitoring and debugging capabilities.</li>
+</ul></li>
+<li><strong>When to Use</strong>: If your organization requires <strong>model transparency and bias detection</strong> as part of compliance.</li>
+<li><strong>Advantages</strong>:
+<ul>
+<li>Provides interpretable explanations for ML predictions.</li>
+<li>Strong emphasis on ethical AI and bias detection.</li>
+<li>Supports continuous monitoring and alerts for model degradation.</li>
+</ul></li>
+<li><strong>Disadvantages</strong>:
+<ul>
+<li>Primarily targeted at organizations concerned with model interpretability and fairness rather than general performance monitoring.</li>
+<li>More complex setup compared to simpler monitoring tools.</li>
+</ul></li>
+<li>🔗 <a href="https://www.fiddler.ai/">Fiddler AI Documentation</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Arize AI
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Arize AI is an ML observability platform that offers real-time performance tracking, drift detection, and bias identification. It supports both structured and unstructured data, making it useful for diverse ML applications.</p>
+<ul>
+<li><strong>Key Features</strong>:
+<ul>
+<li><strong>Drift detection</strong> for input data and predictions.</li>
+<li>Performance tracking across multiple versions of a model.</li>
+<li><strong>Heatmaps and visualization tools</strong> for debugging model failures.</li>
+</ul></li>
+<li><strong>When to Use</strong>: If you need <strong>real-time performance monitoring</strong> and <strong>AI observability</strong> across multiple ML models.</li>
+<li><strong>Advantages</strong>:
+<ul>
+<li>Provides a comprehensive monitoring dashboard with intuitive visualizations.</li>
+<li>Supports real-time model monitoring for immediate issue detection.</li>
+<li>Strong integration with popular ML frameworks like TensorFlow and PyTorch.</li>
+</ul></li>
+<li><strong>Disadvantages</strong>:
+<ul>
+<li>Requires ingestion of model logs into Arize’s system, adding an additional dependency.</li>
+<li>May not be as customizable as self-hosted solutions like Evidently AI.</li>
+</ul></li>
+<li>🔗 <a href="https://arize.com/">Arize AI Documentation</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="cloud-based-monitoring-solutions" class="level3">
+<h3 class="anchored" data-anchor-id="cloud-based-monitoring-solutions">Cloud-Based Monitoring Solutions</h3>
+<p>For organizations using cloud-based ML platforms, built-in monitoring tools provide seamless integration with cloud storage, deployment pipelines, and model registries.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+AWS SageMaker Model Monitor
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>SageMaker Model Monitor allows users to track and detect drift, bias, and model degradation in AWS-based ML deployments. It integrates with SageMaker endpoints and automatically logs key metrics.</p>
+<ul>
+<li><strong>Key Features</strong>:
+<ul>
+<li>Detects <strong>data drift, bias, and performance degradation</strong>.</li>
+<li>Automated logging and alerts via <strong>AWS CloudWatch</strong>.</li>
+<li>Native integration with <strong>S3, Lambda, and SageMaker Pipelines</strong>.</li>
+</ul></li>
+<li><strong>When to Use</strong>: If your models are deployed in <strong>AWS SageMaker</strong> and require <strong>fully managed monitoring</strong>.</li>
+<li><strong>Advantages</strong>:
+<ul>
+<li>Fully integrated into the AWS ecosystem, making deployment seamless for AWS users.</li>
+<li>Provides automated alerts based on pre-configured thresholds.</li>
+<li>Supports integration with CloudWatch for centralized logging.</li>
+</ul></li>
+<li><strong>Disadvantages</strong>:
+<ul>
+<li>Limited flexibility if the model is not deployed on AWS.</li>
+<li>Cost can increase significantly with high-frequency monitoring.</li>
+</ul></li>
+<li>🔗 <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor.html">AWS SageMaker Model Monitor</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Google Vertex AI Model Monitoring
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Google’s Vertex AI Model Monitoring provides automated drift detection, performance tracking, and alerting for models deployed on Google Cloud.</p>
+<ul>
+<li><strong>Key Features</strong>:
+<ul>
+<li>Monitors feature drift and prediction distributions.</li>
+<li>Triggers alerts when data distributions shift.</li>
+<li>Integrates with <strong>BigQuery, Cloud Logging, and AI Notebooks</strong>.</li>
+</ul></li>
+<li><strong>When to Use</strong>: If your models are deployed in <strong>Google Cloud Vertex AI</strong>.</li>
+<li><strong>Advantages</strong>:
+<ul>
+<li>Offers built-in drift detection with statistical monitoring tools.</li>
+<li>Strong integration with BigQuery and Google’s data ecosystem.</li>
+<li>Can be easily configured with AutoML and custom ML models.</li>
+</ul></li>
+<li><strong>Disadvantages</strong>:
+<ul>
+<li>Less flexibility for non-GCP deployments.</li>
+<li>Might not support as many model frameworks compared to other solutions.</li>
+</ul></li>
+<li>🔗 <a href="https://cloud.google.com/vertex-ai/docs/model-monitoring">Google Vertex AI Model Monitoring</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Azure ML Monitoring
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Azure ML Monitoring is a cloud-native monitoring service that helps teams track model performance and data drift for models deployed within Azure Machine Learning.</p>
+<ul>
+<li><strong>Key Features</strong>:
+<ul>
+<li>Tracks model <strong>accuracy, feature drift, and prediction consistency</strong>.</li>
+<li>Connects with <strong>Azure Event Grid for automated alerts</strong>.</li>
+<li>Visual dashboards in <strong>Azure ML Studio</strong>.</li>
+</ul></li>
+<li><strong>When to Use</strong>: If you use <strong>Azure ML</strong> and need <strong>native model monitoring</strong>.</li>
+<li><strong>Advantages</strong>:
+<ul>
+<li>Provides integration with Azure’s suite of tools, such as Power BI and Data Factory.</li>
+<li>Supports real-time model performance tracking and alerting.</li>
+<li>Can automate model retraining based on monitoring triggers.</li>
+</ul></li>
+<li><strong>Disadvantages</strong>:
+<ul>
+<li>Best suited for teams already using Azure’s ML infrastructure.</li>
+<li>Can become costly for large-scale monitoring needs.</li>
+</ul></li>
+<li>🔗 <a href="https://learn.microsoft.com/en-us/azure/machine-learning/how-to-monitor-models">Azure ML Monitoring</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="logging-apm-tools-for-operational-monitoring" class="level3">
+<h3 class="anchored" data-anchor-id="logging-apm-tools-for-operational-monitoring">Logging &amp; APM Tools (For Operational Monitoring)</h3>
+<p>Operational monitoring focuses on infrastructure, API uptime, latency, and system performance. While these tools do not track ML-specific metrics, they are essential for ensuring the stability and reliability of ML services.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prometheus &amp; Grafana
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Prometheus is an open-source monitoring system that collects real-time metrics, while Grafana is used for visualization. Together, they provide powerful infrastructure monitoring capabilities.</p>
+<ul>
+<li><strong>Key Features</strong>:
+<ul>
+<li>Prometheus collects <strong>time-series metrics</strong> from deployed services.</li>
+<li>Grafana provides <strong>visual dashboards and alerts</strong>.</li>
+<li>Can monitor <strong>CPU, memory, and response times</strong> of ML APIs.</li>
+</ul></li>
+<li><strong>When to Use</strong>: If you need <strong>customized, self-hosted monitoring</strong> for ML deployments.</li>
+<li><strong>Advantages</strong>:
+<ul>
+<li>Widely used for monitoring API uptime, latency, and resource usage.</li>
+<li>Highly customizable and works with Kubernetes-based deployments.</li>
+<li>Open-source with strong community support.</li>
+</ul></li>
+<li><strong>Disadvantages</strong>:
+<ul>
+<li>Requires engineering expertise to set up and maintain.</li>
+<li>Lacks built-in ML-specific monitoring capabilities.</li>
+</ul></li>
+<li>🔗 <a href="https://prometheus.io/">Prometheus</a> | <a href="https://grafana.com/">Grafana</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Datadog &amp; New Relic
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Datadog and New Relic are cloud-based APM (Application Performance Monitoring) solutions that track API performance, latency, and system health.</p>
+<ul>
+<li><strong>Key Features</strong>:
+<ul>
+<li><strong>Automated anomaly detection</strong> for infrastructure metrics.</li>
+<li><strong>Distributed tracing</strong> to track API response times.</li>
+<li>Integrates with <strong>AWS, GCP, and Kubernetes</strong>.</li>
+</ul></li>
+<li><strong>When to Use</strong>: If you need <strong>enterprise-grade monitoring</strong> for cloud-based ML applications.</li>
+<li><strong>Advantages</strong>:
+<ul>
+<li>Easy to set up and integrate with cloud services.</li>
+<li>Provides real-time dashboards and automated alerts.</li>
+<li>Supports distributed tracing to diagnose model serving issues.</li>
+</ul></li>
+<li><strong>Disadvantages</strong>:
+<ul>
+<li>More focused on infrastructure monitoring than ML-specific issues like drift detection.</li>
+<li>Can be expensive for high-volume logging and monitoring.</li>
+</ul></li>
+<li>🔗 <a href="https://www.datadoghq.com/">Datadog</a> | <a href="https://newrelic.com/">New Relic</a></li>
+</ul>
+</div>
+</div>
+</div>
+<p>Selecting the right monitoring tool depends on your model deployment environment, monitoring needs, and infrastructure. In many organizations, a combination of ML monitoring tools (e.g., Evidently AI, SageMaker Model Monitor) and APM tools (e.g., Prometheus, Datadog) is used to provide comprehensive observability.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 37%">
+<col style="width: 25%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool Category</strong></th>
+<th><strong>Best For</strong></th>
+<th><strong>Example Tools</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Open-Source Model Monitoring</strong></td>
+<td>Customizable, lightweight ML monitoring</td>
+<td>Evidently AI, WhyLabs, Fiddler AI, Arize AI</td>
+</tr>
+<tr class="even">
+<td><strong>Cloud-Native Model Monitoring</strong></td>
+<td>Fully managed monitoring for cloud ML platforms</td>
+<td>AWS SageMaker Model Monitor, Google Vertex AI Model Monitoring, Azure ML Monitoring</td>
+</tr>
+<tr class="odd">
+<td><strong>Operational Monitoring</strong></td>
+<td>Infrastructure, API latency, and uptime tracking</td>
+<td>Prometheus, Grafana, Datadog, New Relic</td>
+</tr>
+</tbody>
+</table>
+<p>In the next section, we will implement a hands-on example to help demonstrate how to set up model monitoring in practice.</p>
+</section>
 </section>
 <section id="hands-on-example-implementing-model-monitoring" class="level2" data-number="9.4">
 <h2 data-number="9.4" class="anchored" data-anchor-id="hands-on-example-implementing-model-monitoring"><span class="header-section-number">9.4</span> Hands-On Example: Implementing Model Monitoring</h2>
+<p>In the previous chapter, we deployed a machine learning model as an API using FastAPI. However, deploying a model is only part of the journey, ensuring it continues to perform well over time is equally critical. In this hands-on example, we will extend our deployed model by incorporating monitoring capabilities, allowing us to track performance, detect drift, and ensure operational stability.</p>
+<p>This exercise will introduce you to practical model monitoring techniques, demonstrating how to:</p>
 <ul>
-<li><strong>Scenario:</strong> Monitor the deployed <strong>Apple Demand Forecasting Model</strong> from the previous chapter.</li>
-<li><strong>Steps to Implement Monitoring:</strong>
-<ol type="1">
-<li><strong>Set up Logging</strong>: Store incoming requests and predictions.</li>
-<li><strong>Track Performance Metrics</strong>: Log RMSE, MAPE, and demand forecasting accuracy.</li>
-<li><strong>Detect Data Drift</strong>: Compare real-time input distributions with training data.</li>
-<li><strong>Set Up Alerts</strong>: Notify when performance falls below a threshold.</li>
-<li><strong>Automate Model Retraining (Optional)</strong>: Trigger retraining when drift is detected.</li>
-</ol></li>
+<li><strong>Log incoming data and predictions</strong> to track model performance in production.</li>
+<li><strong>Detect data drift</strong> using <a href="https://www.evidentlyai.com/">Evidently</a>, which helps determine if incoming data distributions are changing over time.</li>
+<li><strong>Monitor API performance</strong> (latency, request counts, and errors) using <a href="https://prometheus.io/">Prometheus</a> and visualize it in <a href="https://grafana.com/">Grafana</a>.</li>
+<li><strong>Automate monitoring and alerts</strong> to proactively identify issues before they impact business decisions.</li>
 </ul>
+<section id="why-is-this-important" class="level3">
+<h3 class="anchored" data-anchor-id="why-is-this-important">Why is This Important?</h3>
+<p>In real-world applications, an ML model that performs well during training may degrade over time due to shifting data patterns (data drift), changes in the relationship between inputs and outputs (concept drift), or due to changes in API performance (i.e.&nbsp;latency). Without proper monitoring, these changes can go unnoticed, leading to poor predictions, financial losses, or operational disruptions.</p>
+<p>For instance, in our apple demand forecasting model, what if consumer behavior changes due to a sudden price increase, or a competitor introduces a promotional campaign, or maybe a hot new apple martini recipe is trending on social media and all of a sudden demand has exceeded any amounts we’ve seen previously? If our model does not adapt to these changes, inventory predictions may become inaccurate, leading to overstocking or shortages. Monitoring allows us to detect such changes early and trigger necessary actions, such as model retraining or adjusting forecasting strategies.</p>
+<p>This section will demonstrate how to incorporate fundamental monitoring so that by the end of this chapter, you will have a well-monitored ML model that logs incoming data, detects drift, tracks API performance, and provides real-time insights through dashboards and alerts. This will help ensure your deployed model remains reliable and accurate over time.</p>
+</section>
+<section id="prerequisites" class="level3">
+<h3 class="anchored" data-anchor-id="prerequisites">Prerequisites</h3>
+<p>Before proceeding, make sure you have the following:</p>
+<ul>
+<li>We’ll be building onto the previous hands-on examples where the apple demand forecasting model was trained, logged and versioned to MLflow and then predictions were served with a FastAPI. If you want to recreate this section then be sure have successfully reproduced <a href="06-modelops-experimenting.html#sec-model-experimentation-exercise" class="quarto-xref">Section&nbsp;<span>6.7</span></a>, <a href="07-modelops-versioning.html#sec-model-version-example" class="quarto-xref">Section&nbsp;<span>7.4</span></a>, and <a href="08-modelops-deployment.html#sec-model-deploy-example" class="quarto-xref">Section&nbsp;<span>8.4</span></a>.</li>
+<li>You’ll also need the following packages installed.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">evidently</span><span class="op">=</span>=0.6.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With these prerequisites met, let’s move on to setting up the monitoring infrastructure!</p>
+</section>
+<section id="setting-up-the-monitoring-infrastructure" class="level3">
+<h3 class="anchored" data-anchor-id="setting-up-the-monitoring-infrastructure">Setting Up the Monitoring Infrastructure</h3>
+<p>The first step is to implement a logging mechanism to capture all incoming prediction requests and their corresponding outputs. This will allow us to:</p>
+<ul>
+<li>Track model behavior over time.</li>
+<li>Detect potential data drift and concept drift.</li>
+<li>Identify issues in the model’s performance before they impact business decisions.</li>
+</ul>
+<p>This is the first step toward building a fully automated monitoring system.</p>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>In a real-world enterprise system, logged data would typically be stored in a centralized logging database (i.e.&nbsp;PostgreSQL, MySQL, NoSQL) or a cloud-based storage system (i.e.&nbsp;BigQuery, AWS S3). However, for this hands-on example, we will log predictions locally to a CSV file.</p>
+</div>
+</div>
+</div>
+<p>To implement logging, we will modify our FastAPI application to:</p>
+<ol type="1">
+<li>Log incoming requests (input features) and corresponding predictions.</li>
+<li>Store logs in a CSV file (prediction_logs.csv).</li>
+<li>Include timestamps and status messages for error tracking.</li>
+</ol>
+<p>The primary code that we will add includes:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define log file path</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>LOG_FILE_PATH <span class="op">=</span> <span class="st">"prediction_logs.csv"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure log file exists with headers</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(LOG_FILE_PATH):</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    pd.DataFrame(columns<span class="op">=</span>[</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"timestamp"</span>, <span class="st">"request_type"</span>, <span class="st">"input_data"</span>, <span class="st">"predictions"</span>, <span class="st">"status"</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    ]).to_csv(LOG_FILE_PATH, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Primary function to log inputs &amp; predictions</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_request(request_type, input_data, predictions, status):</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Logs the request details to a CSV file."""</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    log_entry <span class="op">=</span> pd.DataFrame([{</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"timestamp"</span>: datetime.datetime.now().isoformat(),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"request_type"</span>: request_type,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"input_data"</span>: json.dumps(input_data),</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"predictions"</span>: json.dumps(predictions),</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"status"</span>: status</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    }])</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    log_entry.to_csv(LOG_FILE_PATH, mode<span class="op">=</span><span class="st">'a'</span>, header<span class="op">=</span><span class="va">False</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can then add a call to the <code>log_request()</code> function inside the function definitions for <code>predict_single()</code> and <code>predict_batch()</code>. You can see the full revised FastAPI code below or also <a href="https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/fastapi_with_monitoring_app.py">here</a>.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Revised FastAPI code
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-26" class="callout-26-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastapi <span class="im">import</span> FastAPI, HTTPException, UploadFile, File</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow.pyfunc</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> io</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize FastAPI app</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> FastAPI()</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Set experiment name</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>mlflow.set_experiment(<span class="st">"Forecasting Apple Demand"</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the trained model from MLflow</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>MODEL_URI <span class="op">=</span> <span class="st">"models:/apple_demand@champion"</span>  <span class="co"># Replace with your model name and alias</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> mlflow.pyfunc.load_model(MODEL_URI)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the expected input schema for a single prediction</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> InputData(BaseModel):</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    average_temperature: <span class="bu">float</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    rainfall: <span class="bu">float</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    weekend: <span class="bu">int</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    holiday: <span class="bu">int</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    price_per_kg: <span class="bu">float</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    promo: <span class="bu">int</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    previous_days_demand: <span class="bu">float</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Define log file path</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>LOG_FILE_PATH <span class="op">=</span> <span class="st">"prediction_logs.csv"</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure log file exists with headers</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(LOG_FILE_PATH):</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    pd.DataFrame(columns<span class="op">=</span>[</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        <span class="st">"timestamp"</span>, <span class="st">"request_type"</span>, <span class="st">"input_data"</span>, <span class="st">"predictions"</span>, <span class="st">"status"</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    ]).to_csv(LOG_FILE_PATH, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_request(request_type, input_data, predictions, status):</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Logs the request details to a CSV file."""</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    log_entry <span class="op">=</span> pd.DataFrame([{</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">"timestamp"</span>: datetime.datetime.now().isoformat(),</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">"request_type"</span>: request_type,</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>        <span class="st">"input_data"</span>: json.dumps(input_data),</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>        <span class="st">"predictions"</span>: json.dumps(predictions),</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>        <span class="st">"status"</span>: status</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    }])</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    log_entry.to_csv(LOG_FILE_PATH, mode<span class="op">=</span><span class="st">'a'</span>, header<span class="op">=</span><span class="va">False</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="at">@app.post</span>(<span class="st">"/predict"</span>)</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_single(input_data: List[InputData]):</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Endpoint for real-time predictions with a single input."""</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert input to DataFrame</span></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.DataFrame([data.<span class="bu">dict</span>() <span class="cf">for</span> data <span class="kw">in</span> input_data])</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Make predictions</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>        predictions <span class="op">=</span> model.predict(df)</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Log the request</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>        log_request(<span class="st">"single"</span>, df.to_dict(orient<span class="op">=</span><span class="st">"records"</span>), predictions.tolist(), <span class="st">"success"</span>)</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"predictions"</span>: predictions.tolist()}</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>        log_request(<span class="st">"single"</span>, df.to_dict(orient<span class="op">=</span><span class="st">"records"</span>), <span class="va">None</span>, <span class="ss">f"error: </span><span class="sc">{</span><span class="bu">str</span>(e)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> HTTPException(status_code<span class="op">=</span><span class="dv">500</span>, detail<span class="op">=</span><span class="bu">str</span>(e))</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a><span class="at">@app.post</span>(<span class="st">"/predict_batch"</span>)</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> predict_batch(<span class="bu">file</span>: UploadFile <span class="op">=</span> File(...)):</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Endpoint for batch predictions using a CSV file."""</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Read the uploaded CSV file</span></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>        contents <span class="op">=</span> <span class="cf">await</span> <span class="bu">file</span>.read()</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.read_csv(io.StringIO(contents.decode(<span class="st">"utf-8"</span>)))</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Validate required columns</span></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>        required_features <span class="op">=</span> [<span class="st">"average_temperature"</span>, <span class="st">"rainfall"</span>, <span class="st">"weekend"</span>, <span class="st">"holiday"</span>, <span class="st">"price_per_kg"</span>, <span class="st">"promo"</span>, <span class="st">"previous_days_demand"</span>]</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> <span class="bu">all</span>(feature <span class="kw">in</span> df.columns <span class="cf">for</span> feature <span class="kw">in</span> required_features):</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>            missing_cols <span class="op">=</span> <span class="bu">set</span>(required_features) <span class="op">-</span> <span class="bu">set</span>(df.columns)</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> HTTPException(status_code<span class="op">=</span><span class="dv">400</span>, detail<span class="op">=</span><span class="ss">f"Missing columns: </span><span class="sc">{</span>missing_cols<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Make batch predictions</span></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>        predictions <span class="op">=</span> model.predict(df)</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Log the request</span></span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>        log_request(<span class="st">"batch"</span>, df.to_dict(orient<span class="op">=</span><span class="st">"records"</span>), predictions.tolist(), <span class="st">"success"</span>)</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"predictions"</span>: predictions.tolist()}</span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>        log_request(<span class="st">"batch"</span>, df.to_dict(orient<span class="op">=</span><span class="st">"records"</span>), <span class="va">None</span>, <span class="ss">f"error: </span><span class="sc">{</span><span class="bu">str</span>(e)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> HTTPException(status_code<span class="op">=</span><span class="dv">500</span>, detail<span class="op">=</span><span class="bu">str</span>(e))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>Once the FastAPI code is modified, we can can test it by running the FastAPI app (either directly or by running with Streamlit as discussed in <a href="08-modelops-deployment.html#sec-fastapi-streamlit-together" class="quarto-xref">Section&nbsp;<span>8.4.4.3</span></a>). Go ahead and make some predictions and you’ll notice a <code>prediction_logs.csv</code> is created in your directory that will resemble the following, which includes the timestamp of the prediction, the type of request (single vs.&nbsp;batch), the input data fed into the model, the prediction the model made, and even the error message if an issue occurred.</p>
+<p><strong>Example of Logged Data:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 15%">
+<col style="width: 24%">
+<col style="width: 22%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Timestamp</th>
+<th>Request Type</th>
+<th>Input Data</th>
+<th>Predictions</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2025-02-01T14:12:00Z</td>
+<td>Single</td>
+<td>{“temp”: 30, “rainfall”: 2.1, …, “promo”: 1}</td>
+<td>1250.4</td>
+<td>Success</td>
+</tr>
+<tr class="even">
+<td>2025-02-01T14:15:12Z</td>
+<td>Batch</td>
+<td>[{“temp”: 28, “rainfall”: 1.8, …}, {“temp”: 27, “rainfall”: 2.5, …}]</td>
+<td>[1185.2, 1200.8]</td>
+<td>Success</td>
+</tr>
+<tr class="odd">
+<td>2025-02-01T14:20:30Z</td>
+<td>Single</td>
+<td>{“temp”: 35, “rainfall”: 3.0, “promo”: 0}</td>
+<td>None</td>
+<td>Error: Missing feature</td>
+</tr>
+</tbody>
+</table>
+<p>Now that we are storing historical inputs and predictions, we can move forward to drift detection — analyzing whether our model is still making accurate predictions or if data patterns have changed significantly.</p>
+</section>
+<section id="monitoring-model-performance-with-evidently-ai" class="level3">
+<h3 class="anchored" data-anchor-id="monitoring-model-performance-with-evidently-ai">Monitoring Model Performance with Evidently AI</h3>
+<p>As machine learning models operate in real-world environments, they face evolving data distributions, shifting relationships between features and target variables, and potential degradation in predictive performance. <a href="https://www.evidentlyai.com/">Evidently AI</a> is an open-source tool designed to help teams monitor, diagnose, and address these changes through drift detection and performance monitoring.</p>
+<section id="examples-of-implementing-evidently" class="level4">
+<h4 class="anchored" data-anchor-id="examples-of-implementing-evidently">Examples of Implementing Evidently</h4>
+<p>This section provides an overview of how to use Evidently AI to track <strong>feature drift</strong>, <strong>concept drift</strong>, and <strong>model performance drift</strong>, ensuring our apple demand forecasting model remains accurate and reliable. Below, we demonstrate how to generate Evidently AI reports to assess different types of drift using artificially generated datasets.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Detecting Feature Drift
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-27" class="callout-27-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Feature drift</strong> occurs when the distribution of input features changes significantly from the training data, potentially making the model’s learned patterns obsolete. This could be due to seasonal trends, economic shifts, or data collection changes.</p>
+<p>The code below provides an example of using Evidently for feature drift analysis. Using the <a href="https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/apple_data.py"><code>apple_data.py</code></a> module, we generate:</p>
+<ul>
+<li>A <strong>baseline dataset</strong> representing normal, expected conditions. This would typically be the original dataset your current model in production was trained on.</li>
+<li>A <strong>drifted dataset</strong>, where key features such as temperature, rainfall, and pricing have shifted.</li>
+</ul>
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-drift-monitoring.ipynb" data-notebook-title="Generate baseline dataset (no drift)" data-notebook-cellid="cell-0">
+<div id="cell-0" class="cell" data-tags="[&quot;create-baseline-vs-drift-data&quot;]" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> apple_data <span class="im">import</span> generate_apple_sales_data_with_promo_adjustment</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate baseline dataset (no drift)</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>baseline_df <span class="op">=</span> generate_apple_sales_data_with_promo_adjustment(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    n_rows<span class="op">=</span><span class="dv">5000</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate drifted dataset with controlled drift factors</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>feature_drift_config <span class="op">=</span> {</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"average_temperature"</span>: <span class="fl">1.2</span>,  <span class="co"># 20% increase</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rainfall"</span>: <span class="fl">0.9</span>,             <span class="co"># 10% decrease</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"price_per_kg"</span>: <span class="fl">1.09</span>,        <span class="co"># 9% increase</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"promo"</span>: <span class="fl">1.5</span>                 <span class="co"># 50% more promotions</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>concept_drift_config <span class="op">=</span> {</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"price_sensitivity"</span>: <span class="fl">0.8</span>,  <span class="co"># 20% less sensitive to price changes</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"promo_effect"</span>: <span class="fl">0.7</span>,       <span class="co"># Promotions become 30% less effective</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"weekend_effect"</span>: <span class="fl">1.1</span>,     <span class="co"># Weekend demand slightly increases</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"feature_importance"</span>: <span class="va">True</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>drifted_df <span class="op">=</span> generate_apple_sales_data_with_promo_adjustment(</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    n_rows<span class="op">=</span><span class="dv">5000</span>,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    feature_drift_factors<span class="op">=</span>feature_drift_config,</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    concept_drift_factors<span class="op">=</span>concept_drift_config</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>We can then use Evidently AI’s <strong>DataDriftPreset</strong> to analyze the distribution changes across features and then save the results to a <code>data_drift_report.html</code> file:</p>
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-drift-monitoring.ipynb" data-notebook-title="Generate baseline dataset (no drift)" data-notebook-cellid="cell-2">
+<div id="cell-2" class="cell" data-tags="[&quot;generate-drift-report&quot;]" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> evidently.report <span class="im">import</span> Report</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> evidently.metric_preset <span class="im">import</span> DataDriftPreset</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the drift detection report</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>data_drift_report <span class="op">=</span> Report(metrics<span class="op">=</span>[DataDriftPreset(drift_share<span class="op">=</span><span class="fl">0.3</span>)])</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Run comparison</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>data_drift_report.run(reference_data<span class="op">=</span>baseline_df, current_data<span class="op">=</span>drifted_df)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the report</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>data_drift_report.save_html(<span class="st">"data_drift_report.html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>This will create a Feature Drift Report (<code>data_drift_report.html</code>) that provides a side-by-side comparison of the feature distributions in the <strong>baseline dataset</strong> (reference data) and the <strong>drifted dataset</strong> (current data).</p>
+<div id="fig-feature-drift-report" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-feature-drift-report-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/feature-drift-report.png" class="img-fluid figure-img"></p>
+<figcaption>Feature Drift Report</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-feature-drift-report-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.4: Snapshot of the feature drift report.
+</figcaption>
+</figure>
+</div>
+<p>The key components of this report include:</p>
+<ul>
+<li><strong>Feature Distribution Comparisons</strong>: Visual histograms and statistical tests (e.g., Kolmogorov-Smirnov, Jensen-Shannon) to highlight significant shifts in individual feature distributions.</li>
+<li><strong>Drift Detection Summary</strong>: A table listing all monitored features, their calculated drift scores, and whether the drift is deemed significant.</li>
+<li><strong>Overall Data Drift Score</strong>: A single metric summarizing how much the dataset has changed, indicating whether the current dataset is still representative of the training data.</li>
+</ul>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>By default, Evidently will use 50% of the feature columns as the cutoff to determine if there is enough overall drift to want concern; however, you can set that as we did in the code with <code>drift_share=0.3</code>. This is a cutoff that you and your team needs to determine what amount of drift warrants concern. If this threshold is breached, it suggests that the model may be making predictions on a data distribution it was not trained on, increasing the risk of inaccurate forecasts.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Detecting Concept Drift (Target Variable Drift)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-28" class="callout-28-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Concept drift</strong> occurs when the relationship between input features and the target variable (e.g., demand) changes. Even if the feature distributions remain stable, the way they impact predictions may shift.</p>
+<p>To detect whether the target variable has changed, we can use Evidently AI’s <code>TargetDriftPreset()</code> to analyze drift in the target variable (<code>y</code>). This will evaluate both <strong>changes in its distribution</strong> and <strong>shifts in its relationship with feature variables</strong>.</p>
+<p>First, it compares the statistical distribution of the target variable in the baseline dataset (training data) to the current dataset (recent predictions), using statistical tests such as the Kolmogorov-Smirnov test or Jensen-Shannon divergence. If the target’s distribution has significantly changed, this indicates <strong>target drift</strong>, meaning the model’s assumptions about the outcome variable may no longer hold.</p>
+<p>Additionally, <code>TargetDriftPreset()</code> assesses the correlation between the target and input features — if the strength or direction of relationships between features and the target shifts significantly, this suggests <strong>concept drift</strong>. For instance, if <code>price_per_kg</code> was previously a strong predictor of demand but has become less relevant in the new data, it may indicate a fundamental change in consumer behavior, requiring model retraining or adaptation.</p>
+<p>The following code implements <code>TargetDriftPreset()</code> and then saves the results to a <code>concept_drift_report.html</code> file:</p>
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-drift-monitoring.ipynb" data-notebook-title="Generate baseline dataset (no drift)" data-notebook-cellid="cell-4">
+<div id="cell-4" class="cell" data-tags="[&quot;target-drift-report&quot;]" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> evidently.metric_preset <span class="im">import</span> TargetDriftPreset</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> evidently <span class="im">import</span> ColumnMapping</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the target variable and date variable</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>column_mapping <span class="op">=</span> ColumnMapping()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>column_mapping.target <span class="op">=</span> <span class="st">'demand'</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>column_mapping.datetime <span class="op">=</span> <span class="st">'date'</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an Evidently AI report for concept drift detection</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>concept_drift_report <span class="op">=</span> Report(metrics<span class="op">=</span>[TargetDriftPreset()])</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the report specifying the target variable</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>concept_drift_report.run(</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    reference_data<span class="op">=</span>baseline_df,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    current_data<span class="op">=</span>drifted_df,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    column_mapping<span class="op">=</span>column_mapping  <span class="co"># Explicitly map the target variable</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Save and view the report</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>concept_drift_report.save_html(<span class="st">"concept_drift_report.html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>This will create a Feature Drift Report (<code>concept_drift_report.html</code>) that includes:</p>
+<ul>
+<li><strong>Target Variable Distribution Analysis</strong>: Visual and statistical comparisons of how the target variable (apple demand) behaves in the baseline dataset vs.&nbsp;the drifted dataset.</li>
+<li><strong>Correlation Shift Analysis</strong>: If configured, the report can highlight whether the relationship between features and the target variable has changed.</li>
+<li><strong>Concept Drift Detection</strong>: A statistical test that determines whether the demand predictions based on old patterns are still valid in the current dataset.</li>
+</ul>
+<div id="fig-concept-drift-report" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-concept-drift-report-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/concept-drift-report.png" class="img-fluid figure-img"></p>
+<figcaption>Concept Drift Report</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-concept-drift-report-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.5: Snapshot of the concept drift report.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-29-contents" aria-controls="callout-29" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Detecting Model Performance Drift
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-29" class="callout-29-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Even if input features and target values remain stable, a model can degrade due to changes in underlying data relationships, outdated assumptions, or external factors. Tracking model performance over time helps detect these issues.</p>
+<p>Evidently AI provides the <code>RegressionPreset()</code> and <code>ClassificationPreset()</code> metrics to track and evaluate model performance drift over time. These presets help monitor whether a model’s predictions remain accurate and reliable as new data flows in.</p>
+<ul>
+<li>The <code>RegressionPreset()</code> is designed for continuous target variables (e.g., sales forecasts) and evaluates metrics like RMSE, MAE, R², and residual analysis to detect shifts in prediction errors. If RMSE increases significantly compared to the reference dataset, it may indicate that the model is underperforming due to data drift or concept drift.</li>
+<li>Similarly, <code>ClassificationPreset()</code> is tailored for classification tasks and tracks key metrics such as accuracy, precision, recall, F1-score, and ROC-AUC. It flags performance degradation if there’s a drop in classification confidence or an increase in misclassification rates.</li>
+</ul>
+<p>The following code implements <code>RegressionPreset()</code> and then saves the results to a <code>performance_report.html</code> file:</p>
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-drift-monitoring.ipynb" data-notebook-title="Generate baseline dataset (no drift)" data-notebook-cellid="cell-6">
+<div id="cell-6" class="cell" data-tags="[&quot;model-performance-drift-report&quot;]" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> evidently.metric_preset <span class="im">import</span> RegressionPreset</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load current model</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>mlflow.set_experiment(<span class="st">"Forecasting Apple Demand"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>MODEL_URI <span class="op">=</span> <span class="st">"models:/apple_demand@champion"</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> mlflow.pyfunc.load_model(MODEL_URI)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Score baseline &amp; drift data with model</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>baseline_df[<span class="st">'predictions'</span>] <span class="op">=</span> model.predict(drifted_df)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>drifted_df[<span class="st">'predictions'</span>] <span class="op">=</span> model.predict(drifted_df)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the prediction variable to our column mapping to compare to actuals</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>column_mapping.prediction <span class="op">=</span> <span class="st">'predictions'</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a model performance monitoring report</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>performance_report <span class="op">=</span> Report(metrics<span class="op">=</span>[RegressionPreset()])</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>performance_report.run(</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    reference_data<span class="op">=</span>baseline_df,</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    current_data<span class="op">=</span>drifted_df,</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    column_mapping<span class="op">=</span>column_mapping  <span class="co"># Explicitly map the target variable</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Save report</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>performance_report.save_html(<span class="st">"performance_report.html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>The Model Performance Drift Report provides:</p>
+<ul>
+<li><strong>Performance Metrics Comparison</strong>: Side-by-side evaluation of model accuracy, highlighting whether predictive performance has worsened on new data.</li>
+<li><strong>Residual Analysis</strong>: Visual plots showing whether model errors have increased significantly in specific regions of the data.</li>
+<li><strong>Feature Importance Changes</strong> <em>(if enabled)</em>: A comparison of how feature importance scores have shifted, indicating whether the model is relying on different patterns than before.</li>
+</ul>
+<div id="fig-performance-drift-report" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-performance-drift-report-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/performance-drift-report.png" class="img-fluid figure-img"></p>
+<figcaption>Performance Drift Report</figcaption>
+</figure>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-performance-drift-report-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.6: Snapshot of the model performance drift report.
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>By using these presets, teams can proactively identify when a model’s predictions start deviating, allowing them to trigger alerts, diagnose potential drift, and determine whether retraining is necessary to maintain high model accuracy in production.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Evidently AI offers a robust framework for detecting and visualizing drift in machine learning models. While the examples provided here demonstrate the basics of monitoring <strong>feature drift, target drift, and model performance drift</strong>, Evidently includes many additional capabilities, such as bias detection, data integrity checks, and customizable dashboards for ongoing model monitoring. These advanced features can provide deeper insights into why a model’s performance is changing over time. In the next section, we will take these concepts further by <strong>integrating Evidently AI into our production pipeline</strong>, demonstrating how to automate drift detection and implement real-time model monitoring. Along the way, we will also introduce additional functionalities that Evidently provides, reinforcing its role in maintaining reliable and high-performing ML systems in production.</p>
+</section>
+<section id="implementing-evidently-into-our-pipeline" class="level4">
+<h4 class="anchored" data-anchor-id="implementing-evidently-into-our-pipeline">Implementing Evidently into Our Pipeline</h4>
+<p>TBD</p>
+</section>
+</section>
+<section id="setting-up-operational-monitoring-with-prometheus-and-grafana" class="level3">
+<h3 class="anchored" data-anchor-id="setting-up-operational-monitoring-with-prometheus-and-grafana">Setting Up Operational Monitoring with Prometheus and Grafana</h3>
+<section id="a.-introduction-to-prometheus-and-grafana" class="level4">
+<h4 class="anchored" data-anchor-id="a.-introduction-to-prometheus-and-grafana"><strong>A. Introduction to Prometheus and Grafana</strong></h4>
+<ul>
+<li><strong>Why These Tools?</strong>
+<ul>
+<li>Prometheus: Captures API request latency, response times, and error rates.</li>
+<li>Grafana: Visualizes the collected data with dashboards.</li>
+</ul></li>
+</ul>
+</section>
+<section id="b.-configuring-prometheus-to-track-api-performance" class="level4">
+<h4 class="anchored" data-anchor-id="b.-configuring-prometheus-to-track-api-performance"><strong>B. Configuring Prometheus to Track API Performance</strong></h4>
+<ul>
+<li><strong>Implementation</strong>:
+<ul>
+<li>Expose FastAPI metrics using <strong>Prometheus FastAPI Instrumentator</strong>.</li>
+<li>Configure Prometheus to scrape metrics from the API.</li>
+<li>Track response time, request count, and error rates.</li>
+</ul></li>
+</ul>
+</section>
+<section id="c.-setting-up-a-grafana-dashboard" class="level4">
+<h4 class="anchored" data-anchor-id="c.-setting-up-a-grafana-dashboard"><strong>C. Setting Up a Grafana Dashboard</strong></h4>
+<ul>
+<li><strong>Implementation</strong>:
+<ul>
+<li>Connect Prometheus as a data source in Grafana.</li>
+<li>Build a dashboard to visualize API performance.</li>
+<li>Configure alerts for high latency or errors.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="automating-monitoring-alerts" class="level3">
+<h3 class="anchored" data-anchor-id="automating-monitoring-alerts">Automating Monitoring &amp; Alerts</h3>
+<section id="a.-scheduling-drift-checks" class="level4">
+<h4 class="anchored" data-anchor-id="a.-scheduling-drift-checks"><strong>A. Scheduling Drift Checks</strong></h4>
+<ul>
+<li><strong>Implementation</strong>:
+<ul>
+<li>Use a cron job or scheduler to run drift checks periodically.</li>
+<li>Store results and generate alerts if drift is detected.</li>
+</ul></li>
+</ul>
+</section>
+<section id="b.-setting-up-alerting-with-prometheus-grafana" class="level4">
+<h4 class="anchored" data-anchor-id="b.-setting-up-alerting-with-prometheus-grafana"><strong>B. Setting Up Alerting with Prometheus &amp; Grafana</strong></h4>
+<ul>
+<li><strong>Implementation</strong>:
+<ul>
+<li>Define alert rules in Prometheus for API performance issues.</li>
+<li>Send notifications via email, Slack, or webhooks when issues arise.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="reflection-next-steps" class="level3">
+<h3 class="anchored" data-anchor-id="reflection-next-steps">Reflection &amp; Next Steps</h3>
+<ul>
+<li><strong>What We Achieved</strong>:
+<ul>
+<li>Implemented logging and drift detection.</li>
+<li>Monitored API health and set up dashboards.</li>
+<li>Configured alerts for early issue detection.</li>
+</ul></li>
+<li><strong>Challenges &amp; Considerations</strong>:
+<ul>
+<li>Handling large-scale monitoring data efficiently.</li>
+<li>Determining the right drift detection thresholds.</li>
+</ul></li>
+<li><strong>What’s Next?</strong>:
+<ul>
+<li>Future chapters will explore model retraining strategies and automation.</li>
+</ul></li>
+</ul>
+</section>
 </section>
 <section id="summary" class="level2" data-number="9.5">
 <h2 data-number="9.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">9.5</span> Summary</h2>
@@ -538,6 +1775,12 @@ Operational Monitoring
 </ul>
 
 
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>See the <a href="https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/modelops-monitoring-requirements.txt">modelops-monitoring-requirements.txt</a> file.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
