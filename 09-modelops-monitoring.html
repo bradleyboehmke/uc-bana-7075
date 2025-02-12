@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./10-devops-role.html" rel="next">
 <link href="./08-modelops-deployment.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-66ab7fd5e73b7f0a764e0d49b3e29ab1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-68095bcccd1b10895cbbc4110da88c0b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-71e9fc380d3dc94865f46d6df83b3575.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -240,12 +240,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">
- <span class="menu-text">DevOps</span></span>
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">DevOps</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-devops-role.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Role of DevOps</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-devops-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introduction to Git and GitHub</span></span></a>
+  </div>
+</li>
+      </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">
- <span class="menu-text">The Human Side of ML Systems</span></span>
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Human Elements</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-human-side-of-ml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The Human Side of ML Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-continued-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Continuing Your Growth as an ML Practitioner</span></span></a>
+  </div>
+</li>
+      </ul>
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
@@ -1408,7 +1446,7 @@ Revised FastAPI code
 <p>As machine learning models operate in real-world environments, they face evolving data distributions, shifting relationships between features and target variables, and potential degradation in predictive performance. <a href="https://www.evidentlyai.com/">Evidently AI</a> is an open-source tool designed to help teams monitor, diagnose, and address these changes through drift detection and performance monitoring.</p>
 <section id="examples-of-implementing-evidently" class="level4">
 <h4 class="anchored" data-anchor-id="examples-of-implementing-evidently">Examples of Implementing Evidently</h4>
-<p>This section provides an overview of how to use Evidently AI to track <strong>feature drift</strong>, <strong>concept drift</strong>, and <strong>model performance drift</strong>, ensuring our apple demand forecasting model remains accurate and reliable. Below, we demonstrate how to generate Evidently AI reports to assess different types of drift using artificially generated datasets.</p>
+<p>This section provides an overview of how to use Evidently AI to track <strong>feature drift</strong>, <strong>concept drift</strong>, and <strong>model performance drift</strong>, ensuring our apple demand forecasting model remains accurate and reliable.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Below, we demonstrate how to generate Evidently AI reports to assess different types of drift using artificially generated datasets.</p>
 <div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1664,6 +1702,14 @@ Figure&nbsp;9.6: Snapshot of the model performance drift report.
 <h4 class="anchored" data-anchor-id="implementing-evidently-into-our-pipeline">Implementing Evidently into Our Pipeline</h4>
 <p>TBD</p>
 </section>
+<section id="visualizing-model-monitoring-in-streamlit" class="level4">
+<h4 class="anchored" data-anchor-id="visualizing-model-monitoring-in-streamlit">Visualizing Model Monitoring in Streamlit</h4>
+<p>TBD</p>
+</section>
+<section id="automating-the-monitoring-pipeline" class="level4">
+<h4 class="anchored" data-anchor-id="automating-the-monitoring-pipeline">Automating the Monitoring Pipeline</h4>
+<p>TBD</p>
+</section>
 </section>
 <section id="setting-up-operational-monitoring-with-prometheus-and-grafana" class="level3">
 <h3 class="anchored" data-anchor-id="setting-up-operational-monitoring-with-prometheus-and-grafana">Setting Up Operational Monitoring with Prometheus and Grafana</h3>
@@ -1780,6 +1826,7 @@ Figure&nbsp;9.6: Snapshot of the model performance drift report.
 <hr>
 <ol>
 <li id="fn1"><p>See the <a href="https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/modelops-monitoring-requirements.txt">modelops-monitoring-requirements.txt</a> file.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>You can also refer to this notebook: <a href="https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/model-drift-monitoring.ipynb">https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/model-drift-monitoring.ipynb</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
@@ -2208,8 +2255,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./10-devops-role.html" class="pagination-link" aria-label="The Role of DevOps">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Role of DevOps</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

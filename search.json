@@ -802,7 +802,7 @@
     "href": "09-modelops-monitoring.html#hands-on-example-implementing-model-monitoring",
     "title": "9  Model Monitoring",
     "section": "9.4 Hands-On Example: Implementing Model Monitoring",
-    "text": "9.4 Hands-On Example: Implementing Model Monitoring\nIn the previous chapter, we deployed a machine learning model as an API using FastAPI. However, deploying a model is only part of the journey, ensuring it continues to perform well over time is equally critical. In this hands-on example, we will extend our deployed model by incorporating monitoring capabilities, allowing us to track performance, detect drift, and ensure operational stability.\nThis exercise will introduce you to practical model monitoring techniques, demonstrating how to:\n\nLog incoming data and predictions to track model performance in production.\nDetect data drift using Evidently, which helps determine if incoming data distributions are changing over time.\nMonitor API performance (latency, request counts, and errors) using Prometheus and visualize it in Grafana.\nAutomate monitoring and alerts to proactively identify issues before they impact business decisions.\n\n\nWhy is This Important?\nIn real-world applications, an ML model that performs well during training may degrade over time due to shifting data patterns (data drift), changes in the relationship between inputs and outputs (concept drift), or due to changes in API performance (i.e. latency). Without proper monitoring, these changes can go unnoticed, leading to poor predictions, financial losses, or operational disruptions.\nFor instance, in our apple demand forecasting model, what if consumer behavior changes due to a sudden price increase, or a competitor introduces a promotional campaign, or maybe a hot new apple martini recipe is trending on social media and all of a sudden demand has exceeded any amounts we’ve seen previously? If our model does not adapt to these changes, inventory predictions may become inaccurate, leading to overstocking or shortages. Monitoring allows us to detect such changes early and trigger necessary actions, such as model retraining or adjusting forecasting strategies.\nThis section will demonstrate how to incorporate fundamental monitoring so that by the end of this chapter, you will have a well-monitored ML model that logs incoming data, detects drift, tracks API performance, and provides real-time insights through dashboards and alerts. This will help ensure your deployed model remains reliable and accurate over time.\n\n\nPrerequisites\nBefore proceeding, make sure you have the following:\n\nWe’ll be building onto the previous hands-on examples where the apple demand forecasting model was trained, logged and versioned to MLflow and then predictions were served with a FastAPI. If you want to recreate this section then be sure have successfully reproduced Section 6.7, Section 7.4, and Section 8.4.\nYou’ll also need the following packages installed.1\n\nevidently==0.6.1\nWith these prerequisites met, let’s move on to setting up the monitoring infrastructure!\n\n\nSetting Up the Monitoring Infrastructure\nThe first step is to implement a logging mechanism to capture all incoming prediction requests and their corresponding outputs. This will allow us to:\n\nTrack model behavior over time.\nDetect potential data drift and concept drift.\nIdentify issues in the model’s performance before they impact business decisions.\n\nThis is the first step toward building a fully automated monitoring system.\n\n\n\n\n\n\nIn a real-world enterprise system, logged data would typically be stored in a centralized logging database (i.e. PostgreSQL, MySQL, NoSQL) or a cloud-based storage system (i.e. BigQuery, AWS S3). However, for this hands-on example, we will log predictions locally to a CSV file.\n\n\n\nTo implement logging, we will modify our FastAPI application to:\n\nLog incoming requests (input features) and corresponding predictions.\nStore logs in a CSV file (prediction_logs.csv).\nInclude timestamps and status messages for error tracking.\n\nThe primary code that we will add includes:\n# Define log file path\nLOG_FILE_PATH = \"prediction_logs.csv\"\n\n# Ensure log file exists with headers\nif not os.path.exists(LOG_FILE_PATH):\n    pd.DataFrame(columns=[\n        \"timestamp\", \"request_type\", \"input_data\", \"predictions\", \"status\"\n    ]).to_csv(LOG_FILE_PATH, index=False)\n\n# Primary function to log inputs & predictions\ndef log_request(request_type, input_data, predictions, status):\n    \"\"\"Logs the request details to a CSV file.\"\"\"\n    log_entry = pd.DataFrame([{\n        \"timestamp\": datetime.datetime.now().isoformat(),\n        \"request_type\": request_type,\n        \"input_data\": json.dumps(input_data),\n        \"predictions\": json.dumps(predictions),\n        \"status\": status\n    }])\n    log_entry.to_csv(LOG_FILE_PATH, mode='a', header=False, index=False)\nWe can then add a call to the log_request() function inside the function definitions for predict_single() and predict_batch(). You can see the full revised FastAPI code below or also here.\n\n\n\n\n\n\nRevised FastAPI code\n\n\n\n\n\nfrom fastapi import FastAPI, HTTPException, UploadFile, File\nimport mlflow.pyfunc\nimport pandas as pd\nfrom pydantic import BaseModel\nfrom typing import List\nimport io\nimport datetime\nimport json\nimport os\n\n# Initialize FastAPI app\napp = FastAPI()\n\n# Set experiment name\nmlflow.set_experiment(\"Forecasting Apple Demand\")\n\n# Load the trained model from MLflow\nMODEL_URI = \"models:/apple_demand@champion\"  # Replace with your model name and alias\nmodel = mlflow.pyfunc.load_model(MODEL_URI)\n\n# Define the expected input schema for a single prediction\nclass InputData(BaseModel):\n    average_temperature: float\n    rainfall: float\n    weekend: int\n    holiday: int\n    price_per_kg: float\n    promo: int\n    previous_days_demand: float\n\n# Define log file path\nLOG_FILE_PATH = \"prediction_logs.csv\"\n\n# Ensure log file exists with headers\nif not os.path.exists(LOG_FILE_PATH):\n    pd.DataFrame(columns=[\n        \"timestamp\", \"request_type\", \"input_data\", \"predictions\", \"status\"\n    ]).to_csv(LOG_FILE_PATH, index=False)\n\ndef log_request(request_type, input_data, predictions, status):\n    \"\"\"Logs the request details to a CSV file.\"\"\"\n    log_entry = pd.DataFrame([{\n        \"timestamp\": datetime.datetime.now().isoformat(),\n        \"request_type\": request_type,\n        \"input_data\": json.dumps(input_data),\n        \"predictions\": json.dumps(predictions),\n        \"status\": status\n    }])\n    log_entry.to_csv(LOG_FILE_PATH, mode='a', header=False, index=False)\n\n@app.post(\"/predict\")\ndef predict_single(input_data: List[InputData]):\n    \"\"\"Endpoint for real-time predictions with a single input.\"\"\"\n    try:\n        # Convert input to DataFrame\n        df = pd.DataFrame([data.dict() for data in input_data])\n\n        # Make predictions\n        predictions = model.predict(df)\n\n        # Log the request\n        log_request(\"single\", df.to_dict(orient=\"records\"), predictions.tolist(), \"success\")\n\n        return {\"predictions\": predictions.tolist()}\n    except Exception as e:\n        log_request(\"single\", df.to_dict(orient=\"records\"), None, f\"error: {str(e)}\")\n        raise HTTPException(status_code=500, detail=str(e))\n\n@app.post(\"/predict_batch\")\nasync def predict_batch(file: UploadFile = File(...)):\n    \"\"\"Endpoint for batch predictions using a CSV file.\"\"\"\n    try:\n        # Read the uploaded CSV file\n        contents = await file.read()\n        df = pd.read_csv(io.StringIO(contents.decode(\"utf-8\")))\n\n        # Validate required columns\n        required_features = [\"average_temperature\", \"rainfall\", \"weekend\", \"holiday\", \"price_per_kg\", \"promo\", \"previous_days_demand\"]\n        if not all(feature in df.columns for feature in required_features):\n            missing_cols = set(required_features) - set(df.columns)\n            raise HTTPException(status_code=400, detail=f\"Missing columns: {missing_cols}\")\n\n        # Make batch predictions\n        predictions = model.predict(df)\n\n        # Log the request\n        log_request(\"batch\", df.to_dict(orient=\"records\"), predictions.tolist(), \"success\")\n\n        return {\"predictions\": predictions.tolist()}\n    except Exception as e:\n        log_request(\"batch\", df.to_dict(orient=\"records\"), None, f\"error: {str(e)}\")\n        raise HTTPException(status_code=500, detail=str(e))\n\n\n\nOnce the FastAPI code is modified, we can can test it by running the FastAPI app (either directly or by running with Streamlit as discussed in Section 8.4.4.3). Go ahead and make some predictions and you’ll notice a prediction_logs.csv is created in your directory that will resemble the following, which includes the timestamp of the prediction, the type of request (single vs. batch), the input data fed into the model, the prediction the model made, and even the error message if an issue occurred.\nExample of Logged Data:\n\n\n\n\n\n\n\n\n\n\nTimestamp\nRequest Type\nInput Data\nPredictions\nStatus\n\n\n\n\n2025-02-01T14:12:00Z\nSingle\n{“temp”: 30, “rainfall”: 2.1, …, “promo”: 1}\n1250.4\nSuccess\n\n\n2025-02-01T14:15:12Z\nBatch\n[{“temp”: 28, “rainfall”: 1.8, …}, {“temp”: 27, “rainfall”: 2.5, …}]\n[1185.2, 1200.8]\nSuccess\n\n\n2025-02-01T14:20:30Z\nSingle\n{“temp”: 35, “rainfall”: 3.0, “promo”: 0}\nNone\nError: Missing feature\n\n\n\nNow that we are storing historical inputs and predictions, we can move forward to drift detection — analyzing whether our model is still making accurate predictions or if data patterns have changed significantly.\n\n\nMonitoring Model Performance with Evidently AI\nAs machine learning models operate in real-world environments, they face evolving data distributions, shifting relationships between features and target variables, and potential degradation in predictive performance. Evidently AI is an open-source tool designed to help teams monitor, diagnose, and address these changes through drift detection and performance monitoring.\n\nExamples of Implementing Evidently\nThis section provides an overview of how to use Evidently AI to track feature drift, concept drift, and model performance drift, ensuring our apple demand forecasting model remains accurate and reliable. Below, we demonstrate how to generate Evidently AI reports to assess different types of drift using artificially generated datasets.\n\n\n\n\n\n\nDetecting Feature Drift\n\n\n\n\n\nFeature drift occurs when the distribution of input features changes significantly from the training data, potentially making the model’s learned patterns obsolete. This could be due to seasonal trends, economic shifts, or data collection changes.\nThe code below provides an example of using Evidently for feature drift analysis. Using the apple_data.py module, we generate:\n\nA baseline dataset representing normal, expected conditions. This would typically be the original dataset your current model in production was trained on.\nA drifted dataset, where key features such as temperature, rainfall, and pricing have shifted.\n\n\n\nfrom apple_data import generate_apple_sales_data_with_promo_adjustment\n\n# Generate baseline dataset (no drift)\nbaseline_df = generate_apple_sales_data_with_promo_adjustment(\n    n_rows=5000\n)\n\n# Generate drifted dataset with controlled drift factors\nfeature_drift_config = {\n    \"average_temperature\": 1.2,  # 20% increase\n    \"rainfall\": 0.9,             # 10% decrease\n    \"price_per_kg\": 1.09,        # 9% increase\n    \"promo\": 1.5                 # 50% more promotions\n}\n\nconcept_drift_config = {\n    \"price_sensitivity\": 0.8,  # 20% less sensitive to price changes\n    \"promo_effect\": 0.7,       # Promotions become 30% less effective\n    \"weekend_effect\": 1.1,     # Weekend demand slightly increases\n    \"feature_importance\": True\n}\n\ndrifted_df = generate_apple_sales_data_with_promo_adjustment(\n    n_rows=5000,\n    feature_drift_factors=feature_drift_config,\n    concept_drift_factors=concept_drift_config\n)\n\n\nWe can then use Evidently AI’s DataDriftPreset to analyze the distribution changes across features and then save the results to a data_drift_report.html file:\n\n\nfrom evidently.report import Report\nfrom evidently.metric_preset import DataDriftPreset\n\n# Define the drift detection report\ndata_drift_report = Report(metrics=[DataDriftPreset(drift_share=0.3)])\n\n# Run comparison\ndata_drift_report.run(reference_data=baseline_df, current_data=drifted_df)\n\n# Save the report\ndata_drift_report.save_html(\"data_drift_report.html\")\n\n\nThis will create a Feature Drift Report (data_drift_report.html) that provides a side-by-side comparison of the feature distributions in the baseline dataset (reference data) and the drifted dataset (current data).\n\n\n\n\n\n\nFeature Drift Report\n\n\n\n\nFigure 9.4: Snapshot of the feature drift report.\n\n\n\nThe key components of this report include:\n\nFeature Distribution Comparisons: Visual histograms and statistical tests (e.g., Kolmogorov-Smirnov, Jensen-Shannon) to highlight significant shifts in individual feature distributions.\nDrift Detection Summary: A table listing all monitored features, their calculated drift scores, and whether the drift is deemed significant.\nOverall Data Drift Score: A single metric summarizing how much the dataset has changed, indicating whether the current dataset is still representative of the training data.\n\n\n\n\n\n\n\nBy default, Evidently will use 50% of the feature columns as the cutoff to determine if there is enough overall drift to want concern; however, you can set that as we did in the code with drift_share=0.3. This is a cutoff that you and your team needs to determine what amount of drift warrants concern. If this threshold is breached, it suggests that the model may be making predictions on a data distribution it was not trained on, increasing the risk of inaccurate forecasts.\n\n\n\n\n\n\n\n\n\n\n\n\nDetecting Concept Drift (Target Variable Drift)\n\n\n\n\n\nConcept drift occurs when the relationship between input features and the target variable (e.g., demand) changes. Even if the feature distributions remain stable, the way they impact predictions may shift.\nTo detect whether the target variable has changed, we can use Evidently AI’s TargetDriftPreset() to analyze drift in the target variable (y). This will evaluate both changes in its distribution and shifts in its relationship with feature variables.\nFirst, it compares the statistical distribution of the target variable in the baseline dataset (training data) to the current dataset (recent predictions), using statistical tests such as the Kolmogorov-Smirnov test or Jensen-Shannon divergence. If the target’s distribution has significantly changed, this indicates target drift, meaning the model’s assumptions about the outcome variable may no longer hold.\nAdditionally, TargetDriftPreset() assesses the correlation between the target and input features — if the strength or direction of relationships between features and the target shifts significantly, this suggests concept drift. For instance, if price_per_kg was previously a strong predictor of demand but has become less relevant in the new data, it may indicate a fundamental change in consumer behavior, requiring model retraining or adaptation.\nThe following code implements TargetDriftPreset() and then saves the results to a concept_drift_report.html file:\n\n\nfrom evidently.metric_preset import TargetDriftPreset\nfrom evidently import ColumnMapping\n\n\n# Define the target variable and date variable\ncolumn_mapping = ColumnMapping()\ncolumn_mapping.target = 'demand'\ncolumn_mapping.datetime = 'date'\n\n# Create an Evidently AI report for concept drift detection\nconcept_drift_report = Report(metrics=[TargetDriftPreset()])\n\n# Run the report specifying the target variable\nconcept_drift_report.run(\n    reference_data=baseline_df,\n    current_data=drifted_df,\n    column_mapping=column_mapping  # Explicitly map the target variable\n)\n\n# Save and view the report\nconcept_drift_report.save_html(\"concept_drift_report.html\")\n\n\nThis will create a Feature Drift Report (concept_drift_report.html) that includes:\n\nTarget Variable Distribution Analysis: Visual and statistical comparisons of how the target variable (apple demand) behaves in the baseline dataset vs. the drifted dataset.\nCorrelation Shift Analysis: If configured, the report can highlight whether the relationship between features and the target variable has changed.\nConcept Drift Detection: A statistical test that determines whether the demand predictions based on old patterns are still valid in the current dataset.\n\n\n\n\n\n\n\nConcept Drift Report\n\n\n\n\nFigure 9.5: Snapshot of the concept drift report.\n\n\n\n\n\n\n\n\n\n\n\n\nDetecting Model Performance Drift\n\n\n\n\n\nEven if input features and target values remain stable, a model can degrade due to changes in underlying data relationships, outdated assumptions, or external factors. Tracking model performance over time helps detect these issues.\nEvidently AI provides the RegressionPreset() and ClassificationPreset() metrics to track and evaluate model performance drift over time. These presets help monitor whether a model’s predictions remain accurate and reliable as new data flows in.\n\nThe RegressionPreset() is designed for continuous target variables (e.g., sales forecasts) and evaluates metrics like RMSE, MAE, R², and residual analysis to detect shifts in prediction errors. If RMSE increases significantly compared to the reference dataset, it may indicate that the model is underperforming due to data drift or concept drift.\nSimilarly, ClassificationPreset() is tailored for classification tasks and tracks key metrics such as accuracy, precision, recall, F1-score, and ROC-AUC. It flags performance degradation if there’s a drop in classification confidence or an increase in misclassification rates.\n\nThe following code implements RegressionPreset() and then saves the results to a performance_report.html file:\n\n\nfrom evidently.metric_preset import RegressionPreset\nimport mlflow\n\n\n# Load current model\nmlflow.set_experiment(\"Forecasting Apple Demand\")\nMODEL_URI = \"models:/apple_demand@champion\"\nmodel = mlflow.pyfunc.load_model(MODEL_URI)\n\n# Score baseline & drift data with model\nbaseline_df['predictions'] = model.predict(drifted_df)\ndrifted_df['predictions'] = model.predict(drifted_df)\n\n# Add the prediction variable to our column mapping to compare to actuals\ncolumn_mapping.prediction = 'predictions'\n\n# Create a model performance monitoring report\nperformance_report = Report(metrics=[RegressionPreset()])\nperformance_report.run(\n    reference_data=baseline_df,\n    current_data=drifted_df,\n    column_mapping=column_mapping  # Explicitly map the target variable\n)\n\n# Save report\nperformance_report.save_html(\"performance_report.html\")\n\n\nThe Model Performance Drift Report provides:\n\nPerformance Metrics Comparison: Side-by-side evaluation of model accuracy, highlighting whether predictive performance has worsened on new data.\nResidual Analysis: Visual plots showing whether model errors have increased significantly in specific regions of the data.\nFeature Importance Changes (if enabled): A comparison of how feature importance scores have shifted, indicating whether the model is relying on different patterns than before.\n\n\n\n\n\n\n\nPerformance Drift Report\n\n\n\n\nFigure 9.6: Snapshot of the model performance drift report.\n\n\n\n\n\n\n\n\n\nBy using these presets, teams can proactively identify when a model’s predictions start deviating, allowing them to trigger alerts, diagnose potential drift, and determine whether retraining is necessary to maintain high model accuracy in production.\n\n\n\n\n\n\nEvidently AI offers a robust framework for detecting and visualizing drift in machine learning models. While the examples provided here demonstrate the basics of monitoring feature drift, target drift, and model performance drift, Evidently includes many additional capabilities, such as bias detection, data integrity checks, and customizable dashboards for ongoing model monitoring. These advanced features can provide deeper insights into why a model’s performance is changing over time. In the next section, we will take these concepts further by integrating Evidently AI into our production pipeline, demonstrating how to automate drift detection and implement real-time model monitoring. Along the way, we will also introduce additional functionalities that Evidently provides, reinforcing its role in maintaining reliable and high-performing ML systems in production.\n\n\nImplementing Evidently into Our Pipeline\nTBD\n\n\n\nSetting Up Operational Monitoring with Prometheus and Grafana\n\nA. Introduction to Prometheus and Grafana\n\nWhy These Tools?\n\nPrometheus: Captures API request latency, response times, and error rates.\nGrafana: Visualizes the collected data with dashboards.\n\n\n\n\nB. Configuring Prometheus to Track API Performance\n\nImplementation:\n\nExpose FastAPI metrics using Prometheus FastAPI Instrumentator.\nConfigure Prometheus to scrape metrics from the API.\nTrack response time, request count, and error rates.\n\n\n\n\nC. Setting Up a Grafana Dashboard\n\nImplementation:\n\nConnect Prometheus as a data source in Grafana.\nBuild a dashboard to visualize API performance.\nConfigure alerts for high latency or errors.\n\n\n\n\n\nAutomating Monitoring & Alerts\n\nA. Scheduling Drift Checks\n\nImplementation:\n\nUse a cron job or scheduler to run drift checks periodically.\nStore results and generate alerts if drift is detected.\n\n\n\n\nB. Setting Up Alerting with Prometheus & Grafana\n\nImplementation:\n\nDefine alert rules in Prometheus for API performance issues.\nSend notifications via email, Slack, or webhooks when issues arise.\n\n\n\n\n\nReflection & Next Steps\n\nWhat We Achieved:\n\nImplemented logging and drift detection.\nMonitored API health and set up dashboards.\nConfigured alerts for early issue detection.\n\nChallenges & Considerations:\n\nHandling large-scale monitoring data efficiently.\nDetermining the right drift detection thresholds.\n\nWhat’s Next?:\n\nFuture chapters will explore model retraining strategies and automation.",
+    "text": "9.4 Hands-On Example: Implementing Model Monitoring\nIn the previous chapter, we deployed a machine learning model as an API using FastAPI. However, deploying a model is only part of the journey, ensuring it continues to perform well over time is equally critical. In this hands-on example, we will extend our deployed model by incorporating monitoring capabilities, allowing us to track performance, detect drift, and ensure operational stability.\nThis exercise will introduce you to practical model monitoring techniques, demonstrating how to:\n\nLog incoming data and predictions to track model performance in production.\nDetect data drift using Evidently, which helps determine if incoming data distributions are changing over time.\nMonitor API performance (latency, request counts, and errors) using Prometheus and visualize it in Grafana.\nAutomate monitoring and alerts to proactively identify issues before they impact business decisions.\n\n\nWhy is This Important?\nIn real-world applications, an ML model that performs well during training may degrade over time due to shifting data patterns (data drift), changes in the relationship between inputs and outputs (concept drift), or due to changes in API performance (i.e. latency). Without proper monitoring, these changes can go unnoticed, leading to poor predictions, financial losses, or operational disruptions.\nFor instance, in our apple demand forecasting model, what if consumer behavior changes due to a sudden price increase, or a competitor introduces a promotional campaign, or maybe a hot new apple martini recipe is trending on social media and all of a sudden demand has exceeded any amounts we’ve seen previously? If our model does not adapt to these changes, inventory predictions may become inaccurate, leading to overstocking or shortages. Monitoring allows us to detect such changes early and trigger necessary actions, such as model retraining or adjusting forecasting strategies.\nThis section will demonstrate how to incorporate fundamental monitoring so that by the end of this chapter, you will have a well-monitored ML model that logs incoming data, detects drift, tracks API performance, and provides real-time insights through dashboards and alerts. This will help ensure your deployed model remains reliable and accurate over time.\n\n\nPrerequisites\nBefore proceeding, make sure you have the following:\n\nWe’ll be building onto the previous hands-on examples where the apple demand forecasting model was trained, logged and versioned to MLflow and then predictions were served with a FastAPI. If you want to recreate this section then be sure have successfully reproduced Section 6.7, Section 7.4, and Section 8.4.\nYou’ll also need the following packages installed.1\n\nevidently==0.6.1\nWith these prerequisites met, let’s move on to setting up the monitoring infrastructure!\n\n\nSetting Up the Monitoring Infrastructure\nThe first step is to implement a logging mechanism to capture all incoming prediction requests and their corresponding outputs. This will allow us to:\n\nTrack model behavior over time.\nDetect potential data drift and concept drift.\nIdentify issues in the model’s performance before they impact business decisions.\n\nThis is the first step toward building a fully automated monitoring system.\n\n\n\n\n\n\nIn a real-world enterprise system, logged data would typically be stored in a centralized logging database (i.e. PostgreSQL, MySQL, NoSQL) or a cloud-based storage system (i.e. BigQuery, AWS S3). However, for this hands-on example, we will log predictions locally to a CSV file.\n\n\n\nTo implement logging, we will modify our FastAPI application to:\n\nLog incoming requests (input features) and corresponding predictions.\nStore logs in a CSV file (prediction_logs.csv).\nInclude timestamps and status messages for error tracking.\n\nThe primary code that we will add includes:\n# Define log file path\nLOG_FILE_PATH = \"prediction_logs.csv\"\n\n# Ensure log file exists with headers\nif not os.path.exists(LOG_FILE_PATH):\n    pd.DataFrame(columns=[\n        \"timestamp\", \"request_type\", \"input_data\", \"predictions\", \"status\"\n    ]).to_csv(LOG_FILE_PATH, index=False)\n\n# Primary function to log inputs & predictions\ndef log_request(request_type, input_data, predictions, status):\n    \"\"\"Logs the request details to a CSV file.\"\"\"\n    log_entry = pd.DataFrame([{\n        \"timestamp\": datetime.datetime.now().isoformat(),\n        \"request_type\": request_type,\n        \"input_data\": json.dumps(input_data),\n        \"predictions\": json.dumps(predictions),\n        \"status\": status\n    }])\n    log_entry.to_csv(LOG_FILE_PATH, mode='a', header=False, index=False)\nWe can then add a call to the log_request() function inside the function definitions for predict_single() and predict_batch(). You can see the full revised FastAPI code below or also here.\n\n\n\n\n\n\nRevised FastAPI code\n\n\n\n\n\nfrom fastapi import FastAPI, HTTPException, UploadFile, File\nimport mlflow.pyfunc\nimport pandas as pd\nfrom pydantic import BaseModel\nfrom typing import List\nimport io\nimport datetime\nimport json\nimport os\n\n# Initialize FastAPI app\napp = FastAPI()\n\n# Set experiment name\nmlflow.set_experiment(\"Forecasting Apple Demand\")\n\n# Load the trained model from MLflow\nMODEL_URI = \"models:/apple_demand@champion\"  # Replace with your model name and alias\nmodel = mlflow.pyfunc.load_model(MODEL_URI)\n\n# Define the expected input schema for a single prediction\nclass InputData(BaseModel):\n    average_temperature: float\n    rainfall: float\n    weekend: int\n    holiday: int\n    price_per_kg: float\n    promo: int\n    previous_days_demand: float\n\n# Define log file path\nLOG_FILE_PATH = \"prediction_logs.csv\"\n\n# Ensure log file exists with headers\nif not os.path.exists(LOG_FILE_PATH):\n    pd.DataFrame(columns=[\n        \"timestamp\", \"request_type\", \"input_data\", \"predictions\", \"status\"\n    ]).to_csv(LOG_FILE_PATH, index=False)\n\ndef log_request(request_type, input_data, predictions, status):\n    \"\"\"Logs the request details to a CSV file.\"\"\"\n    log_entry = pd.DataFrame([{\n        \"timestamp\": datetime.datetime.now().isoformat(),\n        \"request_type\": request_type,\n        \"input_data\": json.dumps(input_data),\n        \"predictions\": json.dumps(predictions),\n        \"status\": status\n    }])\n    log_entry.to_csv(LOG_FILE_PATH, mode='a', header=False, index=False)\n\n@app.post(\"/predict\")\ndef predict_single(input_data: List[InputData]):\n    \"\"\"Endpoint for real-time predictions with a single input.\"\"\"\n    try:\n        # Convert input to DataFrame\n        df = pd.DataFrame([data.dict() for data in input_data])\n\n        # Make predictions\n        predictions = model.predict(df)\n\n        # Log the request\n        log_request(\"single\", df.to_dict(orient=\"records\"), predictions.tolist(), \"success\")\n\n        return {\"predictions\": predictions.tolist()}\n    except Exception as e:\n        log_request(\"single\", df.to_dict(orient=\"records\"), None, f\"error: {str(e)}\")\n        raise HTTPException(status_code=500, detail=str(e))\n\n@app.post(\"/predict_batch\")\nasync def predict_batch(file: UploadFile = File(...)):\n    \"\"\"Endpoint for batch predictions using a CSV file.\"\"\"\n    try:\n        # Read the uploaded CSV file\n        contents = await file.read()\n        df = pd.read_csv(io.StringIO(contents.decode(\"utf-8\")))\n\n        # Validate required columns\n        required_features = [\"average_temperature\", \"rainfall\", \"weekend\", \"holiday\", \"price_per_kg\", \"promo\", \"previous_days_demand\"]\n        if not all(feature in df.columns for feature in required_features):\n            missing_cols = set(required_features) - set(df.columns)\n            raise HTTPException(status_code=400, detail=f\"Missing columns: {missing_cols}\")\n\n        # Make batch predictions\n        predictions = model.predict(df)\n\n        # Log the request\n        log_request(\"batch\", df.to_dict(orient=\"records\"), predictions.tolist(), \"success\")\n\n        return {\"predictions\": predictions.tolist()}\n    except Exception as e:\n        log_request(\"batch\", df.to_dict(orient=\"records\"), None, f\"error: {str(e)}\")\n        raise HTTPException(status_code=500, detail=str(e))\n\n\n\nOnce the FastAPI code is modified, we can can test it by running the FastAPI app (either directly or by running with Streamlit as discussed in Section 8.4.4.3). Go ahead and make some predictions and you’ll notice a prediction_logs.csv is created in your directory that will resemble the following, which includes the timestamp of the prediction, the type of request (single vs. batch), the input data fed into the model, the prediction the model made, and even the error message if an issue occurred.\nExample of Logged Data:\n\n\n\n\n\n\n\n\n\n\nTimestamp\nRequest Type\nInput Data\nPredictions\nStatus\n\n\n\n\n2025-02-01T14:12:00Z\nSingle\n{“temp”: 30, “rainfall”: 2.1, …, “promo”: 1}\n1250.4\nSuccess\n\n\n2025-02-01T14:15:12Z\nBatch\n[{“temp”: 28, “rainfall”: 1.8, …}, {“temp”: 27, “rainfall”: 2.5, …}]\n[1185.2, 1200.8]\nSuccess\n\n\n2025-02-01T14:20:30Z\nSingle\n{“temp”: 35, “rainfall”: 3.0, “promo”: 0}\nNone\nError: Missing feature\n\n\n\nNow that we are storing historical inputs and predictions, we can move forward to drift detection — analyzing whether our model is still making accurate predictions or if data patterns have changed significantly.\n\n\nMonitoring Model Performance with Evidently AI\nAs machine learning models operate in real-world environments, they face evolving data distributions, shifting relationships between features and target variables, and potential degradation in predictive performance. Evidently AI is an open-source tool designed to help teams monitor, diagnose, and address these changes through drift detection and performance monitoring.\n\nExamples of Implementing Evidently\nThis section provides an overview of how to use Evidently AI to track feature drift, concept drift, and model performance drift, ensuring our apple demand forecasting model remains accurate and reliable.2 Below, we demonstrate how to generate Evidently AI reports to assess different types of drift using artificially generated datasets.\n\n\n\n\n\n\nDetecting Feature Drift\n\n\n\n\n\nFeature drift occurs when the distribution of input features changes significantly from the training data, potentially making the model’s learned patterns obsolete. This could be due to seasonal trends, economic shifts, or data collection changes.\nThe code below provides an example of using Evidently for feature drift analysis. Using the apple_data.py module, we generate:\n\nA baseline dataset representing normal, expected conditions. This would typically be the original dataset your current model in production was trained on.\nA drifted dataset, where key features such as temperature, rainfall, and pricing have shifted.\n\n\n\nfrom apple_data import generate_apple_sales_data_with_promo_adjustment\n\n# Generate baseline dataset (no drift)\nbaseline_df = generate_apple_sales_data_with_promo_adjustment(\n    n_rows=5000\n)\n\n# Generate drifted dataset with controlled drift factors\nfeature_drift_config = {\n    \"average_temperature\": 1.2,  # 20% increase\n    \"rainfall\": 0.9,             # 10% decrease\n    \"price_per_kg\": 1.09,        # 9% increase\n    \"promo\": 1.5                 # 50% more promotions\n}\n\nconcept_drift_config = {\n    \"price_sensitivity\": 0.8,  # 20% less sensitive to price changes\n    \"promo_effect\": 0.7,       # Promotions become 30% less effective\n    \"weekend_effect\": 1.1,     # Weekend demand slightly increases\n    \"feature_importance\": True\n}\n\ndrifted_df = generate_apple_sales_data_with_promo_adjustment(\n    n_rows=5000,\n    feature_drift_factors=feature_drift_config,\n    concept_drift_factors=concept_drift_config\n)\n\n\nWe can then use Evidently AI’s DataDriftPreset to analyze the distribution changes across features and then save the results to a data_drift_report.html file:\n\n\nfrom evidently.report import Report\nfrom evidently.metric_preset import DataDriftPreset\n\n# Define the drift detection report\ndata_drift_report = Report(metrics=[DataDriftPreset(drift_share=0.3)])\n\n# Run comparison\ndata_drift_report.run(reference_data=baseline_df, current_data=drifted_df)\n\n# Save the report\ndata_drift_report.save_html(\"data_drift_report.html\")\n\n\nThis will create a Feature Drift Report (data_drift_report.html) that provides a side-by-side comparison of the feature distributions in the baseline dataset (reference data) and the drifted dataset (current data).\n\n\n\n\n\n\nFeature Drift Report\n\n\n\n\nFigure 9.4: Snapshot of the feature drift report.\n\n\n\nThe key components of this report include:\n\nFeature Distribution Comparisons: Visual histograms and statistical tests (e.g., Kolmogorov-Smirnov, Jensen-Shannon) to highlight significant shifts in individual feature distributions.\nDrift Detection Summary: A table listing all monitored features, their calculated drift scores, and whether the drift is deemed significant.\nOverall Data Drift Score: A single metric summarizing how much the dataset has changed, indicating whether the current dataset is still representative of the training data.\n\n\n\n\n\n\n\nBy default, Evidently will use 50% of the feature columns as the cutoff to determine if there is enough overall drift to want concern; however, you can set that as we did in the code with drift_share=0.3. This is a cutoff that you and your team needs to determine what amount of drift warrants concern. If this threshold is breached, it suggests that the model may be making predictions on a data distribution it was not trained on, increasing the risk of inaccurate forecasts.\n\n\n\n\n\n\n\n\n\n\n\n\nDetecting Concept Drift (Target Variable Drift)\n\n\n\n\n\nConcept drift occurs when the relationship between input features and the target variable (e.g., demand) changes. Even if the feature distributions remain stable, the way they impact predictions may shift.\nTo detect whether the target variable has changed, we can use Evidently AI’s TargetDriftPreset() to analyze drift in the target variable (y). This will evaluate both changes in its distribution and shifts in its relationship with feature variables.\nFirst, it compares the statistical distribution of the target variable in the baseline dataset (training data) to the current dataset (recent predictions), using statistical tests such as the Kolmogorov-Smirnov test or Jensen-Shannon divergence. If the target’s distribution has significantly changed, this indicates target drift, meaning the model’s assumptions about the outcome variable may no longer hold.\nAdditionally, TargetDriftPreset() assesses the correlation between the target and input features — if the strength or direction of relationships between features and the target shifts significantly, this suggests concept drift. For instance, if price_per_kg was previously a strong predictor of demand but has become less relevant in the new data, it may indicate a fundamental change in consumer behavior, requiring model retraining or adaptation.\nThe following code implements TargetDriftPreset() and then saves the results to a concept_drift_report.html file:\n\n\nfrom evidently.metric_preset import TargetDriftPreset\nfrom evidently import ColumnMapping\n\n\n# Define the target variable and date variable\ncolumn_mapping = ColumnMapping()\ncolumn_mapping.target = 'demand'\ncolumn_mapping.datetime = 'date'\n\n# Create an Evidently AI report for concept drift detection\nconcept_drift_report = Report(metrics=[TargetDriftPreset()])\n\n# Run the report specifying the target variable\nconcept_drift_report.run(\n    reference_data=baseline_df,\n    current_data=drifted_df,\n    column_mapping=column_mapping  # Explicitly map the target variable\n)\n\n# Save and view the report\nconcept_drift_report.save_html(\"concept_drift_report.html\")\n\n\nThis will create a Feature Drift Report (concept_drift_report.html) that includes:\n\nTarget Variable Distribution Analysis: Visual and statistical comparisons of how the target variable (apple demand) behaves in the baseline dataset vs. the drifted dataset.\nCorrelation Shift Analysis: If configured, the report can highlight whether the relationship between features and the target variable has changed.\nConcept Drift Detection: A statistical test that determines whether the demand predictions based on old patterns are still valid in the current dataset.\n\n\n\n\n\n\n\nConcept Drift Report\n\n\n\n\nFigure 9.5: Snapshot of the concept drift report.\n\n\n\n\n\n\n\n\n\n\n\n\nDetecting Model Performance Drift\n\n\n\n\n\nEven if input features and target values remain stable, a model can degrade due to changes in underlying data relationships, outdated assumptions, or external factors. Tracking model performance over time helps detect these issues.\nEvidently AI provides the RegressionPreset() and ClassificationPreset() metrics to track and evaluate model performance drift over time. These presets help monitor whether a model’s predictions remain accurate and reliable as new data flows in.\n\nThe RegressionPreset() is designed for continuous target variables (e.g., sales forecasts) and evaluates metrics like RMSE, MAE, R², and residual analysis to detect shifts in prediction errors. If RMSE increases significantly compared to the reference dataset, it may indicate that the model is underperforming due to data drift or concept drift.\nSimilarly, ClassificationPreset() is tailored for classification tasks and tracks key metrics such as accuracy, precision, recall, F1-score, and ROC-AUC. It flags performance degradation if there’s a drop in classification confidence or an increase in misclassification rates.\n\nThe following code implements RegressionPreset() and then saves the results to a performance_report.html file:\n\n\nfrom evidently.metric_preset import RegressionPreset\nimport mlflow\n\n\n# Load current model\nmlflow.set_experiment(\"Forecasting Apple Demand\")\nMODEL_URI = \"models:/apple_demand@champion\"\nmodel = mlflow.pyfunc.load_model(MODEL_URI)\n\n# Score baseline & drift data with model\nbaseline_df['predictions'] = model.predict(drifted_df)\ndrifted_df['predictions'] = model.predict(drifted_df)\n\n# Add the prediction variable to our column mapping to compare to actuals\ncolumn_mapping.prediction = 'predictions'\n\n# Create a model performance monitoring report\nperformance_report = Report(metrics=[RegressionPreset()])\nperformance_report.run(\n    reference_data=baseline_df,\n    current_data=drifted_df,\n    column_mapping=column_mapping  # Explicitly map the target variable\n)\n\n# Save report\nperformance_report.save_html(\"performance_report.html\")\n\n\nThe Model Performance Drift Report provides:\n\nPerformance Metrics Comparison: Side-by-side evaluation of model accuracy, highlighting whether predictive performance has worsened on new data.\nResidual Analysis: Visual plots showing whether model errors have increased significantly in specific regions of the data.\nFeature Importance Changes (if enabled): A comparison of how feature importance scores have shifted, indicating whether the model is relying on different patterns than before.\n\n\n\n\n\n\n\nPerformance Drift Report\n\n\n\n\nFigure 9.6: Snapshot of the model performance drift report.\n\n\n\n\n\n\n\n\n\nBy using these presets, teams can proactively identify when a model’s predictions start deviating, allowing them to trigger alerts, diagnose potential drift, and determine whether retraining is necessary to maintain high model accuracy in production.\n\n\n\n\n\n\nEvidently AI offers a robust framework for detecting and visualizing drift in machine learning models. While the examples provided here demonstrate the basics of monitoring feature drift, target drift, and model performance drift, Evidently includes many additional capabilities, such as bias detection, data integrity checks, and customizable dashboards for ongoing model monitoring. These advanced features can provide deeper insights into why a model’s performance is changing over time. In the next section, we will take these concepts further by integrating Evidently AI into our production pipeline, demonstrating how to automate drift detection and implement real-time model monitoring. Along the way, we will also introduce additional functionalities that Evidently provides, reinforcing its role in maintaining reliable and high-performing ML systems in production.\n\n\nImplementing Evidently into Our Pipeline\nTBD\n\n\nVisualizing Model Monitoring in Streamlit\nTBD\n\n\nAutomating the Monitoring Pipeline\nTBD\n\n\n\nSetting Up Operational Monitoring with Prometheus and Grafana\n\nA. Introduction to Prometheus and Grafana\n\nWhy These Tools?\n\nPrometheus: Captures API request latency, response times, and error rates.\nGrafana: Visualizes the collected data with dashboards.\n\n\n\n\nB. Configuring Prometheus to Track API Performance\n\nImplementation:\n\nExpose FastAPI metrics using Prometheus FastAPI Instrumentator.\nConfigure Prometheus to scrape metrics from the API.\nTrack response time, request count, and error rates.\n\n\n\n\nC. Setting Up a Grafana Dashboard\n\nImplementation:\n\nConnect Prometheus as a data source in Grafana.\nBuild a dashboard to visualize API performance.\nConfigure alerts for high latency or errors.\n\n\n\n\n\nAutomating Monitoring & Alerts\n\nA. Scheduling Drift Checks\n\nImplementation:\n\nUse a cron job or scheduler to run drift checks periodically.\nStore results and generate alerts if drift is detected.\n\n\n\n\nB. Setting Up Alerting with Prometheus & Grafana\n\nImplementation:\n\nDefine alert rules in Prometheus for API performance issues.\nSend notifications via email, Slack, or webhooks when issues arise.\n\n\n\n\n\nReflection & Next Steps\n\nWhat We Achieved:\n\nImplemented logging and drift detection.\nMonitored API health and set up dashboards.\nConfigured alerts for early issue detection.\n\nChallenges & Considerations:\n\nHandling large-scale monitoring data efficiently.\nDetermining the right drift detection thresholds.\n\nWhat’s Next?:\n\nFuture chapters will explore model retraining strategies and automation.",
     "crumbs": [
       "ModelOps",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Model Monitoring</span>"
@@ -835,10 +835,373 @@
     "href": "09-modelops-monitoring.html#footnotes",
     "title": "9  Model Monitoring",
     "section": "",
-    "text": "See the modelops-monitoring-requirements.txt file.↩︎",
+    "text": "See the modelops-monitoring-requirements.txt file.↩︎\nYou can also refer to this notebook: https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/model-drift-monitoring.ipynb↩︎",
     "crumbs": [
       "ModelOps",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Model Monitoring</span>"
+    ]
+  },
+  {
+    "objectID": "10-devops-role.html",
+    "href": "10-devops-role.html",
+    "title": "10  The Role of DevOps",
+    "section": "",
+    "text": "10.1 Introduction to DevOps\nThis chapter introduces DevOps and its relevance to machine learning systems, emphasizing key concepts that data scientists and ML engineers should be aware of. The focus is on high-level principles rather than implementation details or code.",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>The Role of DevOps</span>"
+    ]
+  },
+  {
+    "objectID": "10-devops-role.html#introduction-to-devops",
+    "href": "10-devops-role.html#introduction-to-devops",
+    "title": "10  The Role of DevOps",
+    "section": "",
+    "text": "What is DevOps?\n\nOrigin and evolution of DevOps in software engineering.\nThe goal of integrating development and operations to improve software delivery.\n\nWhy DevOps Matters for ML Systems?\n\nTraditional ML workflows often lack automation, leading to inefficiencies.\nDevOps principles help streamline model deployment, management, and monitoring.\nHow DevOps bridges the gap between ML models and real-world applications.",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>The Role of DevOps</span>"
+    ]
+  },
+  {
+    "objectID": "10-devops-role.html#the-value-of-devops-in-machine-learning",
+    "href": "10-devops-role.html#the-value-of-devops-in-machine-learning",
+    "title": "10  The Role of DevOps",
+    "section": "10.2 The Value of DevOps in Machine Learning",
+    "text": "10.2 The Value of DevOps in Machine Learning\n\nAutomating Code & Model Updates\n\nEnsuring smooth updates to models without disrupting production.\nHow continuous integration/continuous deployment (CI/CD) helps in ML workflows.\n\nImproving Reliability & Stability\n\nReducing downtime through automated rollback and failover strategies.\nEnsuring scalability and flexibility in ML model serving.\n\nAccelerating Model Deployment & Iteration\n\nFaster experimentation with automated testing and validation.\nDeploying models efficiently while maintaining consistency across environments.",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>The Role of DevOps</span>"
+    ]
+  },
+  {
+    "objectID": "10-devops-role.html#key-concepts-of-devops-for-ml",
+    "href": "10-devops-role.html#key-concepts-of-devops-for-ml",
+    "title": "10  The Role of DevOps",
+    "section": "10.3 Key Concepts of DevOps for ML",
+    "text": "10.3 Key Concepts of DevOps for ML\n\nCI/CD Pipelines for ML Models\n\nAutomating the training, testing, and deployment of ML models.\nDifferences between traditional software CI/CD and MLOps-specific CI/CD.\n\nAutomated Testing & Validation\n\nUnit tests for data preprocessing and feature engineering.\nModel validation tests (e.g., checking for performance degradation).\n\nCompute Resource Management\n\nOn-demand compute scaling (e.g., GPUs, TPUs, cloud VMs).\nOptimizing training and inference workloads in Kubernetes and serverless environments.\n\nStorage Solutions for ML\n\nBalancing cost, speed, and accessibility (e.g., object storage vs. relational databases).\nVersioning datasets, models, and metadata for reproducibility.\n\nNetworking & Security Considerations\n\nSecuring API endpoints for model inference.\nEncryption & compliance considerations (e.g., GDPR, HIPAA).\n\nCross-Team Collaboration\n\nEncouraging collaboration between data science, engineering, and operations.\nRole of platform teams in supporting scalable ML infrastructure.",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>The Role of DevOps</span>"
+    ]
+  },
+  {
+    "objectID": "10-devops-role.html#challenges-in-devops-for-ml",
+    "href": "10-devops-role.html#challenges-in-devops-for-ml",
+    "title": "10  The Role of DevOps",
+    "section": "10.4 Challenges in DevOps for ML",
+    "text": "10.4 Challenges in DevOps for ML\n\nComplexity in Automating ML Pipelines\n\nML workflows involve data, models, and code—making automation more difficult.\n\nInfrastructure Cost & Resource Allocation\n\nBalancing cost-effectiveness vs. performance when deploying at scale.\n\nEnsuring Reproducibility in Model Deployment\n\nChallenges in versioning models and data effectively.\n\nSecurity & Compliance\n\nData privacy risks and securing access to ML models.\n\nInterdisciplinary Communication Barriers\n\nDevOps vs. Data Science teams: Aligning priorities for smoother collaboration.",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>The Role of DevOps</span>"
+    ]
+  },
+  {
+    "objectID": "10-devops-role.html#common-tools-in-devops-for-ml",
+    "href": "10-devops-role.html#common-tools-in-devops-for-ml",
+    "title": "10  The Role of DevOps",
+    "section": "10.5 Common Tools in DevOps for ML",
+    "text": "10.5 Common Tools in DevOps for ML\n\nCI/CD for ML: GitHub Actions, GitLab CI, Jenkins, Kubeflow Pipelines\nInfrastructure as Code (IaC): Terraform, AWS CloudFormation\nContainerization & Orchestration: Docker, Kubernetes, ArgoCD\nModel Management: MLflow, Seldon, BentoML\nMonitoring & Logging: Prometheus, Grafana, Evidently AI",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>The Role of DevOps</span>"
+    ]
+  },
+  {
+    "objectID": "10-devops-role.html#summary",
+    "href": "10-devops-role.html#summary",
+    "title": "10  The Role of DevOps",
+    "section": "10.6 Summary",
+    "text": "10.6 Summary\n\nRecap of DevOps principles applied to ML workflows.\nHow automation, scalability, and collaboration enhance ML system reliability.\nIntroduction to the next steps: Learning how to use Git and GitHub to integrate DevOps principles into MLOps workflows.",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>The Role of DevOps</span>"
+    ]
+  },
+  {
+    "objectID": "10-devops-role.html#exercise",
+    "href": "10-devops-role.html#exercise",
+    "title": "10  The Role of DevOps",
+    "section": "10.7 Exercise",
+    "text": "10.7 Exercise\nThe exercise should encourage readers to reflect on DevOps concepts in an ML context. It should be conceptual rather than technical.\nPart 1: Conceptual Design\n\nImagine you are part of a DevOps team deploying an ML model for fraud detection.\nOutline a DevOps strategy to ensure smooth deployment, monitoring, and scaling.\nConsider:\n\nCI/CD approach for deploying new models.\nHow you would automate model testing and validation.\nWhat infrastructure (compute/storage) choices you’d make.\n\n\nPart 2: Discussion Questions\n\nHow would you ensure that your model deployment process is both efficient and secure?\nWhat challenges might arise when managing compute resources for an ML model that requires GPUs?\nHow does DevOps differ when applied to ML models versus traditional software?",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>The Role of DevOps</span>"
+    ]
+  },
+  {
+    "objectID": "11-devops-git.html",
+    "href": "11-devops-git.html",
+    "title": "11  Introduction to Git and GitHub",
+    "section": "",
+    "text": "11.1 Introduction to Git and GitHub\nThis chapter introduces Git and GitHub as foundational tools in the DevOps journey. Understanding version control and collaboration through Git and GitHub is essential for managing code, tracking changes, and enabling seamless teamwork. By the end of this chapter, students will:",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Introduction to Git and GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-devops-git.html#introduction-to-git-and-github",
+    "href": "11-devops-git.html#introduction-to-git-and-github",
+    "title": "11  Introduction to Git and GitHub",
+    "section": "",
+    "text": "What is Version Control?\n\nExplanation of why version control is necessary for managing code and collaboration.\nExamples of problems version control solves (e.g., tracking changes, avoiding overwritten files).\n\nWhat is Git?\n\nOverview of Git as a distributed version control system.\nHow Git differs from other version control systems (e.g., centralized vs. distributed).\n\nWhat is GitHub?\n\nExplanation of GitHub as a remote repository hosting service.\nComparison to alternatives like GitLab and Bitbucket.\nThe role of GitHub in DevOps workflows (collaboration, code review, and automation).",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Introduction to Git and GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-devops-git.html#setting-up-git-and-github",
+    "href": "11-devops-git.html#setting-up-git-and-github",
+    "title": "11  Introduction to Git and GitHub",
+    "section": "11.2 Setting Up Git and GitHub",
+    "text": "11.2 Setting Up Git and GitHub\n\nInstalling Git\n\nStep-by-step instructions for installing Git on Windows, Mac, and Linux.\nVerifying installation (git --version).\n\nCreating a GitHub Account\n\nStep-by-step guide to signing up on GitHub.\nOverview of GitHub’s interface (Repositories, Issues, Pull Requests, Actions).\n\nConfiguring Git for First Use\n\nSetting up a username and email (git config --global user.name \"Your Name\", git config --global user.email \"you@example.com\").\nUnderstanding SSH keys and authenticating GitHub with SSH.",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Introduction to Git and GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-devops-git.html#git-basics-tracking-and-managing-changes",
+    "href": "11-devops-git.html#git-basics-tracking-and-managing-changes",
+    "title": "11  Introduction to Git and GitHub",
+    "section": "11.3 Git Basics: Tracking and Managing Changes",
+    "text": "11.3 Git Basics: Tracking and Managing Changes\n\nCreating a Local Git Repository\n\nInitializing a repository (git init).\nCloning a repository (git clone).\n\nStaging and Committing Changes\n\nAdding files to staging (git add).\nCommitting changes (git commit -m \"commit message\").\n\nViewing Repository History\n\nChecking commit history (git log).\nUnderstanding the SHA hash for commits.",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Introduction to Git and GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-devops-git.html#synchronizing-with-github",
+    "href": "11-devops-git.html#synchronizing-with-github",
+    "title": "11  Introduction to Git and GitHub",
+    "section": "11.4 Synchronizing with GitHub",
+    "text": "11.4 Synchronizing with GitHub\n\nConnecting a Local Repository to GitHub\n\nCreating a new repository on GitHub.\nPushing an existing repository to GitHub (git remote add origin, git push).\n\nPulling Changes from GitHub\n\nFetching and merging remote changes (git pull).\n\nHandling Merge Conflicts\n\nUnderstanding merge conflicts and resolving them manually.",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Introduction to Git and GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-devops-git.html#collaboration-with-branching-and-pull-requests",
+    "href": "11-devops-git.html#collaboration-with-branching-and-pull-requests",
+    "title": "11  Introduction to Git and GitHub",
+    "section": "11.5 Collaboration with Branching and Pull Requests",
+    "text": "11.5 Collaboration with Branching and Pull Requests\n\nWhy Use Branches?\n\nOverview of branching as a way to develop features without affecting the main branch.\n\nCreating and Switching Branches\n\nCreating a new branch (git branch new-feature).\nSwitching branches (git checkout new-feature or git switch new-feature).\n\nMerging Branches\n\nMerging changes into main (git merge new-feature).\n\nPull Requests on GitHub\n\nOpening a pull request (PR) and requesting code reviews.\nMerging a pull request.\n\nBest Practices for Collaboration\n\nWriting meaningful commit messages.\nKeeping branches small and focused.",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Introduction to Git and GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-devops-git.html#introduction-to-cicd-with-github-actions",
+    "href": "11-devops-git.html#introduction-to-cicd-with-github-actions",
+    "title": "11  Introduction to Git and GitHub",
+    "section": "11.6 Introduction to CI/CD with GitHub Actions",
+    "text": "11.6 Introduction to CI/CD with GitHub Actions\n\nWhat is CI/CD?\n\nBrief explanation of Continuous Integration (CI) and Continuous Deployment (CD).\nWhy CI/CD is important for automation and DevOps.\n\nIntroduction to GitHub Actions\n\nOverview of how GitHub Actions can automate tasks like testing and deployment.\nExample of a simple GitHub Actions workflow (e.g., automatically running tests on push).\n\nNext Steps in Learning CI/CD\n\nLink to more advanced resources for learning about CI/CD pipelines.",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Introduction to Git and GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-devops-git.html#summary",
+    "href": "11-devops-git.html#summary",
+    "title": "11  Introduction to Git and GitHub",
+    "section": "11.7 Summary",
+    "text": "11.7 Summary\n\nRecap of the importance of Git and GitHub in version control and DevOps.\nKey takeaways:\n\nGit tracks changes, allowing for easy rollback and collaboration.\nGitHub provides a platform for sharing, reviewing, and deploying code.\nBranching and pull requests are essential for team collaboration.\nCI/CD automates workflows to improve efficiency and reliability.\n\nTransition to the next chapter, which will dive deeper into DevOps tools and practices.",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Introduction to Git and GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-devops-git.html#exercise",
+    "href": "11-devops-git.html#exercise",
+    "title": "11  Introduction to Git and GitHub",
+    "section": "11.8 Exercise",
+    "text": "11.8 Exercise\nThis exercise will help students apply what they have learned by walking through a real-world scenario.\n\nScenario\nYou just joined a data science team at a company, and they use Git and GitHub for collaboration. Your manager has asked you to set up your GitHub account, clone the team’s repository, and make your first contribution.\n\n\nTasks\n\nSet Up Git and GitHub\n\nInstall Git on your machine.\nCreate a GitHub account if you haven’t already.\nConfigure Git with your name and email.\n\nWork with a Git Repository\n\nCreate a new repository on GitHub.\nClone the repository to your local machine.\nAdd a new file (e.g., hello_git.txt), write a short message inside, and commit the changes.\nPush your changes to GitHub.\n\nBranching and Pull Requests\n\nCreate a new branch called feature-update.\nModify an existing file or add a new file.\nCommit and push the changes to the feature-update branch.\nOpen a pull request on GitHub to merge your changes into main.\nMerge the pull request once approved.\n\nExploring GitHub Actions (Bonus Task)\n\nAdd a GitHub Actions workflow file that runs a simple Python test on every push.\nObserve the automated workflow execution.\n\nReflection Questions\n\nWhy is version control essential for collaborative coding?\nHow does Git help manage different versions of a project?\nWhat are the benefits of using GitHub for collaboration?\nHow does CI/CD improve software and model deployment?",
+    "crumbs": [
+      "DevOps",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Introduction to Git and GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "12-human-side-of-ml.html",
+    "href": "12-human-side-of-ml.html",
+    "title": "12  The Human Side of ML Systems",
+    "section": "",
+    "text": "12.1 The Role of Humans in ML Systems\nThis chapter will focus on the people, processes, and ethical considerations involved in building and deploying machine learning models. The plan is to highlight the human-centered challenges that data scientists, ML engineers, and stakeholders face when operationalizing machine learning.",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>The Human Side of ML Systems</span>"
+    ]
+  },
+  {
+    "objectID": "12-human-side-of-ml.html#the-role-of-humans-in-ml-systems",
+    "href": "12-human-side-of-ml.html#the-role-of-humans-in-ml-systems",
+    "title": "12  The Human Side of ML Systems",
+    "section": "",
+    "text": "Beyond the Algorithms: How human decisions shape ML systems (from problem framing to deployment).\nCollaboration Between Teams: ML is not just a data science problem; it requires alignment across data, engineering, business, and domain experts.\nHuman-in-the-Loop Systems: When human intervention is necessary (e.g., active learning, review of automated decisions).",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>The Human Side of ML Systems</span>"
+    ]
+  },
+  {
+    "objectID": "12-human-side-of-ml.html#organizational-challenges-in-ml-adoption",
+    "href": "12-human-side-of-ml.html#organizational-challenges-in-ml-adoption",
+    "title": "12  The Human Side of ML Systems",
+    "section": "12.2 Organizational Challenges in ML Adoption",
+    "text": "12.2 Organizational Challenges in ML Adoption\n\nCross-Functional Collaboration: The role of product managers, engineers, and business leaders in ML projects.\nBarriers to ML Adoption:\n\nResistance to change within organizations.\nLack of trust in ML-driven decision-making.\nThe disconnect between technical teams and business teams.\n\nScaling ML in an Organization:\n\nBuilding an ML culture.\nHow to set up an effective MLOps practice.",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>The Human Side of ML Systems</span>"
+    ]
+  },
+  {
+    "objectID": "12-human-side-of-ml.html#interpretability-explainability-and-trust-in-ml",
+    "href": "12-human-side-of-ml.html#interpretability-explainability-and-trust-in-ml",
+    "title": "12  The Human Side of ML Systems",
+    "section": "12.3 Interpretability, Explainability, and Trust in ML",
+    "text": "12.3 Interpretability, Explainability, and Trust in ML\n\nWhy Interpretability Matters:\n\nStakeholder trust.\nDebugging and improving models.\nRegulatory requirements.\n\nMethods for Explainability:\n\nSHAP, LIME, and feature importance techniques.\nHow to communicate ML results to non-technical audiences.\n\nChallenges in Trusting ML Decisions:\n\nBlack-box models vs. interpretable models.\nDealing with unexpected model behavior.",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>The Human Side of ML Systems</span>"
+    ]
+  },
+  {
+    "objectID": "12-human-side-of-ml.html#bias-fairness-and-ethical-considerations",
+    "href": "12-human-side-of-ml.html#bias-fairness-and-ethical-considerations",
+    "title": "12  The Human Side of ML Systems",
+    "section": "12.4 Bias, Fairness, and Ethical Considerations",
+    "text": "12.4 Bias, Fairness, and Ethical Considerations\n\nSources of Bias in ML:\n\nBias in training data.\nAlgorithmic bias in model predictions.\n\nTechniques for Mitigating Bias:\n\nFairness-aware ML methods.\nTechniques like re-weighting, adversarial debiasing, and bias audits.\n\nRegulations & Ethical Considerations:\n\nGDPR, CCPA, and other data privacy regulations.\nEthical considerations for deploying ML models in real-world settings.",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>The Human Side of ML Systems</span>"
+    ]
+  },
+  {
+    "objectID": "12-human-side-of-ml.html#model-failures-and-accountability",
+    "href": "12-human-side-of-ml.html#model-failures-and-accountability",
+    "title": "12  The Human Side of ML Systems",
+    "section": "12.5 Model Failures and Accountability",
+    "text": "12.5 Model Failures and Accountability\n\nReal-World Failures of ML:\n\nExamples of when ML models led to significant issues (e.g., biased hiring algorithms, faulty healthcare models).\n\nWho is Accountable for Model Failures?\n\nRole of data scientists, engineers, product managers, and legal teams.\nBuilding processes for accountability in ML projects.",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>The Human Side of ML Systems</span>"
+    ]
+  },
+  {
+    "objectID": "12-human-side-of-ml.html#the-future-of-human-machine-collaboration",
+    "href": "12-human-side-of-ml.html#the-future-of-human-machine-collaboration",
+    "title": "12  The Human Side of ML Systems",
+    "section": "12.6 The Future of Human-Machine Collaboration",
+    "text": "12.6 The Future of Human-Machine Collaboration\n\nThe Role of ML in Augmenting Human Decision-Making:\n\nML as a tool to assist rather than replace human judgment.\nWhere automation should and shouldn’t be used.\n\nEthical AI and Responsible AI Development:\n\nFuture trends in AI governance and regulation.\nHow organizations can prepare for evolving standards.",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>The Human Side of ML Systems</span>"
+    ]
+  },
+  {
+    "objectID": "12-human-side-of-ml.html#summary-and-final-thoughts",
+    "href": "12-human-side-of-ml.html#summary-and-final-thoughts",
+    "title": "12  The Human Side of ML Systems",
+    "section": "12.7 Summary and Final Thoughts",
+    "text": "12.7 Summary and Final Thoughts\n\nRecap of the key human-centric challenges in ML.\nCall to action for responsible and collaborative ML development.\nFurther Reading & Resources: Papers, books, and courses on responsible AI and ML interpretability.",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>The Human Side of ML Systems</span>"
+    ]
+  },
+  {
+    "objectID": "12-human-side-of-ml.html#exercise",
+    "href": "12-human-side-of-ml.html#exercise",
+    "title": "12  The Human Side of ML Systems",
+    "section": "12.8 Exercise",
+    "text": "12.8 Exercise\nHave students evaluate an ML system for bias, interpretability, or ethical concerns.",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>The Human Side of ML Systems</span>"
+    ]
+  },
+  {
+    "objectID": "13-continued-learning.html",
+    "href": "13-continued-learning.html",
+    "title": "13  Continuing Your Growth as an ML Practitioner",
+    "section": "",
+    "text": "13.1 Staying Up to Date with ML Trends\nThis chapter will serve as a guide for lifelong learning in machine learning and MLOps. ML is a rapidly evolving field, and staying relevant requires continuous learning, hands-on practice, and engagement with the community. This chapter will quickly cover:",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Continuing Your Growth as an ML Practitioner</span>"
+    ]
+  },
+  {
+    "objectID": "13-continued-learning.html#staying-up-to-date-with-ml-trends",
+    "href": "13-continued-learning.html#staying-up-to-date-with-ml-trends",
+    "title": "13  Continuing Your Growth as an ML Practitioner",
+    "section": "",
+    "text": "Why Continuous Learning Matters:\n\nRapid advancements in ML, deep learning, and MLOps.\nThe growing importance of specialized subfields (e.g., Responsible AI, Generative AI).\n\nWhere to Follow ML Trends:\n\nResearch conferences (NeurIPS, ICML, CVPR, etc.).\nIndustry blogs (Google AI, OpenAI, Hugging Face).\nNewsletters and podcasts (The Batch, Towards Data Science, DataTalks).",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Continuing Your Growth as an ML Practitioner</span>"
+    ]
+  },
+  {
+    "objectID": "13-continued-learning.html#hands-on-learning-building-and-experimenting",
+    "href": "13-continued-learning.html#hands-on-learning-building-and-experimenting",
+    "title": "13  Continuing Your Growth as an ML Practitioner",
+    "section": "13.2 Hands-on Learning: Building and Experimenting",
+    "text": "13.2 Hands-on Learning: Building and Experimenting\n\nThe Power of Projects:\n\nLearning is best done through hands-on practice.\nBuild ML models, deploy pipelines, and optimize real-world datasets.\n\nIdeas for Personal ML Projects:\n\nEnd-to-end ML pipelines (data ingestion → training → deployment).\nExperiment tracking and model versioning with new datasets.\nModel monitoring with real-world data drift scenarios.\n\nOpen-Source Contributions:\n\nContributing to ML frameworks (e.g., TensorFlow, PyTorch, Scikit-learn).\nCollaborating on GitHub projects.\nWriting and sharing code through blog posts or tutorials.",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Continuing Your Growth as an ML Practitioner</span>"
+    ]
+  },
+  {
+    "objectID": "13-continued-learning.html#learning-from-the-community",
+    "href": "13-continued-learning.html#learning-from-the-community",
+    "title": "13  Continuing Your Growth as an ML Practitioner",
+    "section": "13.3 Learning from the Community",
+    "text": "13.3 Learning from the Community\n\nJoining ML Communities:\n\nOnline forums (Reddit r/MachineLearning, Kaggle, Stack Overflow).\nOpen-source Slack communities (MLflow, Weights & Biases, Hugging Face).\nAttending ML and MLOps meetups.\n\nFollowing ML Practitioners:\n\nEngaging with experts on LinkedIn, Twitter, and YouTube.\nLearning from experienced professionals in industry and academia.\n\nParticipating in Competitions:\n\nKaggle challenges for hands-on learning.\nHackathons and industry-led competitions.",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Continuing Your Growth as an ML Practitioner</span>"
+    ]
+  },
+  {
+    "objectID": "13-continued-learning.html#mastering-mlops-and-advanced-ml-topics",
+    "href": "13-continued-learning.html#mastering-mlops-and-advanced-ml-topics",
+    "title": "13  Continuing Your Growth as an ML Practitioner",
+    "section": "13.4 Mastering MLOps and Advanced ML Topics",
+    "text": "13.4 Mastering MLOps and Advanced ML Topics\n\nDeepening MLOps Knowledge:\n\nReading advanced books on ML engineering and productionization.\nExperimenting with MLOps tools (Kubeflow, Apache Airflow, Feature Stores).\nUnderstanding cloud ML workflows (AWS SageMaker, Google Vertex AI).\n\nExpanding into Specializations:\n\nNLP, Computer Vision, Generative AI.\nResponsible AI, Fairness, and Model Interpretability.\nEdge ML and Embedded AI.\n\nTaking Online Courses and Certifications:\n\nML Engineering & MLOps courses (Coursera, Udacity, DataTalks).\nCertifications (AWS ML Specialty, TensorFlow Developer).",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Continuing Your Growth as an ML Practitioner</span>"
+    ]
+  },
+  {
+    "objectID": "13-continued-learning.html#soft-skills-for-career-growth",
+    "href": "13-continued-learning.html#soft-skills-for-career-growth",
+    "title": "13  Continuing Your Growth as an ML Practitioner",
+    "section": "13.5 Soft Skills for Career Growth",
+    "text": "13.5 Soft Skills for Career Growth\n\nCommunicating ML Effectively:\n\nExplaining complex concepts to non-technical stakeholders.\nWriting clear documentation and reports.\n\nProblem-Solving and Business Impact:\n\nLearning to frame ML problems in a business context.\nPrioritizing impact over complexity in ML projects.\n\nMentorship and Leadership:\n\nTeaching others through mentoring or blogging.\nLeading ML projects and improving team workflows.",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Continuing Your Growth as an ML Practitioner</span>"
+    ]
+  },
+  {
+    "objectID": "13-continued-learning.html#final-thoughts-the-journey-never-ends",
+    "href": "13-continued-learning.html#final-thoughts-the-journey-never-ends",
+    "title": "13  Continuing Your Growth as an ML Practitioner",
+    "section": "13.6 Final Thoughts: The Journey Never Ends",
+    "text": "13.6 Final Thoughts: The Journey Never Ends\n\nRecap of the key takeaways from the book.\nThe best ML practitioners never stop learning—keep experimenting, keep questioning.\nEncourage the reader to stay curious, contribute, and keep building.",
+    "crumbs": [
+      "Human Elements",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Continuing Your Growth as an ML Practitioner</span>"
     ]
   },
   {

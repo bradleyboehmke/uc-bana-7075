@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Brad Boehmke">
-<meta name="dcterms.date" content="2025-02-12">
 
-<title>Machine Learning Design for Business</title>
+<title>12&nbsp; The Human Side of ML Systems – Machine Learning Design for Business</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -66,7 +30,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01-intro-ml-system.html" rel="next">
+<link href="./13-continued-learning.html" rel="next">
+<link href="./11-devops-git.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -117,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Welcome</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./12-human-side-of-ml.html">Human Elements</a></li><li class="breadcrumb-item"><a href="./12-human-side-of-ml.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The Human Side of ML Systems</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -149,7 +114,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Welcome</span></a>
   </div>
 </li>
@@ -274,7 +239,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./12-human-side-of-ml.html" class="sidebar-item-text sidebar-link">
+  <a href="./12-human-side-of-ml.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The Human Side of ML Systems</span></span></a>
   </div>
 </li>
@@ -302,41 +267,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a>
-  <ul class="collapse">
-  <li><a href="#who-should-read-this" id="toc-who-should-read-this" class="nav-link" data-scroll-target="#who-should-read-this">Who should read this</a></li>
-  <li><a href="#conventions-used-in-this-book" id="toc-conventions-used-in-this-book" class="nav-link" data-scroll-target="#conventions-used-in-this-book">Conventions used in this book</a></li>
-  <li><a href="#software-used-throughout-this-book" id="toc-software-used-throughout-this-book" class="nav-link" data-scroll-target="#software-used-throughout-this-book">Software used throughout this book</a></li>
-  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional resources</a></li>
-  </ul></li>
+  <li><a href="#the-role-of-humans-in-ml-systems" id="toc-the-role-of-humans-in-ml-systems" class="nav-link active" data-scroll-target="#the-role-of-humans-in-ml-systems"><span class="header-section-number">12.1</span> The Role of Humans in ML Systems</a></li>
+  <li><a href="#organizational-challenges-in-ml-adoption" id="toc-organizational-challenges-in-ml-adoption" class="nav-link" data-scroll-target="#organizational-challenges-in-ml-adoption"><span class="header-section-number">12.2</span> Organizational Challenges in ML Adoption</a></li>
+  <li><a href="#interpretability-explainability-and-trust-in-ml" id="toc-interpretability-explainability-and-trust-in-ml" class="nav-link" data-scroll-target="#interpretability-explainability-and-trust-in-ml"><span class="header-section-number">12.3</span> Interpretability, Explainability, and Trust in ML</a></li>
+  <li><a href="#bias-fairness-and-ethical-considerations" id="toc-bias-fairness-and-ethical-considerations" class="nav-link" data-scroll-target="#bias-fairness-and-ethical-considerations"><span class="header-section-number">12.4</span> Bias, Fairness, and Ethical Considerations</a></li>
+  <li><a href="#model-failures-and-accountability" id="toc-model-failures-and-accountability" class="nav-link" data-scroll-target="#model-failures-and-accountability"><span class="header-section-number">12.5</span> Model Failures and Accountability</a></li>
+  <li><a href="#the-future-of-human-machine-collaboration" id="toc-the-future-of-human-machine-collaboration" class="nav-link" data-scroll-target="#the-future-of-human-machine-collaboration"><span class="header-section-number">12.6</span> The Future of Human-Machine Collaboration</a></li>
+  <li><a href="#summary-and-final-thoughts" id="toc-summary-and-final-thoughts" class="nav-link" data-scroll-target="#summary-and-final-thoughts"><span class="header-section-number">12.7</span> Summary and Final Thoughts</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">12.8</span> Exercise</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/12-human-side-of-ml.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./12-human-side-of-ml.html">Human Elements</a></li><li class="breadcrumb-item"><a href="./12-human-side-of-ml.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The Human Side of ML Systems</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Machine Learning Design for Business</h1>
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The Human Side of ML Systems</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Brad Boehmke </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">February 12, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -346,83 +300,125 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="welcome" class="level1 unnumbered">
-<h1 class="unnumbered">Welcome</h1>
-<p>Welcome to <strong><em>Machine Learning Design for Business</em></strong>! This is the the online textbook that compliments the UC BANA 7075 course. This course aims to provide a framework for developing real-world machine learning systems that are deployable, reliable, and scalable. You will be introduced to <strong><em>MLOps</em></strong> as the intersection of DataOps, ModelOps, and DevOps; combined, these concepts provide scalable, reliable, and repeatable machine learning workflows. You will learn how MLOps enables organizations to overcome challenges in operationalizing machine learning models. Along the way, you will learn about important organizational issues including privacy, fairness, security, stakeholder management, project collaboration, and more!</p>
-<p>Throughout this textbook you’ll find embedded lectures, hands-on exercises, and additional resources that will allow you to explore the tools, techniques, and best practices required to successfully design and deploy machine learning systems in today’s organizations.</p>
-<section id="who-should-read-this" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="who-should-read-this">Who should read this</h2>
-<p>This book is ideal for graduate students, data scientists, engineers, and analytics professionals who want to bridge the gap between building machine learning models and deploying them into reliable, scalable production environments. Those looking to deepen their understanding of operationalizing ML models will benefit from hands-on experience with MLOps workflows, including data management, model deployment, and monitoring. Individuals with a basic background in machine learning or software development will gain practical skills to streamline the machine learning lifecycle and align their work with organizational and business goals.</p>
-<p>This book is also valuable for those interested in cross-functional collaboration, providing insights into how data science teams can work alongside engineering and business units to achieve successful machine learning outcomes.</p>
-<p>This book is technical in nature, designed to provide hands-on experience in deploying, monitoring, and managing machine learning systems. While it’s possible to successfully complete the book with minimal coding experience, having some familiarity with Python and basic machine learning concepts will be beneficial for understanding and applying the material. The course introduces technical tools and workflows, but it’s structured to guide students of various backgrounds through each step. Those with prior experience in Python or ML will have a smoother time grasping the concepts and may find it easier to implement projects independently. However, foundational knowledge in programming or machine learning is not strictly required, as core principles and step-by-step instructions are provided to support all readers in building effective MLOps pipelines.</p>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>If you are new to Python, I recommend you check out <a href="https://bradleyboehmke.github.io/uc-bana-6043">https://bradleyboehmke.github.io/uc-bana-6043</a> to get up to speed with the basics.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="conventions-used-in-this-book" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="conventions-used-in-this-book">Conventions used in this book</h2>
-<p>The following typographical conventions are used in this book:</p>
-<ul>
-<li><strong><em>strong italic</em></strong>: indicates new terms,</li>
-<li><strong>bold</strong>: indicates package &amp; file names,</li>
-<li><code>inline code</code>: monospaced highlighted text indicates functions or other commands that could be typed literally by the user,</li>
-<li>code chunk: indicates commands or other text that could be typed literally by the user</li>
-</ul>
-<div id="c9e52fc4" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>3</code></pre>
-</div>
-</div>
-<p>In addition to the general text used throughout, you will notice the following code chunks with images:</p>
-<div class="callout callout-style-simple callout-tip">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Signifies a tip or suggestion</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Signifies a general note</p>
-</div>
-</div>
-</div>
+<p>This chapter will focus on the <strong>people, processes, and ethical considerations</strong> involved in building and deploying machine learning models. The plan is to highlight <strong>the human-centered challenges</strong> that data scientists, ML engineers, and stakeholders face when operationalizing machine learning.</p>
 <div class="callout callout-style-simple callout-warning">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>Signifies a warning or caution</p>
+<p>This chapter is currently in development.</p>
 </div>
 </div>
 </div>
+<section id="the-role-of-humans-in-ml-systems" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="the-role-of-humans-in-ml-systems"><span class="header-section-number">12.1</span> The Role of Humans in ML Systems</h2>
+<ul>
+<li><strong>Beyond the Algorithms</strong>: How human decisions shape ML systems (from problem framing to deployment).</li>
+<li><strong>Collaboration Between Teams</strong>: ML is not just a data science problem; it requires alignment across data, engineering, business, and domain experts.</li>
+<li><strong>Human-in-the-Loop Systems</strong>: When human intervention is necessary (e.g., active learning, review of automated decisions).</li>
+</ul>
 </section>
-<section id="software-used-throughout-this-book" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="software-used-throughout-this-book">Software used throughout this book</h2>
-<p>TBD</p>
+<section id="organizational-challenges-in-ml-adoption" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="organizational-challenges-in-ml-adoption"><span class="header-section-number">12.2</span> Organizational Challenges in ML Adoption</h2>
+<ul>
+<li><strong>Cross-Functional Collaboration</strong>: The role of product managers, engineers, and business leaders in ML projects.</li>
+<li><strong>Barriers to ML Adoption</strong>:
+<ul>
+<li>Resistance to change within organizations.</li>
+<li>Lack of trust in ML-driven decision-making.</li>
+<li>The disconnect between technical teams and business teams.</li>
+</ul></li>
+<li><strong>Scaling ML in an Organization</strong>:
+<ul>
+<li>Building an ML culture.</li>
+<li>How to set up an effective MLOps practice.</li>
+</ul></li>
+</ul>
 </section>
-<section id="additional-resources" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="additional-resources">Additional resources</h2>
-<p>TBD</p>
+<section id="interpretability-explainability-and-trust-in-ml" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="interpretability-explainability-and-trust-in-ml"><span class="header-section-number">12.3</span> Interpretability, Explainability, and Trust in ML</h2>
+<ul>
+<li><strong>Why Interpretability Matters</strong>:
+<ul>
+<li>Stakeholder trust.</li>
+<li>Debugging and improving models.</li>
+<li>Regulatory requirements.</li>
+</ul></li>
+<li><strong>Methods for Explainability</strong>:
+<ul>
+<li>SHAP, LIME, and feature importance techniques.</li>
+<li>How to communicate ML results to non-technical audiences.</li>
+</ul></li>
+<li><strong>Challenges in Trusting ML Decisions</strong>:
+<ul>
+<li>Black-box models vs.&nbsp;interpretable models.</li>
+<li>Dealing with unexpected model behavior.</li>
+</ul></li>
+</ul>
+</section>
+<section id="bias-fairness-and-ethical-considerations" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="bias-fairness-and-ethical-considerations"><span class="header-section-number">12.4</span> Bias, Fairness, and Ethical Considerations</h2>
+<ul>
+<li><strong>Sources of Bias in ML</strong>:
+<ul>
+<li>Bias in training data.</li>
+<li>Algorithmic bias in model predictions.</li>
+</ul></li>
+<li><strong>Techniques for Mitigating Bias</strong>:
+<ul>
+<li>Fairness-aware ML methods.</li>
+<li>Techniques like re-weighting, adversarial debiasing, and bias audits.</li>
+</ul></li>
+<li><strong>Regulations &amp; Ethical Considerations</strong>:
+<ul>
+<li>GDPR, CCPA, and other data privacy regulations.</li>
+<li>Ethical considerations for deploying ML models in real-world settings.</li>
+</ul></li>
+</ul>
+</section>
+<section id="model-failures-and-accountability" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="model-failures-and-accountability"><span class="header-section-number">12.5</span> Model Failures and Accountability</h2>
+<ul>
+<li><strong>Real-World Failures of ML</strong>:
+<ul>
+<li>Examples of when ML models led to significant issues (e.g., biased hiring algorithms, faulty healthcare models).</li>
+</ul></li>
+<li><strong>Who is Accountable for Model Failures?</strong>
+<ul>
+<li>Role of data scientists, engineers, product managers, and legal teams.</li>
+<li>Building processes for accountability in ML projects.</li>
+</ul></li>
+</ul>
+</section>
+<section id="the-future-of-human-machine-collaboration" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="the-future-of-human-machine-collaboration"><span class="header-section-number">12.6</span> The Future of Human-Machine Collaboration</h2>
+<ul>
+<li><strong>The Role of ML in Augmenting Human Decision-Making</strong>:
+<ul>
+<li>ML as a tool to assist rather than replace human judgment.</li>
+<li>Where automation should and shouldn’t be used.</li>
+</ul></li>
+<li><strong>Ethical AI and Responsible AI Development</strong>:
+<ul>
+<li>Future trends in AI governance and regulation.</li>
+<li>How organizations can prepare for evolving standards.</li>
+</ul></li>
+</ul>
+</section>
+<section id="summary-and-final-thoughts" class="level2" data-number="12.7">
+<h2 data-number="12.7" class="anchored" data-anchor-id="summary-and-final-thoughts"><span class="header-section-number">12.7</span> Summary and Final Thoughts</h2>
+<ul>
+<li>Recap of the key human-centric challenges in ML.</li>
+<li>Call to action for <strong>responsible</strong> and <strong>collaborative</strong> ML development.</li>
+<li><strong>Further Reading &amp; Resources</strong>: Papers, books, and courses on responsible AI and ML interpretability.</li>
+</ul>
+</section>
+<section id="exercise" class="level2" data-number="12.8">
+<h2 data-number="12.8" class="anchored" data-anchor-id="exercise"><span class="header-section-number">12.8</span> Exercise</h2>
+<p>Have students evaluate an ML system for bias, interpretability, or ethical concerns.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -845,10 +841,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./11-devops-git.html" class="pagination-link" aria-label="Introduction to Git and GitHub">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introduction to Git and GitHub</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01-intro-ml-system.html" class="pagination-link" aria-label="ML System Design">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">ML System Design</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./13-continued-learning.html" class="pagination-link" aria-label="Continuing Your Growth as an ML Practitioner">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Continuing Your Growth as an ML Practitioner</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -857,4 +856,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/12-human-side-of-ml.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

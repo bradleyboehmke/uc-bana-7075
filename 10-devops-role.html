@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Brad Boehmke">
-<meta name="dcterms.date" content="2025-02-12">
 
-<title>Machine Learning Design for Business</title>
+<title>10&nbsp; The Role of DevOps – Machine Learning Design for Business</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -66,7 +30,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01-intro-ml-system.html" rel="next">
+<link href="./11-devops-git.html" rel="next">
+<link href="./09-modelops-monitoring.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -117,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Welcome</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./10-devops-role.html">DevOps</a></li><li class="breadcrumb-item"><a href="./10-devops-role.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Role of DevOps</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -149,7 +114,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Welcome</span></a>
   </div>
 </li>
@@ -251,7 +216,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10-devops-role.html" class="sidebar-item-text sidebar-link">
+  <a href="./10-devops-role.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Role of DevOps</span></span></a>
   </div>
 </li>
@@ -302,41 +267,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a>
-  <ul class="collapse">
-  <li><a href="#who-should-read-this" id="toc-who-should-read-this" class="nav-link" data-scroll-target="#who-should-read-this">Who should read this</a></li>
-  <li><a href="#conventions-used-in-this-book" id="toc-conventions-used-in-this-book" class="nav-link" data-scroll-target="#conventions-used-in-this-book">Conventions used in this book</a></li>
-  <li><a href="#software-used-throughout-this-book" id="toc-software-used-throughout-this-book" class="nav-link" data-scroll-target="#software-used-throughout-this-book">Software used throughout this book</a></li>
-  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional resources</a></li>
-  </ul></li>
+  <li><a href="#introduction-to-devops" id="toc-introduction-to-devops" class="nav-link active" data-scroll-target="#introduction-to-devops"><span class="header-section-number">10.1</span> Introduction to DevOps</a></li>
+  <li><a href="#the-value-of-devops-in-machine-learning" id="toc-the-value-of-devops-in-machine-learning" class="nav-link" data-scroll-target="#the-value-of-devops-in-machine-learning"><span class="header-section-number">10.2</span> The Value of DevOps in Machine Learning</a></li>
+  <li><a href="#key-concepts-of-devops-for-ml" id="toc-key-concepts-of-devops-for-ml" class="nav-link" data-scroll-target="#key-concepts-of-devops-for-ml"><span class="header-section-number">10.3</span> Key Concepts of DevOps for ML</a></li>
+  <li><a href="#challenges-in-devops-for-ml" id="toc-challenges-in-devops-for-ml" class="nav-link" data-scroll-target="#challenges-in-devops-for-ml"><span class="header-section-number">10.4</span> Challenges in DevOps for ML</a></li>
+  <li><a href="#common-tools-in-devops-for-ml" id="toc-common-tools-in-devops-for-ml" class="nav-link" data-scroll-target="#common-tools-in-devops-for-ml"><span class="header-section-number">10.5</span> Common Tools in DevOps for ML</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">10.6</span> Summary</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">10.7</span> Exercise</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/10-devops-role.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./10-devops-role.html">DevOps</a></li><li class="breadcrumb-item"><a href="./10-devops-role.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Role of DevOps</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Machine Learning Design for Business</h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Role of DevOps</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Brad Boehmke </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">February 12, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -346,83 +299,153 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="welcome" class="level1 unnumbered">
-<h1 class="unnumbered">Welcome</h1>
-<p>Welcome to <strong><em>Machine Learning Design for Business</em></strong>! This is the the online textbook that compliments the UC BANA 7075 course. This course aims to provide a framework for developing real-world machine learning systems that are deployable, reliable, and scalable. You will be introduced to <strong><em>MLOps</em></strong> as the intersection of DataOps, ModelOps, and DevOps; combined, these concepts provide scalable, reliable, and repeatable machine learning workflows. You will learn how MLOps enables organizations to overcome challenges in operationalizing machine learning models. Along the way, you will learn about important organizational issues including privacy, fairness, security, stakeholder management, project collaboration, and more!</p>
-<p>Throughout this textbook you’ll find embedded lectures, hands-on exercises, and additional resources that will allow you to explore the tools, techniques, and best practices required to successfully design and deploy machine learning systems in today’s organizations.</p>
-<section id="who-should-read-this" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="who-should-read-this">Who should read this</h2>
-<p>This book is ideal for graduate students, data scientists, engineers, and analytics professionals who want to bridge the gap between building machine learning models and deploying them into reliable, scalable production environments. Those looking to deepen their understanding of operationalizing ML models will benefit from hands-on experience with MLOps workflows, including data management, model deployment, and monitoring. Individuals with a basic background in machine learning or software development will gain practical skills to streamline the machine learning lifecycle and align their work with organizational and business goals.</p>
-<p>This book is also valuable for those interested in cross-functional collaboration, providing insights into how data science teams can work alongside engineering and business units to achieve successful machine learning outcomes.</p>
-<p>This book is technical in nature, designed to provide hands-on experience in deploying, monitoring, and managing machine learning systems. While it’s possible to successfully complete the book with minimal coding experience, having some familiarity with Python and basic machine learning concepts will be beneficial for understanding and applying the material. The course introduces technical tools and workflows, but it’s structured to guide students of various backgrounds through each step. Those with prior experience in Python or ML will have a smoother time grasping the concepts and may find it easier to implement projects independently. However, foundational knowledge in programming or machine learning is not strictly required, as core principles and step-by-step instructions are provided to support all readers in building effective MLOps pipelines.</p>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>If you are new to Python, I recommend you check out <a href="https://bradleyboehmke.github.io/uc-bana-6043">https://bradleyboehmke.github.io/uc-bana-6043</a> to get up to speed with the basics.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="conventions-used-in-this-book" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="conventions-used-in-this-book">Conventions used in this book</h2>
-<p>The following typographical conventions are used in this book:</p>
-<ul>
-<li><strong><em>strong italic</em></strong>: indicates new terms,</li>
-<li><strong>bold</strong>: indicates package &amp; file names,</li>
-<li><code>inline code</code>: monospaced highlighted text indicates functions or other commands that could be typed literally by the user,</li>
-<li>code chunk: indicates commands or other text that could be typed literally by the user</li>
-</ul>
-<div id="c9e52fc4" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>3</code></pre>
-</div>
-</div>
-<p>In addition to the general text used throughout, you will notice the following code chunks with images:</p>
-<div class="callout callout-style-simple callout-tip">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Signifies a tip or suggestion</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Signifies a general note</p>
-</div>
-</div>
-</div>
+<p>This chapter introduces <strong>DevOps</strong> and its relevance to <strong>machine learning systems</strong>, emphasizing key concepts that <strong>data scientists</strong> and <strong>ML engineers</strong> should be aware of. The focus is on high-level principles rather than implementation details or code.</p>
 <div class="callout callout-style-simple callout-warning">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>Signifies a warning or caution</p>
+<p>This chapter is currently in development.</p>
 </div>
 </div>
 </div>
+<section id="introduction-to-devops" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="introduction-to-devops"><span class="header-section-number">10.1</span> Introduction to DevOps</h2>
+<ul>
+<li><strong>What is DevOps?</strong>
+<ul>
+<li>Origin and evolution of DevOps in software engineering.</li>
+<li>The goal of <strong>integrating development and operations</strong> to improve software delivery.</li>
+</ul></li>
+<li><strong>Why DevOps Matters for ML Systems?</strong>
+<ul>
+<li>Traditional ML workflows often lack automation, leading to inefficiencies.</li>
+<li>DevOps principles help <strong>streamline model deployment, management, and monitoring</strong>.</li>
+<li>How DevOps bridges the gap between ML models and real-world applications.</li>
+</ul></li>
+</ul>
 </section>
-<section id="software-used-throughout-this-book" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="software-used-throughout-this-book">Software used throughout this book</h2>
-<p>TBD</p>
+<section id="the-value-of-devops-in-machine-learning" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="the-value-of-devops-in-machine-learning"><span class="header-section-number">10.2</span> The Value of DevOps in Machine Learning</h2>
+<ul>
+<li><strong>Automating Code &amp; Model Updates</strong>
+<ul>
+<li>Ensuring smooth updates to models without disrupting production.</li>
+<li>How continuous integration/continuous deployment (<strong>CI/CD</strong>) helps in ML workflows.</li>
+</ul></li>
+<li><strong>Improving Reliability &amp; Stability</strong>
+<ul>
+<li>Reducing downtime through <strong>automated rollback and failover strategies</strong>.</li>
+<li>Ensuring <strong>scalability and flexibility</strong> in ML model serving.</li>
+</ul></li>
+<li><strong>Accelerating Model Deployment &amp; Iteration</strong>
+<ul>
+<li>Faster experimentation with <strong>automated testing and validation</strong>.</li>
+<li>Deploying models efficiently while maintaining <strong>consistency across environments</strong>.</li>
+</ul></li>
+</ul>
 </section>
-<section id="additional-resources" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="additional-resources">Additional resources</h2>
-<p>TBD</p>
+<section id="key-concepts-of-devops-for-ml" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="key-concepts-of-devops-for-ml"><span class="header-section-number">10.3</span> Key Concepts of DevOps for ML</h2>
+<ul>
+<li><strong>CI/CD Pipelines for ML Models</strong>
+<ul>
+<li>Automating the <strong>training, testing, and deployment</strong> of ML models.</li>
+<li>Differences between traditional software CI/CD and <strong>MLOps-specific CI/CD</strong>.</li>
+</ul></li>
+<li><strong>Automated Testing &amp; Validation</strong>
+<ul>
+<li><strong>Unit tests</strong> for data preprocessing and feature engineering.</li>
+<li><strong>Model validation tests</strong> (e.g., checking for performance degradation).</li>
+</ul></li>
+<li><strong>Compute Resource Management</strong>
+<ul>
+<li><strong>On-demand compute scaling</strong> (e.g., GPUs, TPUs, cloud VMs).</li>
+<li>Optimizing training and inference workloads in <strong>Kubernetes and serverless environments</strong>.</li>
+</ul></li>
+<li><strong>Storage Solutions for ML</strong>
+<ul>
+<li><strong>Balancing cost, speed, and accessibility</strong> (e.g., object storage vs.&nbsp;relational databases).</li>
+<li>Versioning <strong>datasets, models, and metadata</strong> for reproducibility.</li>
+</ul></li>
+<li><strong>Networking &amp; Security Considerations</strong>
+<ul>
+<li>Securing <strong>API endpoints</strong> for model inference.</li>
+<li>Encryption &amp; compliance considerations (e.g., <strong>GDPR, HIPAA</strong>).</li>
+</ul></li>
+<li><strong>Cross-Team Collaboration</strong>
+<ul>
+<li>Encouraging <strong>collaboration between data science, engineering, and operations</strong>.</li>
+<li>Role of <strong>platform teams</strong> in supporting scalable ML infrastructure.</li>
+</ul></li>
+</ul>
+</section>
+<section id="challenges-in-devops-for-ml" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="challenges-in-devops-for-ml"><span class="header-section-number">10.4</span> Challenges in DevOps for ML</h2>
+<ul>
+<li><strong>Complexity in Automating ML Pipelines</strong>
+<ul>
+<li>ML workflows involve <strong>data, models, and code</strong>—making automation more difficult.</li>
+</ul></li>
+<li><strong>Infrastructure Cost &amp; Resource Allocation</strong>
+<ul>
+<li>Balancing <strong>cost-effectiveness</strong> vs.&nbsp;performance when deploying at scale.</li>
+</ul></li>
+<li><strong>Ensuring Reproducibility in Model Deployment</strong>
+<ul>
+<li>Challenges in <strong>versioning models and data</strong> effectively.</li>
+</ul></li>
+<li><strong>Security &amp; Compliance</strong>
+<ul>
+<li><strong>Data privacy</strong> risks and securing access to ML models.</li>
+</ul></li>
+<li><strong>Interdisciplinary Communication Barriers</strong>
+<ul>
+<li><strong>DevOps vs.&nbsp;Data Science teams</strong>: Aligning priorities for smoother collaboration.</li>
+</ul></li>
+</ul>
+</section>
+<section id="common-tools-in-devops-for-ml" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="common-tools-in-devops-for-ml"><span class="header-section-number">10.5</span> Common Tools in DevOps for ML</h2>
+<ul>
+<li><strong>CI/CD for ML</strong>: GitHub Actions, GitLab CI, Jenkins, Kubeflow Pipelines</li>
+<li><strong>Infrastructure as Code (IaC)</strong>: Terraform, AWS CloudFormation</li>
+<li><strong>Containerization &amp; Orchestration</strong>: Docker, Kubernetes, ArgoCD</li>
+<li><strong>Model Management</strong>: MLflow, Seldon, BentoML</li>
+<li><strong>Monitoring &amp; Logging</strong>: Prometheus, Grafana, Evidently AI</li>
+</ul>
+</section>
+<section id="summary" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">10.6</span> Summary</h2>
+<ul>
+<li>Recap of DevOps principles applied to ML workflows.</li>
+<li>How <strong>automation, scalability, and collaboration</strong> enhance ML system reliability.</li>
+<li>Introduction to the next steps: Learning how to use Git and GitHub to integrate DevOps principles into MLOps workflows.</li>
+</ul>
+</section>
+<section id="exercise" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="exercise"><span class="header-section-number">10.7</span> Exercise</h2>
+<p>The exercise should encourage readers to <strong>reflect</strong> on DevOps concepts in an ML context. It should be <strong>conceptual</strong> rather than technical.</p>
+<p><strong>Part 1: Conceptual Design</strong></p>
+<ul>
+<li>Imagine you are part of a <strong>DevOps team</strong> deploying an ML model for fraud detection.</li>
+<li>Outline a <strong>DevOps strategy</strong> to ensure smooth deployment, monitoring, and scaling.</li>
+<li>Consider:
+<ul>
+<li><strong>CI/CD approach</strong> for deploying new models.</li>
+<li><strong>How you would automate model testing and validation</strong>.</li>
+<li><strong>What infrastructure (compute/storage) choices you’d make</strong>.</li>
+</ul></li>
+</ul>
+<p><strong>Part 2: Discussion Questions</strong></p>
+<ol type="1">
+<li><strong>How would you ensure that your model deployment process is both efficient and secure?</strong></li>
+<li><strong>What challenges might arise when managing compute resources for an ML model that requires GPUs?</strong></li>
+<li><strong>How does DevOps differ when applied to ML models versus traditional software?</strong></li>
+</ol>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -845,10 +868,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./09-modelops-monitoring.html" class="pagination-link" aria-label="Model Monitoring">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Model Monitoring</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01-intro-ml-system.html" class="pagination-link" aria-label="ML System Design">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">ML System Design</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./11-devops-git.html" class="pagination-link" aria-label="Introduction to Git and GitHub">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Introduction to Git and GitHub</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -857,4 +883,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/10-devops-role.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
