@@ -1,0 +1,13 @@
+---
+title: "ML System Design"
+subtitle: "Considerations we start building"
+format:
+  revealjs:
+    slide-number: true
+    preview-links: auto
+    css: styles.css
+    mermaid:
+      theme: neutral
+footer: 'BANA 7075'
+---
+

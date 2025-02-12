@@ -1,66 +1,261 @@
 ---
-title: "Machine Learning Design for Business"
-author: "BANA 7075"
-format: revealjs
+title: "Machine Learning"
+subtitle: "Designing ML Systems for Business"
+format:
+  revealjs:
+    slide-number: true
+    preview-links: auto
+    css: styles.css
+    mermaid:
+      theme: neutral
+footer: 'BANA 7075'
 ---
 
-# Introduction to Professor [Your Name]
+# Brad Boehmke  {background="#43464B"}
 
-- **Background**: Share your academic and professional journey.
-- **Research Interests**: Highlight areas of focus within machine learning and business applications.
-- **Contact Information**: Provide email and office hours for student inquiries.
+## Brad Boehmke {.smaller}
+
+<br>
+
+::: columns
+::: {.column width="60%"}
+- Phonetically: **"Bem"** + **"Key"**
+
+- Alternatives:
+   - Dr. / Professor B
+   - Brad
+
+
+- Contact:
+   - Read **Communication Expectations** Canvas page first!
+   - Email: boehmkbc@ucmail.uc.edu
+   - Office: Lindhall 3412
+:::
+::: {.column width="40%"}
+![](images/me.jpeg)
+:::
+:::
 
 ---
 
-# Course Overview
+<br><br><br>
 
-## Learning Objectives
+::: columns
+::: {.column width="33%"}
+![](images/UC.png){fig-align="center"}
+:::
+::: {.column width="33%"}
+![](images/8451.jpg){fig-align="left"}
+:::
+::: {.column width="33%"}
+![](images/kroger.png){fig-align="center"}
+:::
+:::
 
-- Understand the value MLOps provides for organizations, including scalability, reliability, and speed in ML deployment.
-- Describe the core components and key concepts of MLOps, including DataOps, ModelOps, and DevOps.
-- Identify key decisions when designing MLOps workflows, such as data versioning, model monitoring, and deployment strategies.
-- Gain hands-on experience with tools and techniques for building and deploying machine learning systems.
+# Course Overview  {background="#43464B"}
 
+## ML System Design
+
+ML is all around us
+
+![](images/ML-uses.png){fig-align="center"}
+
+## ML System Design
+
+And more and more organizations are finding use cases for ML.
+
+![](images/ML-uses2.png){fig-align="center"}
+
+:::footer
+https://bit.ly/3C4787p
+:::
+
+## ML System Design
+
+But organizations are finding that...
+
+- ML algorithms are the less problematic part.
+- The hard part is to how to **make algorithms work with other parts to solve real-world problems**.
+
+. . .
+
+::: columns
+::: {.column width="50%"}
+[60/96 failures](https://www.youtube.com/watch?v=hBMHohkRgAA) caused by non-ML components
+:::
+::: {.column width="50%"}
+![](images/ml-failures.png){fig-align="center"}
+:::
+:::
+
+:::footer
+https://www.youtube.com/watch?v=hBMHohkRgAA
+:::
+
+##  ML System Design
+
+Most ML courses & books focus on the algos
+
+. . .
+
+<br>
+We're going to focus on creating a system around the algos
+
+```{mermaid}
+%%| fig-align: center
+flowchart LR
+  subgraph ML[ML System]
+    direction TB
+    subgraph DataOps
+    end
+    subgraph ModelOps
+    end
+    subgraph DevOps
+    end
+  end
+  A[Stakeholders] --> ML
+  B[Business Requirements] --> ML
+  ML --> C[End Users]
+  DataOps --> ModelOps --> DevOps
+```
 ---
 
-# Course Structure
+### This class is designed to get you thinking about the following questions...
 
-- **Lectures**: Theoretical foundations and practical insights.
+<br>
+
+::: {style="font-size: 75%;"}
+- You’ve trained a model, now what?
+- How do we measure if this model is improving the business?
+- How do we manage the data feeding into this model?
+- How do we track changes we make to this model?
+- How do we deploy this model into production?
+- How do monitor the health of this model?
+- How do we manage the source code of an ML system?
+- What human elements should we be concerned about with an ML system?
+- ...
+:::
+
+## Learning Objectives {.smaller}
+
+<br>
+
+- Understand what goes into an [ML System and the value it provides]{style="color:blue;"} for organizations.
+
+. . .
+
+- Describe the core components and key concepts of [MLOps]{style="color:blue;"}, including DataOps, ModelOps, and DevOps.
+
+. . .
+
+- Gain [hands-on experience]{style="color:blue;"} with tools and techniques for building and deploying machine learning systems.
+
+## Prereqs {.smaller}
+
+This class is targeted towards:
+
+- Graduate students - data scientists, engineers, and analytics professionals
+- Individuals with a basic background in ML and software development
+- Those interested in cross-functional collaboration between data science, engineering, and business teams
+
+. . .
+
+You don't need to be a strong programmer [but]{style="color:red;"} there is plenty of...
+
+- code demonstrating implementation of MLOps concepts
+- exercises/assignments that require hands-on work
+
+. . .
+
+<br>
+
+So Python and ML familiarity will be very beneficial but not strictly required
+
+:::footer
+Python primer: [https://bradleyboehmke.github.io/uc-bana-6043](https://bradleyboehmke.github.io/uc-bana-6043)
+:::
+
+## Course Structure {.smaller}
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+- **Readings & Lectures**: Theoretical foundations and practical insights.
+- **Quizzes**: Reinforce important concepts.
 - **Hands-On Exercises**: Apply concepts through real-world scenarios.
 - **Project Work**: Collaborate on designing and deploying a machine learning system.
+:::
+::: {.column width="50%"}
+![](images/class-book.png){fig-align="center"}
+:::
 
----
+:::
 
-# Class Operations
+:::footer
+Book: [https://bradleyboehmke.github.io/uc-bana-7075/](https://bradleyboehmke.github.io/uc-bana-7075/)
+:::
 
-- **Pre-Class Reading**: Complete assigned readings to prepare for discussions.
-- **In-Class Activities**: Engage in interactive exercises and case studies.
-- **Participation**: Contribute to discussions and group work for a collaborative learning environment.
+## In-person Class Operations {.smaller}
 
----
+<br>
 
-# Grading Breakdown
+- **Tuesdays**:
+    - Overview of that week's readings & discussions.
+    - Try preview readings before class to help drive discussion.
+- **Thursdays**:
+    - Engage in interactive exercises and case studies, or...
+    - Work with group on project work.
+- **Virtual**:
+    - Complete reading quizzes.
+    - Contribute to group discussions/exercises.
+    - Course project group work.
 
-- **Homework Assignments**: 40% of final grade.
-- **Projects**: 20% of final grade.
-- **Exams**: 40% of final grade.
 
-*Note: Specific details on assignments and exams will be provided in class.*
+## Grading Breakdown
 
----
+<br>
 
-# Course Project Details
+- **Reading Quizzes**: 20%
+- **Engagement**: 20% (interactive exercises & discussion forums)
+- **Project**: 60%
+   - Proposal (15%)
+   - Prototype (15%)
+   - Final demo & report (30%)
+
+## Course Project Details {.smaller}
+
+<br>
 
 - **Objective**: Design and deploy a machine learning system addressing a real-world business problem.
-- **Teams**: Work in groups of 3-4 students to foster collaboration.
-- **Milestones**: Regular checkpoints to ensure progress and provide feedback.
+- **Teams**: Work in groups of 3-5 students to foster collaboration.
 - **Deliverables**: Final report, presentation, and deployed model demonstration.
+- **Milestones**: Regular checkpoints to ensure progress and provide feedback.
+   - Week 1: Review final project details
+   - Week 2: Project groups finalized
+   - Week 3: Spring break 🏖️
+   - Week 4: Project proposals due
+   - Week 6: Project MVP due
+   - Week 8: Project demo & report due
 
-*Further information and guidelines will be discussed in upcoming classes.*
+:::footer
+*Further information and details listed in the Final Project Outline on Canvas .*
+:::
 
----
+## What the Future Holds {.smaller}
 
-# Questions and Discussion
+| Week | Tue | Thu | Due EOW |
+|---|---------|---------|------------|
+| 1    | Today 😀 | No class | Exercise & Reading Quizzes |
+| 2    | Discuss DataOps | Group Exercise | Exercise, Reading Quizzes, [Project Groups Due]{style="color:red;"} |
+| 3    | Spring Break 🏖️ |  |  |
+| 4    | ModelOps & Experiment Tracking | Work on Project Proposals | Reading Quizzes, [Project Proposals Due]{style="color:red;"} |
+| 5    | Model Versioning & Deployment | No class | Reading Quizzes |
+| 6    | Model Deployment & Monitoring | Work on Project MVP | Reading Quizzes, [Project MVP Due]{style="color:red;"} |
+| 7    | DevOps | Work on Final Project | Reading Quizzes |
+| 8    | Work on Final Projects | Final Projects Due | 🥳 |
+
+# Questions and Discussion  {background="#43464B"}
 
 - Open floor for any questions regarding the course structure, expectations, or content.
 - Discussion on how this course aligns with your academic and career goals.

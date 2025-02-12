@@ -1,57 +1,163 @@
 ---
-title: "Introduction to ML System Design"
-author: "BANA 7075"
-format: revealjs
+title: "ML System Design"
+subtitle: "An Introduction"
+format:
+  revealjs:
+    slide-number: true
+    preview-links: auto
+    css: styles.css
+    mermaid:
+      theme: neutral
+footer: 'BANA 7075'
 ---
 
-# Introduction to ML System Design
+## 🤔 {.smaller}
 
-- **Definition**: Crafting reliable, scalable, and maintainable machine learning systems that address real-world business challenges.
-- **Importance**: Ensures models operate effectively within production environments, delivering consistent value.
+Think about examples of good ML applications you've used?
 
----
+::: columns
+::: {.column width="33%"}
+![](images/netflix.png){fig-align="center"}
+:::
+::: {.column width="33%"}
+![](images/google-maps.jpg){fig-align="center"}
+:::
+::: {.column width="33%"}
+![](images/chatgpt.png){fig-align="center"}
+:::
+:::
 
-# Key Components of ML System Design
+. . .
 
-- **DataOps**: Management of data workflows and pipelines.
-- **ModelOps**: Overseeing the model lifecycle, including deployment and monitoring.
-- **DevOps**: Integration of development and operations for seamless delivery.
+Have you ever thought about how these organizations put these algorithms into production?
 
----
+## What considerations do you think come into play? {.smaller}
 
-# DataOps: Data Management and Pipelines
+:::incremental
+- How do we measure if this model is improving the business?
+- How do we manage the data feeding into this model?
+- How do we track changes we make to this model?
+- How and where do we deploy this model into production?
+- How do we monitor the health of this model?
+- How do we manage the source code of this ML system?
+- What human elements should we be concerned about with an ML system?
+:::
+. . .
 
-- **Data Acquisition**: Collecting relevant data from diverse sources.
-- **Data Preparation**: Cleaning, transforming, and organizing data for analysis.
+<br>
+
+:::{.center-h}
+[And who do you think is involved in making it happen?]{style="color:red;"}
+:::
+
+## Introduction to ML System Design {.smaller}
+
+<br>
+
+**ML system design is about** crafting [reliable]{style="color:red;"}, [scalable]{style="color:red;"}, and [maintainable]{style="color:red;"} machine learning systems that address real-world business challenges.
+
+. . .
+
+<br>
+
+Goes beyond model development to focus on architecture, infrastructure, and operational processes.
+
+. . .
+
+<br><br>
+
+:::{.center-h}
+**Importance**: Ensures models operate effectively within production environments, delivering consistent value.
+:::
+
+## Key Components of ML System Design
+
+<br><br>
+```{mermaid}
+%%| fig-align: center
+flowchart LR
+  subgraph ML[ML System]
+    direction TB
+    subgraph DataOps
+    end
+    subgraph ModelOps
+    end
+    subgraph DevOps
+    end
+  end
+  A[Stakeholders] --> ML
+  B[Business Requirements] --> ML
+  ML --> C[End Users]
+  DataOps --> ModelOps --> DevOps
+```
+
+# Key Components {background="#43464B"}
+
+## DataOps: Data Management and Pipelines {.smaller}
+
+At the heart of any ML system is data, which is processed, transformed, and delivered to the model in a way that supports both training and inference.
+
+<br>
+
+A well-designed ML system typically includes [data pipelines that handle]{style="color:blue;"}:
+
+- **Data Ingestion**: Collecting relevant data from diverse sources.
+- **Data Processing**: Cleaning, transforming, and organizing data for analysis.
+- **Data Validation**: Ensuring that data quality is maintained.
 - **Data Versioning**: Tracking changes to datasets to ensure reproducibility.
 
----
+## ModelOps: Model Lifecycle Management {.smaller}
 
-# ModelOps: Model Lifecycle Management
+A central aspect of ML system design is managing the entire model lifecycle, from development and testing to deployment and retirement.
 
-- **Model Training**: Developing models using historical data.
+<br>
+
+A well-designed ML system typically includes [model pipelines that include]{style="color:blue;"}:
+
+- **Model Training & Experiment Tracking**: Developing models and tracking the experiments.
+- **Model Versioning**: Maintaining a record of model versions.
 - **Model Deployment**: Integrating models into production systems.
 - **Model Monitoring**: Tracking performance and retraining as necessary.
 
----
+## DevOps Practices in ML Systems {.smaller}
 
-# DevOps Practices in ML Systems
+Good ML system design brings [DevOps]{style="color:red;"} practices to the world of machine learning - with the [goal of shortening the software development lifecycle and delivering high-quality, reliable software more efficiently]{style="color:red;"}.
+
+<br>
+
+DevOps is about fostering a culture of [collaboration]{style="color:blue;"} between development and operations teams, [integrating automated processes]{style="color:blue;"}, and leveraging continuous integration and continuous deployment (CI/CD) practices to [streamline workflows]{style="color:blue;"}.
+
+<br>
+
+This includes:
 
 - **Continuous Integration (CI)**: Regularly merging code changes to a shared repository.
 - **Continuous Deployment (CD)**: Automating the release of updates to production.
 - **Infrastructure as Code (IaC)**: Managing infrastructure through code for consistency.
 
----
+# Why Good ML System Design Matters {background="#43464B"}
 
-# Why ML System Design Matters
+## What Does Good Mean?
+
+<br>
 
 - **Scalability**: Ability to handle growing amounts of work seamlessly.
 - **Reliability**: Ensures consistent performance and minimizes downtime.
 - **Maintainability**: Facilitates easy updates and adaptability to new requirements.
 
----
+. . .
 
-# Design Principles for Effective ML Systems
+:::{.center-h}
+[**Thought Experiment**: Let's think back to our ML systems we discussed at the beginning.  How do those systems need to ***scale*** and ensure ***reliability*** and ***adaptability***?]{style="color:blue;"}
+:::
+
+## Design Principles for Effective ML Systems {.smaller}
+
+ML systems require thoughtful design to ensure that the system remains reliable, scalable, and adaptable over time.
+
+<br>
+
+Principles that help address real-world challenges in production environments, such as evolving data, changes in customer behavior, and changing business requirements:
 
 - **Modularity and Abstraction**: Breaking systems into interchangeable components.
 - **Reproducibility**: Ensuring consistent results across different environments.
@@ -60,27 +166,55 @@ format: revealjs
 - **Security and Compliance**: Protecting data and adhering to regulations.
 - **Adaptability and Flexibility**: Easily accommodating changes in technology or requirements.
 
----
+## ML System Lifecycle Stages {.smaller}
 
-# ML System Lifecycle Stages
+The ML lifecycle can be broken down into distinct stages: [**data processing**]{style="color:blue;"}, [**model development**]{style="color:blue;"}, [**model deployment**]{style="color:blue;"}, [**model sustainment**]{style="color:blue;"}.
 
-1. **Data Processing**: Collecting and preparing data.
-2. **Model Development**: Training and validating models.
-3. **Deployment**: Integrating models into production.
-4. **Monitoring and Maintenance**: Tracking performance and updating models.
-5. **Continuous Improvement**: Iterating based on feedback and new data.
+We must consider the design principles across all stages of the ML lifecycle:
 
----
+```{mermaid}
+%%| fig-align: center
+sequenceDiagram
+    participant dp as Data Ingestion & Processing
+    participant md as Model Development
+    participant dep as Model Deployment
+    participant sus as Model Sustainment
 
-# Summary
+    Note over dp,sus: Modularity and Abstraction
+    Note over dp,sus: Scalability
+    Note over dp,sus: Reproducibility
+    Note over dp,sus: Automation
+    Note over dp,sus: Monitoring and Maintenance
+    Note over dp,sus: Security and Compliance
+    Note over dp,sus: Adaptability and Flexibility
+```
+
+# Summary {background="#43464B"}
+
+## Recap
+
+<br>
 
 - ML System Design is crucial for deploying effective machine learning solutions in business contexts.
 - Incorporating DataOps, ModelOps, and DevOps practices ensures robust and scalable systems.
-- Adhering to key design principles enhances system reliability and adaptability.
+- Adhering to key design principles enhances a system's scalability, reliability and adaptability.
 
----
+## What's Next?
 
-# Questions and Discussion
+<br>
+
+As we progress through this course, we will dive into [**DataOps**]{style="color:blue;"}, [**ModelOps**]{style="color:blue;"}, and [**DevOps**]{style="color:blue;"} and:
+
+* Learn key concepts,
+* Get exposed to tools used,
+* Get some hands-on experience, and
+* Think through how to apply the design principles.
+
+. . .
+
+But first, we need to explore the key considerations and actions to take before starting the development of an ML system.
+
+# Questions and Discussion {background="#43464B"}
 
 - Open floor for questions regarding ML System Design concepts.
 - Discussion on how these principles apply to real-world business scenarios.
