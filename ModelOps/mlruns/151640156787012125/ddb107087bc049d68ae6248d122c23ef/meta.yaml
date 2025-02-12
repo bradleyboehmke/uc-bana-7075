@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/ModelOps/mlruns/151640156787012125/ddb107087bc049d68ae6248d122c23ef/artifacts
+end_time: 1738858358620
+entry_point_name: ''
+experiment_id: '151640156787012125'
+lifecycle_stage: active
+run_id: ddb107087bc049d68ae6248d122c23ef
+run_name: Regularized Regression
+run_uuid: ddb107087bc049d68ae6248d122c23ef
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1738858350935
+status: 3
+tags: []
+user_id: b294776

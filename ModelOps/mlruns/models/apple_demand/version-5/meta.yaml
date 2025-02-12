@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1738858789243
+current_stage: None
+description: ''
+last_updated_timestamp: 1738858789243
+name: apple_demand
+run_id: 1c5d2b3c30a94ab0931bf772a824aab8
+run_link: ''
+source: file:///Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/ModelOps/mlruns/151640156787012125/1c5d2b3c30a94ab0931bf772a824aab8/artifacts/artifacts
+status: READY
+status_message: null
+storage_location: file:///Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/ModelOps/mlruns/151640156787012125/1c5d2b3c30a94ab0931bf772a824aab8/artifacts/artifacts
+user_id: null
+version: 5

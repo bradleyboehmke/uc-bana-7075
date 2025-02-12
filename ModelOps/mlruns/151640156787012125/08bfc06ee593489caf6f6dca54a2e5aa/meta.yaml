@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/ModelOps/mlruns/151640156787012125/08bfc06ee593489caf6f6dca54a2e5aa/artifacts
+end_time: 1738858611590
+entry_point_name: ''
+experiment_id: '151640156787012125'
+lifecycle_stage: active
+run_id: 08bfc06ee593489caf6f6dca54a2e5aa
+run_name: Regularized Regression Hyperparameter Tuning
+run_uuid: 08bfc06ee593489caf6f6dca54a2e5aa
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1738858604526
+status: 3
+tags: []
+user_id: b294776
