@@ -1,0 +1,141 @@
+# Introduction to Git and GitHub
+
+This chapter introduces Git and GitHub as foundational tools in the DevOps journey. Understanding version control and collaboration through Git and GitHub is essential for managing code, tracking changes, and enabling seamless teamwork. By the end of this chapter, students will:
+
+- Understand the purpose of Git and GitHub.
+- Set up Git on their local machine and create a GitHub account.
+- Learn basic Git commands to track changes, commit updates, and sync repositories.
+- Use branching, merging, and pull requests to collaborate effectively.
+- Gain an introductory understanding of CI/CD and how GitHub integrates with automated workflows.
+
+::: {.callout-warning}
+This chapter is currently in development.
+:::
+
+## Introduction to Git and GitHub
+
+- **What is Version Control?**
+  - Explanation of why version control is necessary for managing code and collaboration.
+  - Examples of problems version control solves (e.g., tracking changes, avoiding overwritten files).
+- **What is Git?**
+  - Overview of Git as a distributed version control system.
+  - How Git differs from other version control systems (e.g., centralized vs. distributed).
+- **What is GitHub?**
+  - Explanation of GitHub as a remote repository hosting service.
+  - Comparison to alternatives like GitLab and Bitbucket.
+  - The role of GitHub in DevOps workflows (collaboration, code review, and automation).
+
+
+## Setting Up Git and GitHub
+
+- **Installing Git**
+  - Step-by-step instructions for installing Git on Windows, Mac, and Linux.
+  - Verifying installation (`git --version`).
+- **Creating a GitHub Account**
+  - Step-by-step guide to signing up on GitHub.
+  - Overview of GitHub's interface (Repositories, Issues, Pull Requests, Actions).
+- **Configuring Git for First Use**
+  - Setting up a username and email (`git config --global user.name "Your Name"`, `git config --global user.email "you@example.com"`).
+  - Understanding SSH keys and authenticating GitHub with SSH.
+
+
+## Git Basics: Tracking and Managing Changes
+
+- **Creating a Local Git Repository**
+  - Initializing a repository (`git init`).
+  - Cloning a repository (`git clone`).
+- **Staging and Committing Changes**
+  - Adding files to staging (`git add`).
+  - Committing changes (`git commit -m "commit message"`).
+- **Viewing Repository History**
+  - Checking commit history (`git log`).
+  - Understanding the SHA hash for commits.
+
+
+## Synchronizing with GitHub
+
+- **Connecting a Local Repository to GitHub**
+  - Creating a new repository on GitHub.
+  - Pushing an existing repository to GitHub (`git remote add origin`, `git push`).
+- **Pulling Changes from GitHub**
+  - Fetching and merging remote changes (`git pull`).
+- **Handling Merge Conflicts**
+  - Understanding merge conflicts and resolving them manually.
+
+
+## Collaboration with Branching and Pull Requests
+
+- **Why Use Branches?**
+  - Overview of branching as a way to develop features without affecting the main branch.
+- **Creating and Switching Branches**
+  - Creating a new branch (`git branch new-feature`).
+  - Switching branches (`git checkout new-feature` or `git switch new-feature`).
+- **Merging Branches**
+  - Merging changes into `main` (`git merge new-feature`).
+- **Pull Requests on GitHub**
+  - Opening a pull request (PR) and requesting code reviews.
+  - Merging a pull request.
+- **Best Practices for Collaboration**
+  - Writing meaningful commit messages.
+  - Keeping branches small and focused.
+
+## Introduction to CI/CD with GitHub Actions
+
+- **What is CI/CD?**
+  - Brief explanation of Continuous Integration (CI) and Continuous Deployment (CD).
+  - Why CI/CD is important for automation and DevOps.
+- **Introduction to GitHub Actions**
+  - Overview of how GitHub Actions can automate tasks like testing and deployment.
+  - Example of a simple GitHub Actions workflow (e.g., automatically running tests on push).
+- **Next Steps in Learning CI/CD**
+  - Link to more advanced resources for learning about CI/CD pipelines.
+
+
+## Summary
+
+- Recap of the importance of Git and GitHub in version control and DevOps.
+- Key takeaways:
+  - Git tracks changes, allowing for easy rollback and collaboration.
+  - GitHub provides a platform for sharing, reviewing, and deploying code.
+  - Branching and pull requests are essential for team collaboration.
+  - CI/CD automates workflows to improve efficiency and reliability.
+- Transition to the next chapter, which will dive deeper into DevOps tools and practices.
+
+
+## Exercise
+
+This exercise will help students apply what they have learned by walking through a real-world scenario.
+
+### Scenario
+
+You just joined a data science team at a company, and they use Git and GitHub for collaboration. Your manager has asked you to set up your GitHub account, clone the team's repository, and make your first contribution.
+
+### Tasks
+
+1. **Set Up Git and GitHub**
+   - Install Git on your machine.
+   - Create a GitHub account if you haven’t already.
+   - Configure Git with your name and email.
+
+2. **Work with a Git Repository**
+   - Create a new repository on GitHub.
+   - Clone the repository to your local machine.
+   - Add a new file (e.g., `hello_git.txt`), write a short message inside, and commit the changes.
+   - Push your changes to GitHub.
+
+3. **Branching and Pull Requests**
+   - Create a new branch called `feature-update`.
+   - Modify an existing file or add a new file.
+   - Commit and push the changes to the `feature-update` branch.
+   - Open a pull request on GitHub to merge your changes into `main`.
+   - Merge the pull request once approved.
+
+4. **Exploring GitHub Actions (Bonus Task)**
+   - Add a GitHub Actions workflow file that runs a simple Python test on every push.
+   - Observe the automated workflow execution.
+
+5. **Reflection Questions**
+   - Why is version control essential for collaborative coding?
+   - How does Git help manage different versions of a project?
+   - What are the benefits of using GitHub for collaboration?
+   - How does CI/CD improve software and model deployment?

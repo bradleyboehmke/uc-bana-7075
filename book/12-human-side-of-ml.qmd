@@ -1,0 +1,77 @@
+# The Human Side of ML Systems
+
+This chapter will focus on the **people, processes, and ethical considerations** involved in building and deploying machine learning models. The plan is to highlight **the human-centered challenges** that data scientists, ML engineers, and stakeholders face when operationalizing machine learning.
+
+::: {.callout-warning}
+This chapter is currently in development.
+:::
+
+## The Role of Humans in ML Systems
+
+- **Beyond the Algorithms**: How human decisions shape ML systems (from problem framing to deployment).
+- **Collaboration Between Teams**: ML is not just a data science problem; it requires alignment across data, engineering, business, and domain experts.
+- **Human-in-the-Loop Systems**: When human intervention is necessary (e.g., active learning, review of automated decisions).
+
+## Organizational Challenges in ML Adoption
+
+- **Cross-Functional Collaboration**: The role of product managers, engineers, and business leaders in ML projects.
+- **Barriers to ML Adoption**:
+  - Resistance to change within organizations.
+  - Lack of trust in ML-driven decision-making.
+  - The disconnect between technical teams and business teams.
+- **Scaling ML in an Organization**:
+  - Building an ML culture.
+  - How to set up an effective MLOps practice.
+
+## Interpretability, Explainability, and Trust in ML
+
+- **Why Interpretability Matters**:
+  - Stakeholder trust.
+  - Debugging and improving models.
+  - Regulatory requirements.
+- **Methods for Explainability**:
+  - SHAP, LIME, and feature importance techniques.
+  - How to communicate ML results to non-technical audiences.
+- **Challenges in Trusting ML Decisions**:
+  - Black-box models vs. interpretable models.
+  - Dealing with unexpected model behavior.
+
+## Bias, Fairness, and Ethical Considerations
+
+- **Sources of Bias in ML**:
+  - Bias in training data.
+  - Algorithmic bias in model predictions.
+- **Techniques for Mitigating Bias**:
+  - Fairness-aware ML methods.
+  - Techniques like re-weighting, adversarial debiasing, and bias audits.
+- **Regulations & Ethical Considerations**:
+  - GDPR, CCPA, and other data privacy regulations.
+  - Ethical considerations for deploying ML models in real-world settings.
+
+## Model Failures and Accountability
+
+- **Real-World Failures of ML**:
+  - Examples of when ML models led to significant issues (e.g., biased hiring algorithms, faulty healthcare models).
+- **Who is Accountable for Model Failures?**
+  - Role of data scientists, engineers, product managers, and legal teams.
+  - Building processes for accountability in ML projects.
+
+## The Future of Human-Machine Collaboration
+
+- **The Role of ML in Augmenting Human Decision-Making**:
+  - ML as a tool to assist rather than replace human judgment.
+  - Where automation should and shouldn’t be used.
+- **Ethical AI and Responsible AI Development**:
+  - Future trends in AI governance and regulation.
+  - How organizations can prepare for evolving standards.
+
+## Summary and Final Thoughts
+
+- Recap of the key human-centric challenges in ML.
+- Call to action for **responsible** and **collaborative** ML development.
+- **Further Reading & Resources**: Papers, books, and courses on responsible AI and ML interpretability.
+
+## Exercise
+
+Have students evaluate an ML system for bias, interpretability, or ethical concerns.
+

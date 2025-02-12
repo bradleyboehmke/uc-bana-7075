@@ -627,7 +627,7 @@ As machine learning models operate in real-world environments, they face evolvin
 
 #### Examples of Implementing Evidently
 
-This section provides an overview of how to use Evidently AI to track **feature drift**, **concept drift**, and **model performance drift**, ensuring our apple demand forecasting model remains accurate and reliable. Below, we demonstrate how to generate Evidently AI reports to assess different types of drift using artificially generated datasets.
+This section provides an overview of how to use Evidently AI to track **feature drift**, **concept drift**, and **model performance drift**, ensuring our apple demand forecasting model remains accurate and reliable.^[You can also refer to this notebook: [https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/model-drift-monitoring.ipynb](https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/model-drift-monitoring.ipynb)]  Below, we demonstrate how to generate Evidently AI reports to assess different types of drift using artificially generated datasets.
 
 ::: {.callout-note collapse="true"}
 ## Detecting Feature Drift
@@ -735,6 +735,15 @@ Evidently AI offers a robust framework for detecting and visualizing drift in ma
 #### Implementing Evidently into Our Pipeline
 
 TBD
+
+#### Visualizing Model Monitoring in Streamlit
+
+TBD
+
+#### Automating the Monitoring Pipeline
+
+TBD
+
 
 ### Setting Up Operational Monitoring with Prometheus and Grafana
 
