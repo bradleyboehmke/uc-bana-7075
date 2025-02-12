@@ -856,7 +856,7 @@ cd /path/to/model-deploy
 and run the following to build the Docker image:
 
 ```bash
-docker build -t model-deploy-app .
+docker-compose build --no-cache
 ```
 
 Now that your Docker image is built you can start the container with:
