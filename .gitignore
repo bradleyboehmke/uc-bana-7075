@@ -166,3 +166,6 @@ _book
 
 # Don't include recordings
 recordings/
+
+# Don't include syllabi
+*Syllabus*
