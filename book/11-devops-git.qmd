@@ -1,29 +1,90 @@
 # Introduction to Git and GitHub
 
-This chapter introduces Git and GitHub as foundational tools in the DevOps journey. Understanding version control and collaboration through Git and GitHub is essential for managing code, tracking changes, and enabling seamless teamwork. By the end of this chapter, students will:
-
-- Understand the purpose of Git and GitHub.
-- Set up Git on their local machine and create a GitHub account.
-- Learn basic Git commands to track changes, commit updates, and sync repositories.
-- Use branching, merging, and pull requests to collaborate effectively.
-- Gain an introductory understanding of CI/CD and how GitHub integrates with automated workflows.
-
 ::: {.callout-warning}
 This chapter is currently in development.
 :::
 
+Version control is an essential part of modern software development, enabling teams to collaborate efficiently, track changes, and manage codebases systematically. Git, a distributed version control system, has become the industry standard for tracking modifications and maintaining project history. GitHub, a cloud-based platform built around Git, enhances collaboration by providing a central repository for sharing, reviewing, and integrating code changes.
+
+This chapter introduces Git and GitHub as foundational tools in the DevOps journey. Understanding version control and collaboration through these tools is essential for managing code effectively and enabling seamless teamwork. Whether working independently or within a team, proficiency in Git and GitHub empowers developers to maintain project integrity, experiment with new features, and contribute to open-source projects.
+
+By the end of this chapter, you will:
+
+- Understand the purpose of Git and GitHub.
+- Set up Git on your local machine and create a GitHub account.
+- Learn basic Git commands to track changes, commit updates, and sync repositories.
+- Use branching, merging, and pull requests to collaborate effectively.
+- Gain an introductory understanding of CI/CD and how GitHub integrates with automated workflows.
+
+Through hands-on exercises and step-by-step guides, this chapter will equip you with the fundamental skills to manage source code efficiently and collaborate on projects with confidence.
+
+
+
 ## Introduction to Git and GitHub
 
-- **What is Version Control?**
-  - Explanation of why version control is necessary for managing code and collaboration.
-  - Examples of problems version control solves (e.g., tracking changes, avoiding overwritten files).
-- **What is Git?**
-  - Overview of Git as a distributed version control system.
-  - How Git differs from other version control systems (e.g., centralized vs. distributed).
-- **What is GitHub?**
-  - Explanation of GitHub as a remote repository hosting service.
-  - Comparison to alternatives like GitLab and Bitbucket.
-  - The role of GitHub in DevOps workflows (collaboration, code review, and automation).
+{{< video https://youtu.be/-5LWhGRObSM?si=9m6Xmlp2sNyx-rwm >}}
+
+
+### What is Version Control?
+
+Version control is a system that records changes to a file or set of files over time, allowing developers to track modifications, revert to previous versions, and collaborate seamlessly. It is essential for managing code in any software development process, preventing loss of work, and ensuring a structured workflow.
+
+```{mermaid}
+%%| fig-cap: "A version control system allows you and your teammates to work collaboratively, safely, and simultaneously on a single project. Version control helps you track all the code changes made in your project."
+%%| label: fig-data-versioning
+%%{init: {'gitGraph': {'mainBranchName': 'Main codebase'}} }%%
+
+gitGraph
+   commit id: "Version 1"
+   commit id: "Version 2"
+   branch "Your code"
+   commit id: "add new feature"
+   checkout "Main codebase"
+   commit id: "Version 3"
+   branch "Someone else's code"
+   checkout "Main codebase"
+   merge "Your code" id: "Version 4"
+   checkout "Someone else's code"
+   commit id: "another new feature"
+   checkout "Main codebase"
+   merge "Someone else's code" id: "Version 5"
+```
+
+Without version control, teams often encounter challenges such as overwritten files, difficulty tracking changes, and conflicts when multiple contributors work on the same codebase. For instance, in machine learning (ML) projects, version control is crucial for tracking changes to datasets, model configurations, and source code, enabling reproducibility and iterative improvements.
+
+### What is Git?
+
+[Git](https://git-scm.com/) is a distributed version control system (DVCS) designed to handle everything from small to very large projects efficiently. Unlike centralized version control systems, where a single server stores all versions of a project, Git enables every user to have a complete local copy of the repository. This makes Git robust in handling offline work, merging changes, and maintaining a reliable history of modifications.
+
+For ML systems, Git helps in maintaining different experiment branches, managing multiple versions of code, and integrating model versioning workflows. Developers and data scientists use Git to collaborate on research code, ensuring that experimental changes do not disrupt stable pipelines.
+
+### What is GitHub?
+
+[GitHub](https://github.com/) is a cloud-based platform that provides remote repository hosting and additional features for version control collaboration. It enhances Git's capabilities by offering tools for pull requests, issue tracking, and code review, making it a central hub for software development.
+
+While GitHub is one of the most popular Git hosting services, alternatives like GitLab and Bitbucket provide similar functionality with varying degrees of customization and integration options. In the context of DevOps and ML workflows, GitHub plays a key role in continuous integration/continuous deployment (CI/CD) pipelines, enabling automated testing, deployment, and monitoring of ML models in production environments. By using GitHub, ML engineers can streamline collaboration, ensure code quality, and integrate seamlessly with MLOps platforms.
+
+```{mermaid}
+%%| fig-align: "center"
+%%| fig-cap: "This illustrates the simple relationship between a local Git repository on a developer's computer and a remote GitHub repository hosted in the cloud. Git and Github work in tandem allow you to push and pull content between the two locations."
+architecture-beta
+    service github(cloud)[Github]
+    service git(disk)[Git on local computer]
+
+    git:T <--> B:github
+```
+
+### Using Git and GitHub Together
+
+Although Git and GitHub are separate tools, they are most commonly used together in modern software development. Git serves as the local version control system that tracks changes and manages branches, while GitHub acts as the remote hosting service that facilitates collaboration among multiple contributors. Developers use Git commands to manage their local repositories and push their changes to GitHub for storage, sharing, and team collaboration.
+
+::: {#fig-git-github}
+![](images/Gitvs_Github-1a-1.jpg)
+
+Git vs. Github
+:::
+
+For ML teams, this combination is particularly powerful. By using Git locally to track changes in data processing scripts, model training code, and experiment configurations, teams can ensure that their work is versioned and reproducible. GitHub then provides a centralized location where team members can review each other’s code, integrate improvements, and leverage automated workflows for model deployment and testing. The synergy between Git and GitHub makes them indispensable tools for both traditional software development and MLOps practices.
 
 
 ## Setting Up Git and GitHub
