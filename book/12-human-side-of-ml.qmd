@@ -1,7 +1,7 @@
 # The Human Side of ML Systems
 
 ::: {.callout-warning}
-This chapter is currently in development.
+Reading Time: 30-45 minutes
 :::
 
 Machine learning systems are often discussed in terms of algorithms, data pipelines, and infrastructure. However, behind every ML system are human decisions—decisions about what data to collect, how to frame a problem, which features to include, and how to evaluate success. The impact of these decisions extends far beyond technical performance; they influence trust, adoption, and the ethical implications of ML-driven systems.
