@@ -1,7 +1,7 @@
 # The Role of DevOps
 
-:::{.callout-warning}
-This chapter is currently in development.
+::: {.callout-warning}
+Reading Time: 15-25 minutes
 :::
 
 DevOps is a software development methodology that emphasizes the integration of development (**Dev**) and operations (**Ops**) teams to improve the efficiency, speed, and reliability of software delivery. It emerged in response to the traditional siloed approach, where developers focused solely on writing code while operations teams were responsible for deployment, monitoring, and maintenance. This separation often led to bottlenecks, slow deployment cycles, and inefficient incident resolution.
