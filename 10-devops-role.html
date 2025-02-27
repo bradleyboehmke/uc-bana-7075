@@ -267,13 +267,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction-to-devops" id="toc-introduction-to-devops" class="nav-link active" data-scroll-target="#introduction-to-devops"><span class="header-section-number">10.1</span> Introduction to DevOps</a></li>
-  <li><a href="#the-value-of-devops-in-machine-learning" id="toc-the-value-of-devops-in-machine-learning" class="nav-link" data-scroll-target="#the-value-of-devops-in-machine-learning"><span class="header-section-number">10.2</span> The Value of DevOps in Machine Learning</a></li>
+  <li><a href="#why-devops-matters-for-ml-systems" id="toc-why-devops-matters-for-ml-systems" class="nav-link active" data-scroll-target="#why-devops-matters-for-ml-systems"><span class="header-section-number">10.1</span> Why DevOps Matters for ML Systems</a></li>
+  <li><a href="#the-value-of-devops-in-ml-systems" id="toc-the-value-of-devops-in-ml-systems" class="nav-link" data-scroll-target="#the-value-of-devops-in-ml-systems"><span class="header-section-number">10.2</span> The Value of DevOps in ML Systems</a></li>
   <li><a href="#key-concepts-of-devops-for-ml" id="toc-key-concepts-of-devops-for-ml" class="nav-link" data-scroll-target="#key-concepts-of-devops-for-ml"><span class="header-section-number">10.3</span> Key Concepts of DevOps for ML</a></li>
   <li><a href="#challenges-in-devops-for-ml" id="toc-challenges-in-devops-for-ml" class="nav-link" data-scroll-target="#challenges-in-devops-for-ml"><span class="header-section-number">10.4</span> Challenges in DevOps for ML</a></li>
-  <li><a href="#common-tools-in-devops-for-ml" id="toc-common-tools-in-devops-for-ml" class="nav-link" data-scroll-target="#common-tools-in-devops-for-ml"><span class="header-section-number">10.5</span> Common Tools in DevOps for ML</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">10.6</span> Summary</a></li>
-  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">10.7</span> Exercise</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">10.5</span> Summary</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">10.6</span> Exercise</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/10-devops-role.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -299,7 +298,6 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This chapter introduces <strong>DevOps</strong> and its relevance to <strong>machine learning systems</strong>, emphasizing key concepts that <strong>data scientists</strong> and <strong>ML engineers</strong> should be aware of. The focus is on high-level principles rather than implementation details or code.</p>
 <div class="callout callout-style-simple callout-warning">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -310,142 +308,565 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<section id="introduction-to-devops" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="introduction-to-devops"><span class="header-section-number">10.1</span> Introduction to DevOps</h2>
-<ul>
-<li><strong>What is DevOps?</strong>
-<ul>
-<li>Origin and evolution of DevOps in software engineering.</li>
-<li>The goal of <strong>integrating development and operations</strong> to improve software delivery.</li>
-</ul></li>
-<li><strong>Why DevOps Matters for ML Systems?</strong>
-<ul>
-<li>Traditional ML workflows often lack automation, leading to inefficiencies.</li>
-<li>DevOps principles help <strong>streamline model deployment, management, and monitoring</strong>.</li>
-<li>How DevOps bridges the gap between ML models and real-world applications.</li>
-</ul></li>
-</ul>
+<p>DevOps is a software development methodology that emphasizes the integration of development (<strong>Dev</strong>) and operations (<strong>Ops</strong>) teams to improve the efficiency, speed, and reliability of software delivery. It emerged in response to the traditional siloed approach, where developers focused solely on writing code while operations teams were responsible for deployment, monitoring, and maintenance. This separation often led to bottlenecks, slow deployment cycles, and inefficient incident resolution.</p>
+<p>The goal of DevOps is to streamline the software development lifecycle through automation, collaboration, and continuous feedback loops. It leverages practices such as continuous integration/continuous deployment (CI/CD), infrastructure as code (IaC), automated testing, and monitoring to ensure rapid and reliable software releases.</p>
+<p>In the previous chapters, we explored how to build data pipelines, track and version datasets and models, and deploy and monitor models in simple scenarios. However, the role of DevOps is to simplify, standardize, automate, and scale these processes across an entire organization, ensuring robustness and efficiency at every stage.</p>
+<div class="callout callout-style-simple callout-important">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>DevOps concepts can be technologically complex, often requiring deep expertise in infrastructure, automation, and software engineering. However, most of the time, Software Engineering teams handle many of these implementations, or Data Scientists and ML Engineers work closely with them to integrate DevOps into ML workflows.</p>
+<p>While mastering all the technical details is not necessary, understanding the role of DevOps in ML is crucial for building reliable and scalable systems. The goal of this chapter is to help readers grasp why DevOps concepts matter and how they contribute to efficient and maintainable ML workflows rather than focusing on deep technical implementation.</p>
+</div>
+</div>
+</div>
+<section id="why-devops-matters-for-ml-systems" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="why-devops-matters-for-ml-systems"><span class="header-section-number">10.1</span> Why DevOps Matters for ML Systems</h2>
+<p>While DevOps has been widely adopted in traditional software engineering, its application to ML systems is still evolving. ML workflows introduce additional complexities beyond traditional software development, as they involve code, data, and models, each requiring careful versioning, validation, and deployment strategies.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Automating Workflows
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Many ML workflows involve manual steps in data preprocessing, model training, and deployment, leading to inefficiencies and errors. DevOps principles help automate these steps, reducing human intervention and increasing reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Enhancing Reliability and Stability
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Deploying ML models in production requires more than just wrapping a model in an API. It involves integrating the model into existing infrastructure, implementing automated monitoring to track performance, ensuring uptime, and managing rollback mechanisms and scalable infrastructure.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Accelerating Experimentation and Deployment
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The ability to quickly iterate on models, test changes, and deploy updates is crucial for ML teams. CI/CD pipelines designed for ML enable teams to push models into production efficiently without compromising stability.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Bridging the Gap Between ML and Production Systems
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Many ML projects struggle to transition from proof-of-concept to production due to operational challenges. DevOps provides structured and standardized deployment processes, ensuring that models are not only trained but also continuously monitored and updated as needed.</p>
+</div>
+</div>
+</div>
 </section>
-<section id="the-value-of-devops-in-machine-learning" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="the-value-of-devops-in-machine-learning"><span class="header-section-number">10.2</span> The Value of DevOps in Machine Learning</h2>
-<ul>
-<li><strong>Automating Code &amp; Model Updates</strong>
-<ul>
-<li>Ensuring smooth updates to models without disrupting production.</li>
-<li>How continuous integration/continuous deployment (<strong>CI/CD</strong>) helps in ML workflows.</li>
-</ul></li>
-<li><strong>Improving Reliability &amp; Stability</strong>
-<ul>
-<li>Reducing downtime through <strong>automated rollback and failover strategies</strong>.</li>
-<li>Ensuring <strong>scalability and flexibility</strong> in ML model serving.</li>
-</ul></li>
-<li><strong>Accelerating Model Deployment &amp; Iteration</strong>
-<ul>
-<li>Faster experimentation with <strong>automated testing and validation</strong>.</li>
-<li>Deploying models efficiently while maintaining <strong>consistency across environments</strong>.</li>
-</ul></li>
-</ul>
+<section id="the-value-of-devops-in-ml-systems" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="the-value-of-devops-in-ml-systems"><span class="header-section-number">10.2</span> The Value of DevOps in ML Systems</h2>
+<p>DevOps plays a crucial role in ensuring that ML systems are not just successfully developed but also efficiently deployed, maintained, and updated in production environments. By leveraging automation, scalability, and streamlined workflows, DevOps principles help data science teams focus on innovation while ensuring model reliability and performance in real-world applications. These principles directly support key ML system design principles such as reproducibility, automation, scalability, and maintainability, which were discussed in <a href="01-intro-ml-system.html#sec-design-principles" class="quarto-xref">Section&nbsp;<span>1.3</span></a>.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Automating Code &amp; Model Updates
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Automation is a core tenet of effective ML system design. One of the most significant challenges in ML workflows is keeping models up to date without causing disruptions. DevOps enables seamless automation of code and model updates through CI/CD pipelines, allowing teams to continuously integrate new data, retrain models, and deploy updated versions with minimal manual intervention. This ensures that models remain relevant and perform optimally as data evolves while maintaining reproducibility and consistency across environments.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Improving Reliability &amp; Stability
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Ensuring model reliability aligns with the principle of maintainability in ML system design. ML models in production need to be robust and resilient to changing conditions. DevOps practices such as automated rollback mechanisms, failover strategies, and proactive monitoring help mitigate risks associated with model degradation and system failures. By implementing scalable and flexible model-serving architectures, organizations can ensure high availability and consistent performance, even under fluctuating workloads, supporting the principle of scalability and ensuring system longevity.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Accelerating Model Deployment &amp; Iteration
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Speed and agility in ML development tie directly to the principle of automation and scalability. DevOps facilitates rapid experimentation by streamlining the deployment process. Automated testing and validation frameworks ensure that models meet performance criteria before being pushed to production, reducing the risk of deploying underperforming models. Additionally, DevOps enables consistency across environments, allowing models to be deployed efficiently across cloud, edge, or on-premise infrastructures, ensuring the system remains scalable and adaptable to various operational needs.</p>
+</div>
+</div>
+</div>
+<p>Integrating DevOps into ML workflows enhances the efficiency, scalability, and reliability of ML systems. By automating workflows, improving reliability, and standardizing deployment processes, organizations can effectively operationalize ML models and derive real business value from their ML investments.</p>
 </section>
 <section id="key-concepts-of-devops-for-ml" class="level2" data-number="10.3">
 <h2 data-number="10.3" class="anchored" data-anchor-id="key-concepts-of-devops-for-ml"><span class="header-section-number">10.3</span> Key Concepts of DevOps for ML</h2>
+<p>Understanding how DevOps fits into ML systems requires understanding key concepts that support automation, scalability, and collaboration across teams. These concepts help ensure that ML systems are efficiently trained, tested, deployed, and maintained in production environments.</p>
+<p>To measure the effectiveness of DevOps in ML systems, organizations rely on four key software delivery metrics<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 38%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>DevOps Definition</th>
+<th>Relation to ML Systems</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Deployment Frequency</strong></td>
+<td>How often does your organization deploy code to production or release it to end-users?</td>
+<td>In ML systems, the frequency of deployment often depends on:<br><br>1. Model retraining requirements, which can range from less frequent retraining for batch processes to constant “always on” retraining for online systems. Two aspects are crucial for model retraining<br> (a) <strong>New data availability</strong>. Preferrably we want to retrain data as soon as new data is available to retrain on.<br> (b) <strong>Model decay</strong>. Typically we want to retrain a model as soon as we identify a decay in the model performance. <br><br>2. The level of automation of the deployment process, which might range between manual deployment and fully automated CI/CD pipeline.</td>
+</tr>
+<tr class="even">
+<td><strong>Lead Time for Changes</strong></td>
+<td>How long does it take to go from code committed to code successfully running in production?</td>
+<td>The <em>Lead Time for Changes</em> in an ML system depends on:<br>(1) Duration of the explorative phase in Data Science in order to finalize the ML model for deployment/serving.<br>(2) Duration of the ML model training.<br>(3) The number and duration of manual steps during the deployment process.</td>
+</tr>
+<tr class="odd">
+<td><strong>Change Failure Rate</strong></td>
+<td>What percentage of changes to production or released to users result in degraded service (e.g., lead to service impairment or service outage) and subsequently require remediation (e.g., require a hotfix, rollback, fix forward, patch)?</td>
+<td>In ML systems, <em>Change Failure Rate</em> are often driven by three components of the system:<br> (1) <strong>Infrastructure failure</strong>: Infrastructure failures contribute to a high change failure rate if new deployments or updates cause system instability, unexpected resource constraints, or networking issues.<br>(2) <strong>Model performance</strong>: If an ML model deployed in production exhibits performance degradation (e.g., increased error rates, drift, or bias introduction), it may require immediate rollback or remediation.<br>(3) <strong>Data pipeline failure</strong>: Data pipeline failures can introduce corrupted, missing, or incorrect data, leading to failed model training or degraded predictions in production.</td>
+</tr>
+<tr class="even">
+<td><strong>Mean Time to Recovery (MTTR)</strong></td>
+<td>How long does it generally take to restore service when a service incident or a defect that impacts users occurs (e.g., unplanned outage or service impairment)?</td>
+<td>In an ML system <em>Model MTTR</em> depends on the number and duration of manually performed debugging and deployment steps involved in the data pipeline and the model retraining, versioning, deployment, and monitoring pipelines.</td>
+</tr>
+</tbody>
+</table>
+<p>These metrics serve as benchmarks for improving DevOps practices and ensuring that ML systems are continuously delivering value with high reliability and efficiency. And these metrics are what drive the following key DevOps concepts:</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+CI/CD Pipelines for ML Models
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>CI/CD pipelines in ML automate the training, testing, and deployment of models, ensuring reproducibility and consistency across different environments. Unlike traditional software CI/CD, MLOps-specific CI/CD includes additional steps such as data validation, feature engineering, model retraining, and evaluation before deployment.</p>
 <ul>
-<li><strong>CI/CD Pipelines for ML Models</strong>
+<li><p>These pipelines help streamline workflows across various ML system processes, including:</p>
 <ul>
-<li>Automating the <strong>training, testing, and deployment</strong> of ML models.</li>
-<li>Differences between traditional software CI/CD and <strong>MLOps-specific CI/CD</strong>.</li>
+<li><strong>Data Ingestion &amp; Processing</strong>: Automating data extraction, transformation, and validation before feeding into model training.</li>
+<li><strong>Model Training &amp; Evaluation</strong>: Triggering training jobs when new data is available, followed by validation tests to check for performance regressions or drift.</li>
+<li><strong>Model Deployment &amp; Serving</strong>: Ensuring smooth transitions from development to production with robust version control and rollback mechanisms.</li>
+<li><strong>Continuous Monitoring &amp; Feedback Loops</strong>: Monitoring performance metrics and triggering model retraining when needed.</li>
 </ul></li>
-<li><strong>Automated Testing &amp; Validation</strong>
+<li><p><strong>Impact on Metrics</strong>: By implementing CI/CD, ML teams can increase Deployment Frequency while reducing Lead Time for Changes and Change Failure Rate, leading to a more efficient transition from model development to production.</p></li>
+<li><p><strong>Common Tools</strong>: <a href="https://www.kubeflow.org/docs/components/pipelines/">Kubeflow Pipelines</a>, <a href="https://mlflow.org/">MLflow</a>, <a href="https://www.tensorflow.org/tfx">TFX</a>, <a href="https://github.com/features/actions">GitHub Actions</a>, <a href="https://docs.gitlab.com/ee/ci/">GitLab CI/CD</a>, <a href="https://www.jenkins.io/">Jenkins</a></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Automated Testing &amp; Validation
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Automated testing and validation are crucial in ensuring the reliability and accuracy of ML models throughout their lifecycle. These processes help detect issues early, prevent performance degradation, and streamline deployment. </p>
+<ul>
+<li><p><strong>Where it fits in ML systems:</strong></p>
+<ul>
+<li><strong>Data Validation &amp; Preprocessing</strong>: Ensuring that incoming data is consistent with expected formats and distributions.</li>
+<li><strong>Feature Engineering</strong>: Verifying transformations and engineered features maintain integrity across training and inference environments.</li>
+<li><strong>Model Training &amp; Evaluation</strong>: Running automated checks to compare model versions and detect regression in performance.</li>
+<li><strong>Deployment &amp; Monitoring</strong>: Implementing continuous validation to detect drift, bias, or concept changes in production.</li>
+</ul></li>
+<li><p><strong>Types of automated testing:</strong></p>
 <ul>
 <li><strong>Unit tests</strong> for data preprocessing and feature engineering.</li>
-<li><strong>Model validation tests</strong> (e.g., checking for performance degradation).</li>
+<li><strong>Model validation tests</strong> to detect performance degradation and drift.</li>
 </ul></li>
-<li><strong>Compute Resource Management</strong>
+<li><p><strong>Impact on Metrics</strong>: Lowers Change Failure Rate by catching errors before production deployment.</p></li>
+<li><p><strong>Common Tools</strong>: <a href="https://docs.pytest.org/en/latest/">pytest</a>, <a href="https://greatexpectations.io/">Great Expectations</a>, <a href="https://deepchecks.com/">Deepchecks</a>, <a href="https://www.tensorflow.org/tfx/guide/tfma">TensorFlow Model Analysis</a></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Compute Resource Management
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Compute resource management is essential for optimizing the efficiency and scalability of ML workflows. ML models often require significant computational power for training and inference, and ensuring these resources are managed effectively is critical for cost efficiency and performance.</p>
 <ul>
-<li><strong>On-demand compute scaling</strong> (e.g., GPUs, TPUs, cloud VMs).</li>
-<li>Optimizing training and inference workloads in <strong>Kubernetes and serverless environments</strong>.</li>
+<li><p><strong>Where it fits in ML systems:</strong></p>
+<ul>
+<li><strong>Model Training:</strong> Allocating appropriate GPU, TPU, or cloud VM instances to optimize training speed without over-provisioning.</li>
+<li><strong>Model Inference:</strong> Ensuring inference workloads scale dynamically based on demand, particularly in real-time or batch-processing environments.</li>
+<li><strong>Resource Optimization:</strong> Using Kubernetes and serverless architectures to allocate resources only when needed, reducing idle compute costs.</li>
 </ul></li>
-<li><strong>Storage Solutions for ML</strong>
+<li><p><strong>Impact on Metrics:</strong></p>
 <ul>
-<li><strong>Balancing cost, speed, and accessibility</strong> (e.g., object storage vs.&nbsp;relational databases).</li>
-<li>Versioning <strong>datasets, models, and metadata</strong> for reproducibility.</li>
+<li><strong>Reduces Mean Time to Recovery (MTTR)</strong> by ensuring fast resource allocation and failure recovery.</li>
+<li><strong>Improves Deployment Frequency</strong> by enabling automated provisioning and scaling for training and deployment workflows.</li>
 </ul></li>
-<li><strong>Networking &amp; Security Considerations</strong>
+<li><p><strong>Common Tools:</strong></p>
 <ul>
-<li>Securing <strong>API endpoints</strong> for model inference.</li>
-<li>Encryption &amp; compliance considerations (e.g., <strong>GDPR, HIPAA</strong>).</li>
-</ul></li>
-<li><strong>Cross-Team Collaboration</strong>
-<ul>
-<li>Encouraging <strong>collaboration between data science, engineering, and operations</strong>.</li>
-<li>Role of <strong>platform teams</strong> in supporting scalable ML infrastructure.</li>
+<li><a href="https://kubernetes.io/">Kubernetes</a> – Orchestration for containerized workloads.</li>
+<li><a href="https://www.ray.io/">Ray</a> – Distributed computing for ML workloads.</li>
+<li><a href="https://aws.amazon.com/sagemaker/">AWS SageMaker</a> – Managed ML model training and deployment.</li>
+<li><a href="https://cloud.google.com/vertex-ai">Vertex AI</a> – Google Cloud’s ML platform for scalable training and deployment.</li>
+<li><a href="https://spark.apache.org/">Apache Spark</a> – Distributed computing framework for big data processing and ML.</li>
 </ul></li>
 </ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Storage Solutions for ML
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Storage solutions in ML are crucial for managing the vast amounts of data and model artifacts efficiently. They ensure that data remains accessible, cost-effective, and scalable across different ML system components.</p>
+<ul>
+<li><p><strong>Where it fits in ML systems:</strong></p>
+<ul>
+<li><strong>Data Ingestion &amp; Processing:</strong> Storing raw and processed datasets in accessible and scalable formats.</li>
+<li><strong>Model Training:</strong> Providing fast access to training datasets while ensuring version control.</li>
+<li><strong>Model Deployment &amp; Serving:</strong> Storing model artifacts and ensuring efficient retrieval for inference.</li>
+<li><strong>Reproducibility &amp; Experimentation:</strong> Enabling dataset and model versioning to track changes over time.</li>
+</ul></li>
+<li><p><strong>Impact on Metrics:</strong></p>
+<ul>
+<li><strong>Enhances Deployment Frequency</strong> by providing quick access to reliable data and models.</li>
+<li><strong>Reduces Mean Time to Recovery (MTTR)</strong> by ensuring efficient storage retrieval and minimizing downtime in case of failures.</li>
+</ul></li>
+<li><p><strong>Common Tools:</strong></p>
+<ul>
+<li><a href="https://dvc.org/">DVC</a> – Data versioning and storage management.</li>
+<li><a href="https://www.pachyderm.com/">Pachyderm</a> – Data lineage tracking and version control.</li>
+<li><a href="https://min.io/">MinIO</a> – High-performance object storage for ML workloads.</li>
+<li><a href="https://aws.amazon.com/s3/">Amazon S3</a> – Scalable cloud object storage.</li>
+<li><a href="https://cloud.google.com/bigquery">Google BigQuery</a> – Managed data warehouse for ML analytics.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Networking &amp; Security Considerations
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Networking and security considerations are critical to ensuring the reliability, compliance, and safety of ML workflows. ML models often operate in environments that require secure data handling, model integrity, and controlled access to prevent unauthorized use or attacks.</p>
+<ul>
+<li><p><strong>Where it fits in ML systems:</strong></p>
+<ul>
+<li><strong>Model Deployment &amp; Serving:</strong> Ensuring APIs for model inference are protected from unauthorized access and adversarial attacks.</li>
+<li><strong>Data Privacy &amp; Compliance:</strong> Encrypting sensitive data and enforcing access control to comply with GDPR, HIPAA, and other regulations.</li>
+<li><strong>Infrastructure Security:</strong> Securing cloud and on-premise environments where ML models and data are stored and processed.</li>
+<li><strong>Monitoring &amp; Threat Detection:</strong> Implementing logging, anomaly detection, and automated alerts to mitigate potential security threats.</li>
+</ul></li>
+<li><p><strong>Impact on Metrics:</strong></p>
+<ul>
+<li><strong>Lowers Change Failure Rate</strong> by reducing vulnerabilities that could lead to breaches or unauthorized access.</li>
+<li><strong>Reduces Mean Time to Recovery (MTTR)</strong> by enabling rapid detection and remediation of security incidents.</li>
+</ul></li>
+<li><p><strong>Common Tools:</strong></p>
+<ul>
+<li><a href="https://istio.io/">Istio</a> – Service mesh for securing and managing ML microservices.</li>
+<li><a href="https://www.vaultproject.io/">HashiCorp Vault</a> – Secrets management for securing API keys and credentials.</li>
+<li><a href="https://aws.amazon.com/iam/">AWS IAM</a> – Identity and access management for cloud-based ML systems.</li>
+<li><a href="https://azure.microsoft.com/en-us/products/key-vault/">Azure Key Vault</a> – Secure storage of cryptographic keys and secrets.</li>
+<li><a href="https://cloud.google.com/security-command-center">Google Cloud Security Command Center</a> – Centralized security management for cloud-hosted ML workflows.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Cross-Team Collaboration
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Collaboration is a fundamental aspect of MLOps, ensuring that data scientists, ML engineers, and operations teams work efficiently to deliver and maintain high-quality ML models in production. By fostering strong communication and shared workflows, teams can prevent bottlenecks and improve deployment reliability.</p>
+<ul>
+<li><p><strong>Where it fits in ML systems:</strong></p>
+<ul>
+<li><strong>Model Development &amp; Experimentation:</strong> Enabling knowledge sharing between data scientists and engineers to ensure scalable and production-ready models.</li>
+<li><strong>CI/CD &amp; Deployment:</strong> Creating standardized workflows for continuous integration and deployment across multiple environments.</li>
+<li><strong>Monitoring &amp; Maintenance:</strong> Establishing cross-functional feedback loops to ensure model performance and system health over time.</li>
+<li><strong>Governance &amp; Compliance:</strong> Ensuring that all teams align on ethical AI, regulatory requirements, and operational best practices.</li>
+</ul></li>
+<li><p><strong>Impact on Metrics:</strong></p>
+<ul>
+<li><strong>Reduces Lead Time for Changes</strong> by improving coordination and efficiency across teams.</li>
+<li><strong>Enhances Deployment Frequency</strong> by standardizing collaboration workflows and preventing bottlenecks.</li>
+</ul></li>
+<li><p><strong>Impact on Metrics</strong>: Reduces Lead Time for Changes by improving coordination and efficiency across teams.</p></li>
+<li><p><strong>Common Tools:</strong></p>
+<ul>
+<li><a href="https://slack.com/">Slack</a> – Real-time team communication and collaboration.</li>
+<li><a href="https://www.atlassian.com/software/jira">Jira</a> – Project management for tracking ML experiments and deployments.</li>
+<li><a href="https://www.atlassian.com/software/confluence">Confluence</a> – Documentation and knowledge-sharing platform.</li>
+<li><a href="https://github.com/">GitHub</a> – Version control for managing code, models, and data.</li>
+<li><a href="https://github.com/features/project-management">GitHub Projects</a> – Task and workflow management for ML teams.</li>
+<li><a href="https://azure.microsoft.com/en-us/products/devops/">Azure DevOps</a> – CI/CD and version control integration for scalable MLOps workflows.</li>
+</ul></li>
+</ul>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Git and GitHub are especially crucial in MLOps, as they enable versioning of ML code, datasets, and models, ensuring reproducibility and collaboration. The next chapter will provide a deeper dive into Git and GitHub, covering best practices for managing ML projects effectively. </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="challenges-in-devops-for-ml" class="level2" data-number="10.4">
 <h2 data-number="10.4" class="anchored" data-anchor-id="challenges-in-devops-for-ml"><span class="header-section-number">10.4</span> Challenges in DevOps for ML</h2>
+<p>While DevOps practices have greatly improved software development and deployment, applying these principles to ML systems presents unique challenges. These challenges arise due to the dynamic nature of ML workflows, dependencies on data, and the interdisciplinary collaboration required to maintain production-ready ML systems. Below are some key challenges organizations face when implementing DevOps in ML.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Complexity in Automating ML Pipelines
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ul>
-<li><strong>Complexity in Automating ML Pipelines</strong>
-<ul>
-<li>ML workflows involve <strong>data, models, and code</strong>—making automation more difficult.</li>
-</ul></li>
-<li><strong>Infrastructure Cost &amp; Resource Allocation</strong>
-<ul>
-<li>Balancing <strong>cost-effectiveness</strong> vs.&nbsp;performance when deploying at scale.</li>
-</ul></li>
-<li><strong>Ensuring Reproducibility in Model Deployment</strong>
-<ul>
-<li>Challenges in <strong>versioning models and data</strong> effectively.</li>
-</ul></li>
-<li><strong>Security &amp; Compliance</strong>
-<ul>
-<li><strong>Data privacy</strong> risks and securing access to ML models.</li>
-</ul></li>
-<li><strong>Interdisciplinary Communication Barriers</strong>
-<ul>
-<li><strong>DevOps vs.&nbsp;Data Science teams</strong>: Aligning priorities for smoother collaboration.</li>
-</ul></li>
+<li><p><strong>Importance</strong>: Automation in ML pipelines is crucial for ensuring reproducibility, scalability, and efficiency. A well-automated ML pipeline enables seamless transitions between data ingestion, preprocessing, model training, validation, and deployment. It reduces human intervention, minimizes errors, and accelerates time-to-production.</p></li>
+<li><p><strong>Challenge:</strong> Unlike traditional software, ML workflows involve complex dependencies between code, data, and models. Managing these dependencies while ensuring automation across different ML frameworks and infrastructure environments can be difficult. Additionally, handling data drift and model degradation over time adds another layer of complexity.</p></li>
+<li><p><strong>Recommendation:</strong> Organizations should invest in robust pipeline orchestration tools such as <a href="https://www.kubeflow.org/">Kubeflow</a> or <a href="https://airflow.apache.org/">Apache Airflow</a> to manage dependencies and automate end-to-end ML workflows. Implementing automated data validation and model monitoring solutions will help detect drift and trigger retraining when necessary.</p></li>
 </ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Infrastructure Cost &amp; Resource Allocation
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><strong>Importance:</strong> ML workloads require substantial computational resources, often relying on GPUs and TPUs for training and inference. Managing infrastructure efficiently ensures that organizations can scale their ML initiatives while maintaining cost-effectiveness.</p></li>
+<li><p><strong>Challenge:</strong> Balancing cost and performance when deploying at scale is challenging. Over-provisioning leads to wasted resources and increased costs, while under-provisioning can degrade model performance and slow down inference or training jobs.</p></li>
+<li><p><strong>Recommendation:</strong> Organizations should leverage cloud-based solutions with auto-scaling capabilities, such as <a href="https://aws.amazon.com/sagemaker/">AWS SageMaker</a> and <a href="https://cloud.google.com/vertex-ai">Google Vertex AI</a>. Using serverless computing and spot instances can further optimize costs while ensuring workload efficiency.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ensuring Reproducibility in Model Deployment
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><strong>Importance:</strong> Reproducibility is a cornerstone of reliable ML systems. It ensures that models can be trained, tested, and deployed consistently across different environments, reducing the risk of unexpected performance discrepancies.</p></li>
+<li><p><strong>Challenge:</strong> Versioning datasets, models, and configurations effectively is difficult due to the dynamic nature of ML workflows. Changes in data distribution, feature engineering, and hyperparameter tuning can result in different model outputs, making it hard to replicate results.</p></li>
+<li><p><strong>Recommendation:</strong> Adopting model and data versioning tools such as <a href="https://dvc.org/">DVC</a> and <a href="https://mlflow.org/">MLflow</a> helps maintain a trackable history of datasets, models, and experiments. Implementing standardized experiment tracking ensures transparency and consistency across teams.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Security &amp; Compliance
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><strong>Importance:</strong> ML systems often process sensitive data, making security and compliance critical to maintaining trust and meeting regulatory requirements. Secure access to models and data prevents unauthorized usage and potential adversarial attacks.</p></li>
+<li><p><strong>Challenge:</strong> Ensuring compliance with industry regulations like <strong>GDPR</strong> and <strong>HIPAA</strong> while maintaining strong access controls and encryption mechanisms is a significant challenge. ML models can also be vulnerable to data poisoning and adversarial attacks.</p></li>
+<li><p><strong>Recommendation:</strong> Organizations should implement role-based access controls (RBAC) using tools like <a href="https://aws.amazon.com/iam/">AWS IAM</a> or <a href="https://azure.microsoft.com/en-us/products/key-vault/">Azure Key Vault</a>. Encrypting data in transit and at rest and adopting secure API management solutions like <a href="https://istio.io/">Istio</a> can enhance security.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interdisciplinary Communication Barriers
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><strong>Importance:</strong> Successful MLOps relies on seamless collaboration between data scientists, ML engineers, software developers, and IT operations. Effective communication ensures that models move efficiently from research to production.</p></li>
+<li><p><strong>Challenge:</strong> Misalignment between DevOps and data science teams can lead to inefficiencies. Data scientists may prioritize experimentation, whereas DevOps teams focus on scalability, security, and stability. This difference in priorities often results in delays and inconsistencies in ML deployment.</p></li>
+<li><p><strong>Recommendation:</strong> Organizations should establish clear workflows and shared responsibilities by implementing collaboration platforms such as <a href="https://github.com/">GitHub</a> and <a href="https://azure.microsoft.com/en-us/products/devops/">Azure DevOps</a>. Encouraging cross-functional meetings and using tools like <a href="https://www.atlassian.com/software/confluence">Confluence</a> for documentation can foster better alignment.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Standardizing DevOps Practices Across an Enterprise
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><strong>Importance:</strong> A standardized approach to MLOps ensures consistency, scalability, and efficiency across different teams and projects. Establishing uniform DevOps practices prevents fragmentation and reduces redundant efforts.</p></li>
+<li><p><strong>Challenge:</strong> Many organizations struggle to create unified DevOps frameworks for ML, leading to inconsistent workflows and infrastructure sprawl. Without standardization, different teams may use different tools and methodologies, making scaling and governance difficult.</p></li>
+<li><p><strong>Recommendation:</strong> Organizations should define enterprise-wide MLOps best practices and enforce them using Infrastructure as Code (IaC) tools like <a href="https://www.terraform.io/">Terraform</a> or <a href="https://www.pulumi.com/">Pulumi</a>. Establishing centralized ML platforms and CI/CD pipelines ensures governance while maintaining flexibility for innovation.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<p>By addressing these challenges with structured DevOps strategies, organizations can build scalable, secure, and efficient ML workflows. Investing in automation, collaboration, and standardization will ultimately drive the success of ML initiatives in production environments.</p>
 </section>
-<section id="common-tools-in-devops-for-ml" class="level2" data-number="10.5">
-<h2 data-number="10.5" class="anchored" data-anchor-id="common-tools-in-devops-for-ml"><span class="header-section-number">10.5</span> Common Tools in DevOps for ML</h2>
+<section id="summary" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">10.5</span> Summary</h2>
+<p>This chapter explored how DevOps principles enhance ML workflows by integrating <strong>automation, scalability, and collaboration</strong> into model development and deployment. By applying CI/CD, infrastructure as code, and monitoring, organizations can improve ML system reliability, streamline model updates, and ensure reproducibility.</p>
+<p>Key takeaways include:</p>
 <ul>
-<li><strong>CI/CD for ML</strong>: GitHub Actions, GitLab CI, Jenkins, Kubeflow Pipelines</li>
-<li><strong>Infrastructure as Code (IaC)</strong>: Terraform, AWS CloudFormation</li>
-<li><strong>Containerization &amp; Orchestration</strong>: Docker, Kubernetes, ArgoCD</li>
-<li><strong>Model Management</strong>: MLflow, Seldon, BentoML</li>
-<li><strong>Monitoring &amp; Logging</strong>: Prometheus, Grafana, Evidently AI</li>
+<li><strong>Automation</strong> reduces errors and accelerates deployment cycles.</li>
+<li><strong>Scalability</strong> ensures optimal resource utilization and cost efficiency.</li>
+<li><strong>Collaboration</strong> bridges the gap between data scientists, ML engineers, and DevOps teams.</li>
 </ul>
+<p>By implementing these principles, ML teams can increase deployment frequency, reduce downtime, and improve maintainability.</p>
+<p>The next chapter introduces <strong>Git and GitHub</strong>, essential tools for version control in MLOps as it provides:</p>
+<ul>
+<li><strong>Tracking ML code, datasets, and models</strong> for reproducibility.</li>
+<li><strong>Collaborative workflows</strong> for managing team-based ML projects.</li>
+<li><strong>GitHub Actions for CI/CD</strong>, automating testing and deployment.</li>
+</ul>
+<p>Mastering Git and GitHub will help teams integrate DevOps best practices into their ML workflows for scalable and production-ready systems.</p>
 </section>
-<section id="summary" class="level2" data-number="10.6">
-<h2 data-number="10.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">10.6</span> Summary</h2>
-<ul>
-<li>Recap of DevOps principles applied to ML workflows.</li>
-<li>How <strong>automation, scalability, and collaboration</strong> enhance ML system reliability.</li>
-<li>Introduction to the next steps: Learning how to use Git and GitHub to integrate DevOps principles into MLOps workflows.</li>
-</ul>
-</section>
-<section id="exercise" class="level2" data-number="10.7">
-<h2 data-number="10.7" class="anchored" data-anchor-id="exercise"><span class="header-section-number">10.7</span> Exercise</h2>
-<p>The exercise should encourage readers to <strong>reflect</strong> on DevOps concepts in an ML context. It should be <strong>conceptual</strong> rather than technical.</p>
-<p><strong>Part 1: Conceptual Design</strong></p>
-<ul>
-<li>Imagine you are part of a <strong>DevOps team</strong> deploying an ML model for fraud detection.</li>
-<li>Outline a <strong>DevOps strategy</strong> to ensure smooth deployment, monitoring, and scaling.</li>
-<li>Consider:
-<ul>
-<li><strong>CI/CD approach</strong> for deploying new models.</li>
-<li><strong>How you would automate model testing and validation</strong>.</li>
-<li><strong>What infrastructure (compute/storage) choices you’d make</strong>.</li>
-</ul></li>
-</ul>
-<p><strong>Part 2: Discussion Questions</strong></p>
+<section id="exercise" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="exercise"><span class="header-section-number">10.6</span> Exercise</h2>
+<p>Read the paper <a href="https://proceedings.neurips.cc/paper_files/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf">Hidden Technical Debt in Machine Learning Systems</a> and analyze how DevOps principles align with the key discussion points made in the paper. Consider the following questions:</p>
 <ol type="1">
-<li><strong>How would you ensure that your model deployment process is both efficient and secure?</strong></li>
-<li><strong>What challenges might arise when managing compute resources for an ML model that requires GPUs?</strong></li>
-<li><strong>How does DevOps differ when applied to ML models versus traditional software?</strong></li>
+<li>How does the concept of technical debt in ML relate to the need for automation in DevOps?</li>
+<li>What aspects of DevOps help mitigate system entropy and hidden dependencies as described in thepaper?</li>
+<li>How can DevOps practices address reproducibility challenges and data dependencies in ML workflows?</li>
+<li>What role does continuous monitoring play in managing feedback loops and ensuring system stability?</li>
 </ol>
 
 
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>As outlined in Google’s 2019 State of DevOps Report: <a href="https://services.google.com/fh/files/misc/state-of-devops-2019.pdf">https://services.google.com/fh/files/misc/state-of-devops-2019.pdf</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
