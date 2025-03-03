@@ -163,7 +163,7 @@ This class is targeted towards:
 You don't need to be a strong programmer [but]{style="color:red;"} there is plenty of...
 
 - code demonstrating implementation of MLOps concepts
-- exercises/assignments that require hands-on work
+- exercises, assignments, and a final project that require hands-on work
 
 . . .
 
@@ -192,6 +192,10 @@ Python primer: [https://bradleyboehmke.github.io/uc-bana-6043](https://bradleybo
 
 :::
 
+::: {style="text-align: center; margin-top: 1em"}
+[The class material & structure are new and maturing. Will be looking for constructive feedback.]{style="text-align: center; color:blue;"}
+:::
+
 :::footer
 Book: [https://bradleyboehmke.github.io/uc-bana-7075/](https://bradleyboehmke.github.io/uc-bana-7075/)
 :::
@@ -204,7 +208,7 @@ Book: [https://bradleyboehmke.github.io/uc-bana-7075/](https://bradleyboehmke.gi
     - Overview of that week's readings & discussions.
     - Try preview readings before class to help drive discussion.
 - **Thursdays**:
-    - Engage in interactive exercises and case studies, or...
+    - Engage in interactive exercises, case studies, guest speakers, or...
     - Work with group on project work.
 - **Virtual**:
     - Complete reading quizzes.
@@ -219,9 +223,9 @@ Book: [https://bradleyboehmke.github.io/uc-bana-7075/](https://bradleyboehmke.gi
 - **Reading Quizzes**: 20%
 - **Engagement**: 20% (interactive exercises & discussion forums)
 - **Project**: 60%
-   - Proposal (15%)
-   - Prototype (15%)
-   - Final demo & report (30%)
+   - Proposal
+   - Prototype
+   - Final demo & report
 
 ## Course Project Details {.smaller}
 
@@ -233,10 +237,10 @@ Book: [https://bradleyboehmke.github.io/uc-bana-7075/](https://bradleyboehmke.gi
 - **Milestones**: Regular checkpoints to ensure progress and provide feedback.
    - Week 1: Review final project details
    - Week 2: Project groups finalized
-   - Week 3: Spring break 🏖️
-   - Week 4: Project proposals due
-   - Week 6: Project MVP due
-   - Week 8: Project demo & report due
+   - Week X: Spring break 🏖️
+   - Week 3: Project proposals due
+   - Week 5: Project MVP due
+   - Week 7: Project demo & report due
 
 :::footer
 *Further information and details listed in the Final Project Outline on Canvas .*
@@ -244,16 +248,22 @@ Book: [https://bradleyboehmke.github.io/uc-bana-7075/](https://bradleyboehmke.gi
 
 ## What the Future Holds {.smaller}
 
+::: {style="font-size: 85%;"}
+
+<br>
+
 | Week | Tue | Thu | Due EOW |
 |---|---------|---------|------------|
-| 1    | Today 😀 | No class | Exercise & Reading Quizzes |
-| 2    | Discuss DataOps | Group Exercise | Exercise, Reading Quizzes, [Project Groups Due]{style="color:red;"} |
-| 3    | Spring Break 🏖️ |  |  |
-| 4    | ModelOps & Experiment Tracking | Work on Project Proposals | Reading Quizzes, [Project Proposals Due]{style="color:red;"} |
-| 5    | Model Versioning & Deployment | No class | Reading Quizzes |
-| 6    | Model Deployment & Monitoring | Work on Project MVP | Reading Quizzes, [Project MVP Due]{style="color:red;"} |
-| 7    | DevOps | Work on Final Project | Reading Quizzes |
-| 8    | Work on Final Projects | Final Projects Due | 🥳 |
+| 1    | Today 😀 | [No class]{style="color:red;"} | Group Exercise & Reading Quizzes |
+| 2    | Discuss DataOps | Guest Speaker | Reading Quizzes, [Project Groups Due]{style="color:blue;"} |
+| X    | Spring Break 🏖️ |  |  |
+| 3    | ModelOps & Experiment Tracking | Work on Project Proposals | Reading Quizzes, [Project Proposals Due]{style="color:blue;"} |
+| 4    | Model Versioning & Deployment | [No class]{style="color:red;"} | [Project Group Exercise]{style="color:blue;"} & Reading Quizzes |
+| 5   | Model Deployment & Monitoring | Guest Speaker | Reading Quizzes, [Project MVP Due]{style="color:blue;"} |
+| 6    | DevOps | Work on Final Project | [Project Group Exercise]{style="color:blue;"} & Reading Quizzes |
+| 7    | Guest Speaker | [No class, Final Project Due]{style="color:red;"} | 🥳 |
+
+:::
 
 # Questions and Discussion  {background="#43464B"}
 

@@ -1,6 +1,6 @@
 ---
 title: "ML System Design"
-subtitle: "Considerations we start building"
+subtitle: "Considerations before we start building"
 format:
   revealjs:
     slide-number: true
@@ -10,4 +10,51 @@ format:
       theme: neutral
 footer: 'BANA 7075'
 ---
+
+# Foundational Planning {background="#43464B"}
+
+## Success starts before the code! {.smaller .scrollable}
+
+The success of an ML project depends heavily on the foundational planning that happens long before the first line of code is written or the first dataset is processed.
+
+```{mermaid}
+flowchart LR
+  subgraph planning[Foundational Planning]
+    direction TB
+    subgraph p1[Understand the Business Problem]
+    end
+    subgraph p2[Determine ML Suitability]
+    end
+    subgraph p3[Define Performance Metrics]
+    end
+    subgraph p4[Understand the Potential Value]
+    end
+    subgraph p5[Understand Technical Requirements]
+    end
+  end
+
+  A[Stakeholders] --> planning
+  B[Business Requirements] --> planning
+  C[Data Scientists / ML Engineers] --> planning
+  D[End Users] --> planning
+  p1 --> p2 --> p3 --> p4 --> p5
+
+  planning --> building[ML System Development] --> planning
+
+```
+
+:::{.center-h}
+Essential planning tasks to ensure that the project aligns with the business goals, addresses the right problem, and is both technically feasible and valuable.
+:::
+
+## In the reading
+
+1. Working with stakeholders to understand the business problem
+2. Determining if the problem requires an ML solution
+3. Defining performance metrics for the ML system
+4. Understanding the potential value of a solution
+5. Understanding technical requirements to determine feasibility
+6. Recognizing that developing an ML system is iterative
+
+# Group Exercise {background="#43464B"}
 
