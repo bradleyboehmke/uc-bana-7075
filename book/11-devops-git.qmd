@@ -355,17 +355,67 @@ You can reference specific commits using their SHA hash in various Git commands,
 git checkout <commit-hash>
 ```
 
-
-
 ## Synchronizing with GitHub
 
-- **Connecting a Local Repository to GitHub**
-  - Creating a new repository on GitHub.
-  - Pushing an existing repository to GitHub (`git remote add origin`, `git push`).
-- **Pulling Changes from GitHub**
-  - Fetching and merging remote changes (`git pull`).
-- **Handling Merge Conflicts**
-  - Understanding merge conflicts and resolving them manually.
+Once you have a local Git repository, you often need to synchronize it with a remote repository hosted on GitHub. This allows you to share your work, collaborate with others, and ensure your local repository stays up to date with any changes made remotely. This section covers how to connect a local repository to GitHub, pull updates from GitHub, and handle merge conflicts when they arise.
+
+### Creating a New Repository on GitHub
+
+If you do not already have a local repository, you can start your project repo on GitHub by creating a new repository and cloning it locally to start working with. This video provides an example:
+
+{{< video https://youtu.be/L1KWB5XdvsQ >}}
+
+The steps to do this include:
+
+1. Navigate to [GitHub](https://github.com/) and log in to your account.
+2. Click the **+** icon in the upper-right corner and select **New repository**.
+3. Enter a repository name, choose public or private visibility, and click **Create repository**.
+4. Copy the repository URL provided by GitHub.
+5. Open a terminal and navigate to the directory where you want to clone the repository.
+6. Use the following command to clone the repository to your local machine:
+   ```sh
+   git clone https://github.com/your-username/your-repository.git
+   ```
+
+Your repository is now set up locally, and you can start working with it. This means you have a dedicated directory on your computer where you can create, modify, and track files under version control. Any changes you make can be committed and later synchronized with GitHub, enabling seamless collaboration and backup.
+
+### Pushing a New Local Repository to GitHub
+
+Sometimes, you may start a project on your local machine without creating a GitHub repository first. In such cases, you can push your local repository to GitHub by adding a remote repository. If you have an existing local repository and want to push it to GitHub, follow these steps:
+
+1. Open a terminal and navigate to your local repository:
+   ```sh
+   cd your-project-folder
+   ```
+2. Add the GitHub repository as a remote:
+   ```sh
+   git remote add origin https://github.com/your-username/your-repository.git
+   ```
+3. Verify that the remote was added correctly:
+   ```sh
+   git remote -v
+   ```
+4. Push the local repository to GitHub:
+   ```sh
+   git push -u origin main
+   ```
+   This command uploads your local commits to the remote repository and sets the `origin` remote as the default for future pushes.
+
+### Pushing & Pulling Changes from GitHub
+
+Once you have a local repository connected to a remote GitHub repository, you will need to ***push*** and ***pull*** changes between the two to keep them in sync. When you make changes to the project locally and commit them, you can push these changes to GitHub using:
+
+   ```sh
+   git push origin main
+   ```
+   This updates the remote repository with your latest committed changes, making them available for others to see and collaborate on.
+
+Similarly, other contributors may make updates and push them to GitHub. To ensure your local repository remains up to date, you need to pull these changes from GitHub.
+
+   ```sh
+   git pull origin main
+   ```
+   This command updates your local repo with the latest changes from GitHub.
 
 
 ## Collaboration with Branching and Pull Requests
