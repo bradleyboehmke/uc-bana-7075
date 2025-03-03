@@ -31,7 +31,7 @@ Version control is a system that records changes to a file or set of files over 
 
 ```{mermaid}
 %%| fig-cap: "A version control system allows you and your teammates to work collaboratively, safely, and simultaneously on a single project. Version control helps you track all the code changes made in your project."
-%%| label: fig-data-versioning
+%%| label: fig-git-intro
 %%{init: {'gitGraph': {'mainBranchName': 'Main codebase'}} }%%
 
 gitGraph
@@ -246,7 +246,7 @@ This creates a local copy of the remote repository on your machine, allowing you
 ::: {.callout-note}
 To find the Git repository URL on GitHub, navigate to the main page of the repository you are interested in. Under the repository name, you will see a green "Code" button. Click on this button to reveal a dropdown menu that displays the repository URL. You can choose between HTTPS, SSH, or GitHub CLI options. Copy the URL provided to use it for cloning the repository to your local machine or for other Git operations.
 
-For example, if you were to clone the UC BANA 7075 Github repo shown below you would use:
+For example, if you were to clone the [UC BANA 7075 Github repo](https://github.com/bradleyboehmke/uc-bana-7075) shown below you would use:
 
 ```sh
 git clone https://github.com/bradleyboehmke/uc-bana-7075.git
@@ -254,6 +254,7 @@ git clone https://github.com/bradleyboehmke/uc-bana-7075.git
 
 ![Git Repository URL](images/git-repo-url.png)
 :::
+
 
 ### Staging and Committing Changes
 
@@ -296,7 +297,7 @@ Commits serve as snapshots of your project, capturing the exact state of your fi
 
 ```{mermaid}
 %%| fig-cap: "Commits serve as snapshots of your project, capturing the exact state of your files at a given point in time. Each commit represents a recorded change, allowing you to track modifications and revert to previous versions if needed."
-%%| label: fig-data-versioning
+%%| label: fig-git-commit
 %%{init: {'gitGraph': {'mainBranchName': 'Main codebase'}} }%%
 
 gitGraph
@@ -329,16 +330,30 @@ This displays commit messages, authors, timestamps, and unique commit hashes.
 
 #### Understanding the SHA Hash for Commits
 
-Each commit is assigned a unique SHA hash, which acts as an identifier. You can reference specific commits using their SHA hash in various Git commands, such as checking out a previous commit:
+Each commit is assigned a unique SHA hash, which acts as an identifier, ensuring that every change in the repository has a distinct reference. A SHA (Secure Hash Algorithm) hash in Git is a 40-character hexadecimal string that uniquely represents a commit. This hash is generated based on the commit's content, metadata, and parent commit(s), making it nearly impossible to duplicate. The SHA hash is used to reference specific commits, allowing developers to revert to, compare, or identify previous changes efficiently.
+
+```{mermaid}
+%%| fig-cap: "Example of what commit SHA hashes look like.  Although the actual SHA hash is longer, you typically just see the first 7+ digits of the hash."
+%%| label: fig-git-hash
+%%{init: {'gitGraph': {'mainBranchName': 'Main codebase'}} }%%
+
+gitGraph
+   commit
+   commit
+   commit
+```
+
+Understanding SHA hashes is crucial for navigating a project's history and managing different versions effectively. Each SHA hash serves as a permanent reference point, enabling developers to track specific changes, revert to stable versions, and collaborate efficiently. When working in a team, referencing SHA hashes in discussions and bug fixes ensures clarity and precision, reducing ambiguity when identifying code changes. Additionally, SHA hashes play a fundamental role in advanced Git operations such as rebasing and resolving merge conflicts.
+
+::: {.callout-important}
+Although understanding SHA hashes is important, for now, just realize that each commit has a SHA hash identifier that allows you to reference specific commits throughout a project's lifecycle.
+:::
+
+You can reference specific commits using their SHA hash in various Git commands, such as checking out a previous commit. This will allow you to revert all project files back to the state that they were in based on the commit hash provided.
 
 ```sh
 git checkout <commit-hash>
 ```
-
-Understanding SHA hashes is crucial for navigating a project's history and managing different versions effectively.
-
-By mastering these Git basics, you can confidently track changes, manage versions, and collaborate on projects efficiently.
-
 
 
 
