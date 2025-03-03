@@ -89,28 +89,257 @@ For ML teams, this combination is particularly powerful. By using Git locally to
 
 ## Setting Up Git and GitHub
 
-- **Installing Git**
-  - Step-by-step instructions for installing Git on Windows, Mac, and Linux.
-  - Verifying installation (`git --version`).
-- **Creating a GitHub Account**
-  - Step-by-step guide to signing up on GitHub.
-  - Overview of GitHub's interface (Repositories, Issues, Pull Requests, Actions).
-- **Configuring Git for First Use**
-  - Setting up a username and email (`git config --global user.name "Your Name"`, `git config --global user.email "you@example.com"`).
-  - Understanding SSH keys and authenticating GitHub with SSH.
+Git and GitHub are essential tools for managing and collaborating on code projects. This section provides a step-by-step guide to installing Git, creating a GitHub account, and configuring Git for first-time use.
 
+### Installing Git
+
+To begin using Git, you must first install it on your local machine. You can download Git for all operating systems from the official website: [https://git-scm.com/downloads](https://git-scm.com/downloads). This website provides multiple installation options for each operating system, allowing you to choose the one that best fits your needs. 
+
+::: {#fig-git-download}
+![](images/git-download.png)
+
+You can download Git for all operating systems from the official website: https://git-scm.com/downloads. This website provides multiple installation options for each operating system, allowing you to choose the one that best fits your needs.
+:::
+
+The following are the most common approaches used.
+
+#### Windows
+
+1. Download the Git installer from [https://git-scm.com/downloads](https://git-scm.com/downloads).
+2. Run the installer and follow the setup instructions, selecting default options unless specific configurations are needed.
+3. Open the Command Prompt or Git Bash and verify the installation by running:
+   ```sh
+   git --version
+   ```
+
+#### macOS
+
+1. Open the Terminal application.
+2. Install Git using Homebrew (recommended):
+   ```sh
+   brew install git
+   ```
+3. Verify the installation:
+   ```sh
+   git --version
+   ```
+
+#### Linux
+
+1. Open the terminal and use the package manager for your distribution:
+   - **Debian/Ubuntu:**
+     ```sh
+     sudo apt update
+     sudo apt install git
+     ```
+   - **Fedora:**
+     ```sh
+     sudo dnf install git
+     ```
+   - **Arch Linux:**
+     ```sh
+     sudo pacman -S git
+     ```
+2. Confirm the installation:
+   ```sh
+   git --version
+   ```
+
+### Creating a GitHub Account
+
+To use GitHub for hosting and collaborating on repositories, you need an account.
+
+1. Go to [https://github.com](https://github.com).
+   ![](images/github-signup.png)
+2. Click **Sign Up** and enter your email, password, and username.
+3. Follow the prompts to verify your email and complete the registration process.
+4. Once logged in, explore key GitHub features. Take some time to browse around and look at other user profiles and GitHub repositories to see how they are organized. A great way to start is by checking out the following repositories:
+  - **pandas:** [pandas](https://github.com/pandas-dev/pandas)
+  - **FastAPI:** [https://github.com/tiangolo/fastapi](https://github.com/tiangolo/fastapi)
+  - **Pydantic:** [https://github.com/pydantic/pydantic](https://github.com/pydantic/pydantic)
+  - **Python Data Visualization:** [https://github.com/talkpython/python-data-visualization](https://github.com/talkpython/python-data-visualization)
+
+    ::: {.callout-tip}
+    In these repositories, observe how the code is structured, review the README file, and explore the issues, pull requests, and GitHub Actions tabs.  Don't worry about understanding these as we will be covering them shortly; just get a feel for how a Github repo is structured.
+    :::
+
+### Configuring Git for First Use
+
+Before using Git, configure it with your personal information to ensure that commits are properly attributed to you. Configuring Git is essential because it associates your work with your identity, ensuring that every commit you make is correctly attributed to you in Git logs and GitHub repositories.
+
+::: {.callout-tip}
+Git has many other settings that can be customized to fit your workflow. You can explore the full list of available configuration options in the [official Git documentation](https://git-scm.com/book/ms/v2/Customizing-Git-Git-Configuration).
+:::
+
+1. Open a terminal or command prompt.
+2. Set your name:
+   ```sh
+   git config --global user.name "Your Name"
+   ```
+3. Set your email:
+   ```sh
+   git config --global user.email "you@example.com"
+   ```
+4. Verify your configuration:
+   ```sh
+   git config --list
+   ```
+
+The `--global` flag ensures that these settings apply to all Git repositories on your system. Without this flag, the configuration would only apply to the current repository, meaning you would need to set these details again for every new project. By setting them globally, you ensure a consistent identity across all your projects.
+
+::: {#fig-git-download}
+![](images/configure-git.gif)
+
+Configuring Git with your personal information to ensure that commits are properly attributed to you.
+:::
+
+With Git installed and configured, and a GitHub account created, you're now ready to start using Git for version control and collaboration. Git and GitHub are extremely powerful and sophisticated tools with a wide range of functionalities. However, for typical day-to-day use on projects, the Git and GitHub workflow can be boiled down to just a handful of essential functionalities. The video that follows provides an introduction to this basic workflow, and the sections that follow will walk you through this workflow step-by-step.
+
+{{< video https://youtu.be/Sd3qRW_EzGc?si=kRQ13xAEKCUpdhI6 >}}
 
 ## Git Basics: Tracking and Managing Changes
 
-- **Creating a Local Git Repository**
-  - Initializing a repository (`git init`).
-  - Cloning a repository (`git clone`).
-- **Staging and Committing Changes**
-  - Adding files to staging (`git add`).
-  - Committing changes (`git commit -m "commit message"`).
-- **Viewing Repository History**
-  - Checking commit history (`git log`).
-  - Understanding the SHA hash for commits.
+Git provides powerful tools for tracking and managing changes in your projects. This section covers fundamental Git operations, including creating a repository, staging and committing changes, and viewing repository history.
+
+### Creating a Local Git Repository
+
+A Git repository is essentially a directory (or folder) that has been set up to track changes using Git. When you initialize a Git repository, Git begins monitoring changes to files within that directory, allowing you to record, revert, and collaborate efficiently. You can create a new local repository from scratch or clone an existing one from a remote source to start tracking changes immediately.
+
+#### Initializing a Repository
+
+To start tracking a project with Git, navigate to the project directory in your terminal and initialize a repository:
+
+```sh
+cd your-project-folder
+git init
+```
+
+This creates a hidden `.git` directory, where Git stores all version control information.
+
+::: {.callout-note collapse="true"}
+## `.git` directory
+
+At this time, you don’t need to worry about the contents of the `.git` directory, as it is managed by Git automatically. However, if you want to explore its contents, you can make hidden files visible:
+
+- On **Windows**, open File Explorer, go to the **View** tab, and check **Hidden items**.
+- On **macOS or Linux**, open the terminal and use:
+  ```sh
+  ls -la
+  ```
+  Or you can also use \`Cmd + Shift + .\`
+:::
+
+::: {.callout-caution}
+Be cautious not to modify any files inside the `.git` directory, as doing so may corrupt the repository.
+:::
+
+#### Cloning a Repository
+
+Often, projects you work on are not brand new but rather existing projects where you are a new collaborator. Most of the time, these projects are already hosted on GitHub, and your objective is to make a copy of the repository on your local machine so you can start contributing to the source code. If you want to work on an existing project, you can clone a remote repository:
+
+```sh
+git clone <repository-url>
+```
+
+This creates a local copy of the remote repository on your machine, allowing you to track and contribute changes.
+
+::: {.callout-note}
+To find the Git repository URL on GitHub, navigate to the main page of the repository you are interested in. Under the repository name, you will see a green "Code" button. Click on this button to reveal a dropdown menu that displays the repository URL. You can choose between HTTPS, SSH, or GitHub CLI options. Copy the URL provided to use it for cloning the repository to your local machine or for other Git operations.
+
+For example, if you were to clone the UC BANA 7075 Github repo shown below you would use:
+
+```sh
+git clone https://github.com/bradleyboehmke/uc-bana-7075.git
+```
+
+![Git Repository URL](images/git-repo-url.png)
+:::
+
+### Staging and Committing Changes
+
+Now that you have a local repository set up for your project, you can start making changes to project documentation, code files, or other assets and save these changes systematically. This ensures that you have a record of modifications, making it easier to track progress, revert changes if necessary, and collaborate with others.  Git uses a two-step process to save changes:
+
+1. Step 1 is called staging and
+2. Step 2 is called committing.
+
+#### Adding Files to Staging
+
+Staging in Git is the process of preparing changes for a commit. When you modify files in your working directory, Git does not automatically track them for the next commit. Instead, you must explicitly add them to the staging area using the git add command. This allows you to carefully select which changes you want to include in your next commit, rather than committing all changes at once.
+
+Think of the staging area as a middle step between your working directory (where changes are made) and your repository (where commits are stored). This separation gives you greater control over your commits, allowing you to structure them in a meaningful way.
+
+To stage a specific file you can use:
+
+```sh
+git add filename
+```
+
+To stage all modified files:
+
+```sh
+git add .
+```
+
+::: {.callout-caution}
+Be care when using `git add .` as this will stage all files that have changed. Often, we want to be deliberate about which files we stage so files don't accidently get staged and committed.
+:::
+
+#### Committing Changes
+
+Once files are staged, you can commit them with a descriptive message:
+
+```sh
+git commit -m "Commit message describing changes"
+```
+
+Commits serve as snapshots of your project, capturing the exact state of your files at a given point in time. Each commit represents a recorded change, allowing you to track modifications, revert to previous versions if needed, and collaborate with others more effectively. Commits also create a historical timeline of your project, making it easier to understand the evolution of the codebase and identify when specific changes were introduced. By using meaningful commit messages, you can document the purpose of each change, improving project maintainability and readability.
+
+```{mermaid}
+%%| fig-cap: "Commits serve as snapshots of your project, capturing the exact state of your files at a given point in time. Each commit represents a recorded change, allowing you to track modifications and revert to previous versions if needed."
+%%| label: fig-data-versioning
+%%{init: {'gitGraph': {'mainBranchName': 'Main codebase'}} }%%
+
+gitGraph
+   commit id: "Change 1"
+   commit id: "Change 2"
+   commit id: "Change 3"
+```
+
+### Viewing Repository Status & History
+
+#### Checking Current Work Status
+
+At any point while modifying files in the repository, you can check which files have changed, which are staged, and which are unstaged by running the following command:
+
+```sh
+git status
+```
+
+This command provides a summary of the repository’s current state.
+
+#### Checking Commit History
+
+You can also view a log of all past commits with:
+
+```sh
+git log
+```
+
+This displays commit messages, authors, timestamps, and unique commit hashes.
+
+#### Understanding the SHA Hash for Commits
+
+Each commit is assigned a unique SHA hash, which acts as an identifier. You can reference specific commits using their SHA hash in various Git commands, such as checking out a previous commit:
+
+```sh
+git checkout <commit-hash>
+```
+
+Understanding SHA hashes is crucial for navigating a project's history and managing different versions effectively.
+
+By mastering these Git basics, you can confidently track changes, manage versions, and collaborate on projects efficiently.
+
+
 
 
 ## Synchronizing with GitHub
