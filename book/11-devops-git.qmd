@@ -326,7 +326,13 @@ You can also view a log of all past commits with:
 git log
 ```
 
-This displays commit messages, authors, timestamps, and unique commit hashes.
+This displays commit messages, authors, timestamps, and unique commit hashes. For example, if I look at the recent commits for the log of the [repo for this class](https://github.com/bradleyboehmke/uc-bana-7075) it looks like:
+
+::: {#fig-git-log}
+![](images/git-log.png){width=50%}
+
+Recent commits in the log for the [UC BANA 7075 repository](https://github.com/bradleyboehmke/uc-bana-7075).
+:::
 
 #### Understanding the SHA Hash for Commits
 
@@ -403,7 +409,7 @@ Sometimes, you may start a project on your local machine without creating a GitH
 
 ### Pushing & Pulling Changes from GitHub
 
-Once you have a local repository connected to a remote GitHub repository, you will need to ***push*** and ***pull*** changes between the two to keep them in sync. When you make changes to the project locally and commit them, you can push these changes to GitHub using:
+Once you have a local repository connected to a remote GitHub repository, you will need to ***push*** and ***pull*** changes between the two to keep them in sync over time and as the project progresses. When you make changes to the project locally and commit them, you can push these changes to GitHub using:
 
    ```sh
    git push origin main
