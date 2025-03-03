@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -278,9 +312,24 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#what-is-github" id="toc-what-is-github" class="nav-link" data-scroll-target="#what-is-github">What is GitHub?</a></li>
   <li><a href="#using-git-and-github-together" id="toc-using-git-and-github-together" class="nav-link" data-scroll-target="#using-git-and-github-together">Using Git and GitHub Together</a></li>
   </ul></li>
-  <li><a href="#setting-up-git-and-github" id="toc-setting-up-git-and-github" class="nav-link" data-scroll-target="#setting-up-git-and-github"><span class="header-section-number">11.2</span> Setting Up Git and GitHub</a></li>
-  <li><a href="#git-basics-tracking-and-managing-changes" id="toc-git-basics-tracking-and-managing-changes" class="nav-link" data-scroll-target="#git-basics-tracking-and-managing-changes"><span class="header-section-number">11.3</span> Git Basics: Tracking and Managing Changes</a></li>
-  <li><a href="#synchronizing-with-github" id="toc-synchronizing-with-github" class="nav-link" data-scroll-target="#synchronizing-with-github"><span class="header-section-number">11.4</span> Synchronizing with GitHub</a></li>
+  <li><a href="#setting-up-git-and-github" id="toc-setting-up-git-and-github" class="nav-link" data-scroll-target="#setting-up-git-and-github"><span class="header-section-number">11.2</span> Setting Up Git and GitHub</a>
+  <ul class="collapse">
+  <li><a href="#installing-git" id="toc-installing-git" class="nav-link" data-scroll-target="#installing-git">Installing Git</a></li>
+  <li><a href="#creating-a-github-account" id="toc-creating-a-github-account" class="nav-link" data-scroll-target="#creating-a-github-account">Creating a GitHub Account</a></li>
+  <li><a href="#configuring-git-for-first-use" id="toc-configuring-git-for-first-use" class="nav-link" data-scroll-target="#configuring-git-for-first-use">Configuring Git for First Use</a></li>
+  </ul></li>
+  <li><a href="#git-basics-tracking-and-managing-changes" id="toc-git-basics-tracking-and-managing-changes" class="nav-link" data-scroll-target="#git-basics-tracking-and-managing-changes"><span class="header-section-number">11.3</span> Git Basics: Tracking and Managing Changes</a>
+  <ul class="collapse">
+  <li><a href="#creating-a-local-git-repository" id="toc-creating-a-local-git-repository" class="nav-link" data-scroll-target="#creating-a-local-git-repository">Creating a Local Git Repository</a></li>
+  <li><a href="#staging-and-committing-changes" id="toc-staging-and-committing-changes" class="nav-link" data-scroll-target="#staging-and-committing-changes">Staging and Committing Changes</a></li>
+  <li><a href="#viewing-repository-status-history" id="toc-viewing-repository-status-history" class="nav-link" data-scroll-target="#viewing-repository-status-history">Viewing Repository Status &amp; History</a></li>
+  </ul></li>
+  <li><a href="#synchronizing-with-github" id="toc-synchronizing-with-github" class="nav-link" data-scroll-target="#synchronizing-with-github"><span class="header-section-number">11.4</span> Synchronizing with GitHub</a>
+  <ul class="collapse">
+  <li><a href="#creating-a-new-repository-on-github" id="toc-creating-a-new-repository-on-github" class="nav-link" data-scroll-target="#creating-a-new-repository-on-github">Creating a New Repository on GitHub</a></li>
+  <li><a href="#pushing-a-new-local-repository-to-github" id="toc-pushing-a-new-local-repository-to-github" class="nav-link" data-scroll-target="#pushing-a-new-local-repository-to-github">Pushing a New Local Repository to GitHub</a></li>
+  <li><a href="#pushing-pulling-changes-from-github" id="toc-pushing-pulling-changes-from-github" class="nav-link" data-scroll-target="#pushing-pulling-changes-from-github">Pushing &amp; Pulling Changes from GitHub</a></li>
+  </ul></li>
   <li><a href="#collaboration-with-branching-and-pull-requests" id="toc-collaboration-with-branching-and-pull-requests" class="nav-link" data-scroll-target="#collaboration-with-branching-and-pull-requests"><span class="header-section-number">11.5</span> Collaboration with Branching and Pull Requests</a></li>
   <li><a href="#introduction-to-cicd-with-github-actions" id="toc-introduction-to-cicd-with-github-actions" class="nav-link" data-scroll-target="#introduction-to-cicd-with-github-actions"><span class="header-section-number">11.6</span> Introduction to CI/CD with GitHub Actions</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">11.7</span> Summary</a></li>
@@ -343,11 +392,11 @@ ul.task-list li input[type="checkbox"] {
 <p>Version control is a system that records changes to a file or set of files over time, allowing developers to track modifications, revert to previous versions, and collaborate seamlessly. It is essential for managing code in any software development process, preventing loss of work, and ensuring a structured workflow.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
-<div id="fig-data-versioning" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-git-intro" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-data-versioning-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-git-intro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div>
-<pre class="mermaid mermaid-js" data-label="fig-data-versioning">%%{init: {'gitGraph': {'mainBranchName': 'Main codebase'}} }%%
+<pre class="mermaid mermaid-js" data-label="fig-git-intro">%%{init: {'gitGraph': {'mainBranchName': 'Main codebase'}} }%%
 
 gitGraph
    commit id: "Version 1"
@@ -366,7 +415,7 @@ gitGraph
 </pre>
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-data-versioning-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-git-intro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;11.1: A version control system allows you and your teammates to work collaboratively, safely, and simultaneously on a single project. Version control helps you track all the code changes made in your project.
 </figcaption>
 </figure>
@@ -419,61 +468,354 @@ Figure&nbsp;11.2: Git vs.&nbsp;Github
 </section>
 <section id="setting-up-git-and-github" class="level2" data-number="11.2">
 <h2 data-number="11.2" class="anchored" data-anchor-id="setting-up-git-and-github"><span class="header-section-number">11.2</span> Setting Up Git and GitHub</h2>
+<p>Git and GitHub are essential tools for managing and collaborating on code projects. This section provides a step-by-step guide to installing Git, creating a GitHub account, and configuring Git for first-time use.</p>
+<section id="installing-git" class="level3">
+<h3 class="anchored" data-anchor-id="installing-git">Installing Git</h3>
+<p>To begin using Git, you must first install it on your local machine. You can download Git for all operating systems from the official website: <a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a>. This website provides multiple installation options for each operating system, allowing you to choose the one that best fits your needs.&nbsp;</p>
+<div id="fig-git-download" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-git-download-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/git-download.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-git-download-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.3: You can download Git for all operating systems from the official website: https://git-scm.com/downloads. This website provides multiple installation options for each operating system, allowing you to choose the one that best fits your needs.
+</figcaption>
+</figure>
+</div>
+<p>The following are the most common approaches used.</p>
+<section id="windows" class="level4">
+<h4 class="anchored" data-anchor-id="windows">Windows</h4>
+<ol type="1">
+<li><p>Download the Git installer from <a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a>.</p></li>
+<li><p>Run the installer and follow the setup instructions, selecting default options unless specific configurations are needed.</p></li>
+<li><p>Open the Command Prompt or Git Bash and verify the installation by running:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="macos" class="level4">
+<h4 class="anchored" data-anchor-id="macos">macOS</h4>
+<ol type="1">
+<li><p>Open the Terminal application.</p></li>
+<li><p>Install Git using Homebrew (recommended):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Verify the installation:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="linux" class="level4">
+<h4 class="anchored" data-anchor-id="linux">Linux</h4>
+<ol type="1">
+<li><p>Open the terminal and use the package manager for your distribution:</p>
 <ul>
-<li><strong>Installing Git</strong>
-<ul>
-<li>Step-by-step instructions for installing Git on Windows, Mac, and Linux.</li>
-<li>Verifying installation (<code>git --version</code>).</li>
+<li><p><strong>Debian/Ubuntu:</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Fedora:</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dnf install git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Arch Linux:</strong></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> pacman <span class="at">-S</span> git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul></li>
-<li><strong>Creating a GitHub Account</strong>
+<li><p>Confirm the installation:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+</section>
+<section id="creating-a-github-account" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-github-account">Creating a GitHub Account</h3>
+<p>To use GitHub for hosting and collaborating on repositories, you need an account.</p>
+<ol type="1">
+<li>Go to <a href="https://github.com">https://github.com</a>. <img src="images/github-signup.png" class="img-fluid"></li>
+<li>Click <strong>Sign Up</strong> and enter your email, password, and username.</li>
+<li>Follow the prompts to verify your email and complete the registration process.</li>
+<li>Once logged in, explore key GitHub features. Take some time to browse around and look at other user profiles and GitHub repositories to see how they are organized. A great way to start is by checking out the following repositories:</li>
+</ol>
 <ul>
-<li>Step-by-step guide to signing up on GitHub.</li>
-<li>Overview of GitHub’s interface (Repositories, Issues, Pull Requests, Actions).</li>
-</ul></li>
-<li><strong>Configuring Git for First Use</strong>
-<ul>
-<li>Setting up a username and email (<code>git config --global user.name "Your Name"</code>, <code>git config --global user.email "you@example.com"</code>).</li>
-<li>Understanding SSH keys and authenticating GitHub with SSH.</li>
-</ul></li>
+<li><p><strong>pandas:</strong> <a href="https://github.com/pandas-dev/pandas">pandas</a></p></li>
+<li><p><strong>FastAPI:</strong> <a href="https://github.com/tiangolo/fastapi">https://github.com/tiangolo/fastapi</a></p></li>
+<li><p><strong>Pydantic:</strong> <a href="https://github.com/pydantic/pydantic">https://github.com/pydantic/pydantic</a></p></li>
+<li><p><strong>Python Data Visualization:</strong> <a href="https://github.com/talkpython/python-data-visualization">https://github.com/talkpython/python-data-visualization</a></p>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>In these repositories, observe how the code is structured, review the README file, and explore the issues, pull requests, and GitHub Actions tabs.&nbsp; Don’t worry about understanding these as we will be covering them shortly; just get a feel for how a Github repo is structured.</p>
+</div>
+</div>
+</div></li>
 </ul>
+</section>
+<section id="configuring-git-for-first-use" class="level3">
+<h3 class="anchored" data-anchor-id="configuring-git-for-first-use">Configuring Git for First Use</h3>
+<p>Before using Git, configure it with your personal information to ensure that commits are properly attributed to you. Configuring Git is essential because it associates your work with your identity, ensuring that every commit you make is correctly attributed to you in Git logs and GitHub repositories.</p>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Git has many other settings that can be customized to fit your workflow. You can explore the full list of available configuration options in the <a href="https://git-scm.com/book/ms/v2/Customizing-Git-Git-Configuration">official Git documentation</a>.</p>
+</div>
+</div>
+</div>
+<ol type="1">
+<li><p>Open a terminal or command prompt.</p></li>
+<li><p>Set your name:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">"Your Name"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Set your email:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">"you@example.com"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Verify your configuration:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+<p>The <code>--global</code> flag ensures that these settings apply to all Git repositories on your system. Without this flag, the configuration would only apply to the current repository, meaning you would need to set these details again for every new project. By setting them globally, you ensure a consistent identity across all your projects.</p>
+<div id="fig-git-download" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-git-download-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/configure-git.gif" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-git-download-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.4: Configuring Git with your personal information to ensure that commits are properly attributed to you.
+</figcaption>
+</figure>
+</div>
+<p>With Git installed and configured, and a GitHub account created, you’re now ready to start using Git for version control and collaboration. Git and GitHub are extremely powerful and sophisticated tools with a wide range of functionalities. However, for typical day-to-day use on projects, the Git and GitHub workflow can be boiled down to just a handful of essential functionalities. The video that follows provides an introduction to this basic workflow, and the sections that follow will walk you through this workflow step-by-step.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/Sd3qRW_EzGc?si=kRQ13xAEKCUpdhI6" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
 </section>
 <section id="git-basics-tracking-and-managing-changes" class="level2" data-number="11.3">
 <h2 data-number="11.3" class="anchored" data-anchor-id="git-basics-tracking-and-managing-changes"><span class="header-section-number">11.3</span> Git Basics: Tracking and Managing Changes</h2>
+<p>Git provides powerful tools for tracking and managing changes in your projects. This section covers fundamental Git operations, including creating a repository, staging and committing changes, and viewing repository history.</p>
+<section id="creating-a-local-git-repository" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-local-git-repository">Creating a Local Git Repository</h3>
+<p>A Git repository is essentially a directory (or folder) that has been set up to track changes using Git. When you initialize a Git repository, Git begins monitoring changes to files within that directory, allowing you to record, revert, and collaborate efficiently. You can create a new local repository from scratch or clone an existing one from a remote source to start tracking changes immediately.</p>
+<section id="initializing-a-repository" class="level4">
+<h4 class="anchored" data-anchor-id="initializing-a-repository">Initializing a Repository</h4>
+<p>To start tracking a project with Git, navigate to the project directory in your terminal and initialize a repository:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> your-project-folder</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This creates a hidden <code>.git</code> directory, where Git stores all version control information.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>.git</code> directory
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>At this time, you don’t need to worry about the contents of the <code>.git</code> directory, as it is managed by Git automatically. However, if you want to explore its contents, you can make hidden files visible:</p>
 <ul>
-<li><strong>Creating a Local Git Repository</strong>
-<ul>
-<li>Initializing a repository (<code>git init</code>).</li>
-<li>Cloning a repository (<code>git clone</code>).</li>
-</ul></li>
-<li><strong>Staging and Committing Changes</strong>
-<ul>
-<li>Adding files to staging (<code>git add</code>).</li>
-<li>Committing changes (<code>git commit -m "commit message"</code>).</li>
-</ul></li>
-<li><strong>Viewing Repository History</strong>
-<ul>
-<li>Checking commit history (<code>git log</code>).</li>
-<li>Understanding the SHA hash for commits.</li>
-</ul></li>
+<li><p>On <strong>Windows</strong>, open File Explorer, go to the <strong>View</strong> tab, and check <strong>Hidden items</strong>.</p></li>
+<li><p>On <strong>macOS or Linux</strong>, open the terminal and use:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-la</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Or you can also use `Cmd + Shift + .`</p></li>
 </ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-caution">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Be cautious not to modify any files inside the <code>.git</code> directory, as doing so may corrupt the repository.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="cloning-a-repository" class="level4">
+<h4 class="anchored" data-anchor-id="cloning-a-repository">Cloning a Repository</h4>
+<p>Often, projects you work on are not brand new but rather existing projects where you are a new collaborator. Most of the time, these projects are already hosted on GitHub, and your objective is to make a copy of the repository on your local machine so you can start contributing to the source code. If you want to work on an existing project, you can clone a remote repository:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone <span class="op">&lt;</span>repository-url<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This creates a local copy of the remote repository on your machine, allowing you to track and contribute changes.</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>To find the Git repository URL on GitHub, navigate to the main page of the repository you are interested in. Under the repository name, you will see a green “Code” button. Click on this button to reveal a dropdown menu that displays the repository URL. You can choose between HTTPS, SSH, or GitHub CLI options. Copy the URL provided to use it for cloning the repository to your local machine or for other Git operations.</p>
+<p>For example, if you were to clone the <a href="https://github.com/bradleyboehmke/uc-bana-7075">UC BANA 7075 Github repo</a> shown below you would use:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/bradleyboehmke/uc-bana-7075.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/git-repo-url.png" class="img-fluid figure-img"></p>
+<figcaption>Git Repository URL</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="staging-and-committing-changes" class="level3">
+<h3 class="anchored" data-anchor-id="staging-and-committing-changes">Staging and Committing Changes</h3>
+<p>Now that you have a local repository set up for your project, you can start making changes to project documentation, code files, or other assets and save these changes systematically. This ensures that you have a record of modifications, making it easier to track progress, revert changes if necessary, and collaborate with others.&nbsp;&nbsp;Git uses a two-step process to save changes:</p>
+<ol type="1">
+<li>Step 1 is called staging and</li>
+<li>Step 2 is called committing.</li>
+</ol>
+<section id="adding-files-to-staging" class="level4">
+<h4 class="anchored" data-anchor-id="adding-files-to-staging">Adding Files to Staging</h4>
+<p>Staging in Git is the process of preparing changes for a commit. When you modify files in your working directory, Git does not automatically track them for the next commit. Instead, you must explicitly add them to the staging area using the git add command. This allows you to carefully select which changes you want to include in your next commit, rather than committing all changes at once.</p>
+<p>Think of the staging area as a middle step between your working directory (where changes are made) and your repository (where commits are stored). This separation gives you greater control over your commits, allowing you to structure them in a meaningful way.</p>
+<p>To stage a specific file you can use:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add filename</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To stage all modified files:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-simple callout-caution">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Be care when using <code>git add .</code> as this will stage all files that have changed. Often, we want to be deliberate about which files we stage so files don’t accidently get staged and committed.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="committing-changes" class="level4">
+<h4 class="anchored" data-anchor-id="committing-changes">Committing Changes</h4>
+<p>Once files are staged, you can commit them with a descriptive message:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Commit message describing changes"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Commits serve as snapshots of your project, capturing the exact state of your files at a given point in time. Each commit represents a recorded change, allowing you to track modifications, revert to previous versions if needed, and collaborate with others more effectively. Commits also create a historical timeline of your project, making it easier to understand the evolution of the codebase and identify when specific changes were introduced. By using meaningful commit messages, you can document the purpose of each change, improving project maintainability and readability.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-git-commit" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-git-commit-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-git-commit">%%{init: {'gitGraph': {'mainBranchName': 'Main codebase'}} }%%
+
+gitGraph
+   commit id: "Change 1"
+   commit id: "Change 2"
+   commit id: "Change 3"
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-git-commit-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.5: Commits serve as snapshots of your project, capturing the exact state of your files at a given point in time. Each commit represents a recorded change, allowing you to track modifications and revert to previous versions if needed.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="viewing-repository-status-history" class="level3">
+<h3 class="anchored" data-anchor-id="viewing-repository-status-history">Viewing Repository Status &amp; History</h3>
+<section id="checking-current-work-status" class="level4">
+<h4 class="anchored" data-anchor-id="checking-current-work-status">Checking Current Work Status</h4>
+<p>At any point while modifying files in the repository, you can check which files have changed, which are staged, and which are unstaged by running the following command:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This command provides a summary of the repository’s current state.</p>
+</section>
+<section id="checking-commit-history" class="level4">
+<h4 class="anchored" data-anchor-id="checking-commit-history">Checking Commit History</h4>
+<p>You can also view a log of all past commits with:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This displays commit messages, authors, timestamps, and unique commit hashes. For example, if I look at the recent commits for the log of the <a href="https://github.com/bradleyboehmke/uc-bana-7075">repo for this class</a> it looks like:</p>
+<div id="fig-git-log" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-git-log-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/git-log.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-git-log-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.6: Recent commits in the log for the <a href="https://github.com/bradleyboehmke/uc-bana-7075">UC BANA 7075 repository</a>.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="understanding-the-sha-hash-for-commits" class="level4">
+<h4 class="anchored" data-anchor-id="understanding-the-sha-hash-for-commits">Understanding the SHA Hash for Commits</h4>
+<p>Each commit is assigned a unique SHA hash, which acts as an identifier, ensuring that every change in the repository has a distinct reference. A SHA (Secure Hash Algorithm) hash in Git is a 40-character hexadecimal string that uniquely represents a commit. This hash is generated based on the commit’s content, metadata, and parent commit(s), making it nearly impossible to duplicate. The SHA hash is used to reference specific commits, allowing developers to revert to, compare, or identify previous changes efficiently.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-git-hash" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-git-hash-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-git-hash">%%{init: {'gitGraph': {'mainBranchName': 'Main codebase'}} }%%
+
+gitGraph
+   commit
+   commit
+   commit
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-git-hash-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.7: Example of what commit SHA hashes look like. Although the actual SHA hash is longer, you typically just see the first 7+ digits of the hash.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Understanding SHA hashes is crucial for navigating a project’s history and managing different versions effectively. Each SHA hash serves as a permanent reference point, enabling developers to track specific changes, revert to stable versions, and collaborate efficiently. When working in a team, referencing SHA hashes in discussions and bug fixes ensures clarity and precision, reducing ambiguity when identifying code changes. Additionally, SHA hashes play a fundamental role in advanced Git operations such as rebasing and resolving merge conflicts.</p>
+<div class="callout callout-style-simple callout-important">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Although understanding SHA hashes is important, for now, just realize that each commit has a SHA hash identifier that allows you to reference specific commits throughout a project’s lifecycle.</p>
+</div>
+</div>
+</div>
+<p>You can reference specific commits using their SHA hash in various Git commands, such as checking out a previous commit. This will allow you to revert all project files back to the state that they were in based on the commit hash provided.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="op">&lt;</span>commit-hash<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
 </section>
 <section id="synchronizing-with-github" class="level2" data-number="11.4">
 <h2 data-number="11.4" class="anchored" data-anchor-id="synchronizing-with-github"><span class="header-section-number">11.4</span> Synchronizing with GitHub</h2>
-<ul>
-<li><strong>Connecting a Local Repository to GitHub</strong>
-<ul>
-<li>Creating a new repository on GitHub.</li>
-<li>Pushing an existing repository to GitHub (<code>git remote add origin</code>, <code>git push</code>).</li>
-</ul></li>
-<li><strong>Pulling Changes from GitHub</strong>
-<ul>
-<li>Fetching and merging remote changes (<code>git pull</code>).</li>
-</ul></li>
-<li><strong>Handling Merge Conflicts</strong>
-<ul>
-<li>Understanding merge conflicts and resolving them manually.</li>
-</ul></li>
-</ul>
+<p>Once you have a local Git repository, you often need to synchronize it with a remote repository hosted on GitHub. This allows you to share your work, collaborate with others, and ensure your local repository stays up to date with any changes made remotely. This section covers how to connect a local repository to GitHub, pull updates from GitHub, and handle merge conflicts when they arise.</p>
+<section id="creating-a-new-repository-on-github" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-new-repository-on-github">Creating a New Repository on GitHub</h3>
+<p>If you do not already have a local repository, you can start your project repo on GitHub by creating a new repository and cloning it locally to start working with. This video provides an example:</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/L1KWB5XdvsQ" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>The steps to do this include:</p>
+<ol type="1">
+<li><p>Navigate to <a href="https://github.com/">GitHub</a> and log in to your account.</p></li>
+<li><p>Click the <strong>+</strong> icon in the upper-right corner and select <strong>New repository</strong>.</p></li>
+<li><p>Enter a repository name, choose public or private visibility, and click <strong>Create repository</strong>.</p></li>
+<li><p>Copy the repository URL provided by GitHub.</p></li>
+<li><p>Open a terminal and navigate to the directory where you want to clone the repository.</p></li>
+<li><p>Use the following command to clone the repository to your local machine:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/your-username/your-repository.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+<p>Your repository is now set up locally, and you can start working with it. This means you have a dedicated directory on your computer where you can create, modify, and track files under version control. Any changes you make can be committed and later synchronized with GitHub, enabling seamless collaboration and backup.</p>
+</section>
+<section id="pushing-a-new-local-repository-to-github" class="level3">
+<h3 class="anchored" data-anchor-id="pushing-a-new-local-repository-to-github">Pushing a New Local Repository to GitHub</h3>
+<p>Sometimes, you may start a project on your local machine without creating a GitHub repository first. In such cases, you can push your local repository to GitHub by adding a remote repository. If you have an existing local repository and want to push it to GitHub, follow these steps:</p>
+<ol type="1">
+<li><p>Open a terminal and navigate to your local repository:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> your-project-folder</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Add the GitHub repository as a remote:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add origin https://github.com/your-username/your-repository.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Verify that the remote was added correctly:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote <span class="at">-v</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Push the local repository to GitHub:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This command uploads your local commits to the remote repository and sets the <code>origin</code> remote as the default for future pushes.</p></li>
+</ol>
+</section>
+<section id="pushing-pulling-changes-from-github" class="level3">
+<h3 class="anchored" data-anchor-id="pushing-pulling-changes-from-github">Pushing &amp; Pulling Changes from GitHub</h3>
+<p>Once you have a local repository connected to a remote GitHub repository, you will need to <strong><em>push</em></strong> and <strong><em>pull</em></strong> changes between the two to keep them in sync over time and as the project progresses. When you make changes to the project locally and commit them, you can push these changes to GitHub using:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This updates the remote repository with your latest committed changes, making them available for others to see and collaborate on.</p>
+<p>Similarly, other contributors may make updates and push them to GitHub. To ensure your local repository remains up to date, you need to pull these changes from GitHub.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This command updates your local repo with the latest changes from GitHub.</p>
+</section>
 </section>
 <section id="collaboration-with-branching-and-pull-requests" class="level2" data-number="11.5">
 <h2 data-number="11.5" class="anchored" data-anchor-id="collaboration-with-branching-and-pull-requests"><span class="header-section-number">11.5</span> Collaboration with Branching and Pull Requests</h2>
