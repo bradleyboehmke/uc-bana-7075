@@ -1,0 +1,164 @@
+---
+title: "Week 2: DataOps"
+subtitle: "Ensuring that data pipelines are efficient, reliable, and produce high-quality data for ML systems"
+format:
+  revealjs:
+    slide-number: true
+    preview-links: auto
+    css: styles.css
+    mermaid:
+      theme: neutral
+footer: 'BANA 7075'
+---
+
+# Today's Class {background="#43464B"}
+
+## Purpose
+
+- Provide a quick introduction to:
+  - The role of DataOps
+  - Building data pipelines
+- Work through a group exercise to start thinking like a data engineer
+
+# What is DataOps? {background="#43464B"}
+
+## Slide
+
+- TBD
+- TBD
+
+# Data Ingestion {background="#43464B"}
+
+## Slide
+
+- TBD
+- TBD
+
+# Data Processing {background="#43464B"}
+
+## Slide
+
+- TBD
+- TBD
+
+# Data Validation {background="#43464B"}
+
+## Slide
+
+- TBD
+- TBD
+
+# Data Versioning {background="#43464B"}
+
+## Slide
+
+- TBD
+- TBD
+
+# Data Pipelines {background="#43464B"}
+
+## What are they
+
+- TBD
+- TBD
+
+## ETL vs. ELT Paradigms
+
+- TBD
+- TBD
+
+## Tools for DataOps
+
+- TBD
+- TBD
+
+## An Example Pipeline
+
+https://github.com/bradleyboehmke/uc-bana-7075/blob/main/DataOps/youtube-data-pipeline.ipynb
+
+# In-Class Exercise {background="#43464B"}
+
+## Group Activity {.smaller}
+
+- Break into small groups (~3-5 people)
+- Each group will assess 4 scenarios and be prepared to provide their thoughts:
+  - ~5-10min group brainstorming
+  - ~5min class discussion
+
+::: {.callout-warning}
+The scenarios are designed to be a bit vague so you can feel free to make certain assumptions regarding the scenario or even identify additional questions that need to be answered.
+:::
+
+## Part 1: Data Ingestion {.smaller}
+
+::: {style="font-size: 85%;"}
+Imagine you are building an ML system for a ride-sharing company to predict rider demand in real-time.
+
+**Scenario Details**:
+
+* **Historical Trip Data**: Stored in a relational database, this includes features like pickup/dropoff locations, trip durations, fares, and timestamps for trips over the past five years. Updates occur nightly.
+* **Real-Time Weather Updates**: Obtained from a third-party API, the weather data includes temperature, precipitation, and wind speed, updated every 10 minutes. However, the API has a limit of 1000 requests per hour.
+* **Driver Availability Data**: Streamed from an internal system, this data provides the location and status (available, occupied, offline) of drivers in real-time, updated every second.
+
+**Questions to Consider**:
+
+1. For each data source, would you choose batch, streaming, or hybrid ingestion? Justify your decision.
+2. What challenges might arise when combining these sources into a unified pipeline (e.g., mismatched data formats, latency)?
+3. If the weather API experiences downtime or exceeds rate limits, how would you ensure the pipeline continues functioning without compromising predictions?
+
+:::
+
+## Part 2: Data Validation {.smaller}
+
+You are working on a fraud detection system for an e-commerce platform.
+
+**Scenario Details**:
+
+* **Transactional Data**: Includes payment amounts, timestamps, and location information. This data is streamed in real-time as customers complete purchases.
+* **Customer Demographic Data**: Stored in a central database, this data includes customer age, location, and preferred payment method. Updates are infrequent, typically occurring during customer registration or profile edits.
+
+**Questions to Consider**:
+
+1. What specific validation checks would you implement for:
+   - Real-time transactional data (e.g., ensuring timestamps are sequential, payment amounts are positive)?
+   - Customer demographic data (e.g., completeness of profiles, consistency between locations and timestamps)?
+2. Where in the pipeline would you implement these checks to ensure high-quality data without introducing significant latency (i.e. during data ingestion, after data processing)?
+3. In a scenario where real-time data includes unexpected values or incomplete fields, what fallback mechanisms would you put in place to avoid disruptions?
+
+## Part 3: Data Versioning {.smaller}
+
+You are tasked with designing a churn prediction model for a subscription-based video streaming service.
+
+**Scenario Details:**
+
+* **User Activity Logs**: Include data on session duration, content watched, and browsing patterns. Logs are collected continuously and stored in a data lake.
+* **Subscription Details**: Include plan type, renewal dates, and payment status. This data is updated monthly and stored in a relational database.
+* **Support Ticket Interactions**: Contain customer issues, resolutions, and timestamps. These are logged as they occur, with potential delays in updates due to manual entry.
+
+**Questions to Consider:**
+
+1. How would you use data versioning to track changes in user activity logs, ensuring you can reproduce model training results even as new data is added?
+2. What specific lineage information would you prioritize capturing (e.g., transformations applied to raw activity logs, dependencies between features)?
+3. If regulatory compliance (e.g., GDPR, which requires traceability of user data usage) is a factor, how might you adjust your versioning and lineage strategy?
+
+## Part 4 Reflection {.smaller}
+
+Reflect on a hypothetical scenario where your ML pipeline for a financial institution fails in production.
+
+**Scenario (Failure) Details:**
+
+* A schema change in the credit card transaction dataset (e.g., renaming "customer_id" to "user_id") was not communicated to the team.
+* The batch ingestion process for monthly transaction summaries included corrupted records due to network interruptions during transfer.
+* Real-time streaming data from payment terminals introduced inconsistencies in timestamps due to system clock misalignments.
+
+**Questions to Consider:**
+
+1. Which specific DataOps practices (e.g., schema validation, data versioning, lineage tracking) could have prevented these failures?
+2. What steps could you take to proactively handle similar challenges in the future, such as designing validation workflows or automating schema change notifications?
+3. How would you balance thorough validation checks with maintaining pipeline performance, especially in a high-throughput environment like financial fraud detection?
+
+
+# Questions and Discussion {background="#43464B"}
+
+- Open floor for questions regarding ML System Design concepts.
+- Discussion on how these principles apply to real-world business scenarios.
