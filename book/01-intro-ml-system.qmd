@@ -6,7 +6,7 @@ Reading Time: 30-45 minutes
 
 Machine Learning (ML) System Design is the discipline of creating reliable, scalable, and maintainable machine learning systems that solve real-world business problems. Unlike standard machine learning modeling, which focuses primarily on algorithm development and evaluation, ML System Design considers the broader ecosystem in which a model must operate. This involves defining the architecture, infrastructure, and processes that make a model functional and sustainable within production environments. As organizations increasingly rely on machine learning to make data-driven decisions, robust system design has become essential for delivering models that consistently meet organizational needs and can adapt to change.
 
-Effective ML system design enables organizations to avoid many pitfalls of deploying machine learning in production. Poorly designed systems can lead to issues like inaccurate predictions due to data drift, high operational costs, or significant downtime during retraining or model updates. By adhering to design principles such as modularity, scalability, and reproducibility, ML engineers and data scientists can develop systems that are more resilient and easier to manage. These principles form the backbone of good ML system design and help ensure that models can not only be deployed but also monitored, improved, and scaled as needed.
+Effective ML system design enables organizations to avoid many pitfalls of deploying machine learning in production. Poorly designed systems can lead to issues like inaccurate predictions due to data drift, high operational costs, increased tech debt^[**Technical debt** in machine learning systems refers to the accumulation of hidden costs due to shortcuts, entanglement, and system complexity, which degrade maintainability and scalability over time. ML systems are particularly prone to technical debt from issues like data dependencies, undeclared consumers, and pipeline jungles, making proactive debt management essential for long-term sustainability [@sculley2015hidden].], or significant downtime during retraining or model updates. By adhering to design principles such as modularity, scalability, and reproducibility, ML engineers and data scientists can develop systems that are more resilient and easier to manage. These principles form the backbone of good ML system design and help ensure that models can not only be deployed but also monitored, improved, and scaled as needed.
 
 This section will explore these design principles in detail and examine how they align with key stages of the ML system lifecycle, from data processing and model training to deployment, monitoring, and iteration. As Chip Huyen points out, “Machine learning in production is 10% modeling and 90% engineering” [@huyen2022designing].  Consequently, understanding ML System Design, the lifecycle of ML systems, and the technical decisions to consider is foundational for anyone working in machine learning, as it significantly impacts the ML system's overall reliability and long-term value for the organization.
 
@@ -55,30 +55,30 @@ flowchart LR
 
 At the heart of any ML system is data, which is processed, transformed, and delivered to the model in a way that supports both training and inference. A well-designed ML system typically includes data pipelines that handle:
 
-   - Data ingestion: Collecting data from various sources, including databases, APIs, and real-time streams.
-   - Data processing: Cleaning, transforming, and structuring data for model consumption.
-   - Data validation: Ensuring that data quality is maintained and meets the standards required by the model.
-   - Data versioning and lineage: Tracking data versions and maintaining a record of data transformations, which are critical for reproducibility and regulatory compliance.
+   - **Data ingestion**: Collecting data from various sources, including databases, APIs, and real-time streams.
+   - **Data processing**: Cleaning, transforming, and structuring data for model consumption.
+   - **Data validation**: Ensuring that data quality is maintained and meets the standards required by the model.
+   - **Data versioning and lineage**: Tracking data versions and maintaining a record of data transformations, which are critical for reproducibility and regulatory compliance.
 
 ### ModelOps: Model Lifecycle Management
 
 A central aspect of ML system design is managing the entire model lifecycle, from development and testing to deployment and retirement. This includes:
 
-   - Experiment tracking and versioning: Maintaining a record of model versions, hyperparameters, and evaluation metrics to track performance and support reproducibility.
-   - Deployment pipelines: Automating model deployment processes to reduce manual errors and accelerate time-to-production.
-   - Monitoring and alerting: Establishing mechanisms for monitoring model performance in production and detecting issues such as data drift, concept drift, or system degradation.
-   - Continuous improvement: Supporting processes for regular retraining, fine-tuning, and updating models as data and requirements change.
+   - **Experiment tracking and versioning**: Maintaining a record of model versions, hyperparameters, and evaluation metrics to track performance and support reproducibility.
+   - **Deployment pipelines**: Automating model deployment processes to reduce manual errors and accelerate time-to-production.
+   - **Monitoring and alerting**: Establishing mechanisms for monitoring model performance in production and detecting issues such as data drift, concept drift, or system degradation.
+   - **Continuous improvement**: Supporting processes for regular retraining, fine-tuning, and updating models as data and requirements change.
 
 ### DevOps Practices
 
 Good ML system design brings DevOps practices to the world of machine learning. DevOps, short for "Development and Operations," is a set of practices and principles that combines software development (Dev) and IT operations (Ops) with the goal of shortening the software development lifecycle and delivering high-quality, reliable software more efficiently. At its core, DevOps is about fostering a culture of collaboration between development and operations teams, integrating automated processes, and leveraging continuous integration and continuous deployment (CI/CD) practices to streamline workflows. This includes:
 
-   - Automating code and model updates to streamline deployment and minimize downtime.
-   - Automation of testing and validation: Implementing automated tests to validate model performance, accuracy, and reliability.
-   -  Compute resources: Setting up scalable, flexible compute resources (such as cloud instances, GPUs, or Kubernetes clusters) to handle model training and inference.
-   - Storage solutions: Designing data storage strategies that balance cost, speed, and accessibility.
-   - Networking and security: Ensuring secure data transfer and protecting sensitive information while allowing fast access for machine learning processes.
-   - Collaboration between teams: Encouraging collaboration across data science, engineering, and business teams to ensure that models meet organizational requirements and add real value.
+   - **Automating code** and model updates to streamline deployment and minimize downtime.
+   - **Automation of testing and validation**: Implementing automated tests to validate model performance, accuracy, and reliability.
+   -  **Compute resources**: Setting up scalable, flexible compute resources (such as cloud instances, GPUs, or Kubernetes clusters) to handle model training and inference.
+   - **Storage solutions**: Designing data storage strategies that balance cost, speed, and accessibility.
+   - **Networking and security**: Ensuring secure data transfer and protecting sensitive information while allowing fast access for machine learning processes.
+   - **Collaboration between teams**: Encouraging collaboration across data science, engineering, and business teams to ensure that models meet organizational requirements and add real value.
 
 ::: {.callout-important}
 ## Driven by business requirements
@@ -156,6 +156,8 @@ Compliance involves ensuring that the ML system adheres to industry regulations 
 ## What's GDPR?
 
 The [General Data Protection Regulation (GDPR)](https://gdpr-info.eu/) is a comprehensive privacy law enacted by the European Union in 2018, aimed at protecting the personal data and privacy of individuals within the EU and the European Economic Area (EEA). GDPR sets strict guidelines on how organizations must collect, store, process, and share personal data, giving individuals more control over their information. Key principles of GDPR include data minimization, purpose limitation, and transparency, along with rights for individuals such as the right to access, correct, and delete their data. Non-compliance with GDPR can lead to significant fines, making it essential for companies, especially those dealing with machine learning systems, to prioritize data security and privacy to ensure compliance.
+
+We discuss regulation and other important human right considerations in [@sec-human-side-of-ml].
 :::
 
 ### Adaptability and Flexibility
