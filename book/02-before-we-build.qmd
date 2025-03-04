@@ -53,6 +53,14 @@ These questions help not only to clarify the business goals but also to highligh
 
 Additionally, early discussions often uncover essential requirements and constraints, such as data dependencies, privacy concerns, or specific regulatory requirements. By clarifying these aspects, ML teams can make more informed decisions on technical design, data preprocessing, and timeline estimation. Furthermore, gaining a clear understanding of the end-users' needs helps in defining how the ML system should be integrated into existing workflows, ensuring the solution is not only technically robust but also user-friendly and practical.
 
+::: {.callout-tip collapse="true"}
+## You should help guide the discussion
+
+A common challenge when working with stakeholders is that their initial requests may not be technically feasible or the best solution from an ML perspective. Business owners often lack technical expertise and may propose solutions that are impractical due to limitations in data availability, infrastructure, or real-time processing capabilities.
+
+For example, a credit card company might request a real-time fraud detection system that automatically denies fraudulent transactions. However, if real-time infrastructure is lacking, data pipelines are not in place, or budget constraints prevent deployment, the proposed solution may not be viable. In such cases, ML practitioners must deeply understand the problem and collaborate with stakeholders to re-scope it within practical constraints. Alternative approaches could include assessing customer risk at the time of credit card application, flagging high-risk transactions for manual review instead of automatic denial, or shifting focus from individual transaction fraud to identifying high-risk merchants. By aligning technical capabilities with business goals, ML practitioners can ensure that the final solution is both impactful and feasible.
+:::
+
 In summary, investing time upfront to deeply understand the business problem and address underlying assumptions results in a more targeted, relevant ML solution. This shared understanding among stakeholders lays the groundwork for a smooth translation of business objectives into technical requirements, helping to scope the project effectively and set it up for long-term success.
 
 ::: {.callout-caution collapse="true"}
