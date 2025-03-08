@@ -15,117 +15,697 @@ footer: 'BANA 7075'
 
 ## Purpose
 
+<br>
+
+- AMA on last week's content
 - Provide a quick introduction to:
   - The role of DataOps
   - Building data pipelines
-- Work through a group exercise to start thinking like a data engineer
+  - Group discussions for scenarios
 
-# What is DataOps? {background="#43464B"}
+## Group Discussions {.smaller}
 
-## Slide
-
-- TBD
-- TBD
-
-# Data Ingestion {background="#43464B"}
-
-## Slide
-
-- TBD
-- TBD
-
-# Data Processing {background="#43464B"}
-
-## Slide
-
-- TBD
-- TBD
-
-# Data Validation {background="#43464B"}
-
-## Slide
-
-- TBD
-- TBD
-
-# Data Versioning {background="#43464B"}
-
-## Slide
-
-- TBD
-- TBD
-
-# Data Pipelines {background="#43464B"}
-
-## What are they
-
-- TBD
-- TBD
-
-## ETL vs. ELT Paradigms
-
-- TBD
-- TBD
-
-## Tools for DataOps
-
-- TBD
-- TBD
-
-## An Example Pipeline
-
-https://github.com/bradleyboehmke/uc-bana-7075/blob/main/DataOps/youtube-data-pipeline.ipynb
-
-# In-Class Exercise {background="#43464B"}
-
-## Group Activity {.smaller}
+<br>
 
 - Break into small groups (~3-5 people)
-- Each group will assess 4 scenarios and be prepared to provide their thoughts:
-  - ~5-10min group brainstorming
+- Each group will assess scenarios as we progress through the lecture and provide their thoughts:
+  - ~5min group brainstorming
   - ~5min class discussion
 
 ::: {.callout-warning}
 The scenarios are designed to be a bit vague so you can feel free to make certain assumptions regarding the scenario or even identify additional questions that need to be answered.
 :::
 
-## Part 1: Data Ingestion {.smaller}
+## Project Reminder
+
+<br>
+
+Be sure to:
+
+1. Read the final project overview
+2. Create your final project team
+
+# Last Week's Content {background="#43464B"}
+
+## Feedback
+
+<br>
+
+:::: {.columns}
+::: {.column width="50%"}
+### ML System Design
+
+- Questions on content?
+- How was the chapter?
+- Additions (i.e. videos), edits, etc.?
+- How was the quiz?
+:::
+
+::: {.column width="50%"}
+### Before We Build
+
+- Questions on content?
+- How was the chapter?
+- Additions (i.e. videos), edits, etc.?
+- How was the quiz?
+:::
+:::
+
+# What is DataOps? {background="#43464B"}
+
+## DataOps {.smaller}
+
+Short for Data Operations, consists of key concepts for designing, implementing, and managing data workflows.
+
+- **Data ingestion**: Automating the flow of data from various sources.
+- **Data processing**: Applying transformations, feature engineering, and cleaning steps.
+- **Data validation**: Embedding quality checks.
+- **Data versioning & lineage**: Providing traceability and reproducibility.
+
+. . .
+
+::: {.callout-note}
+The goal is to implement these concepts into a series of (preferrably automated) steps that are efficient, reliable, and produce high-quality data.  We refer to this as a [**data pipeline**]{style="color:blue;"}.
+:::
+
+# Data Pipelines {background="#43464B"}
+
+## Class vs. Reality
+
+::: {style="font-size: 50%;"}
+::: {.columns}
+::: {.column width="50%"}
+### Classroom
+
+```{mermaid}
+flowchart LR
+    import --> process --> Modeling
+```
+
+Often, all 3 steps are performed in a single script!
+:::
+
+::: {.column width="50%"}
+### Reality
+
+```{mermaid}
+flowchart LR
+    subgraph dataops[DataOps]
+      direction LR
+      subgraph ingest
+      end
+      subgraph process
+      end
+      subgraph validate
+      end
+      subgraph version
+      end
+      subgraph storage
+      end
+    end
+
+    ingest --> process --> validate --> version --> storage
+    dataops --> Modeling
+```
+Enables...
+
+- **Scalability**: Modular design allows pipelines to handle growing data volumes and adapt to new sources or transformations without significant redesigns.
+- **Reliability**: Continuous validation, versioning, and monitoring ensure that pipelines consistently deliver high-quality data, even in dynamic environments.
+- **Collaboration**: DataOps principles encourage communication between data engineers, analysts, and machine learning practitioners, ensuring pipelines meet diverse needs.
+- **Traceability**: By tracking data lineage and applying version control, DataOps ensures every step in the pipeline is documented, facilitating debugging, compliance, and reproducibility.
+
+:::
+:::
+:::
+
+## ETL vs. ELT Paradigms {.smaller}
+
+When designing data pipelines, there are two primary paradigms:
+
+- Extract, Transform, Load (**ETL**)
+- Extract, Load, Transform (**ELT**)
+
+<br><br>
+
+::: {.callout-note}
+These paradigms represent distinct approaches to organizing and processing data as it flows through pipelines, each with its own strengths and trade-offs. Choosing between ETL and ELT (or a hybrid approach) requires an understanding of your organization’s technical infrastructure, data requirements, and use cases
+:::
+
+## ETL Pipeline {.smaller}
+
+::: {style="font-size: 70%;"}
+
+The **ETL** paradigm embodies a traditional, structured approach to data pipelines. It follows a linear process:
+
+1. **Extract** data from various sources, such as relational databases, APIs, or CSV files.
+2. **Transform** the extracted data into a clean, structured format using techniques like cleaning, aggregation, and enrichment.
+3. **Load** the transformed data into a target system, such as a relational database or data warehouse.
+
+```{mermaid}
+flowchart LR
+    ob1(Raw data source) --> processing[Data processing]
+    ob2(Raw data source) --> processing
+    ob3(Raw data source) --> processing
+    processing --> id3[(Data storage)]
+```
+
+:::
+
+::: {.callout-tip}
+ETL pipelines focus on preparing high-quality, ready-to-use data before it enters the storage system.
+:::
+
+## ELT Pipeline {.smaller}
+
+::: {style="font-size: 70%;"}
+
+The **ELT** paradigm, a more modern approach, inverts the transformation and loading steps:
+
+1. **Extract** data from various sources, often retaining its raw format.
+2. **Load** the extracted data directly into a scalable storage system, such as a data lake or cloud-based data warehouse.
+3. **Transform** the data within the storage system using its computational resources, tailoring transformations to specific analytical needs.
+
+```{mermaid}
+flowchart LR
+    ob1(Raw data source) --> id3[(Data storage)]
+    ob2(Raw data source) --> id3
+    ob3(Raw data source) --> id3
+    id3 --> processing[Data processing] --> id3
+```
+
+:::
+
+::: {.callout-tip}
+In ELT workflows, the **data ingestion** phase emphasizes rapid loading of raw data into storage, enabling flexibility for later transformations.
+:::
+
+## Does it Matter? {.smaller}
+
+It depends!
+
+  - Depends on the project you're working on.
+  - Depends on the infrastructure available in the organization
+
+::: {style="font-size: 70%;"}
+
+| Aspect                | ETL                                     | ELT                                      |
+|-----------------------|-----------------------------------------|------------------------------------------|
+| **Data Transformation** | Before loading into storage             | After loading into storage               |
+| **Storage Requirements** | Lower, as only processed data is stored | Higher, as raw data is retained          |
+| **Processing Time**    | Slower ingestion due to upfront transformations | Faster ingestion with deferred transformations |
+| **Flexibility**       | Limited; transformations are predefined | High; transformations can be ad hoc      |
+| **Infrastructure**    | Suitable for legacy systems or traditional data warehouses | Ideal for modern, scalable systems       |
+:::
+
+::: {.callout-tip}
+## Choosing the Right Paradigm
+Both paradigms have their strengths, and **many organizations blend elements of each.**
+
+- **ETL** is well-suited for structured environments and use cases that demand immediate access to clean, well-processed data.
+- **ELT** shines in cloud-native or big data ecosystems where raw data flexibility and scalability are critical.
+:::
+
+## Example: A YouTube Data Pipeline
+
+<br>
+
+Say we're going to build an ML system that leverages Youtube video titles, transcripts, views, likes, and comments.
+
+<br>
+```{mermaid}
+flowchart LR
+    subgraph ingest[Data Ingestion]
+      direction LR
+      subgraph p1[Ingest Video IDs]
+      end
+      subgraph p2[Ingest Video Stats]
+      end
+      subgraph p3[Ingest Video Transcript]
+      end
+    end
+    p1 --> p2
+    p1 --> p3
+    ingest --> process(Process Raw Data)
+    process --> Validate --> Version --> data[(Data storage)]
+```
+
+. . .
+
+::: {.callout-important}
+## Question
+
+Based on this visual, would you say this is more ETL or ELT?
+:::
+
+# Data Ingestion {background="#43464B"}
+
+## Multiple Data Sources {.smaller}
+
+<br>
+
+::: {.columns}
+::: {.column width="70%"}
+- We often have multiple datasets that feed our ML system.
+- This can pose a problem because these datasets...
+  - come from different sources,
+  - can be updated in different intervals,
+  - are not always straight forward to merge.
+:::
+
+::: {.column width="30%"}
+```{mermaid}
+flowchart LR
+    d1[Dataset 1] --> Data
+    d2[Dataset 2] --> Data
+    d3[Dataset 3] --> Data
+```
+:::
+:::
+
+. . .
+
+For example, our Youtube data pipeline requires...
+
+```{mermaid}
+flowchart LR
+    subgraph ingest[Data Ingestion]
+      direction LR
+      subgraph p1[Ingest Video IDs]
+      end
+      subgraph p2[Ingest Video Stats]
+      end
+      subgraph p3[Ingest Video Transcript]
+      end
+    end
+    p1 --> p2
+    p1 --> p3
+```
+
+## Where our data come from matters
+
+<br>
+
+::: {style="font-size: 50%;"}
+
+| Source           | Advantages                                           | Disadvantages                                   | When to Use                                              |
+|------------------------|-----------------------------------------------------|------------------------------------------------|---------------------------------------------------------|
+| Databases             | Structured, queryable, reliable                      | May require SQL knowledge, scaling issues      | For transactional data and structured data storage      |
+| Files (CSV, JSON, etc.) | Easy to share, human-readable, flexible formats   | Prone to inconsistencies, not scalable for large data | For small datasets or ad hoc data exchanges |
+| APIs                  | Real-time data access, standardized data retrieval   | Rate limits, dependency on external providers  | For integrating third-party services and dynamic data sources |
+| Data Warehouses       | Optimized for analytics, scalable, supports large datasets | Expensive, requires maintenance            | For business intelligence and large-scale data analysis |
+| Data Lakes           | Can store structured and unstructured data, cost-effective | Complex data governance, slower querying | For big data storage and exploratory analysis |
+| Streaming Data       | Real-time data processing, supports event-driven architectures | Requires complex infrastructure, higher resource needs | For real-time analytics and IoT applications |
+| Manual Entry        | Customizable, quick for small-scale data entry       | Error-prone, time-consuming                  | For small, controlled datasets where automation is not feasible |
+
+:::
+
+## Batch vs. Streaming {.smaller}
+
+The frequency of data ingestion — ***batch*** or ***streaming*** — determines how data flows into the ML system.
+
+. . .
+
+::::: {.columns}
+::: {style="font-size: 50%;"}
+::: {.column width="50%"}
+
+### Batch
+
+Collects data in chunks or intervals, such as on a daily cadence.
+
+```{mermaid}
+flowchart LR
+    subgraph Monday
+      direction TB
+      ob1(observation) --> id1[(Data source)]
+      ob2(observation) --> id1
+      ob3(observation) --> id1
+    end
+    subgraph Tuesday
+      direction TB
+      ob4(observation) --> id2[(Data source)]
+      ob5(observation) --> id2
+      ob6(observation) --> id2
+    end
+    subgraph Wednesday
+      direction TB
+      ob7(observation) --> id3[(Data source)]
+      ob8(observation) --> id3
+      ob9(observation) --> id3
+    end
+    processing[Batch data processing]
+    downstream[Downstream ML system processes]
+
+    Monday --> processing
+    Tuesday --> processing
+    Wednesday --> processing
+    processing --> downstream
+```
+:::
+
+::: {.column width="50%"}
+
+### Streaming
+
+Each observation is collected as it comes in and then feeds that data to downstream ML systems and, simoultaneously, to a database for longterm storage.
+
+```{mermaid}
+flowchart LR
+    ob1(observation) --> processing[Real-time data processing]
+    ob2(observation) --> processing
+    ob3(observation) --> processing
+    ob4(observation) --> processing
+    ob5(observation) --> processing
+
+    processing --> downstream[Downstream ML system processes]
+    processing --> id3[(Database)]
+
+```
+:::
+:::
+::::
+
+. . .
+
+<center>
+[How do you think this influences our Youtube data pipeline?]{style="color:red;"}
+</center>
+
+## [Group Discussion: Data Ingestion]{style="color:red;"} {.smaller}
 
 ::: {style="font-size: 85%;"}
-Imagine you are building an ML system for a ride-sharing company to predict rider demand in real-time.
+
+Imagine you are building an ML system for a **ride-sharing company to predict rider demand in real-time**.
 
 **Scenario Details**:
 
 * **Historical Trip Data**: Stored in a relational database, this includes features like pickup/dropoff locations, trip durations, fares, and timestamps for trips over the past five years. Updates occur nightly.
 * **Real-Time Weather Updates**: Obtained from a third-party API, the weather data includes temperature, precipitation, and wind speed, updated every 10 minutes. However, the API has a limit of 1000 requests per hour.
 * **Driver Availability Data**: Streamed from an internal system, this data provides the location and status (available, occupied, offline) of drivers in real-time, updated every second.
+:::
+
+. . .
+
+::: {style="font-size: 85%;"}
 
 **Questions to Consider**:
 
-1. For each data source, would you choose batch, streaming, or hybrid ingestion? Justify your decision.
-2. What challenges might arise when combining these sources into a unified pipeline (e.g., mismatched data formats, latency)?
-3. If the weather API experiences downtime or exceeds rate limits, how would you ensure the pipeline continues functioning without compromising predictions?
+1. What issues may you run into ingesting these three different datasets?
+2. Would these require batch or streaming ingestion?
+3. What challenges may exist in merging these datasets?
+4. What concerns exist using the API?
+:::
+
+# Data Processing {background="#43464B"}
+
+---
+
+<br>
+
+> *"Poor data quality is Enemy #1 to the widespread, profitable use of machine learning, and for this reason, the growth of machine learning increases the importance of data cleansing and preparation. The quality demands of machine learning are steep, and bad data can backfire twice – first when training predictive models and second in the new data used by that model to inform future decisions.”*
+
+## Data Quality {.smaller}
+
+<br>
+
+**Why it matters:**
+
+  - Poor data quality leads to bad models and misleading insights.
+  - Common issues:
+    - Missing data
+    - Duplicate records
+    - Outliers and anomalies
+    - Inconsistent formats (e.g., date formats, categorical labels)
+
+## Youtube Data {.smaller .scrollable}
+
+What data quality concerns would you look for in the Youtube data?
+
+::: {style="font-size: 55%;"}
+{{< embed ../DataOps/youtube-data-pipeline.ipynb#data-preprocess-dataframe echo=true >}}
+:::
+
+. . .
+
+<br>
+
+::: {style="font-size: 55%;"}
+1. **Removing missing values**. There may be videos with no transcript text because the videos have no talking in them.
+2. **Removing duplicate observations**. There could be duplication in video information during the downloading process.
+3. **Remove any inconsistent data types**. We should ensure consistency in data types.
+4. **Remove any observations that have invalid datetime values**. This ensures chronological accuracy for any time-based analysis or trends.
+5. **Remove any videos with minimal number of views**. Some times we want to filter out content that may not provide enough engagement data for meaningful insights.
+6. **Remove any videos with very little transcript text**. We may want to ensure the data contains sufficient content for natural language processing or text-based analysis.
+7. **Clean the title and transcript text**. We may want to remove unnecessary noise, such as non-character string values (i.e. unicode characters), making the text suitable for analysis.
+:::
+
+## Domain Knowledge {.smaller}
+
+Domain knowledge informs the strategies used to resolve data quality issues.
+
+- When dealing with inconsistent data, such as variations in currency or measurement units, domain experts can recommend appropriate standardization practices, such as converting all sales figures to a base currency like USD.
+- For duplicate data, they can help identify unique identifiers, such as customer IDs or transaction numbers, to accurately merge or remove records without losing valuable information.
+- In addressing redundant or irrelevant data, domain knowledge is invaluable for determining which features are meaningful to the predictive task and which can be safely excluded.
+
+## Feature Engineering {.smaller}
+
+- **Why it matters:**
+  - Transforms raw data into meaningful inputs for models.
+  - Improves model performance by highlighting important patterns.
+  - Reduces noise and helps models generalize better.
+
+. . .
+
+What feature engineering could we do on the Youtube data?
+
+::: {style="font-size: 55%;"}
+{{< embed ../DataOps/youtube-data-pipeline.ipynb#data-preprocess-dataframe echo=true >}}
+:::
+
+## Data Leakage {.smaller}
+
+
+- **Why it matters:**
+  - Occurs when information **not available at prediction time** influences the model.
+  - Leads to **over-optimistic model performance** and poor real-world generalization.
+  - Can cause **unexpected failures** when deployed in production.
+
+
+. . .
+
+Say we are a Youtube content creator and we want to use this data to build a model that will predict the number of likes a future video will get based on the title, text, comments, etc. [Are there any concerns with this?]{style="color:red;"}
+
+::: {style="font-size: 55%;"}
+{{< embed ../DataOps/youtube-data-pipeline.ipynb#data-preprocess-dataframe echo=true >}}
+:::
+
+## [Group Discussion: Data Processing]{style="color:red;"} {.smaller}
+
+::: {style="font-size: 85%;"}
+
+Imagine you are building a **customer churn prediction model** for a **subscription-based video streaming service**. The goal is to process and clean incoming data to prepare it for machine learning.
+
+### Scenario Details:
+
+- **User Activity Logs**: Captured from streaming sessions, these logs include play/pause actions, time spent watching, and device type. Data arrives in real-time as a continuous stream.
+- **Subscription Data**: Stored in a relational database, it includes user sign-up dates, subscription plans, payment history, and cancellation records. Updated nightly.
+- **Customer Support Tickets**: Contain text-based customer complaints, categorized by sentiment (positive, neutral, negative). Data is updated hourly and stored in a NoSQL database.
 
 :::
 
-## Part 2: Data Validation {.smaller}
+. . .
 
-You are working on a fraud detection system for an e-commerce platform.
+::: {style="font-size: 85%;"}
 
-**Scenario Details**:
+### Questions to Consider:
 
-* **Transactional Data**: Includes payment amounts, timestamps, and location information. This data is streamed in real-time as customers complete purchases.
-* **Customer Demographic Data**: Stored in a central database, this data includes customer age, location, and preferred payment method. Updates are infrequent, typically occurring during customer registration or profile edits.
+1. What data quality concerns could we run into with these datasets?
+2. What kind of missing data or inconsistent data could we run into across these data sources?
+3. How do these datasets differ in preprocessing/feature engineering needs before they can be used in a machine learning model?
+4. Could data leakage be concern with this data?
 
-**Questions to Consider**:
+:::
 
-1. What specific validation checks would you implement for:
-   - Real-time transactional data (e.g., ensuring timestamps are sequential, payment amounts are positive)?
-   - Customer demographic data (e.g., completeness of profiles, consistency between locations and timestamps)?
-2. Where in the pipeline would you implement these checks to ensure high-quality data without introducing significant latency (i.e. during data ingestion, after data processing)?
-3. In a scenario where real-time data includes unexpected values or incomplete fields, what fallback mechanisms would you put in place to avoid disruptions?
 
-## Part 3: Data Versioning {.smaller}
+# Data Validation {background="#43464B"}
+
+## Why its Important {.smaller}
+
+- **Why Data Validation Matters:**
+  - Ensures **data integrity, consistency, and accuracy**.
+  - Prevents **garbage-in, garbage-out** issues in analytics and ML models.
+  - Reduces failures due to **missing, incorrect, or inconsistent data**.
+  - Helps in **early error detection**, minimizing costly downstream fixes.
+
+. . .
+
+- **Key Objectives of Data Validation:**
+  - **Detect & correct errors** before data enters processing pipelines.
+  - **Ensure reliability** for decision-making and predictive modeling.
+  - **Prevent inconsistencies** between different data sources and updates.
+  - **Automate validation** to maintain high-quality data at scale.
+
+## Common Types of Data Validation {.smaller}
+
+::: {style="font-size: 85%;"}
+
+- **Schema Validation**
+  - Ensures the **correct structure** (column names, data types, constraints).
+  - Example: All **dates must be in YYYY-MM-DD format**.
+
+- **Range Checks**
+  - Verifies values fall within **expected limits**.
+  - Example: Age should be **between 0 and 120**.
+
+- **Uniqueness Checks**
+  - Prevents duplicate records that can skew analysis.
+  - Example: Each **transaction ID** should be unique.
+
+- **Referential Integrity**
+  - Ensures relationships between tables are maintained.
+  - Example: **Customer IDs in the orders table must exist in the customers table**.
+
+- **Anomaly Detection**
+  - Identifies **unexpected values or patterns** in data.
+  - Example: A single customer making **1,000 transactions in one minute**.
+:::
+
+## Youtube Data {.smaller}
+
+[What types of validation would our Youtube data pipeline benefit from?]{style="color:red;"}
+
+::: {style="font-size: 55%;"}
+{{< embed ../DataOps/youtube-data-pipeline.ipynb#data-preprocess-dataframe echo=true >}}
+:::
+
+. . .
+
+<br>
+
+::: {style="font-size: 55%;"}
+- **Column Existence Validation**: Verify that all required columns (`channel_id`, `video_id`, `datetime`, `title`, `views`, `likes`, `comments`, `transcript`, and `transcript_length`) are present in the dataset.
+
+- **Data Type Validation**: Check that each column contains values of the expected data type, such as `Object` for textual data (`channel_id`, `video_id`, `title`, and `transcript`), `Timestamp` for date-related fields, and `int64` for numerical fields (`views`, `likes`, `comments`, and `transcript_length`).
+
+- **Null Value Validation**: Confirm that no empty or null values exist in the critical columns.
+
+- **Range Check**: Check that the numeric columns are all zero or positive integers.  Or maybe we want to ensure there are at least 100 characters in the transcript.
+
+- ...
+:::
+
+## Validate often!
+
+Validation should be incorporated at multiple stages throughout the ML system.
+
+![](images/ml_workflow_validation.png)
+
+## [Group Discussion: Data Validation]{style="color:red;"} {.smaller}
+
+::: {style="font-size: 80%;"}
+
+- **Scenario:** You are working on a **fraud detection system** for an **e-commerce platform**.
+
+### Data Sources:
+- **Transactional Data** (Real-Time)
+  - Includes **payment amounts, timestamps, and location information**.
+  - Streamed **in real-time** as customers complete purchases.
+- **Customer Demographic Data** (Batch)
+  - Stored in a **central database**, containing **age, location, and preferred payment method**.
+  - Updates are **infrequent**, typically during customer registration or profile edits.
+
+:::
+
+. . .
+
+::: {style="font-size: 80%;"}
+
+### **Questions to Consider**
+
+1. What validation checks should be applied to each dataset?
+2. Where in the pipeline should these validation checks be implemented?
+3. How would you handle unexpected values or missing fields in real-time data?
+
+:::
+
+
+# Data Versioning & Lineage {background="#43464B"}
+
+## Versioning vs. Lineage {.smaller}
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {style="font-size: 60%;"}
+
+**Data versioning**
+
+- Focuses on capturing and maintaining historical versions of datasets.
+- Allows you to roll back to previous versions, compare outcomes across iterations, and confidently experiment with new approaches.
+
+<br><br>
+
+```{mermaid}
+%%{init: {'gitGraph': {'mainBranchName': 'Youtube Data'}} }%%
+
+gitGraph
+   commit  id: "v1.0.0"
+   commit  id: "v1.0.1"
+   commit  id: "v1.0.2"
+   branch 'new feature'
+   commit id: "add new feature"
+   checkout 'Youtube Data'
+   merge 'new feature'
+   commit  id: "v1.1.0"
+
+```
+:::
+:::
+
+::: {.column width="50%"}
+::: {style="font-size: 60%;"}
+
+**Data lineage**
+
+- Documents the entire journey of data—from its origin to the final output—capturing how it was processed, transformed, and consumed.
+- Provides tracibility for debugging, auditing, and understanding the impact of upstream changes on downstream processes.
+
+<br>
+
+```{mermaid}
+flowchart LR
+  db1[(Data<br>source 1)] --> p1[/processing<br>step 1/]
+  p1 -->  p2[/processing<br>step 2/]
+  db2[(Data<br>source 2)] --> p2
+  p2 -->  p3[/processing<br>step 3/]
+  db3[(Data<br>source 3)] --> p3
+  p3 --> p4[/processing<br>step 4/]
+  p4 --> p5[/processing<br>step 5/]
+  p5 --> db4[(Final<br>processed<br>data)]
+
+```
+:::
+:::
+
+::::
+
+. . .
+
+::: {.callout-important}
+Together, data versioning and lineage create a transparent, reliable foundation for machine learning systems. They enable teams to meet regulatory requirements, mitigate risks, and streamline collaboration, making these practices indispensable in modern DataOps workflows.
+:::
+
+## Youtube Data {.smaller}
+
+- [How would versioning come into play with our Youtube data?]{style="color:red;"}
+- [What specific lineage information do you think would be important to document?]{style="color:red;"}
+
+::: {style="font-size: 55%;"}
+{{< embed ../DataOps/youtube-data-pipeline.ipynb#data-preprocess-dataframe echo=true >}}
+:::
+
+## [Group Discussion: Data Processing]{style="color:red;"} {.smaller}
+
+::: {style="font-size: 85%;"}
 
 You are tasked with designing a churn prediction model for a subscription-based video streaming service.
 
@@ -135,30 +715,38 @@ You are tasked with designing a churn prediction model for a subscription-based 
 * **Subscription Details**: Include plan type, renewal dates, and payment status. This data is updated monthly and stored in a relational database.
 * **Support Ticket Interactions**: Contain customer issues, resolutions, and timestamps. These are logged as they occur, with potential delays in updates due to manual entry.
 
-**Questions to Consider:**
+:::
 
-1. How would you use data versioning to track changes in user activity logs, ensuring you can reproduce model training results even as new data is added?
-2. What specific lineage information would you prioritize capturing (e.g., transformations applied to raw activity logs, dependencies between features)?
-3. If regulatory compliance (e.g., GDPR, which requires traceability of user data usage) is a factor, how might you adjust your versioning and lineage strategy?
-
-## Part 4 Reflection {.smaller}
-
-Reflect on a hypothetical scenario where your ML pipeline for a financial institution fails in production.
-
-**Scenario (Failure) Details:**
-
-* A schema change in the credit card transaction dataset (e.g., renaming "customer_id" to "user_id") was not communicated to the team.
-* The batch ingestion process for monthly transaction summaries included corrupted records due to network interruptions during transfer.
-* Real-time streaming data from payment terminals introduced inconsistencies in timestamps due to system clock misalignments.
+. . .
 
 **Questions to Consider:**
 
-1. Which specific DataOps practices (e.g., schema validation, data versioning, lineage tracking) could have prevented these failures?
-2. What steps could you take to proactively handle similar challenges in the future, such as designing validation workflows or automating schema change notifications?
-3. How would you balance thorough validation checks with maintaining pipeline performance, especially in a high-throughput environment like financial fraud detection?
+::: {style="font-size: 85%;"}
+1. How would you use data versioning to track changes in user activity logs?
+2. What specific lineage information do you think would be important to document?
+3. How would versioning and lineage help with regulatory concerns?
+:::
 
 
-# Questions and Discussion {background="#43464B"}
+# Wrapping Up {background="#43464B"}
 
-- Open floor for questions regarding ML System Design concepts.
+## This week {.smaller}
+
+- Readings
+  - Will go deeper into these concepts
+  - Introduce you to tools you can used to implement these concepts
+  - Demonstrate a simple data pipeline for the Youtube data
+
+- Thursday
+  - Speaker: Yash Sharma on Data Pipelines
+  - When: Thursday, March 13th at 2PM
+  - Where: Team's meeting
+
+- By end of week
+  - Read the final project overview
+  - Create your final project team
+
+## Questions or Discussion?
+
+- Open floor for questions regarding DataOps & data pipelines.
 - Discussion on how these principles apply to real-world business scenarios.

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="03-dataops_files/libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="03-dataops_files/libs/clipboard/clipboard.min.js"></script>
 <script src="03-dataops_files/libs/quarto-html/tabby.min.js"></script>
 <script src="03-dataops_files/libs/quarto-html/popper.min.js"></script>
 <script src="03-dataops_files/libs/quarto-html/tippy.umd.min.js"></script>
@@ -27,6 +27,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="03-dataops_files/libs/revealjs/dist/theme/quarto-bbe7401fe57d4b791b917637bb662036.css">
   <link rel="stylesheet" href="styles.css">
@@ -121,6 +186,14 @@
       margin-right: 0; 
     }
   </style>
+  <meta name="mermaid-theme" content="neutral">
+  <script src="03-dataops_files/libs/quarto-diagram/mermaid.min.js"></script>
+  <script src="03-dataops_files/libs/quarto-diagram/mermaid-init.js"></script>
+  <link href="03-dataops_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+  
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+  <script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -141,117 +214,25 @@
 </section>
 <section id="purpose" class="slide level2">
 <h2>Purpose</h2>
+<p><br></p>
 <ul>
+<li>AMA on last week’s content</li>
 <li>Provide a quick introduction to:
 <ul>
 <li>The role of DataOps</li>
 <li>Building data pipelines</li>
+<li>Group discussions for scenarios</li>
 </ul></li>
-<li>Work through a group exercise to start thinking like a data engineer</li>
-</ul>
-</section></section>
-<section>
-<section id="what-is-dataops" class="title-slide slide level1 center" data-background="#43464B">
-<h1>What is DataOps?</h1>
-
-</section>
-<section id="slide" class="slide level2">
-<h2>Slide</h2>
-<ul>
-<li>TBD</li>
-<li>TBD</li>
-</ul>
-</section></section>
-<section>
-<section id="data-ingestion" class="title-slide slide level1 center" data-background="#43464B">
-<h1>Data Ingestion</h1>
-
-</section>
-<section id="slide-1" class="slide level2">
-<h2>Slide</h2>
-<ul>
-<li>TBD</li>
-<li>TBD</li>
-</ul>
-</section></section>
-<section>
-<section id="data-processing" class="title-slide slide level1 center" data-background="#43464B">
-<h1>Data Processing</h1>
-
-</section>
-<section id="slide-2" class="slide level2">
-<h2>Slide</h2>
-<ul>
-<li>TBD</li>
-<li>TBD</li>
-</ul>
-</section></section>
-<section>
-<section id="data-validation" class="title-slide slide level1 center" data-background="#43464B">
-<h1>Data Validation</h1>
-
-</section>
-<section id="slide-3" class="slide level2">
-<h2>Slide</h2>
-<ul>
-<li>TBD</li>
-<li>TBD</li>
-</ul>
-</section></section>
-<section>
-<section id="data-versioning" class="title-slide slide level1 center" data-background="#43464B">
-<h1>Data Versioning</h1>
-
-</section>
-<section id="slide-4" class="slide level2">
-<h2>Slide</h2>
-<ul>
-<li>TBD</li>
-<li>TBD</li>
-</ul>
-</section></section>
-<section>
-<section id="data-pipelines" class="title-slide slide level1 center" data-background="#43464B">
-<h1>Data Pipelines</h1>
-
-</section>
-<section id="what-are-they" class="slide level2">
-<h2>What are they</h2>
-<ul>
-<li>TBD</li>
-<li>TBD</li>
 </ul>
 </section>
-<section id="etl-vs.-elt-paradigms" class="slide level2">
-<h2>ETL vs.&nbsp;ELT Paradigms</h2>
-<ul>
-<li>TBD</li>
-<li>TBD</li>
-</ul>
-</section>
-<section id="tools-for-dataops" class="slide level2">
-<h2>Tools for DataOps</h2>
-<ul>
-<li>TBD</li>
-<li>TBD</li>
-</ul>
-</section>
-<section id="an-example-pipeline" class="slide level2">
-<h2>An Example Pipeline</h2>
-<p>https://github.com/bradleyboehmke/uc-bana-7075/blob/main/DataOps/youtube-data-pipeline.ipynb</p>
-</section></section>
-<section>
-<section id="in-class-exercise" class="title-slide slide level1 center" data-background="#43464B">
-<h1>In-Class Exercise</h1>
-
-</section>
-<section id="group-activity" class="slide level2 smaller">
-<h2>Group Activity</h2>
+<section id="group-discussions" class="slide level2 smaller">
+<h2>Group Discussions</h2>
+<p><br></p>
 <ul>
 <li>Break into small groups (~3-5 people)</li>
-<li>Each group will assess 4 scenarios and be prepared to provide their thoughts:
+<li>Each group will assess scenarios as we progress through the lecture and provide their thoughts:
 <ul>
-<li>~5-10min group brainstorming</li>
+<li>~5min group brainstorming</li>
 <li>~5min class discussion</li>
 </ul></li>
 </ul>
@@ -269,45 +250,1393 @@
 </div>
 </div>
 </section>
-<section id="part-1-data-ingestion" class="slide level2 smaller">
-<h2>Part 1: Data Ingestion</h2>
+<section id="project-reminder" class="slide level2">
+<h2>Project Reminder</h2>
+<p><br></p>
+<p>Be sure to:</p>
+<ol type="1">
+<li>Read the final project overview</li>
+<li>Create your final project team</li>
+</ol>
+</section></section>
+<section>
+<section id="last-weeks-content" class="title-slide slide level1 center" data-background="#43464B">
+<h1>Last Week’s Content</h1>
+
+</section>
+<section id="feedback" class="slide level2">
+<h2>Feedback</h2>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="ml-system-design">ML System Design</h3>
+<ul>
+<li>Questions on content?</li>
+<li>How was the chapter?</li>
+<li>Additions (i.e.&nbsp;videos), edits, etc.?</li>
+<li>How was the quiz?</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="before-we-build">Before We Build</h3>
+<ul>
+<li>Questions on content?</li>
+<li>How was the chapter?</li>
+<li>Additions (i.e.&nbsp;videos), edits, etc.?</li>
+<li>How was the quiz?</li>
+</ul>
+</div></div>
+</section></section>
+<section>
+<section id="what-is-dataops" class="title-slide slide level1 center" data-background="#43464B">
+<h1>What is DataOps?</h1>
+
+</section>
+<section id="dataops" class="slide level2 smaller">
+<h2>DataOps</h2>
+<p>Short for Data Operations, consists of key concepts for designing, implementing, and managing data workflows.</p>
+<ul>
+<li><strong>Data ingestion</strong>: Automating the flow of data from various sources.</li>
+<li><strong>Data processing</strong>: Applying transformations, feature engineering, and cleaning steps.</li>
+<li><strong>Data validation</strong>: Embedding quality checks.</li>
+<li><strong>Data versioning &amp; lineage</strong>: Providing traceability and reproducibility.</li>
+</ul>
+<div class="fragment">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>The goal is to implement these concepts into a series of (preferrably automated) steps that are efficient, reliable, and produce high-quality data. We refer to this as a <span style="color:blue;"><strong>data pipeline</strong></span>.</p>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="data-pipelines" class="title-slide slide level1 center" data-background="#43464B">
+<h1>Data Pipelines</h1>
+
+</section>
+<section id="class-vs.-reality" class="slide level2">
+<h2>Class vs.&nbsp;Reality</h2>
+<div style="font-size: 50%;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="classroom">Classroom</h3>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    import --&gt; process --&gt; Modeling
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Often, all 3 steps are performed in a single script!</p>
+</div><div class="column" style="width:50%;">
+<h3 id="reality">Reality</h3>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    subgraph dataops[DataOps]
+      direction LR
+      subgraph ingest
+      end
+      subgraph process
+      end
+      subgraph validate
+      end
+      subgraph version
+      end
+      subgraph storage
+      end
+    end
+
+    ingest --&gt; process --&gt; validate --&gt; version --&gt; storage
+    dataops --&gt; Modeling
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Enables…</p>
+<ul>
+<li><strong>Scalability</strong>: Modular design allows pipelines to handle growing data volumes and adapt to new sources or transformations without significant redesigns.</li>
+<li><strong>Reliability</strong>: Continuous validation, versioning, and monitoring ensure that pipelines consistently deliver high-quality data, even in dynamic environments.</li>
+<li><strong>Collaboration</strong>: DataOps principles encourage communication between data engineers, analysts, and machine learning practitioners, ensuring pipelines meet diverse needs.</li>
+<li><strong>Traceability</strong>: By tracking data lineage and applying version control, DataOps ensures every step in the pipeline is documented, facilitating debugging, compliance, and reproducibility.</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="etl-vs.-elt-paradigms" class="slide level2 smaller">
+<h2>ETL vs.&nbsp;ELT Paradigms</h2>
+<p>When designing data pipelines, there are two primary paradigms:</p>
+<ul>
+<li>Extract, Transform, Load (<strong>ETL</strong>)</li>
+<li>Extract, Load, Transform (<strong>ELT</strong>)</li>
+</ul>
+<p><br><br></p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>These paradigms represent distinct approaches to organizing and processing data as it flows through pipelines, each with its own strengths and trade-offs. Choosing between ETL and ELT (or a hybrid approach) requires an understanding of your organization’s technical infrastructure, data requirements, and use cases</p>
+</div>
+</div>
+</div>
+</section>
+<section id="etl-pipeline" class="slide level2 smaller">
+<h2>ETL Pipeline</h2>
+<div style="font-size: 70%;">
+<p>The <strong>ETL</strong> paradigm embodies a traditional, structured approach to data pipelines. It follows a linear process:</p>
+<ol type="1">
+<li><strong>Extract</strong> data from various sources, such as relational databases, APIs, or CSV files.</li>
+<li><strong>Transform</strong> the extracted data into a clean, structured format using techniques like cleaning, aggregation, and enrichment.</li>
+<li><strong>Load</strong> the transformed data into a target system, such as a relational database or data warehouse.</li>
+</ol>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    ob1(Raw data source) --&gt; processing[Data processing]
+    ob2(Raw data source) --&gt; processing
+    ob3(Raw data source) --&gt; processing
+    processing --&gt; id3[(Data storage)]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>ETL pipelines focus on preparing high-quality, ready-to-use data before it enters the storage system.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="elt-pipeline" class="slide level2 smaller">
+<h2>ELT Pipeline</h2>
+<div style="font-size: 70%;">
+<p>The <strong>ELT</strong> paradigm, a more modern approach, inverts the transformation and loading steps:</p>
+<ol type="1">
+<li><strong>Extract</strong> data from various sources, often retaining its raw format.</li>
+<li><strong>Load</strong> the extracted data directly into a scalable storage system, such as a data lake or cloud-based data warehouse.</li>
+<li><strong>Transform</strong> the data within the storage system using its computational resources, tailoring transformations to specific analytical needs.</li>
+</ol>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    ob1(Raw data source) --&gt; id3[(Data storage)]
+    ob2(Raw data source) --&gt; id3
+    ob3(Raw data source) --&gt; id3
+    id3 --&gt; processing[Data processing] --&gt; id3
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>In ELT workflows, the <strong>data ingestion</strong> phase emphasizes rapid loading of raw data into storage, enabling flexibility for later transformations.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="does-it-matter" class="slide level2 smaller">
+<h2>Does it Matter?</h2>
+<p>It depends!</p>
+<ul>
+<li>Depends on the project you’re working on.</li>
+<li>Depends on the infrastructure available in the organization</li>
+</ul>
+<div style="font-size: 70%;">
+<table class="caption-top">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 38%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Aspect</th>
+<th>ETL</th>
+<th>ELT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Data Transformation</strong></td>
+<td>Before loading into storage</td>
+<td>After loading into storage</td>
+</tr>
+<tr class="even">
+<td><strong>Storage Requirements</strong></td>
+<td>Lower, as only processed data is stored</td>
+<td>Higher, as raw data is retained</td>
+</tr>
+<tr class="odd">
+<td><strong>Processing Time</strong></td>
+<td>Slower ingestion due to upfront transformations</td>
+<td>Faster ingestion with deferred transformations</td>
+</tr>
+<tr class="even">
+<td><strong>Flexibility</strong></td>
+<td>Limited; transformations are predefined</td>
+<td>High; transformations can be ad hoc</td>
+</tr>
+<tr class="odd">
+<td><strong>Infrastructure</strong></td>
+<td>Suitable for legacy systems or traditional data warehouses</td>
+<td>Ideal for modern, scalable systems</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Choosing the Right Paradigm</strong></p>
+</div>
+<div class="callout-content">
+<p>Both paradigms have their strengths, and <strong>many organizations blend elements of each.</strong></p>
+<ul>
+<li><strong>ETL</strong> is well-suited for structured environments and use cases that demand immediate access to clean, well-processed data.</li>
+<li><strong>ELT</strong> shines in cloud-native or big data ecosystems where raw data flexibility and scalability are critical.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="example-a-youtube-data-pipeline" class="slide level2">
+<h2>Example: A YouTube Data Pipeline</h2>
+<p><br></p>
+<p>Say we’re going to build an ML system that leverages Youtube video titles, transcripts, views, likes, and comments.</p>
+<p><br></p>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    subgraph ingest[Data Ingestion]
+      direction LR
+      subgraph p1[Ingest Video IDs]
+      end
+      subgraph p2[Ingest Video Stats]
+      end
+      subgraph p3[Ingest Video Transcript]
+      end
+    end
+    p1 --&gt; p2
+    p1 --&gt; p3
+    ingest --&gt; process(Process Raw Data)
+    process --&gt; Validate --&gt; Version --&gt; data[(Data storage)]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question</strong></p>
+</div>
+<div class="callout-content">
+<p>Based on this visual, would you say this is more ETL or ELT?</p>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="data-ingestion" class="title-slide slide level1 center" data-background="#43464B">
+<h1>Data Ingestion</h1>
+
+</section>
+<section id="multiple-data-sources" class="slide level2 smaller">
+<h2>Multiple Data Sources</h2>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:70%;">
+<ul>
+<li>We often have multiple datasets that feed our ML system.</li>
+<li>This can pose a problem because these datasets…
+<ul>
+<li>come from different sources,</li>
+<li>can be updated in different intervals,</li>
+<li>are not always straight forward to merge.</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:30%;">
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    d1[Dataset 1] --&gt; Data
+    d2[Dataset 2] --&gt; Data
+    d3[Dataset 3] --&gt; Data
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment">
+<p>For example, our Youtube data pipeline requires…</p>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    subgraph ingest[Data Ingestion]
+      direction LR
+      subgraph p1[Ingest Video IDs]
+      end
+      subgraph p2[Ingest Video Stats]
+      end
+      subgraph p3[Ingest Video Transcript]
+      end
+    end
+    p1 --&gt; p2
+    p1 --&gt; p3
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="where-our-data-come-from-matters" class="slide level2">
+<h2>Where our data come from matters</h2>
+<p><br></p>
+<div style="font-size: 50%;">
+<table class="caption-top">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 29%">
+<col style="width: 26%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Advantages</th>
+<th>Disadvantages</th>
+<th>When to Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Databases</td>
+<td>Structured, queryable, reliable</td>
+<td>May require SQL knowledge, scaling issues</td>
+<td>For transactional data and structured data storage</td>
+</tr>
+<tr class="even">
+<td>Files (CSV, JSON, etc.)</td>
+<td>Easy to share, human-readable, flexible formats</td>
+<td>Prone to inconsistencies, not scalable for large data</td>
+<td>For small datasets or ad hoc data exchanges</td>
+</tr>
+<tr class="odd">
+<td>APIs</td>
+<td>Real-time data access, standardized data retrieval</td>
+<td>Rate limits, dependency on external providers</td>
+<td>For integrating third-party services and dynamic data sources</td>
+</tr>
+<tr class="even">
+<td>Data Warehouses</td>
+<td>Optimized for analytics, scalable, supports large datasets</td>
+<td>Expensive, requires maintenance</td>
+<td>For business intelligence and large-scale data analysis</td>
+</tr>
+<tr class="odd">
+<td>Data Lakes</td>
+<td>Can store structured and unstructured data, cost-effective</td>
+<td>Complex data governance, slower querying</td>
+<td>For big data storage and exploratory analysis</td>
+</tr>
+<tr class="even">
+<td>Streaming Data</td>
+<td>Real-time data processing, supports event-driven architectures</td>
+<td>Requires complex infrastructure, higher resource needs</td>
+<td>For real-time analytics and IoT applications</td>
+</tr>
+<tr class="odd">
+<td>Manual Entry</td>
+<td>Customizable, quick for small-scale data entry</td>
+<td>Error-prone, time-consuming</td>
+<td>For small, controlled datasets where automation is not feasible</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="batch-vs.-streaming" class="slide level2 smaller">
+<h2>Batch vs.&nbsp;Streaming</h2>
+<p>The frequency of data ingestion — <strong><em>batch</em></strong> or <strong><em>streaming</em></strong> — determines how data flows into the ML system.</p>
+<div class="fragment">
+<div class="columns">
+<div style="font-size: 50%;">
+<div class="column" style="width:50%;">
+<h3 id="batch">Batch</h3>
+<p>Collects data in chunks or intervals, such as on a daily cadence.</p>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    subgraph Monday
+      direction TB
+      ob1(observation) --&gt; id1[(Data source)]
+      ob2(observation) --&gt; id1
+      ob3(observation) --&gt; id1
+    end
+    subgraph Tuesday
+      direction TB
+      ob4(observation) --&gt; id2[(Data source)]
+      ob5(observation) --&gt; id2
+      ob6(observation) --&gt; id2
+    end
+    subgraph Wednesday
+      direction TB
+      ob7(observation) --&gt; id3[(Data source)]
+      ob8(observation) --&gt; id3
+      ob9(observation) --&gt; id3
+    end
+    processing[Batch data processing]
+    downstream[Downstream ML system processes]
+
+    Monday --&gt; processing
+    Tuesday --&gt; processing
+    Wednesday --&gt; processing
+    processing --&gt; downstream
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<h3 id="streaming">Streaming</h3>
+<p>Each observation is collected as it comes in and then feeds that data to downstream ML systems and, simoultaneously, to a database for longterm storage.</p>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    ob1(observation) --&gt; processing[Real-time data processing]
+    ob2(observation) --&gt; processing
+    ob3(observation) --&gt; processing
+    ob4(observation) --&gt; processing
+    ob5(observation) --&gt; processing
+
+    processing --&gt; downstream[Downstream ML system processes]
+    processing --&gt; id3[(Database)]
+
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</div>
+<div class="fragment">
+<center>
+<span style="color:red;">How do you think this influences our Youtube data pipeline?</span>
+</center>
+</div>
+</section>
+<section id="group-discussion-data-ingestion" class="slide level2 smaller">
+<h2><span style="color:red;">Group Discussion: Data Ingestion</span></h2>
 <div style="font-size: 85%;">
-<p>Imagine you are building an ML system for a ride-sharing company to predict rider demand in real-time.</p>
+<p>Imagine you are building an ML system for a <strong>ride-sharing company to predict rider demand in real-time</strong>.</p>
 <p><strong>Scenario Details</strong>:</p>
 <ul>
 <li><strong>Historical Trip Data</strong>: Stored in a relational database, this includes features like pickup/dropoff locations, trip durations, fares, and timestamps for trips over the past five years. Updates occur nightly.</li>
 <li><strong>Real-Time Weather Updates</strong>: Obtained from a third-party API, the weather data includes temperature, precipitation, and wind speed, updated every 10 minutes. However, the API has a limit of 1000 requests per hour.</li>
 <li><strong>Driver Availability Data</strong>: Streamed from an internal system, this data provides the location and status (available, occupied, offline) of drivers in real-time, updated every second.</li>
 </ul>
+</div>
+<div class="fragment">
+<div style="font-size: 85%;">
 <p><strong>Questions to Consider</strong>:</p>
 <ol type="1">
-<li>For each data source, would you choose batch, streaming, or hybrid ingestion? Justify your decision.</li>
-<li>What challenges might arise when combining these sources into a unified pipeline (e.g., mismatched data formats, latency)?</li>
-<li>If the weather API experiences downtime or exceeds rate limits, how would you ensure the pipeline continues functioning without compromising predictions?</li>
+<li>What issues may you run into ingesting these three different datasets?</li>
+<li>Would these require batch or streaming ingestion?</li>
+<li>What challenges may exist in merging these datasets?</li>
+<li>What concerns exist using the API?</li>
 </ol>
 </div>
+</div>
+</section></section>
+<section>
+<section id="data-processing" class="title-slide slide level1 center" data-background="#43464B">
+<h1>Data Processing</h1>
+
 </section>
-<section id="part-2-data-validation" class="slide level2 smaller">
-<h2>Part 2: Data Validation</h2>
-<p>You are working on a fraud detection system for an e-commerce platform.</p>
-<p><strong>Scenario Details</strong>:</p>
+<section class="slide level2">
+
+<p><br></p>
+<blockquote>
+<p><em>“Poor data quality is Enemy #1 to the widespread, profitable use of machine learning, and for this reason, the growth of machine learning increases the importance of data cleansing and preparation. The quality demands of machine learning are steep, and bad data can backfire twice – first when training predictive models and second in the new data used by that model to inform future decisions.”</em></p>
+</blockquote>
+</section>
+<section id="data-quality" class="slide level2 smaller">
+<h2>Data Quality</h2>
+<p><br></p>
+<p><strong>Why it matters:</strong></p>
 <ul>
-<li><strong>Transactional Data</strong>: Includes payment amounts, timestamps, and location information. This data is streamed in real-time as customers complete purchases.</li>
-<li><strong>Customer Demographic Data</strong>: Stored in a central database, this data includes customer age, location, and preferred payment method. Updates are infrequent, typically occurring during customer registration or profile edits.</li>
-</ul>
-<p><strong>Questions to Consider</strong>:</p>
-<ol type="1">
-<li>What specific validation checks would you implement for:
+<li>Poor data quality leads to bad models and misleading insights.</li>
+<li>Common issues:
 <ul>
-<li>Real-time transactional data (e.g., ensuring timestamps are sequential, payment amounts are positive)?</li>
-<li>Customer demographic data (e.g., completeness of profiles, consistency between locations and timestamps)?</li>
+<li>Missing data</li>
+<li>Duplicate records</li>
+<li>Outliers and anomalies</li>
+<li>Inconsistent formats (e.g., date formats, categorical labels)</li>
 </ul></li>
-<li>Where in the pipeline would you implement these checks to ensure high-quality data without introducing significant latency (i.e.&nbsp;during data ingestion, after data processing)?</li>
-<li>In a scenario where real-time data includes unexpected values or incomplete fields, what fallback mechanisms would you put in place to avoid disruptions?</li>
+</ul>
+</section>
+<section id="youtube-data" class="slide level2 smaller scrollable">
+<h2>Youtube Data</h2>
+<p>What data quality concerns would you look for in the Youtube data?</p>
+<div style="font-size: 55%;">
+<div class="quarto-embed-nb-cell" data-notebook="/Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-10">
+<div id="cell-10" class="cell" data-tags="[&quot;data-preprocess-dataframe&quot;]" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>raw_data <span class="op">=</span> pd.DataFrame(video_data)</span>
+<span id="cb1-2"><a href=""></a>raw_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">channel_id</th>
+<th data-quarto-table-cell-role="th">video_id</th>
+<th data-quarto-table-cell-role="th">datetime</th>
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">views</th>
+<th data-quarto-table-cell-role="th">likes</th>
+<th data-quarto-table-cell-role="th">comments</th>
+<th data-quarto-table-cell-role="th">transcript</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>wzrIKGcOlsU</td>
+<td>2025-01-13T17:00:24Z</td>
+<td>Rory McIlroy has another gear.</td>
+<td>3142</td>
+<td>304</td>
+<td>16</td>
+<td>I've never seen you go after the ball like thi...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>Pz42jFngEzM</td>
+<td>2025-01-13T03:25:25Z</td>
+<td>Thank you. 1 Million ❤️</td>
+<td>59474</td>
+<td>6757</td>
+<td>428</td>
+<td>[Music] so sick let's go [Music]</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>fSHh01YT0-Q</td>
+<td>2025-01-07T18:50:32Z</td>
+<td>Tiger Woods hits the ball off the heel.</td>
+<td>64116</td>
+<td>2055</td>
+<td>30</td>
+<td>over the course of my career I've always hit t...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>erzLT7fy2r0</td>
+<td>2025-01-07T17:56:07Z</td>
+<td>Tiger Woods liked my golf swing!</td>
+<td>122584</td>
+<td>4486</td>
+<td>76</td>
+<td>what's wrong with that yeah that came off you ...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>3O08SnyZ88U</td>
+<td>2025-01-07T17:07:04Z</td>
+<td>Tiger Woods teaches me how to hit it straight!</td>
+<td>555884</td>
+<td>18286</td>
+<td>142</td>
+<td>what did you do in your career when you had a ...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><br></p>
+<div style="font-size: 55%;">
+<ol type="1">
+<li><strong>Removing missing values</strong>. There may be videos with no transcript text because the videos have no talking in them.</li>
+<li><strong>Removing duplicate observations</strong>. There could be duplication in video information during the downloading process.</li>
+<li><strong>Remove any inconsistent data types</strong>. We should ensure consistency in data types.</li>
+<li><strong>Remove any observations that have invalid datetime values</strong>. This ensures chronological accuracy for any time-based analysis or trends.</li>
+<li><strong>Remove any videos with minimal number of views</strong>. Some times we want to filter out content that may not provide enough engagement data for meaningful insights.</li>
+<li><strong>Remove any videos with very little transcript text</strong>. We may want to ensure the data contains sufficient content for natural language processing or text-based analysis.</li>
+<li><strong>Clean the title and transcript text</strong>. We may want to remove unnecessary noise, such as non-character string values (i.e.&nbsp;unicode characters), making the text suitable for analysis.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="domain-knowledge" class="slide level2 smaller">
+<h2>Domain Knowledge</h2>
+<p>Domain knowledge informs the strategies used to resolve data quality issues.</p>
+<ul>
+<li>When dealing with inconsistent data, such as variations in currency or measurement units, domain experts can recommend appropriate standardization practices, such as converting all sales figures to a base currency like USD.</li>
+<li>For duplicate data, they can help identify unique identifiers, such as customer IDs or transaction numbers, to accurately merge or remove records without losing valuable information.</li>
+<li>In addressing redundant or irrelevant data, domain knowledge is invaluable for determining which features are meaningful to the predictive task and which can be safely excluded.</li>
+</ul>
+</section>
+<section id="feature-engineering" class="slide level2 smaller">
+<h2>Feature Engineering</h2>
+<ul>
+<li><strong>Why it matters:</strong>
+<ul>
+<li>Transforms raw data into meaningful inputs for models.</li>
+<li>Improves model performance by highlighting important patterns.</li>
+<li>Reduces noise and helps models generalize better.</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<p>What feature engineering could we do on the Youtube data?</p>
+<div style="font-size: 55%;">
+<div class="quarto-embed-nb-cell" data-notebook="/Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-10">
+<div id="cell-10" class="cell" data-tags="[&quot;data-preprocess-dataframe&quot;]" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>raw_data <span class="op">=</span> pd.DataFrame(video_data)</span>
+<span id="cb2-2"><a href=""></a>raw_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">channel_id</th>
+<th data-quarto-table-cell-role="th">video_id</th>
+<th data-quarto-table-cell-role="th">datetime</th>
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">views</th>
+<th data-quarto-table-cell-role="th">likes</th>
+<th data-quarto-table-cell-role="th">comments</th>
+<th data-quarto-table-cell-role="th">transcript</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>wzrIKGcOlsU</td>
+<td>2025-01-13T17:00:24Z</td>
+<td>Rory McIlroy has another gear.</td>
+<td>3142</td>
+<td>304</td>
+<td>16</td>
+<td>I've never seen you go after the ball like thi...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>Pz42jFngEzM</td>
+<td>2025-01-13T03:25:25Z</td>
+<td>Thank you. 1 Million ❤️</td>
+<td>59474</td>
+<td>6757</td>
+<td>428</td>
+<td>[Music] so sick let's go [Music]</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>fSHh01YT0-Q</td>
+<td>2025-01-07T18:50:32Z</td>
+<td>Tiger Woods hits the ball off the heel.</td>
+<td>64116</td>
+<td>2055</td>
+<td>30</td>
+<td>over the course of my career I've always hit t...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>erzLT7fy2r0</td>
+<td>2025-01-07T17:56:07Z</td>
+<td>Tiger Woods liked my golf swing!</td>
+<td>122584</td>
+<td>4486</td>
+<td>76</td>
+<td>what's wrong with that yeah that came off you ...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>3O08SnyZ88U</td>
+<td>2025-01-07T17:07:04Z</td>
+<td>Tiger Woods teaches me how to hit it straight!</td>
+<td>555884</td>
+<td>18286</td>
+<td>142</td>
+<td>what did you do in your career when you had a ...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="data-leakage" class="slide level2 smaller">
+<h2>Data Leakage</h2>
+<ul>
+<li><strong>Why it matters:</strong>
+<ul>
+<li>Occurs when information <strong>not available at prediction time</strong> influences the model.</li>
+<li>Leads to <strong>over-optimistic model performance</strong> and poor real-world generalization.</li>
+<li>Can cause <strong>unexpected failures</strong> when deployed in production.</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<p>Say we are a Youtube content creator and we want to use this data to build a model that will predict the number of likes a future video will get based on the title, text, comments, etc. <span style="color:red;">Are there any concerns with this?</span></p>
+<div style="font-size: 55%;">
+<div class="quarto-embed-nb-cell" data-notebook="/Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-10">
+<div id="cell-10" class="cell" data-tags="[&quot;data-preprocess-dataframe&quot;]" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a>raw_data <span class="op">=</span> pd.DataFrame(video_data)</span>
+<span id="cb3-2"><a href=""></a>raw_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">channel_id</th>
+<th data-quarto-table-cell-role="th">video_id</th>
+<th data-quarto-table-cell-role="th">datetime</th>
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">views</th>
+<th data-quarto-table-cell-role="th">likes</th>
+<th data-quarto-table-cell-role="th">comments</th>
+<th data-quarto-table-cell-role="th">transcript</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>wzrIKGcOlsU</td>
+<td>2025-01-13T17:00:24Z</td>
+<td>Rory McIlroy has another gear.</td>
+<td>3142</td>
+<td>304</td>
+<td>16</td>
+<td>I've never seen you go after the ball like thi...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>Pz42jFngEzM</td>
+<td>2025-01-13T03:25:25Z</td>
+<td>Thank you. 1 Million ❤️</td>
+<td>59474</td>
+<td>6757</td>
+<td>428</td>
+<td>[Music] so sick let's go [Music]</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>fSHh01YT0-Q</td>
+<td>2025-01-07T18:50:32Z</td>
+<td>Tiger Woods hits the ball off the heel.</td>
+<td>64116</td>
+<td>2055</td>
+<td>30</td>
+<td>over the course of my career I've always hit t...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>erzLT7fy2r0</td>
+<td>2025-01-07T17:56:07Z</td>
+<td>Tiger Woods liked my golf swing!</td>
+<td>122584</td>
+<td>4486</td>
+<td>76</td>
+<td>what's wrong with that yeah that came off you ...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>3O08SnyZ88U</td>
+<td>2025-01-07T17:07:04Z</td>
+<td>Tiger Woods teaches me how to hit it straight!</td>
+<td>555884</td>
+<td>18286</td>
+<td>142</td>
+<td>what did you do in your career when you had a ...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="group-discussion-data-processing" class="slide level2 smaller">
+<h2><span style="color:red;">Group Discussion: Data Processing</span></h2>
+<div style="font-size: 85%;">
+<p>Imagine you are building a <strong>customer churn prediction model</strong> for a <strong>subscription-based video streaming service</strong>. The goal is to process and clean incoming data to prepare it for machine learning.</p>
+<h3 id="scenario-details">Scenario Details:</h3>
+<ul>
+<li><strong>User Activity Logs</strong>: Captured from streaming sessions, these logs include play/pause actions, time spent watching, and device type. Data arrives in real-time as a continuous stream.</li>
+<li><strong>Subscription Data</strong>: Stored in a relational database, it includes user sign-up dates, subscription plans, payment history, and cancellation records. Updated nightly.</li>
+<li><strong>Customer Support Tickets</strong>: Contain text-based customer complaints, categorized by sentiment (positive, neutral, negative). Data is updated hourly and stored in a NoSQL database.</li>
+</ul>
+</div>
+<div class="fragment">
+<section id="questions-to-consider" style="font-size: 85%;">
+<h3>Questions to Consider:</h3>
+<ol type="1">
+<li>What data quality concerns could we run into with these datasets?</li>
+<li>What kind of missing data or inconsistent data could we run into across these data sources?</li>
+<li>How do these datasets differ in preprocessing/feature engineering needs before they can be used in a machine learning model?</li>
+<li>Could data leakage be concern with this data?</li>
 </ol>
 </section>
-<section id="part-3-data-versioning" class="slide level2 smaller">
-<h2>Part 3: Data Versioning</h2>
+</div>
+</section></section>
+<section>
+<section id="data-validation" class="title-slide slide level1 center" data-background="#43464B">
+<h1>Data Validation</h1>
+
+</section>
+<section id="why-its-important" class="slide level2 smaller">
+<h2>Why its Important</h2>
+<ul>
+<li><strong>Why Data Validation Matters:</strong>
+<ul>
+<li>Ensures <strong>data integrity, consistency, and accuracy</strong>.</li>
+<li>Prevents <strong>garbage-in, garbage-out</strong> issues in analytics and ML models.</li>
+<li>Reduces failures due to <strong>missing, incorrect, or inconsistent data</strong>.</li>
+<li>Helps in <strong>early error detection</strong>, minimizing costly downstream fixes.</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<ul>
+<li><strong>Key Objectives of Data Validation:</strong>
+<ul>
+<li><strong>Detect &amp; correct errors</strong> before data enters processing pipelines.</li>
+<li><strong>Ensure reliability</strong> for decision-making and predictive modeling.</li>
+<li><strong>Prevent inconsistencies</strong> between different data sources and updates.</li>
+<li><strong>Automate validation</strong> to maintain high-quality data at scale.</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="common-types-of-data-validation" class="slide level2 smaller">
+<h2>Common Types of Data Validation</h2>
+<div style="font-size: 85%;">
+<ul>
+<li><strong>Schema Validation</strong>
+<ul>
+<li>Ensures the <strong>correct structure</strong> (column names, data types, constraints).</li>
+<li>Example: All <strong>dates must be in YYYY-MM-DD format</strong>.</li>
+</ul></li>
+<li><strong>Range Checks</strong>
+<ul>
+<li>Verifies values fall within <strong>expected limits</strong>.</li>
+<li>Example: Age should be <strong>between 0 and 120</strong>.</li>
+</ul></li>
+<li><strong>Uniqueness Checks</strong>
+<ul>
+<li>Prevents duplicate records that can skew analysis.</li>
+<li>Example: Each <strong>transaction ID</strong> should be unique.</li>
+</ul></li>
+<li><strong>Referential Integrity</strong>
+<ul>
+<li>Ensures relationships between tables are maintained.</li>
+<li>Example: <strong>Customer IDs in the orders table must exist in the customers table</strong>.</li>
+</ul></li>
+<li><strong>Anomaly Detection</strong>
+<ul>
+<li>Identifies <strong>unexpected values or patterns</strong> in data.</li>
+<li>Example: A single customer making <strong>1,000 transactions in one minute</strong>.</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="youtube-data-1" class="slide level2 smaller">
+<h2>Youtube Data</h2>
+<p><span style="color:red;">What types of validation would our Youtube data pipeline benefit from?</span></p>
+<div style="font-size: 55%;">
+<div class="quarto-embed-nb-cell" data-notebook="/Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-10">
+<div id="cell-10" class="cell" data-tags="[&quot;data-preprocess-dataframe&quot;]" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>raw_data <span class="op">=</span> pd.DataFrame(video_data)</span>
+<span id="cb4-2"><a href=""></a>raw_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">channel_id</th>
+<th data-quarto-table-cell-role="th">video_id</th>
+<th data-quarto-table-cell-role="th">datetime</th>
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">views</th>
+<th data-quarto-table-cell-role="th">likes</th>
+<th data-quarto-table-cell-role="th">comments</th>
+<th data-quarto-table-cell-role="th">transcript</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>wzrIKGcOlsU</td>
+<td>2025-01-13T17:00:24Z</td>
+<td>Rory McIlroy has another gear.</td>
+<td>3142</td>
+<td>304</td>
+<td>16</td>
+<td>I've never seen you go after the ball like thi...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>Pz42jFngEzM</td>
+<td>2025-01-13T03:25:25Z</td>
+<td>Thank you. 1 Million ❤️</td>
+<td>59474</td>
+<td>6757</td>
+<td>428</td>
+<td>[Music] so sick let's go [Music]</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>fSHh01YT0-Q</td>
+<td>2025-01-07T18:50:32Z</td>
+<td>Tiger Woods hits the ball off the heel.</td>
+<td>64116</td>
+<td>2055</td>
+<td>30</td>
+<td>over the course of my career I've always hit t...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>erzLT7fy2r0</td>
+<td>2025-01-07T17:56:07Z</td>
+<td>Tiger Woods liked my golf swing!</td>
+<td>122584</td>
+<td>4486</td>
+<td>76</td>
+<td>what's wrong with that yeah that came off you ...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>3O08SnyZ88U</td>
+<td>2025-01-07T17:07:04Z</td>
+<td>Tiger Woods teaches me how to hit it straight!</td>
+<td>555884</td>
+<td>18286</td>
+<td>142</td>
+<td>what did you do in your career when you had a ...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><br></p>
+<div style="font-size: 55%;">
+<ul>
+<li><p><strong>Column Existence Validation</strong>: Verify that all required columns (<code>channel_id</code>, <code>video_id</code>, <code>datetime</code>, <code>title</code>, <code>views</code>, <code>likes</code>, <code>comments</code>, <code>transcript</code>, and <code>transcript_length</code>) are present in the dataset.</p></li>
+<li><p><strong>Data Type Validation</strong>: Check that each column contains values of the expected data type, such as <code>Object</code> for textual data (<code>channel_id</code>, <code>video_id</code>, <code>title</code>, and <code>transcript</code>), <code>Timestamp</code> for date-related fields, and <code>int64</code> for numerical fields (<code>views</code>, <code>likes</code>, <code>comments</code>, and <code>transcript_length</code>).</p></li>
+<li><p><strong>Null Value Validation</strong>: Confirm that no empty or null values exist in the critical columns.</p></li>
+<li><p><strong>Range Check</strong>: Check that the numeric columns are all zero or positive integers. Or maybe we want to ensure there are at least 100 characters in the transcript.</p></li>
+<li><p>…</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="validate-often" class="slide level2">
+<h2>Validate often!</h2>
+<p>Validation should be incorporated at multiple stages throughout the ML system.</p>
+
+<img data-src="images/ml_workflow_validation.png" class="r-stretch"></section>
+<section id="group-discussion-data-validation" class="slide level2 smaller">
+<h2><span style="color:red;">Group Discussion: Data Validation</span></h2>
+<div style="font-size: 80%;">
+<ul>
+<li><strong>Scenario:</strong> You are working on a <strong>fraud detection system</strong> for an <strong>e-commerce platform</strong>.</li>
+</ul>
+<h3 id="data-sources">Data Sources:</h3>
+<ul>
+<li><strong>Transactional Data</strong> (Real-Time)
+<ul>
+<li>Includes <strong>payment amounts, timestamps, and location information</strong>.</li>
+<li>Streamed <strong>in real-time</strong> as customers complete purchases.</li>
+</ul></li>
+<li><strong>Customer Demographic Data</strong> (Batch)
+<ul>
+<li>Stored in a <strong>central database</strong>, containing <strong>age, location, and preferred payment method</strong>.</li>
+<li>Updates are <strong>infrequent</strong>, typically during customer registration or profile edits.</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<section id="questions-to-consider-1" style="font-size: 80%;">
+<h3><strong>Questions to Consider</strong></h3>
+<ol type="1">
+<li>What validation checks should be applied to each dataset?</li>
+<li>Where in the pipeline should these validation checks be implemented?</li>
+<li>How would you handle unexpected values or missing fields in real-time data?</li>
+</ol>
+</section>
+</div>
+</section></section>
+<section>
+<section id="data-versioning-lineage" class="title-slide slide level1 center" data-background="#43464B">
+<h1>Data Versioning &amp; Lineage</h1>
+
+</section>
+<section id="versioning-vs.-lineage" class="slide level2 smaller">
+<h2>Versioning vs.&nbsp;Lineage</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="font-size: 60%;">
+<p><strong>Data versioning</strong></p>
+<ul>
+<li>Focuses on capturing and maintaining historical versions of datasets.</li>
+<li>Allows you to roll back to previous versions, compare outcomes across iterations, and confidently experiment with new approaches.</li>
+</ul>
+<p><br><br></p>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {'gitGraph': {'mainBranchName': 'Youtube Data'}} }%%
+
+gitGraph
+   commit  id: "v1.0.0"
+   commit  id: "v1.0.1"
+   commit  id: "v1.0.2"
+   branch 'new feature'
+   commit id: "add new feature"
+   checkout 'Youtube Data'
+   merge 'new feature'
+   commit  id: "v1.1.0"
+
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 60%;">
+<p><strong>Data lineage</strong></p>
+<ul>
+<li>Documents the entire journey of data—from its origin to the final output—capturing how it was processed, transformed, and consumed.</li>
+<li>Provides tracibility for debugging, auditing, and understanding the impact of upstream changes on downstream processes.</li>
+</ul>
+<p><br></p>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  db1[(Data&lt;br&gt;source 1)] --&gt; p1[/processing&lt;br&gt;step 1/]
+  p1 --&gt;  p2[/processing&lt;br&gt;step 2/]
+  db2[(Data&lt;br&gt;source 2)] --&gt; p2
+  p2 --&gt;  p3[/processing&lt;br&gt;step 3/]
+  db3[(Data&lt;br&gt;source 3)] --&gt; p3
+  p3 --&gt; p4[/processing&lt;br&gt;step 4/]
+  p4 --&gt; p5[/processing&lt;br&gt;step 5/]
+  p5 --&gt; db4[(Final&lt;br&gt;processed&lt;br&gt;data)]
+
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment">
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>Together, data versioning and lineage create a transparent, reliable foundation for machine learning systems. They enable teams to meet regulatory requirements, mitigate risks, and streamline collaboration, making these practices indispensable in modern DataOps workflows.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="youtube-data-2" class="slide level2 smaller">
+<h2>Youtube Data</h2>
+<ul>
+<li><span style="color:red;">How would versioning come into play with our Youtube data?</span></li>
+<li><span style="color:red;">What specific lineage information do you think would be important to document?</span></li>
+</ul>
+<div style="font-size: 55%;">
+<div class="quarto-embed-nb-cell" data-notebook="/Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/DataOps/youtube-data-pipeline.ipynb" data-notebook-title="Example Youtube Data Pipeline" data-notebook-cellid="cell-10">
+<div id="cell-10" class="cell" data-tags="[&quot;data-preprocess-dataframe&quot;]" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a>raw_data <span class="op">=</span> pd.DataFrame(video_data)</span>
+<span id="cb5-2"><a href=""></a>raw_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">channel_id</th>
+<th data-quarto-table-cell-role="th">video_id</th>
+<th data-quarto-table-cell-role="th">datetime</th>
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">views</th>
+<th data-quarto-table-cell-role="th">likes</th>
+<th data-quarto-table-cell-role="th">comments</th>
+<th data-quarto-table-cell-role="th">transcript</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>wzrIKGcOlsU</td>
+<td>2025-01-13T17:00:24Z</td>
+<td>Rory McIlroy has another gear.</td>
+<td>3142</td>
+<td>304</td>
+<td>16</td>
+<td>I've never seen you go after the ball like thi...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>Pz42jFngEzM</td>
+<td>2025-01-13T03:25:25Z</td>
+<td>Thank you. 1 Million ❤️</td>
+<td>59474</td>
+<td>6757</td>
+<td>428</td>
+<td>[Music] so sick let's go [Music]</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>fSHh01YT0-Q</td>
+<td>2025-01-07T18:50:32Z</td>
+<td>Tiger Woods hits the ball off the heel.</td>
+<td>64116</td>
+<td>2055</td>
+<td>30</td>
+<td>over the course of my career I've always hit t...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>erzLT7fy2r0</td>
+<td>2025-01-07T17:56:07Z</td>
+<td>Tiger Woods liked my golf swing!</td>
+<td>122584</td>
+<td>4486</td>
+<td>76</td>
+<td>what's wrong with that yeah that came off you ...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>UCgUueMmSpcl-aCTt5CuCKQw</td>
+<td>3O08SnyZ88U</td>
+<td>2025-01-07T17:07:04Z</td>
+<td>Tiger Woods teaches me how to hit it straight!</td>
+<td>555884</td>
+<td>18286</td>
+<td>142</td>
+<td>what did you do in your career when you had a ...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="group-discussion-data-processing-1" class="slide level2 smaller">
+<h2><span style="color:red;">Group Discussion: Data Processing</span></h2>
+<div style="font-size: 85%;">
 <p>You are tasked with designing a churn prediction model for a subscription-based video streaming service.</p>
 <p><strong>Scenario Details:</strong></p>
 <ul>
@@ -315,37 +1644,53 @@
 <li><strong>Subscription Details</strong>: Include plan type, renewal dates, and payment status. This data is updated monthly and stored in a relational database.</li>
 <li><strong>Support Ticket Interactions</strong>: Contain customer issues, resolutions, and timestamps. These are logged as they occur, with potential delays in updates due to manual entry.</li>
 </ul>
+</div>
+<div class="fragment">
 <p><strong>Questions to Consider:</strong></p>
+<div style="font-size: 85%;">
 <ol type="1">
-<li>How would you use data versioning to track changes in user activity logs, ensuring you can reproduce model training results even as new data is added?</li>
-<li>What specific lineage information would you prioritize capturing (e.g., transformations applied to raw activity logs, dependencies between features)?</li>
-<li>If regulatory compliance (e.g., GDPR, which requires traceability of user data usage) is a factor, how might you adjust your versioning and lineage strategy?</li>
+<li>How would you use data versioning to track changes in user activity logs?</li>
+<li>What specific lineage information do you think would be important to document?</li>
+<li>How would versioning and lineage help with regulatory concerns?</li>
 </ol>
-</section>
-<section id="part-4-reflection" class="slide level2 smaller">
-<h2>Part 4 Reflection</h2>
-<p>Reflect on a hypothetical scenario where your ML pipeline for a financial institution fails in production.</p>
-<p><strong>Scenario (Failure) Details:</strong></p>
-<ul>
-<li>A schema change in the credit card transaction dataset (e.g., renaming “customer_id” to “user_id”) was not communicated to the team.</li>
-<li>The batch ingestion process for monthly transaction summaries included corrupted records due to network interruptions during transfer.</li>
-<li>Real-time streaming data from payment terminals introduced inconsistencies in timestamps due to system clock misalignments.</li>
-</ul>
-<p><strong>Questions to Consider:</strong></p>
-<ol type="1">
-<li>Which specific DataOps practices (e.g., schema validation, data versioning, lineage tracking) could have prevented these failures?</li>
-<li>What steps could you take to proactively handle similar challenges in the future, such as designing validation workflows or automating schema change notifications?</li>
-<li>How would you balance thorough validation checks with maintaining pipeline performance, especially in a high-throughput environment like financial fraud detection?</li>
-</ol>
+</div>
+</div>
 </section></section>
-<section id="questions-and-discussion" class="title-slide slide level1 center" data-background="#43464B">
-<h1>Questions and Discussion</h1>
+<section>
+<section id="wrapping-up" class="title-slide slide level1 center" data-background="#43464B">
+<h1>Wrapping Up</h1>
+
+</section>
+<section id="this-week" class="slide level2 smaller">
+<h2>This week</h2>
 <ul>
-<li>Open floor for questions regarding ML System Design concepts.</li>
+<li>Readings
+<ul>
+<li>Will go deeper into these concepts</li>
+<li>Introduce you to tools you can used to implement these concepts</li>
+<li>Demonstrate a simple data pipeline for the Youtube data</li>
+</ul></li>
+<li>Thursday
+<ul>
+<li>Speaker: Yash Sharma on Data Pipelines</li>
+<li>When: Thursday, March 13th at 2PM</li>
+<li>Where: Team’s meeting</li>
+</ul></li>
+<li>By end of week
+<ul>
+<li>Read the final project overview</li>
+<li>Create your final project team</li>
+</ul></li>
+</ul>
+</section>
+<section id="questions-or-discussion" class="slide level2">
+<h2>Questions or Discussion?</h2>
+<ul>
+<li>Open floor for questions regarding DataOps &amp; data pipelines.</li>
 <li>Discussion on how these principles apply to real-world business scenarios.</li>
 </ul>
 
-</section>
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
