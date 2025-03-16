@@ -426,19 +426,168 @@ Similarly, other contributors may make updates and push them to GitHub. To ensur
 
 ## Collaboration with Branching and Pull Requests
 
-- **Why Use Branches?**
-  - Overview of branching as a way to develop features without affecting the main branch.
-- **Creating and Switching Branches**
-  - Creating a new branch (`git branch new-feature`).
-  - Switching branches (`git checkout new-feature` or `git switch new-feature`).
-- **Merging Branches**
-  - Merging changes into `main` (`git merge new-feature`).
-- **Pull Requests on GitHub**
-  - Opening a pull request (PR) and requesting code reviews.
-  - Merging a pull request.
-- **Best Practices for Collaboration**
-  - Writing meaningful commit messages.
-  - Keeping branches small and focused.
+Git and GitHub provide powerful tools for collaboration, and one of the most important features is **branching**. Branching allows developers to work on different tasks or features without affecting the main codebase. This section introduces the concept of branches, pull requests, and best practices for effective collaboration.
+
+### Why Use Branches?
+
+When working on a software project, it's essential to develop new features, fix bugs, and experiment without disrupting the main working version of the code. Branches provide a way to create separate workspaces for these tasks. Instead of working directly on the `main` branch, which represents the stable version of the project, developers create new branches to isolate their changes.
+
+A branch in Git is like a separate workspace where you can work on new features, bug fixes, or experiments without affecting the main version of your project. Think of it as a parallel timeline where you can make changes without disrupting the main history. Once your work is complete, you can merge your branch back into the main branch.
+
+```{mermaid}
+%%| fig-cap: "This diagram visualizes a repository with two isolated lines of development, one for a little feature, and one for a larger feature. By developing them in branches, it’s not only possible to work on both of them in parallel, but it also keeps the main branch free from questionable code. Once the new feature code is complete, we can merge the branches back into the main branch."
+%%| label: fig-git-branching
+%%{init: {'gitGraph': {'mainBranchName': 'Main codebase'}} }%%
+
+gitGraph
+   commit id: "Version 1"
+   commit id: "Version 2"
+   branch "Branch 1"
+   commit id: "little feature"
+   checkout "Main codebase"
+   commit id: "Version 3"
+   branch "Branch 2"
+   checkout "Main codebase"
+   merge "Branch 1" id: "Version 4"
+   checkout "Branch 2"
+   commit id: "big feature"
+   checkout "Main codebase"
+   merge "Branch 2" id: "Version 5"
+```
+
+Using branches has several advantages:
+
+- Allows multiple team members to work on different features simultaneously.
+- Prevents incomplete or experimental code from affecting the main codebase.
+- Makes it easier to review and test changes before merging them.
+
+The following sections will provide a nice introduction to branching but to learn more about good branching practices and detailed explanations of branching strategies, refer to [A Guide to Branching in Git](https://www.atlassian.com/git/tutorials/using-branches).
+
+### Creating and Switching Branches
+
+To create a new branch, use the following command:
+
+```sh
+git branch new-feature
+```
+
+This command creates a new branch called `new-feature`, but it does not switch to it automatically. To switch to the newly created branch, use:
+
+```sh
+git checkout new-feature
+```
+
+or (recommended)
+
+```sh
+git switch new-feature
+```
+
+Now, any changes you make will be recorded in the `new-feature` branch instead of `main`.  
+
+```{mermaid}
+%%| fig-cap: "Illustration of creating a new branch named `new-feature` to allow you to work on code for the new feature without impacting the current code in the `main` branch."
+%%| label: fig-git-branching2
+%%{init: {'gitGraph': {'mainBranchName': 'main'}} }%%
+
+gitGraph
+   commit id: "Version 1"
+   commit id: "Version 2"
+   branch "new-feature"
+   commit id: "little feature"
+```
+
+Once work on a branch is complete, the changes need to be merged back into the main branch. There are a couple of ways to merge branches. One way is to merge the branches locally using Git commands. Another way is to use a pull request on GitHub to propose the changes, allow others to review and approve them, and then perform the merge. The latter approach is more common in collaborative projects, as it ensures code quality and enables team discussion before integration.  However, the following sections will discuss both approaches.
+
+### Merging Branches
+
+Merging branches locally allows you to integrate changes from one branch into another without relying on GitHub. This approach is useful when working offline, testing changes before pushing them, or handling merges in a controlled environment before sharing updates with the team. To merge the branches locally, first, switch back to `main`:
+
+```sh
+git checkout main
+```
+
+(or use `git switch main`)
+Then merge the feature branch:
+
+```sh
+git merge new-feature
+```
+
+If there are no conflicts, Git will integrate the changes. If conflicts exist, Git will prompt you to resolve them manually before completing the merge.
+
+```{mermaid}
+%%| fig-cap: "Illustration of merging the `new-feature` branch into the `main` branch."
+%%| label: fig-git-merging
+%%{init: {'gitGraph': {'mainBranchName': 'main'}} }%%
+
+gitGraph
+   commit id: "Version 1"
+   commit id: "Version 2"
+   branch "new-feature"
+   commit id: "little feature"
+   checkout "main"
+   merge "new-feature"
+```
+
+::: {.callout-tip}
+For more details on merging strategies and resolving merge conflicts, check out [Merging in Git](https://www.atlassian.com/git/tutorials/merging) and [How to Resolve Merge Conflicts](https://docs.github.com/en/get-started/using-git/resolving-merge-conflicts).
+:::
+
+### Pull Requests on GitHub
+
+A **Pull Request (PR)** is a way to propose changes from one branch to another on GitHub. PRs allow for discussion, review, and approval before merging changes. They are especially useful in collaborative projects where multiple developers are working on different features simultaneously. By using pull requests, teams can review changes before they are merged, ensuring code quality and reducing the risk of introducing bugs.
+
+While merging locally is useful for small, independent changes, pull requests should be used when working in a team setting to facilitate discussions, maintain a clear project history, and ensure that changes align with project goals. PRs also integrate well with automated testing and continuous integration workflows, making them a preferred method for managing contributions in larger projects.
+
+#### Opening a Pull Request
+
+1. Push your branch to GitHub:
+   ```sh
+   git push origin new-feature
+   ```
+2. Go to your repository on GitHub.
+3. Click the **Pull Requests** tab and then **New Pull Request**.
+4. Select the branch you want to merge into `main` and provide a clear description of your changes.
+5. Request a review from teammates to get feedback on your code.
+
+#### Merging a Pull Request
+
+Once the pull request is approved:
+
+1. Click the **Merge Pull Request** button on GitHub.
+2. Delete the branch if it is no longer needed.
+3. Update your local repository:
+   ```sh
+   git pull origin main
+   ```
+
+### Best Practices for Collaboration
+
+Collaboration in Git and GitHub is most effective when following best practices. This includes writing clear commit messages, keeping branches small and focused, and regularly syncing with the `main` branch. Additionally, requesting code reviews helps ensure code quality and facilitates better teamwork.
+
+- **Write meaningful commit messages** – Each commit should clearly describe what was changed and why. A good commit message follows a standard format and is concise yet descriptive. For example:
+
+   ```
+   feat: Add model monitoring with logging
+
+   Implemented model performance monitoring with logging capabilities. Added a logging framework to track prediction accuracy, response times, and data drift over time.
+   ```
+
+   Following a clear commit message format helps other developers understand the purpose of changes and makes version history easier to navigate. To learn more about writing effective commit messages, refer to [How to Write a Git Commit Message](https://cbea.ms/git-commit/).
+
+- **Keep branches small and focused** – Large branches can become difficult to review and merge. Aim for focused, single-purpose branches.
+- **Regularly sync with `main`** – Periodically pull updates from `main` to keep your branch up to date and reduce merge conflicts.
+- **Request code reviews** – Encourage collaboration and ensure code quality by having peers review changes before merging. A good code review process helps catch bugs early, enforces coding standards, and facilitates knowledge sharing among team members. When reviewing code, consider readability, maintainability, and adherence to project guidelines. To learn more about effective code reviews, refer to [How to Conduct a Code Review](https://google.github.io/eng-practices/review/).
+
+By following these best practices, teams can collaborate effectively, maintain clean code, and streamline the development process.
+
+::: {.callout-tip}
+For a more detailed discussion on best practices for pull requests, see the following references:
+
+- [GitHub's Guide on Pull Requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests)
+- [Best Practices for Code Reviews and Pull Requests](https://mtlynch.io/code-review-love/)
+:::
 
 ## Introduction to CI/CD with GitHub Actions
 
