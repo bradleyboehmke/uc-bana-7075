@@ -591,61 +591,211 @@ For a more detailed discussion on best practices for pull requests, see the foll
 
 ## Introduction to CI/CD with GitHub Actions
 
-- **What is CI/CD?**
-  - Brief explanation of Continuous Integration (CI) and Continuous Deployment (CD).
-  - Why CI/CD is important for automation and DevOps.
-- **Introduction to GitHub Actions**
-  - Overview of how GitHub Actions can automate tasks like testing and deployment.
-  - Example of a simple GitHub Actions workflow (e.g., automatically running tests on push).
-- **Next Steps in Learning CI/CD**
-  - Link to more advanced resources for learning about CI/CD pipelines.
+CI/CD stands for **Continuous Integration (CI) and Continuous Deployment (CD)**. It is a fundamental practice in modern software development and DevOps that helps automate the process of integrating and deploying code changes.
 
+- **Continuous Integration (CI)** ensures that every code change is automatically tested and validated before being merged into the main branch. This helps catch bugs early and maintain software quality.
+- **Continuous Deployment (CD)** takes CI a step further by automatically deploying validated changes to production or staging environments, reducing manual intervention and enabling faster release cycles.
+
+For **machine learning (ML) systems**, CI/CD is particularly important as it helps automate model training, testing, and deployment, ensuring reproducibility and consistency across different environments. Unlike traditional software CI/CD, MLOps-specific CI/CD includes additional steps such as data validation, feature engineering, model retraining, and evaluation before deployment.
+
+These pipelines help streamline workflows across various ML system processes, including:
+
+- **Data Ingestion & Processing:** Automating data extraction, transformation, and validation before feeding into model training.
+- **Model Training & Evaluation:** Triggering training jobs when new data is available, followed by validation tests to check for performance regressions or drift.
+- **Model Deployment & Serving:** Ensuring smooth transitions from development to production with robust version control and rollback mechanisms.
+- **Continuous Monitoring & Feedback Loops:** Monitoring performance metrics and triggering model retraining when needed.
+
+### Introduction to GitHub Actions
+
+**GitHub Actions** is a powerful automation tool that enables developers to create workflows directly within a GitHub repository. It allows users to automate tasks such as testing, building, and deploying applications based on Git events (e.g., push, pull request, or scheduled triggers).
+
+GitHub Actions is particularly useful in CI/CD pipelines because it provides:
+
+- **Automated Testing** – Run unit tests, integration tests, and code quality checks automatically.
+- **Continuous Deployment** – Deploy applications or ML models to cloud environments or production servers.
+- **Custom Workflows** – Define and trigger sequences of automated steps using YAML configuration files.
+
+GitHub Actions workflows are stored inside the `.github/workflows` directory within a repository. This directory contains YAML configuration files that define various automation tasks. Each workflow file specifies when it should run, what environment it should use, and the sequence of actions to execute. For example, the following illustrates an ML project (`ml-project`) git repo that contains subdirectories for data ingestion, data cleaning, data validation, model experimentation, etc.; along with the `.github/workflows` directory that contains an example ML CI Pipeline yaml workflow file.
+
+```sh
+ml-project/
+│── .gitignore
+│
+│── .github/
+│   ├── workflows/
+│   │   ├── ml_ci_pipeline.yml
+│
+│── data_ingestion/
+│   ├── fetch_data.py
+│   ├── ingest_pipeline.py
+│
+│── data_cleaning/
+│   ├── clean_data.py
+│   ├── preprocess.py
+│
+│── data_validation/
+│   ├── validate_schema.py
+│   ├── check_duplicates.py
+│
+│── model_experimentation/
+│   ├── train.py
+│   ├── evaluate.py
+│
+│── model_deployment/
+│   ├── deploy.py
+│   ├── inference.py
+│
+│── model_monitoring/
+│   ├── monitor_performance.py
+│   ├── drift_detection.py
+│
+│── tests/
+│   ├── test_data_ingestion.py
+│   ├── test_model_training.py
+│   ├── test_model_inference.py
+│
+│── requirements.txt
+│── README.md
+```
+
+::: {.callout-tip}
+For example, here is the GitHub Actions workflow that I use to automatically build and publish this book on a daily basis - [publish-book.yml](https://github.com/bradleyboehmke/uc-bana-7075/blob/main/.github/workflows/publish-book.yml).
+:::
+
+And the following GitHub Actions workflow file provides and example of what the `ml_ci_pipeline.yml` file may look like.  This example workflow automates the process of training and evaluating a machine learning model every time new code is pushed to the `main` branch in the repository:
+
+```yaml
+name: ML CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  train-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Train model
+        run: |
+          python train.py
+
+      - name: Evaluate model
+        run: |
+          python evaluate.py
+```
+
+This workflow does the following:
+
+1. Triggers on a push to the `main` branch.
+2. Runs on an Ubuntu-based virtual machine.
+3. Checks out the repository code.
+4. Sets up Python and installs dependencies.
+5. Runs a training script (`train.py`) to train an ML model.
+6. Evaluates the trained model using a validation script (`evaluate.py`).
+
+By integrating CI/CD into ML workflows, this process ensures that model training and evaluation are automated, helping maintain performance consistency and reproducibility.
+
+This workflow does the following:
+
+1. Triggers on a push to the `main` branch.
+2. Runs on an Ubuntu-based virtual machine.
+3. Checks out the repository code.
+4. Sets up Python and installs dependencies.
+5. Runs tests using `pytest` to validate changes.
+
+### Next Steps in Learning CI/CD
+
+To deepen your understanding of CI/CD and GitHub Actions, explore these resources:
+
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
+- [CI/CD Best Practices](https://martinfowler.com/articles/continuousIntegration.html)
+- [Building CI/CD Pipelines for ML Systems](https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines)
+
+By implementing CI/CD workflows with GitHub Actions, you can enhance automation, improve code quality, and accelerate deployment in software and ML projects.
 
 ## Summary
 
-- Recap of the importance of Git and GitHub in version control and DevOps.
-- Key takeaways:
-  - Git tracks changes, allowing for easy rollback and collaboration.
-  - GitHub provides a platform for sharing, reviewing, and deploying code.
-  - Branching and pull requests are essential for team collaboration.
-  - CI/CD automates workflows to improve efficiency and reliability.
-- Transition to the next chapter, which will dive deeper into DevOps tools and practices.
+In this chapter, we explored the fundamental concepts of Git and GitHub, essential tools for version control and collaboration in software development and MLOps. By leveraging Git’s capabilities, teams can efficiently track changes, collaborate on code, and maintain project history, while GitHub enhances these functionalities with cloud-based repository hosting, pull requests, and CI/CD automation.
 
+### Key Takeaways
+
+- **Git and Version Control:** Git provides a distributed version control system that allows developers to track changes, revert to previous versions, and collaborate without losing work.
+- **Setting Up Git and GitHub:** We covered installing Git, configuring user settings, and creating repositories on GitHub to start managing code effectively.
+- **Tracking and Managing Changes:** Fundamental Git operations such as adding files, committing changes, and viewing repository history help maintain a structured development process.
+- **Branching and Collaboration:** Branching enables isolated development, and pull requests facilitate team collaboration by allowing reviews and discussions before merging changes.
+- **Synchronizing with GitHub:** We explored how to push and pull changes between local and remote repositories to keep projects up to date and prevent conflicts.
+- **CI/CD with GitHub Actions:** Continuous Integration and Deployment (CI/CD) automates testing, validation, and deployment, streamlining ML workflows and DevOps processes.
+
+### Why This Matters for ML and DevOps
+
+Version control and CI/CD are critical components of an efficient ML development pipeline. In ML projects, Git helps manage datasets, experiment tracking, and model versioning, while GitHub Actions facilitates automation, ensuring reproducibility and consistency across different environments. By integrating Git and GitHub into ML workflows, teams can collaborate more effectively, improve code quality, and deploy models with confidence.
+
+### Next Steps
+
+To deepen your understanding of Git, GitHub, and CI/CD, consider:
+
+- Practicing with real-world projects to get hands-on experience.
+- Exploring advanced Git features such as rebasing, stash, and cherry-picking.
+- Learning more about GitHub Actions to build robust CI/CD pipelines.
+
+By mastering Git and GitHub, you will be well-equipped to manage code efficiently, collaborate seamlessly, and automate critical aspects of your ML and DevOps workflows.
 
 ## Exercise
 
-This exercise will help students apply what they have learned by walking through a real-world scenario.
+You just joined a data science team at a company, and they use Git and GitHub for collaboration. Your manager has asked you to set up your GitHub account, clone the team's repository, and make your first contribution. To demonstrate this ability, execute the following tasks:
 
-### Scenario
+:::{.callout-note collapse="true"}
+## 1. Set Up Git and GitHub
 
-You just joined a data science team at a company, and they use Git and GitHub for collaboration. Your manager has asked you to set up your GitHub account, clone the team's repository, and make your first contribution.
+- Install Git on your machine.
+- Create a GitHub account if you haven’t already.
+- Configure Git with your name and email.
+:::
 
-### Tasks
+:::{.callout-note collapse="true"}
+## 2. Work with a Git Repository
 
-1. **Set Up Git and GitHub**
-   - Install Git on your machine.
-   - Create a GitHub account if you haven’t already.
-   - Configure Git with your name and email.
+- Create a new repository on GitHub.
+- Clone the repository to your local machine.
+- Add a new file (e.g., `hello_git.txt`), write a short message inside, and commit the changes.
+- Push your changes to GitHub.
+:::
 
-2. **Work with a Git Repository**
-   - Create a new repository on GitHub.
-   - Clone the repository to your local machine.
-   - Add a new file (e.g., `hello_git.txt`), write a short message inside, and commit the changes.
-   - Push your changes to GitHub.
+:::{.callout-note collapse="true"}
+## 3. Branching and Pull Requests
 
-3. **Branching and Pull Requests**
-   - Create a new branch called `feature-update`.
-   - Modify an existing file or add a new file.
-   - Commit and push the changes to the `feature-update` branch.
-   - Open a pull request on GitHub to merge your changes into `main`.
-   - Merge the pull request once approved.
+- Create a new branch called `feature-update`.
+- Modify an existing file or add a new file.
+- Commit and push the changes to the `feature-update` branch.
+- Open a pull request on GitHub to merge your changes into `main`.
+- Merge the pull request once approved.
+:::
 
-4. **Exploring GitHub Actions (Bonus Task)**
-   - Add a GitHub Actions workflow file that runs a simple Python test on every push.
-   - Observe the automated workflow execution.
+:::{.callout-note collapse="true"}
+## 4. Exploring GitHub Actions (Bonus Task)
 
-5. **Reflection Questions**
-   - Why is version control essential for collaborative coding?
-   - How does Git help manage different versions of a project?
-   - What are the benefits of using GitHub for collaboration?
-   - How does CI/CD improve software and model deployment?
+- Add a GitHub Actions workflow file that runs a simple Python test on every push.
+- Observe the automated workflow execution.
+:::
+
+:::{.callout-note collapse="true"}
+## 5. Reflection Questions
+
+- Why is version control essential for collaborative coding?
+- How does Git help manage different versions of a project?
+- What are the benefits of using GitHub for collaboration?
+- How does CI/CD improve software and model deployment?
+:::
