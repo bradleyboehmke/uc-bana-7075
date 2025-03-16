@@ -330,14 +330,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#pushing-a-new-local-repository-to-github" id="toc-pushing-a-new-local-repository-to-github" class="nav-link" data-scroll-target="#pushing-a-new-local-repository-to-github">Pushing a New Local Repository to GitHub</a></li>
   <li><a href="#pushing-pulling-changes-from-github" id="toc-pushing-pulling-changes-from-github" class="nav-link" data-scroll-target="#pushing-pulling-changes-from-github">Pushing &amp; Pulling Changes from GitHub</a></li>
   </ul></li>
-  <li><a href="#collaboration-with-branching-and-pull-requests" id="toc-collaboration-with-branching-and-pull-requests" class="nav-link" data-scroll-target="#collaboration-with-branching-and-pull-requests"><span class="header-section-number">11.5</span> Collaboration with Branching and Pull Requests</a></li>
-  <li><a href="#introduction-to-cicd-with-github-actions" id="toc-introduction-to-cicd-with-github-actions" class="nav-link" data-scroll-target="#introduction-to-cicd-with-github-actions"><span class="header-section-number">11.6</span> Introduction to CI/CD with GitHub Actions</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">11.7</span> Summary</a></li>
-  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">11.8</span> Exercise</a>
+  <li><a href="#collaboration-with-branching-and-pull-requests" id="toc-collaboration-with-branching-and-pull-requests" class="nav-link" data-scroll-target="#collaboration-with-branching-and-pull-requests"><span class="header-section-number">11.5</span> Collaboration with Branching and Pull Requests</a>
   <ul class="collapse">
-  <li><a href="#scenario" id="toc-scenario" class="nav-link" data-scroll-target="#scenario">Scenario</a></li>
-  <li><a href="#tasks" id="toc-tasks" class="nav-link" data-scroll-target="#tasks">Tasks</a></li>
+  <li><a href="#why-use-branches" id="toc-why-use-branches" class="nav-link" data-scroll-target="#why-use-branches">Why Use Branches?</a></li>
+  <li><a href="#creating-and-switching-branches" id="toc-creating-and-switching-branches" class="nav-link" data-scroll-target="#creating-and-switching-branches">Creating and Switching Branches</a></li>
+  <li><a href="#merging-branches" id="toc-merging-branches" class="nav-link" data-scroll-target="#merging-branches">Merging Branches</a></li>
+  <li><a href="#pull-requests-on-github" id="toc-pull-requests-on-github" class="nav-link" data-scroll-target="#pull-requests-on-github">Pull Requests on GitHub</a></li>
+  <li><a href="#best-practices-for-collaboration" id="toc-best-practices-for-collaboration" class="nav-link" data-scroll-target="#best-practices-for-collaboration">Best Practices for Collaboration</a></li>
   </ul></li>
+  <li><a href="#introduction-to-cicd-with-github-actions" id="toc-introduction-to-cicd-with-github-actions" class="nav-link" data-scroll-target="#introduction-to-cicd-with-github-actions"><span class="header-section-number">11.6</span> Introduction to CI/CD with GitHub Actions</a>
+  <ul class="collapse">
+  <li><a href="#introduction-to-github-actions" id="toc-introduction-to-github-actions" class="nav-link" data-scroll-target="#introduction-to-github-actions">Introduction to GitHub Actions</a></li>
+  <li><a href="#next-steps-in-learning-cicd" id="toc-next-steps-in-learning-cicd" class="nav-link" data-scroll-target="#next-steps-in-learning-cicd">Next Steps in Learning CI/CD</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">11.7</span> Summary</a>
+  <ul class="collapse">
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
+  <li><a href="#why-this-matters-for-ml-and-devops" id="toc-why-this-matters-for-ml-and-devops" class="nav-link" data-scroll-target="#why-this-matters-for-ml-and-devops">Why This Matters for ML and DevOps</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
+  </ul></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">11.8</span> Exercise</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/11-devops-git.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -819,112 +831,455 @@ Figure&nbsp;11.7: Example of what commit SHA hashes look like. Although the actu
 </section>
 <section id="collaboration-with-branching-and-pull-requests" class="level2" data-number="11.5">
 <h2 data-number="11.5" class="anchored" data-anchor-id="collaboration-with-branching-and-pull-requests"><span class="header-section-number">11.5</span> Collaboration with Branching and Pull Requests</h2>
+<p>Git and GitHub provide powerful tools for collaboration, and one of the most important features is <strong>branching</strong>. Branching allows developers to work on different tasks or features without affecting the main codebase. This section introduces the concept of branches, pull requests, and best practices for effective collaboration.</p>
+<section id="why-use-branches" class="level3">
+<h3 class="anchored" data-anchor-id="why-use-branches">Why Use Branches?</h3>
+<p>When working on a software project, it’s essential to develop new features, fix bugs, and experiment without disrupting the main working version of the code. Branches provide a way to create separate workspaces for these tasks. Instead of working directly on the <code>main</code> branch, which represents the stable version of the project, developers create new branches to isolate their changes.</p>
+<p>A branch in Git is like a separate workspace where you can work on new features, bug fixes, or experiments without affecting the main version of your project. Think of it as a parallel timeline where you can make changes without disrupting the main history. Once your work is complete, you can merge your branch back into the main branch.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-git-branching" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-git-branching-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-git-branching">%%{init: {'gitGraph': {'mainBranchName': 'Main codebase'}} }%%
+
+gitGraph
+   commit id: "Version 1"
+   commit id: "Version 2"
+   branch "Branch 1"
+   commit id: "little feature"
+   checkout "Main codebase"
+   commit id: "Version 3"
+   branch "Branch 2"
+   checkout "Main codebase"
+   merge "Branch 1" id: "Version 4"
+   checkout "Branch 2"
+   commit id: "big feature"
+   checkout "Main codebase"
+   merge "Branch 2" id: "Version 5"
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-git-branching-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.8: This diagram visualizes a repository with two isolated lines of development, one for a little feature, and one for a larger feature. By developing them in branches, it’s not only possible to work on both of them in parallel, but it also keeps the main branch free from questionable code. Once the new feature code is complete, we can merge the branches back into the main branch.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Using branches has several advantages:</p>
 <ul>
-<li><strong>Why Use Branches?</strong>
-<ul>
-<li>Overview of branching as a way to develop features without affecting the main branch.</li>
-</ul></li>
-<li><strong>Creating and Switching Branches</strong>
-<ul>
-<li>Creating a new branch (<code>git branch new-feature</code>).</li>
-<li>Switching branches (<code>git checkout new-feature</code> or <code>git switch new-feature</code>).</li>
-</ul></li>
-<li><strong>Merging Branches</strong>
-<ul>
-<li>Merging changes into <code>main</code> (<code>git merge new-feature</code>).</li>
-</ul></li>
-<li><strong>Pull Requests on GitHub</strong>
-<ul>
-<li>Opening a pull request (PR) and requesting code reviews.</li>
-<li>Merging a pull request.</li>
-</ul></li>
-<li><strong>Best Practices for Collaboration</strong>
-<ul>
-<li>Writing meaningful commit messages.</li>
-<li>Keeping branches small and focused.</li>
-</ul></li>
+<li>Allows multiple team members to work on different features simultaneously.</li>
+<li>Prevents incomplete or experimental code from affecting the main codebase.</li>
+<li>Makes it easier to review and test changes before merging them.</li>
 </ul>
+<p>The following sections will provide a nice introduction to branching but to learn more about good branching practices and detailed explanations of branching strategies, refer to <a href="https://www.atlassian.com/git/tutorials/using-branches">A Guide to Branching in Git</a>.</p>
+</section>
+<section id="creating-and-switching-branches" class="level3">
+<h3 class="anchored" data-anchor-id="creating-and-switching-branches">Creating and Switching Branches</h3>
+<p>To create a new branch, use the following command:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch new-feature</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This command creates a new branch called <code>new-feature</code>, but it does not switch to it automatically. To switch to the newly created branch, use:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout new-feature</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>or (recommended)</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch new-feature</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, any changes you make will be recorded in the <code>new-feature</code> branch instead of <code>main</code>.&nbsp;&nbsp;</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-git-branching2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-git-branching2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-git-branching2">%%{init: {'gitGraph': {'mainBranchName': 'main'}} }%%
+
+gitGraph
+   commit id: "Version 1"
+   commit id: "Version 2"
+   branch "new-feature"
+   commit id: "little feature"
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-git-branching2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.9: Illustration of creating a new branch named <code>new-feature</code> to allow you to work on code for the new feature without impacting the current code in the <code>main</code> branch.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Once work on a branch is complete, the changes need to be merged back into the main branch. There are a couple of ways to merge branches. One way is to merge the branches locally using Git commands. Another way is to use a pull request on GitHub to propose the changes, allow others to review and approve them, and then perform the merge. The latter approach is more common in collaborative projects, as it ensures code quality and enables team discussion before integration.&nbsp; However, the following sections will discuss both approaches.</p>
+</section>
+<section id="merging-branches" class="level3">
+<h3 class="anchored" data-anchor-id="merging-branches">Merging Branches</h3>
+<p>Merging branches locally allows you to integrate changes from one branch into another without relying on GitHub. This approach is useful when working offline, testing changes before pushing them, or handling merges in a controlled environment before sharing updates with the team. To merge the branches locally, first, switch back to <code>main</code>:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(or use <code>git switch main</code>) Then merge the feature branch:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> merge new-feature</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If there are no conflicts, Git will integrate the changes. If conflicts exist, Git will prompt you to resolve them manually before completing the merge.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-git-merging" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-git-merging-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-git-merging">%%{init: {'gitGraph': {'mainBranchName': 'main'}} }%%
+
+gitGraph
+   commit id: "Version 1"
+   commit id: "Version 2"
+   branch "new-feature"
+   commit id: "little feature"
+   checkout "main"
+   merge "new-feature"
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-git-merging-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.10: Illustration of merging the <code>new-feature</code> branch into the <code>main</code> branch.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>For more details on merging strategies and resolving merge conflicts, check out <a href="https://www.atlassian.com/git/tutorials/merging">Merging in Git</a> and <a href="https://docs.github.com/en/get-started/using-git/resolving-merge-conflicts">How to Resolve Merge Conflicts</a>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="pull-requests-on-github" class="level3">
+<h3 class="anchored" data-anchor-id="pull-requests-on-github">Pull Requests on GitHub</h3>
+<p>A <strong>Pull Request (PR)</strong> is a way to propose changes from one branch to another on GitHub. PRs allow for discussion, review, and approval before merging changes. They are especially useful in collaborative projects where multiple developers are working on different features simultaneously. By using pull requests, teams can review changes before they are merged, ensuring code quality and reducing the risk of introducing bugs.</p>
+<p>While merging locally is useful for small, independent changes, pull requests should be used when working in a team setting to facilitate discussions, maintain a clear project history, and ensure that changes align with project goals. PRs also integrate well with automated testing and continuous integration workflows, making them a preferred method for managing contributions in larger projects.</p>
+<section id="opening-a-pull-request" class="level4">
+<h4 class="anchored" data-anchor-id="opening-a-pull-request">Opening a Pull Request</h4>
+<ol type="1">
+<li><p>Push your branch to GitHub:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin new-feature</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Go to your repository on GitHub.</p></li>
+<li><p>Click the <strong>Pull Requests</strong> tab and then <strong>New Pull Request</strong>.</p></li>
+<li><p>Select the branch you want to merge into <code>main</code> and provide a clear description of your changes.</p></li>
+<li><p>Request a review from teammates to get feedback on your code.</p></li>
+</ol>
+</section>
+<section id="merging-a-pull-request" class="level4">
+<h4 class="anchored" data-anchor-id="merging-a-pull-request">Merging a Pull Request</h4>
+<p>Once the pull request is approved:</p>
+<ol type="1">
+<li><p>Click the <strong>Merge Pull Request</strong> button on GitHub.</p></li>
+<li><p>Delete the branch if it is no longer needed.</p></li>
+<li><p>Update your local repository:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+</section>
+<section id="best-practices-for-collaboration" class="level3">
+<h3 class="anchored" data-anchor-id="best-practices-for-collaboration">Best Practices for Collaboration</h3>
+<p>Collaboration in Git and GitHub is most effective when following best practices. This includes writing clear commit messages, keeping branches small and focused, and regularly syncing with the <code>main</code> branch. Additionally, requesting code reviews helps ensure code quality and facilitates better teamwork.</p>
+<ul>
+<li><p><strong>Write meaningful commit messages</strong> – Each commit should clearly describe what was changed and why. A good commit message follows a standard format and is concise yet descriptive. For example:</p>
+<pre><code>feat: Add model monitoring with logging
+
+Implemented model performance monitoring with logging capabilities. Added a logging framework to track prediction accuracy, response times, and data drift over time.</code></pre>
+<p>Following a clear commit message format helps other developers understand the purpose of changes and makes version history easier to navigate. To learn more about writing effective commit messages, refer to <a href="https://cbea.ms/git-commit/">How to Write a Git Commit Message</a>.</p></li>
+<li><p><strong>Keep branches small and focused</strong> – Large branches can become difficult to review and merge. Aim for focused, single-purpose branches.</p></li>
+<li><p><strong>Regularly sync with <code>main</code></strong> – Periodically pull updates from <code>main</code> to keep your branch up to date and reduce merge conflicts.</p></li>
+<li><p><strong>Request code reviews</strong> – Encourage collaboration and ensure code quality by having peers review changes before merging. A good code review process helps catch bugs early, enforces coding standards, and facilitates knowledge sharing among team members. When reviewing code, consider readability, maintainability, and adherence to project guidelines. To learn more about effective code reviews, refer to <a href="https://google.github.io/eng-practices/review/">How to Conduct a Code Review</a>.</p></li>
+</ul>
+<p>By following these best practices, teams can collaborate effectively, maintain clean code, and streamline the development process.</p>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>For a more detailed discussion on best practices for pull requests, see the following references:</p>
+<ul>
+<li><a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests">GitHub’s Guide on Pull Requests</a></li>
+<li><a href="https://mtlynch.io/code-review-love/">Best Practices for Code Reviews and Pull Requests</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="introduction-to-cicd-with-github-actions" class="level2" data-number="11.6">
 <h2 data-number="11.6" class="anchored" data-anchor-id="introduction-to-cicd-with-github-actions"><span class="header-section-number">11.6</span> Introduction to CI/CD with GitHub Actions</h2>
+<p>CI/CD stands for <strong>Continuous Integration (CI) and Continuous Deployment (CD)</strong>. It is a fundamental practice in modern software development and DevOps that helps automate the process of integrating and deploying code changes.</p>
 <ul>
-<li><strong>What is CI/CD?</strong>
-<ul>
-<li>Brief explanation of Continuous Integration (CI) and Continuous Deployment (CD).</li>
-<li>Why CI/CD is important for automation and DevOps.</li>
-</ul></li>
-<li><strong>Introduction to GitHub Actions</strong>
-<ul>
-<li>Overview of how GitHub Actions can automate tasks like testing and deployment.</li>
-<li>Example of a simple GitHub Actions workflow (e.g., automatically running tests on push).</li>
-</ul></li>
-<li><strong>Next Steps in Learning CI/CD</strong>
-<ul>
-<li>Link to more advanced resources for learning about CI/CD pipelines.</li>
-</ul></li>
+<li><strong>Continuous Integration (CI)</strong> ensures that every code change is automatically tested and validated before being merged into the main branch. This helps catch bugs early and maintain software quality.</li>
+<li><strong>Continuous Deployment (CD)</strong> takes CI a step further by automatically deploying validated changes to production or staging environments, reducing manual intervention and enabling faster release cycles.</li>
 </ul>
+<p>For <strong>machine learning (ML) systems</strong>, CI/CD is particularly important as it helps automate model training, testing, and deployment, ensuring reproducibility and consistency across different environments. Unlike traditional software CI/CD, MLOps-specific CI/CD includes additional steps such as data validation, feature engineering, model retraining, and evaluation before deployment.</p>
+<p>These pipelines help streamline workflows across various ML system processes, including:</p>
+<ul>
+<li><strong>Data Ingestion &amp; Processing:</strong> Automating data extraction, transformation, and validation before feeding into model training.</li>
+<li><strong>Model Training &amp; Evaluation:</strong> Triggering training jobs when new data is available, followed by validation tests to check for performance regressions or drift.</li>
+<li><strong>Model Deployment &amp; Serving:</strong> Ensuring smooth transitions from development to production with robust version control and rollback mechanisms.</li>
+<li><strong>Continuous Monitoring &amp; Feedback Loops:</strong> Monitoring performance metrics and triggering model retraining when needed.</li>
+</ul>
+<section id="introduction-to-github-actions" class="level3">
+<h3 class="anchored" data-anchor-id="introduction-to-github-actions">Introduction to GitHub Actions</h3>
+<p><strong>GitHub Actions</strong> is a powerful automation tool that enables developers to create workflows directly within a GitHub repository. It allows users to automate tasks such as testing, building, and deploying applications based on Git events (e.g., push, pull request, or scheduled triggers).</p>
+<p>GitHub Actions is particularly useful in CI/CD pipelines because it provides:</p>
+<ul>
+<li><strong>Automated Testing</strong> – Run unit tests, integration tests, and code quality checks automatically.</li>
+<li><strong>Continuous Deployment</strong> – Deploy applications or ML models to cloud environments or production servers.</li>
+<li><strong>Custom Workflows</strong> – Define and trigger sequences of automated steps using YAML configuration files.</li>
+</ul>
+<p>GitHub Actions workflows are stored inside the <code>.github/workflows</code> directory within a repository. This directory contains YAML configuration files that define various automation tasks. Each workflow file specifies when it should run, what environment it should use, and the sequence of actions to execute. For example, the following illustrates an ML project (<code>ml-project</code>) git repo that contains subdirectories for data ingestion, data cleaning, data validation, model experimentation, etc.; along with the <code>.github/workflows</code> directory that contains an example ML CI Pipeline yaml workflow file.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ml-project/</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="ex">│──</span> .gitignore</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="ex">│──</span> .github/</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── workflows/</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   │   ├── ml_ci_pipeline.yml</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="ex">│──</span> data_ingestion/</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── fetch_data.py</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── ingest_pipeline.py</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="ex">│──</span> data_cleaning/</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── clean_data.py</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── preprocess.py</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a><span class="ex">│──</span> data_validation/</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── validate_schema.py</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── check_duplicates.py</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a><span class="ex">│──</span> model_experimentation/</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── train.py</span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── evaluate.py</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a><span class="ex">│──</span> model_deployment/</span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── deploy.py</span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── inference.py</span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a><span class="ex">│──</span> model_monitoring/</span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── monitor_performance.py</span>
+<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── drift_detection.py</span>
+<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a><span class="ex">│──</span> tests/</span>
+<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── test_data_ingestion.py</span>
+<span id="cb36-34"><a href="#cb36-34" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── test_model_training.py</span>
+<span id="cb36-35"><a href="#cb36-35" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── test_model_inference.py</span>
+<span id="cb36-36"><a href="#cb36-36" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span></span>
+<span id="cb36-37"><a href="#cb36-37" aria-hidden="true" tabindex="-1"></a><span class="ex">│──</span> requirements.txt</span>
+<span id="cb36-38"><a href="#cb36-38" aria-hidden="true" tabindex="-1"></a><span class="ex">│──</span> README.md</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>For example, here is the GitHub Actions workflow that I use to automatically build and publish this book on a daily basis - <a href="https://github.com/bradleyboehmke/uc-bana-7075/blob/main/.github/workflows/publish-book.yml">publish-book.yml</a>.</p>
+</div>
+</div>
+</div>
+<p>And the following GitHub Actions workflow file provides and example of what the <code>ml_ci_pipeline.yml</code> file may look like. This example workflow automates the process of training and evaluating a machine learning model every time new code is pushed to the <code>main</code> branch in the repository:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> ML CI Pipeline</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">branches</span><span class="kw">:</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> main</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">train-and-test</span><span class="kw">:</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Checkout repository</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v3</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Set up Python</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/setup-python@v3</span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">python-version</span><span class="kw">:</span><span class="at"> </span><span class="st">'3.8'</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Install dependencies</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>          pip install -r requirements.txt</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Train model</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>          python train.py</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Evaluate model</span></span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>          python evaluate.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This workflow does the following:</p>
+<ol type="1">
+<li>Triggers on a push to the <code>main</code> branch.</li>
+<li>Runs on an Ubuntu-based virtual machine.</li>
+<li>Checks out the repository code.</li>
+<li>Sets up Python and installs dependencies.</li>
+<li>Runs a training script (<code>train.py</code>) to train an ML model.</li>
+<li>Evaluates the trained model using a validation script (<code>evaluate.py</code>).</li>
+</ol>
+<p>By integrating CI/CD into ML workflows, this process ensures that model training and evaluation are automated, helping maintain performance consistency and reproducibility.</p>
+<p>This workflow does the following:</p>
+<ol type="1">
+<li>Triggers on a push to the <code>main</code> branch.</li>
+<li>Runs on an Ubuntu-based virtual machine.</li>
+<li>Checks out the repository code.</li>
+<li>Sets up Python and installs dependencies.</li>
+<li>Runs tests using <code>pytest</code> to validate changes.</li>
+</ol>
+</section>
+<section id="next-steps-in-learning-cicd" class="level3">
+<h3 class="anchored" data-anchor-id="next-steps-in-learning-cicd">Next Steps in Learning CI/CD</h3>
+<p>To deepen your understanding of CI/CD and GitHub Actions, explore these resources:</p>
+<ul>
+<li><a href="https://docs.github.com/en/actions">GitHub Actions Documentation</a></li>
+<li><a href="https://martinfowler.com/articles/continuousIntegration.html">CI/CD Best Practices</a></li>
+<li><a href="https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines">Building CI/CD Pipelines for ML Systems</a></li>
+</ul>
+<p>By implementing CI/CD workflows with GitHub Actions, you can enhance automation, improve code quality, and accelerate deployment in software and ML projects.</p>
+</section>
 </section>
 <section id="summary" class="level2" data-number="11.7">
 <h2 data-number="11.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">11.7</span> Summary</h2>
+<p>In this chapter, we explored the fundamental concepts of Git and GitHub, essential tools for version control and collaboration in software development and MLOps. By leveraging Git’s capabilities, teams can efficiently track changes, collaborate on code, and maintain project history, while GitHub enhances these functionalities with cloud-based repository hosting, pull requests, and CI/CD automation.</p>
+<section id="key-takeaways" class="level3">
+<h3 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h3>
 <ul>
-<li>Recap of the importance of Git and GitHub in version control and DevOps.</li>
-<li>Key takeaways:
-<ul>
-<li>Git tracks changes, allowing for easy rollback and collaboration.</li>
-<li>GitHub provides a platform for sharing, reviewing, and deploying code.</li>
-<li>Branching and pull requests are essential for team collaboration.</li>
-<li>CI/CD automates workflows to improve efficiency and reliability.</li>
-</ul></li>
-<li>Transition to the next chapter, which will dive deeper into DevOps tools and practices.</li>
+<li><strong>Git and Version Control:</strong> Git provides a distributed version control system that allows developers to track changes, revert to previous versions, and collaborate without losing work.</li>
+<li><strong>Setting Up Git and GitHub:</strong> We covered installing Git, configuring user settings, and creating repositories on GitHub to start managing code effectively.</li>
+<li><strong>Tracking and Managing Changes:</strong> Fundamental Git operations such as adding files, committing changes, and viewing repository history help maintain a structured development process.</li>
+<li><strong>Branching and Collaboration:</strong> Branching enables isolated development, and pull requests facilitate team collaboration by allowing reviews and discussions before merging changes.</li>
+<li><strong>Synchronizing with GitHub:</strong> We explored how to push and pull changes between local and remote repositories to keep projects up to date and prevent conflicts.</li>
+<li><strong>CI/CD with GitHub Actions:</strong> Continuous Integration and Deployment (CI/CD) automates testing, validation, and deployment, streamlining ML workflows and DevOps processes.</li>
 </ul>
+</section>
+<section id="why-this-matters-for-ml-and-devops" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-matters-for-ml-and-devops">Why This Matters for ML and DevOps</h3>
+<p>Version control and CI/CD are critical components of an efficient ML development pipeline. In ML projects, Git helps manage datasets, experiment tracking, and model versioning, while GitHub Actions facilitates automation, ensuring reproducibility and consistency across different environments. By integrating Git and GitHub into ML workflows, teams can collaborate more effectively, improve code quality, and deploy models with confidence.</p>
+</section>
+<section id="next-steps" class="level3">
+<h3 class="anchored" data-anchor-id="next-steps">Next Steps</h3>
+<p>To deepen your understanding of Git, GitHub, and CI/CD, consider:</p>
+<ul>
+<li>Practicing with real-world projects to get hands-on experience.</li>
+<li>Exploring advanced Git features such as rebasing, stash, and cherry-picking.</li>
+<li>Learning more about GitHub Actions to build robust CI/CD pipelines.</li>
+</ul>
+<p>By mastering Git and GitHub, you will be well-equipped to manage code efficiently, collaborate seamlessly, and automate critical aspects of your ML and DevOps workflows.</p>
+</section>
 </section>
 <section id="exercise" class="level2" data-number="11.8">
 <h2 data-number="11.8" class="anchored" data-anchor-id="exercise"><span class="header-section-number">11.8</span> Exercise</h2>
-<p>This exercise will help students apply what they have learned by walking through a real-world scenario.</p>
-<section id="scenario" class="level3">
-<h3 class="anchored" data-anchor-id="scenario">Scenario</h3>
-<p>You just joined a data science team at a company, and they use Git and GitHub for collaboration. Your manager has asked you to set up your GitHub account, clone the team’s repository, and make your first contribution.</p>
-</section>
-<section id="tasks" class="level3">
-<h3 class="anchored" data-anchor-id="tasks">Tasks</h3>
-<ol type="1">
-<li><strong>Set Up Git and GitHub</strong>
+<p>You just joined a data science team at a company, and they use Git and GitHub for collaboration. Your manager has asked you to set up your GitHub account, clone the team’s repository, and make your first contribution. To demonstrate this ability, execute the following tasks:</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+1. Set Up Git and GitHub
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ul>
 <li>Install Git on your machine.</li>
 <li>Create a GitHub account if you haven’t already.</li>
 <li>Configure Git with your name and email.</li>
-</ul></li>
-<li><strong>Work with a Git Repository</strong>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+2. Work with a Git Repository
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ul>
 <li>Create a new repository on GitHub.</li>
 <li>Clone the repository to your local machine.</li>
 <li>Add a new file (e.g., <code>hello_git.txt</code>), write a short message inside, and commit the changes.</li>
 <li>Push your changes to GitHub.</li>
-</ul></li>
-<li><strong>Branching and Pull Requests</strong>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+3. Branching and Pull Requests
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ul>
 <li>Create a new branch called <code>feature-update</code>.</li>
 <li>Modify an existing file or add a new file.</li>
 <li>Commit and push the changes to the <code>feature-update</code> branch.</li>
 <li>Open a pull request on GitHub to merge your changes into <code>main</code>.</li>
 <li>Merge the pull request once approved.</li>
-</ul></li>
-<li><strong>Exploring GitHub Actions (Bonus Task)</strong>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+4. Exploring GitHub Actions (Bonus Task)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ul>
 <li>Add a GitHub Actions workflow file that runs a simple Python test on every push.</li>
 <li>Observe the automated workflow execution.</li>
-</ul></li>
-<li><strong>Reflection Questions</strong>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+5. Reflection Questions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ul>
 <li>Why is version control essential for collaborative coding?</li>
 <li>How does Git help manage different versions of a project?</li>
 <li>What are the benefits of using GitHub for collaboration?</li>
 <li>How does CI/CD improve software and model deployment?</li>
-</ul></li>
-</ol>
+</ul>
+</div>
+</div>
+</div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
