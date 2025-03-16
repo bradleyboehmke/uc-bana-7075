@@ -1,7 +1,7 @@
 # Introduction to Git and GitHub
 
 ::: {.callout-warning}
-This chapter is currently in development.
+Reading Time: 20-30 minutes
 :::
 
 Version control is an essential part of modern software development, enabling teams to collaborate efficiently, track changes, and manage codebases systematically. Git, a distributed version control system, has become the industry standard for tracking modifications and maintaining project history. GitHub, a cloud-based platform built around Git, enhances collaboration by providing a central repository for sharing, reviewing, and integrating code changes.
