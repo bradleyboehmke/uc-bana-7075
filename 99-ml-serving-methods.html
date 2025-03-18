@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Brad Boehmke">
-<meta name="dcterms.date" content="2025-03-18">
 
-<title>Machine Learning Design for Business</title>
+<title>14&nbsp; ML Serving Methods – Machine Learning Design for Business</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -66,7 +30,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01-intro-ml-system.html" rel="next">
+<link href="./references.html" rel="next">
+<link href="./13-continued-learning.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -117,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Welcome</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./99-ml-serving-methods.html">Additional Readings</a></li><li class="breadcrumb-item"><a href="./99-ml-serving-methods.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ML Serving Methods</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -149,7 +114,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Welcome</span></a>
   </div>
 </li>
@@ -297,7 +262,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./99-ml-serving-methods.html" class="sidebar-item-text sidebar-link">
+  <a href="./99-ml-serving-methods.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ML Serving Methods</span></span></a>
   </div>
 </li>
@@ -319,41 +284,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a>
+  <li><a href="#criteria-for-choosing-ml-deployment-types" id="toc-criteria-for-choosing-ml-deployment-types" class="nav-link active" data-scroll-target="#criteria-for-choosing-ml-deployment-types"><span class="header-section-number">14.1</span> Criteria for Choosing ML Deployment Types</a>
   <ul class="collapse">
-  <li><a href="#who-should-read-this" id="toc-who-should-read-this" class="nav-link" data-scroll-target="#who-should-read-this">Who should read this</a></li>
-  <li><a href="#conventions-used-in-this-book" id="toc-conventions-used-in-this-book" class="nav-link" data-scroll-target="#conventions-used-in-this-book">Conventions used in this book</a></li>
-  <li><a href="#software-used-throughout-this-book" id="toc-software-used-throughout-this-book" class="nav-link" data-scroll-target="#software-used-throughout-this-book">Software used throughout this book</a></li>
-  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional resources</a></li>
+  <li><a href="#throughput" id="toc-throughput" class="nav-link" data-scroll-target="#throughput">Throughput</a></li>
+  <li><a href="#latency" id="toc-latency" class="nav-link" data-scroll-target="#latency">Latency</a></li>
+  <li><a href="#throughput-latency-tradeoff" id="toc-throughput-latency-tradeoff" class="nav-link" data-scroll-target="#throughput-latency-tradeoff">Throughput-Latency Tradeoff</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#infrastructure" id="toc-infrastructure" class="nav-link" data-scroll-target="#infrastructure">Infrastructure</a></li>
   </ul></li>
+  <li><a href="#understanding-inference-deployment-types" id="toc-understanding-inference-deployment-types" class="nav-link" data-scroll-target="#understanding-inference-deployment-types"><span class="header-section-number">14.2</span> Understanding Inference Deployment Types</a>
+  <ul class="collapse">
+  <li><a href="#online-real-time-inference" id="toc-online-real-time-inference" class="nav-link" data-scroll-target="#online-real-time-inference">1. Online Real-time Inference</a></li>
+  <li><a href="#asynchronous-inference" id="toc-asynchronous-inference" class="nav-link" data-scroll-target="#asynchronous-inference">2. Asynchronous Inference</a></li>
+  <li><a href="#offline-batch-transform" id="toc-offline-batch-transform" class="nav-link" data-scroll-target="#offline-batch-transform">3. Offline Batch Transform</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">14.3</span> Conclusion</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/99-ml-serving-methods.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./99-ml-serving-methods.html">Additional Readings</a></li><li class="breadcrumb-item"><a href="./99-ml-serving-methods.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ML Serving Methods</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Machine Learning Design for Business</h1>
+<h1 class="title"><span id="sec-ml-serving" class="quarto-section-identifier"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ML Serving Methods</span></span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Brad Boehmke </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">March 18, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -363,93 +324,134 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="welcome" class="level1 unnumbered">
-<h1 class="unnumbered">Welcome</h1>
-<div class="callout callout-style-simple callout-warning">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>This book is currently in active development.</p>
-</div>
-</div>
-</div>
-<p>Welcome to <strong><em>Machine Learning Design for Business</em></strong>! This is the the online textbook that compliments the UC BANA 7075 course. This course aims to provide a framework for developing real-world machine learning systems that are deployable, reliable, and scalable. You will be introduced to <strong><em>MLOps</em></strong> as the intersection of DataOps, ModelOps, and DevOps; combined, these concepts provide scalable, reliable, and repeatable machine learning workflows. You will learn how MLOps enables organizations to overcome challenges in operationalizing machine learning models. Along the way, you will learn about important organizational issues including privacy, fairness, security, stakeholder management, project collaboration, and more!</p>
-<p>Throughout this textbook you’ll find embedded lectures, hands-on exercises, and additional resources that will allow you to explore the tools, techniques, and best practices required to successfully design and deploy machine learning systems in today’s organizations.</p>
-<section id="who-should-read-this" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="who-should-read-this">Who should read this</h2>
-<p>This book is ideal for graduate students, data scientists, engineers, and analytics professionals who want to bridge the gap between building machine learning models and deploying them into reliable, scalable production environments. Those looking to deepen their understanding of operationalizing ML models will benefit from hands-on experience with MLOps workflows, including data management, model deployment, and monitoring. Individuals with a basic background in machine learning or software development will gain practical skills to streamline the machine learning lifecycle and align their work with organizational and business goals.</p>
-<p>This book is also valuable for those interested in cross-functional collaboration, providing insights into how data science teams can work alongside engineering and business units to achieve successful machine learning outcomes.</p>
-<p>This book is technical in nature, designed to provide hands-on experience in deploying, monitoring, and managing machine learning systems. While it’s possible to successfully complete the book with minimal coding experience, having some familiarity with Python and basic machine learning concepts will be beneficial for understanding and applying the material. The course introduces technical tools and workflows, but it’s structured to guide students of various backgrounds through each step. Those with prior experience in Python or ML will have a smoother time grasping the concepts and may find it easier to implement projects independently. However, foundational knowledge in programming or machine learning is not strictly required, as core principles and step-by-step instructions are provided to support all readers in building effective MLOps pipelines.</p>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>If you are new to Python, I recommend you check out <a href="https://bradleyboehmke.github.io/uc-bana-6043">https://bradleyboehmke.github.io/uc-bana-6043</a> to get up to speed with the basics.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="conventions-used-in-this-book" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="conventions-used-in-this-book">Conventions used in this book</h2>
-<p>The following typographical conventions are used in this book:</p>
+<p>In this article, we’ll cover:</p>
 <ul>
-<li><strong><em>strong italic</em></strong>: indicates new terms,</li>
-<li><strong>bold</strong>: indicates package &amp; file names,</li>
-<li><code>inline code</code>: monospaced highlighted text indicates functions or other commands that could be typed literally by the user,</li>
-<li>code chunk: indicates commands or other text that could be typed literally by the user</li>
+<li>Criteria for choosing ML deployment types</li>
+<li>Key considerations when selecting ML serving methods</li>
+<li>Detailed insights into online real-time inference, asynchronous inference, and offline batch transform</li>
 </ul>
-<div id="4a27936b" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>3</code></pre>
-</div>
-</div>
-<p>In addition to the general text used throughout, you will notice the following code chunks with images:</p>
-<div class="callout callout-style-simple callout-tip">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Signifies a tip or suggestion</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Signifies a general note</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-warning">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Signifies a warning or caution</p>
-</div>
-</div>
-</div>
+<p>Let’s dive in!</p>
+<section id="criteria-for-choosing-ml-deployment-types" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="criteria-for-choosing-ml-deployment-types"><span class="header-section-number">14.1</span> Criteria for Choosing ML Deployment Types</h2>
+<p>Deploying ML models effectively requires understanding four critical aspects: throughput, latency, data, and infrastructure. These factors interact closely, and trade-offs between them significantly impact your user experience and product reliability.</p>
+<section id="throughput" class="level3">
+<h3 class="anchored" data-anchor-id="throughput">Throughput</h3>
+<p>Throughput refers to <strong>how many inference requests a system can handle</strong> within a specific timeframe, typically measured in requests per second (RPS). For example, consider an online retail website during a flash sale event. The system must handle a sudden influx of user requests efficiently. If, historically, the ML system processes 50 requests simultaneously in 100 milliseconds, it achieves a throughput of 500 requests per second. However, if during the sale, the volume of requests increases to 750 requests per second, then the throughput has increased by 50%. </p>
+<p> High throughput often requires scalable infrastructure and parallel processing capabilities, whether through clusters or GPUs. And how we anticipate throughput to change in the future can impact the technology we choose in order to allow for scaling up and/or down.</p>
 </section>
-<section id="software-used-throughout-this-book" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="software-used-throughout-this-book">Software used throughout this book</h2>
-<p>TBD</p>
+<section id="latency" class="level3">
+<h3 class="anchored" data-anchor-id="latency">Latency</h3>
+<p>Latency is the <strong>time it takes for a system to process a single inference request</strong> from when it is received until the result is returned. Latency is critical in real-time applications where quick response times are essential, such as in live user interactions, fraud detection, or any system requiring immediate feedback. For example, the average latency of OpenAI’s API is the average response time from when a user sends a request, and the service provides a result that is accessible within your application.</p>
+<p>The latency is the sum of the network I/O, serialization and deserialization, and the LLM’s inference time. Meanwhile, the throughput is the average number of requests the API processes and serves a second.&nbsp; Low-latency systems require optimized and often more costly infrastructure, such as faster processors, lower network latency, and possibly edge computing to reduce the distance data needs to travel.</p>
 </section>
-<section id="additional-resources" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="additional-resources">Additional resources</h2>
-<p>TBD</p>
+<section id="throughput-latency-tradeoff" class="level3">
+<h3 class="anchored" data-anchor-id="throughput-latency-tradeoff">Throughput-Latency Tradeoff</h3>
+<p>When considering the design of your ML system, there is often a tradeoff to be made between throughput and latency.&nbsp; For example, a lower latency translates to higher throughput when the service processes one query <strong><em>simultaneously</em></strong>. If the service takes 100 ms to process requests, this translates to a throughput of 10 requests per second. If the latency reaches 10 ms per request, the throughput rises to 100 requests per second.</p>
+<p>However, to complicate things, many ML systems adopt a batching strategy to simultaneously pass multiple data samples to the model. In this case, a lower latency can translate into lower throughput; in other words, a higher latency maps to a higher throughput.</p>
+<p>For example, if you process 20 batched requests in 100 ms, the latency is 100 ms, while the throughput is 200 requests per second. If you process 60 requests in 200 ms, the latency is 200 ms, while the throughput rises to 300 requests per second. Thus, even when batching requests at serving time, it’s essential to consider the minimum latency accepted for a good user experience.</p>
+</section>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
+<p>The type, size, and complexity of data significantly influence throughput and latency by determining how efficiently the ML system processes requests. Structured, tabular data is typically lightweight, leading to relatively low latency and high throughput because models can quickly handle many simple computations in parallel. Conversely, complex data types like high-resolution images, videos, or lengthy text passages require more intensive computational resources, potentially increasing latency and reducing throughput.</p>
+<p>For instance, deploying an image-recognition model that processes high-resolution images will inherently require more computing power and time per inference request, raising latency and lowering overall throughput. Similarly, Large Language Models (LLMs), which process extensive and context-rich text data, demand significant computation for each request, often necessitating specialized infrastructure (like GPUs or TPUs) to maintain acceptable performance. Therefore, it’s essential to align data characteristics with appropriate deployment strategies and infrastructure to balance performance and cost effectively.</p>
+</section>
+<section id="infrastructure" class="level3">
+<h3 class="anchored" data-anchor-id="infrastructure">Infrastructure</h3>
+<p>Infrastructure refers to the underlying hardware, software, networking, and system architecture that supports deploying and operating ML models. It provides essential resources for model deployment, scaling, and maintenance, encompassing computing power, memory, storage solutions, networking components, and the software stack.</p>
+<ul>
+<li><strong>High throughput systems:</strong> For high throughput, infrastructure needs to be scalable to handle large data volumes and high request rates, typically involving parallel processing, distributed systems, and specialized hardware like high-end GPUs.</li>
+<li><strong>Low latency systems:</strong> To achieve low latency, infrastructure should be optimized to reduce processing time, often necessitating faster CPUs, GPUs, specialized hardware accelerators, and potentially edge computing to minimize data travel distance. However, prioritizing low latency, particularly when batching requests, can lead to underutilized hardware capacity. Processing fewer requests per second results in idle computing resources, which raises overall processing costs. Thus, selecting infrastructure tailored to your specific latency and throughput requirements is crucial for optimizing cost and efficiency.</li>
+</ul>
+<p>Designing the system’s infrastructure must also account for specific data requirements, such as choosing appropriate storage solutions for large datasets and implementing efficient retrieval methods for quick data access.&nbsp; </p>
+<p>For instance, many ML systems leverage offline training for model development. Consequently, this part of the system is typically designed for high throughput, enabling the processing of large volumes of data efficiently by utilizing scalable infrastructure like GPU clusters or distributed systems. Conversely, if the inference part of the ML system leverages online inference, then infrastructure for this part of the system will be optimized primarily for low latency to ensure fast, responsive interactions, often involving dedicated hardware accelerators or edge computing to minimize delays. By tailoring system design differently for training (high throughput) and inference (low latency), you can effectively meet the distinct business needs and performance expectations of each scenario.</p>
+<p>With this in mind, before picking a specific deployment type, you should ask yourself questions such as:</p>
+<ul>
+<li>What throughput is required, based on minimum, average, and maximum expected demand?</li>
+<li>How many simultaneous requests will the system need to handle (1, 10, 1k, 1 million, etc.)?</li>
+<li>What are the latency requirements (e.g., 1 ms, 10 ms, 1 second)?</li>
+<li>How will the system scale—based on CPU load, request volume, queue size, data size, or a combination?</li>
+<li>What are your cost constraints?</li>
+<li>What type and size of data will the system process (images, text, tabular data; 100 MB, 1 GB, 10 GB)?</li>
+</ul>
+<p>Considering these factors thoroughly impacts your application’s user experience and reliability. A successful ML product requires not only accuracy but also responsiveness and stability. For instance, a 2016 Google study found that 53% of users abandon mobile sites taking longer than three seconds to load, highlighting latency’s significant impact on user retention.</p>
+</section>
+</section>
+<section id="understanding-inference-deployment-types" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="understanding-inference-deployment-types"><span class="header-section-number">14.2</span> Understanding Inference Deployment Types</h2>
+<p>Three fundamental ML deployment architectures exist for serving models:</p>
+<ul>
+<li>Online Real-time Inference</li>
+<li>Asynchronous Inference</li>
+<li>Offline Batch Transform</li>
+</ul>
+<p>Each approach balances latency, throughput, and costs differently based on your application’s specific requirements.&nbsp; And each one can also impact how the end-user will interact with the model.</p>
+<div id="fig-ml-deployment-architectures" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ml-deployment-architectures-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ml-deployment-architectures.png" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ml-deployment-architectures-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.1: The three fundamental architectures of inference deployment types
+</figcaption>
+</figure>
+</div>
+<section id="online-real-time-inference" class="level3">
+<h3 class="anchored" data-anchor-id="online-real-time-inference">1. Online Real-time Inference</h3>
+<p>Real-time inference involves immediate, synchronous client-server interactions through HTTP requests, typically via <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST APIs</a> or <a href="https://en.wikipedia.org/wiki/GRPC">gRPC</a>.</p>
+<ul>
+<li>REST APIs are broadly accessible but slower.&nbsp; They typically use&nbsp;JSON to pass data between the client and server. This approach is usually taken when serving models outside your internal network to the broader public. For example, OpenAI’s API implements a REST API protocol.</li>
+<li>gRPC offers higher speed but requires more complex implementation.&nbsp;You have to implement protobuf schemas in your client application, which are more tedious to work with than JSON structures. The benefit, however, is that protobuf objects can be compiled into bytes, making the network transfers much faster. Thus, this protocol is often adopted for internal services within the same ML system.</li>
+</ul>
+<p>Real-time inference suits applications needing immediate responses, such as interactive chatbots or recommendation systems. This deployment requires responsive, scalable infrastructure, though scaling efficiently and avoiding underutilization can be challenging.</p>
+<p><strong>Advantages</strong>:</p>
+<ul>
+<li>Immediate responses, suitable for interactive applications</li>
+<li>Simple, direct client-server communication</li>
+</ul>
+<p><strong>Drawbacks</strong>:</p>
+<ul>
+<li>Higher infrastructure costs for maintaining low latency</li>
+<li>Resource underutilization during low traffic</li>
+<li>Challenging to scale efficiently</li>
+</ul>
+</section>
+<section id="asynchronous-inference" class="level3">
+<h3 class="anchored" data-anchor-id="asynchronous-inference">2. Asynchronous Inference</h3>
+<p>Asynchronous inference processes requests in a queue without immediate response. This requires a robust infrastructure that queues the messages to be processed by the ML service later on. When the results are ready, you can leverage multiple techniques to send them to the client. For example, depending on the size of the result, you can put it either in a different queue or an object storage dedicated to storing the results. The client can either adopt a polling mechanism that checks on a schedule if there are new results or adopt a push strategy and implement a notification system to inform the client when the results are ready.</p>
+<p><strong>Advantages</strong>:</p>
+<ul>
+<li>Efficiently handles traffic spikes without immediate scaling</li>
+<li>Reduces infrastructure costs due to asynchronous processing</li>
+<li>Doesn’t block the client - the client can submit the inference request and go on doing other work while the system processes the request.</li>
+</ul>
+<p><strong>Drawbacks</strong>:</p>
+<ul>
+<li>Higher latency, unsuitable for time-sensitive tasks</li>
+</ul>
+<p>Ideal for tasks like document summarization or computationally intensive processing that can tolerate some delay.</p>
+</section>
+<section id="offline-batch-transform" class="level3">
+<h3 class="anchored" data-anchor-id="offline-batch-transform">3. Offline Batch Transform</h3>
+<p>Batch transform is about processing large volumes of data simultaneously, either on a schedule or triggered manually. In a batch transform architecture, the ML service pulls data from a storage system, processes it in a single operation, and then stores the results in storage. The storage system can be implemented as an object storage like AWS S3 or a data warehouse like GCP BigQuery.</p>
+<p>Unlike the asynchronous inference architecture, a batch transform design is optimized for high throughput with permissive latency requirements. When real-time predictions are unnecessary, this approach can significantly reduce costs, as processing data in big batches is the most economical method. Moreover, the batch transform architecture is the simplest way to serve a model, accelerating development time.</p>
+<p><strong>Advantages</strong>:</p>
+<ul>
+<li>High throughput, cost-effective</li>
+<li>Suitable for applications tolerant of delayed predictions</li>
+</ul>
+<p><strong>Drawbacks</strong>:</p>
+<ul>
+<li>Significant latency, unsuitable for real-time applications</li>
+</ul>
+<p>Commonly used for daily/weekly/monthly recommendations, analytics, or periodic data processing tasks.&nbsp;For example, if we implement a recommender system for a video streaming application, having a delay of one day for the predicted movies and TV shows might work because you don’t consume these products at a high frequency. But suppose you make a recommender system for a social media platform. In that case, delaying one day or even one hour is unacceptable, as you constantly want to provide fresh content to the user.</p>
+<p>Batch transform shines in scenarios where high throughput is needed, like data analytics or periodic reporting. However, it’s unsuitable for real-time applications due to its high latency and requires careful planning and scheduling to manage large datasets effectively. That’s why it is an offline serving method.</p>
+</section>
+</section>
+<section id="conclusion" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">14.3</span> Conclusion</h2>
+<p>Effectively deploying ML models involves balancing throughput, latency, data characteristics, and infrastructure. Understanding these trade-offs and selecting the appropriate deployment architecture ensures optimal performance, user satisfaction, and cost efficiency.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -854,10 +856,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./13-continued-learning.html" class="pagination-link" aria-label="Continuing Your Growth as an ML Practitioner">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Continuing Your Growth as an ML Practitioner</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01-intro-ml-system.html" class="pagination-link" aria-label="ML System Design">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">ML System Design</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -866,4 +871,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/edit/main/99-ml-serving-methods.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bradleyboehmke/uc-bana-7075/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
