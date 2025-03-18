@@ -190,6 +190,10 @@ Hybrid inference combines batch and real-time inference to meet diverse requirem
 
 The choice of inference mode is driven by the application’s business requirements, technical constraints, and cost considerations. Batch inference is suitable for predictable, non-urgent tasks, while real-time inference excels in time-sensitive scenarios. Hybrid inference offers the flexibility to address both needs but requires careful planning and infrastructure design. By understanding the trade-offs and aligning them with deployment goals, organizations can build systems that balance efficiency, responsiveness, and scalability.
 
+::: {.callout-tip}
+You can read more about the tradeoffs between online real-time inference, asynchronous inference, and offline batch transform and how they can influence model serving approaches in @sec-ml-serving.
+:::
+
 ### Deployment Environments
 
 The deployment environment for machine learning models is a critical decision that influences performance, scalability, cost, and maintenance. Deployment environments can be broadly categorized into **cloud-based**, **on-premises**, and **edge** setups. The choice of environment depends on the application’s requirements, infrastructure constraints, and mode of inference (batch, real-time, or hybrid). Below, we explore each environment in detail.

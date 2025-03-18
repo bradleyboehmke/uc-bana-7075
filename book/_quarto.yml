@@ -39,6 +39,9 @@ book:
       chapters:
         - 12-human-side-of-ml.qmd
         - 13-continued-learning.qmd
+    - part: "Additional Readings"
+      chapters:
+        - 99-ml-serving-methods.qmd
     - references.qmd
 
 bibliography: references.bib
