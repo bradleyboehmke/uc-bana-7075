@@ -1,9 +1,11 @@
-from fastapi import FastAPI, HTTPException, UploadFile, File
+import datetime
+import io
+from typing import List
+
 import mlflow.pyfunc
 import pandas as pd
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from pydantic import BaseModel
-from typing import List
-import io
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -18,6 +20,7 @@ model = mlflow.pyfunc.load_model(MODEL_URI)
 
 # Define the expected input schema for a single prediction
 class InputData(BaseModel):
+    date: datetime.date
     average_temperature: float
     rainfall: float
     weekend: int
@@ -52,10 +55,21 @@ async def predict_batch(file: UploadFile = File(...)):
         df = pd.read_csv(io.StringIO(contents.decode("utf-8")))
 
         # Validate required columns
-        required_features = ["average_temperature", "rainfall", "weekend", "holiday", "price_per_kg", "promo", "previous_days_demand"]
+        required_features = [
+            "date",
+            "average_temperature",
+            "rainfall",
+            "weekend",
+            "holiday",
+            "price_per_kg",
+            "promo",
+            "previous_days_demand",
+        ]
         if not all(feature in df.columns for feature in required_features):
             missing_cols = set(required_features) - set(df.columns)
-            raise HTTPException(status_code=400, detail=f"Missing columns: {missing_cols}")
+            raise HTTPException(
+                status_code=400, detail=f"Missing columns: {missing_cols}"
+            )
 
         # Make batch predictions
         predictions = model.predict(df)

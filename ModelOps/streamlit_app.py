@@ -13,6 +13,7 @@ st.title("Apple Demand Forecasting - ML Model UI")
 #################################
 # Users can manually enter feature values for each feature
 st.subheader("Single Input Prediction")
+demand_date = st.date_input("Date Prediction is For")
 average_temperature = st.number_input("Average Temperature (°C)", value=28.5)
 rainfall = st.number_input("Rainfall (mm)", value=1.4)
 weekend = st.selectbox("Is it a weekend?", [0, 1])
@@ -24,6 +25,7 @@ previous_days_demand = st.number_input("Previous Days Demand", value=1313)
 # This button triggers a request to FastAPI's /predict endpoint.
 if st.button("Predict Demand"):
     input_data = [{
+        "demand_date": demand_date,
         "average_temperature": average_temperature,
         "rainfall": rainfall,
         "weekend": weekend,
