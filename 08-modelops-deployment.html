@@ -1210,8 +1210,8 @@ AWS SageMaker
 <h4 class="anchored" data-anchor-id="dataset-for-predictions">3. Dataset for Predictions</h4>
 <p>For these examples, we’ll use simulated test data to feed into our deployed model to make predictions. The following represents a single input that could be fed into our model to mimic a real-time prediction. You can use this <a href="https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/test_data.csv"><code>test_data.csv</code></a> file.</p>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-create-test-data.ipynb" data-notebook-cellid="cell-1">
-<div id="cell-1" class="cell" data-tags="[&quot;single-input&quot;]" data-execution_count="2">
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div id="cell-1" class="cell" data-tags="[&quot;single-input&quot;]" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -1219,6 +1219,7 @@ AWS SageMaker
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">date</th>
 <th data-quarto-table-cell-role="th">average_temperature</th>
 <th data-quarto-table-cell-role="th">rainfall</th>
 <th data-quarto-table-cell-role="th">weekend</th>
@@ -1231,13 +1232,14 @@ AWS SageMaker
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">1000</td>
+<td>2025-02-06 16:57:43.997783</td>
 <td>28.566576</td>
 <td>1.405188</td>
-<td>1</td>
+<td>0</td>
 <td>0</td>
 <td>1.542647</td>
 <td>0</td>
-<td>1640.0</td>
+<td>1313.0</td>
 </tr>
 </tbody>
 </table>
@@ -1248,8 +1250,8 @@ AWS SageMaker
 </div>
 <p>And the following represents multiple inputs that could be fed into our model to mimic a batch prediction. You can use this <a href="https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/test_batch_data.csv"><code>test_batch_data.csv</code></a> file.</p>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-create-test-data.ipynb" data-notebook-cellid="cell-3">
-<div id="cell-3" class="cell" data-tags="[&quot;batch-input&quot;]" data-execution_count="4">
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div id="cell-3" class="cell" data-tags="[&quot;batch-input&quot;]" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
@@ -1257,6 +1259,7 @@ AWS SageMaker
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">date</th>
 <th data-quarto-table-cell-role="th">average_temperature</th>
 <th data-quarto-table-cell-role="th">rainfall</th>
 <th data-quarto-table-cell-role="th">weekend</th>
@@ -1269,6 +1272,7 @@ AWS SageMaker
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
+<td>2025-01-28 16:58:32.417066</td>
 <td>30.584727</td>
 <td>12.212080</td>
 <td>0</td>
@@ -1279,9 +1283,10 @@ AWS SageMaker
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
+<td>2025-01-29 16:58:32.417065</td>
 <td>15.465069</td>
 <td>7.372440</td>
-<td>1</td>
+<td>0</td>
 <td>0</td>
 <td>1.956357</td>
 <td>0</td>
@@ -1289,29 +1294,32 @@ AWS SageMaker
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
+<td>2025-01-30 16:58:32.417064</td>
 <td>10.786525</td>
 <td>1.700924</td>
-<td>1</td>
+<td>0</td>
 <td>0</td>
 <td>2.198421</td>
 <td>0</td>
-<td>1110.0</td>
+<td>810.0</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
+<td>2025-01-31 16:58:32.417062</td>
 <td>23.648154</td>
 <td>2.684491</td>
 <td>0</td>
 <td>0</td>
 <td>1.861633</td>
 <td>0</td>
-<td>1256.0</td>
+<td>956.0</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
+<td>2025-02-01 16:58:32.417061</td>
 <td>13.861391</td>
 <td>2.013523</td>
-<td>0</td>
+<td>1</td>
 <td>0</td>
 <td>2.781717</td>
 <td>0</td>
@@ -1319,26 +1327,29 @@ AWS SageMaker
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">5</td>
+<td>2025-02-02 16:58:32.417059</td>
 <td>14.674082</td>
 <td>2.281109</td>
-<td>0</td>
+<td>1</td>
 <td>0</td>
 <td>2.455626</td>
 <td>0</td>
-<td>965.0</td>
+<td>1265.0</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">6</td>
+<td>2025-02-03 16:58:32.417058</td>
 <td>20.558692</td>
 <td>1.871252</td>
 <td>0</td>
 <td>0</td>
 <td>2.276917</td>
 <td>0</td>
-<td>879.0</td>
+<td>1179.0</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">7</td>
+<td>2025-02-04 16:58:32.417056</td>
 <td>25.138812</td>
 <td>4.342813</td>
 <td>0</td>
@@ -1349,9 +1360,10 @@ AWS SageMaker
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">8</td>
+<td>2025-02-05 16:58:32.417054</td>
 <td>22.308853</td>
 <td>0.599279</td>
-<td>1</td>
+<td>0</td>
 <td>0</td>
 <td>2.880621</td>
 <td>0</td>
@@ -1359,13 +1371,14 @@ AWS SageMaker
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">9</td>
+<td>2025-02-06 16:58:32.417046</td>
 <td>26.102977</td>
 <td>1.971698</td>
-<td>1</td>
+<td>0</td>
 <td>0</td>
 <td>1.058829</td>
 <td>1</td>
-<td>1135.0</td>
+<td>835.0</td>
 </tr>
 </tbody>
 </table>
@@ -1406,7 +1419,7 @@ Figure&nbsp;8.1: I currently have 4 models versions. Depending on what you did i
 </div>
 <p>Now, that these model’s are registered, we can load the latest version of this model programmatically and make predictions with it. The following code<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> shows an example of loading the latest model and making a prediction using simulated test data:</p>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-retrieval.ipynb" data-notebook-title="Example Model Retrieval for Prediction" data-notebook-cellid="cell-1">
-<div id="cell-1" class="cell" data-tags="[&quot;model-retrieval&quot;]" data-execution_count="2">
+<div id="cell-1" class="cell" data-tags="[&quot;model-retrieval&quot;]" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Requirements</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> apple_data <span class="im">import</span> generate_apple_sales_data_with_promo_adjustment</span>
@@ -1425,12 +1438,12 @@ Figure&nbsp;8.1: I currently have 4 models versions. Depending on what you did i
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Create test data for model input</span></span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>test_data <span class="op">=</span> generate_apple_sales_data_with_promo_adjustment(base_demand<span class="op">=</span><span class="dv">1_000</span>, n_rows<span class="op">=</span><span class="dv">1_001</span>)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>test_data <span class="op">=</span> test_data.drop(columns<span class="op">=</span>[<span class="st">'demand'</span>, <span class="st">'date'</span>]).iloc[[<span class="op">-</span><span class="dv">1</span>]]</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>test_data <span class="op">=</span> test_data.drop(columns<span class="op">=</span>[<span class="st">'demand'</span>]).iloc[[<span class="op">-</span><span class="dv">1</span>]]</span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate predictions</span></span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>model.predict(test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>array([970.05157731])</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>array([960.5483463])</code></pre>
 </div>
 </div>
 </div>
@@ -1483,70 +1496,84 @@ Understanding APIs
 <li>Define the expected input schema (<code>InputData()</code>)</li>
 <li>Real-time &amp; batch prediction capabilities (<code>predict_single()</code>, <code>predict_batch()</code>)</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastapi <span class="im">import</span> FastAPI, HTTPException, UploadFile, File</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow.pyfunc</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> io</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize FastAPI app</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> FastAPI()</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Set experiment name</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>mlflow.set_experiment(<span class="st">"Forecasting Apple Demand"</span>)</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the trained model from MLflow</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>MODEL_URI <span class="op">=</span> <span class="st">"models:/apple_demand@champion"</span>  <span class="co"># Replace with your model name and alias</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> mlflow.pyfunc.load_model(MODEL_URI)</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the expected input schema for a single prediction</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> InputData(BaseModel):</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    average_temperature: <span class="bu">float</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    rainfall: <span class="bu">float</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    weekend: <span class="bu">int</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    holiday: <span class="bu">int</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    price_per_kg: <span class="bu">float</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    promo: <span class="bu">int</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    previous_days_demand: <span class="bu">float</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="at">@app.post</span>(<span class="st">"/predict"</span>)</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_single(input_data: List[InputData]):</span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Endpoint for real-time predictions with a single input."""</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert input to DataFrame</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame([data.<span class="bu">dict</span>() <span class="cf">for</span> data <span class="kw">in</span> input_data])</span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> io</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow.pyfunc</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastapi <span class="im">import</span> FastAPI, File, HTTPException, UploadFile</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize FastAPI app</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> FastAPI()</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Set experiment name</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>mlflow.set_experiment(<span class="st">"Forecasting Apple Demand"</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the trained model from MLflow</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>MODEL_URI <span class="op">=</span> <span class="st">"models:/apple_demand@champion"</span>  <span class="co"># Replace with your model name and alias</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> mlflow.pyfunc.load_model(MODEL_URI)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the expected input schema for a single prediction</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> InputData(BaseModel):</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    date: datetime.date</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    average_temperature: <span class="bu">float</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    rainfall: <span class="bu">float</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    weekend: <span class="bu">int</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    holiday: <span class="bu">int</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    price_per_kg: <span class="bu">float</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    promo: <span class="bu">int</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    previous_days_demand: <span class="bu">float</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="at">@app.post</span>(<span class="st">"/predict"</span>)</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_single(input_data: List[InputData]):</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Endpoint for real-time predictions with a single input."""</span></span>
 <span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Make predictions</span></span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        predictions <span class="op">=</span> model.predict(df)</span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"predictions"</span>: predictions.tolist()}</span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> HTTPException(status_code<span class="op">=</span><span class="dv">500</span>, detail<span class="op">=</span><span class="bu">str</span>(e))</span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a><span class="at">@app.post</span>(<span class="st">"/predict_batch"</span>)</span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> predict_batch(<span class="bu">file</span>: UploadFile <span class="op">=</span> File(...)):</span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Endpoint for batch predictions using a CSV file."""</span></span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Read the uploaded CSV file</span></span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>        contents <span class="op">=</span> <span class="cf">await</span> <span class="bu">file</span>.read()</span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.read_csv(io.StringIO(contents.decode(<span class="st">"utf-8"</span>)))</span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Validate required columns</span></span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>        required_features <span class="op">=</span> [<span class="st">"average_temperature"</span>, <span class="st">"rainfall"</span>, <span class="st">"weekend"</span>, <span class="st">"holiday"</span>, <span class="st">"price_per_kg"</span>, <span class="st">"promo"</span>, <span class="st">"previous_days_demand"</span>]</span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> <span class="bu">all</span>(feature <span class="kw">in</span> df.columns <span class="cf">for</span> feature <span class="kw">in</span> required_features):</span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>            missing_cols <span class="op">=</span> <span class="bu">set</span>(required_features) <span class="op">-</span> <span class="bu">set</span>(df.columns)</span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> HTTPException(status_code<span class="op">=</span><span class="dv">400</span>, detail<span class="op">=</span><span class="ss">f"Missing columns: </span><span class="sc">{</span>missing_cols<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Make batch predictions</span></span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>        predictions <span class="op">=</span> model.predict(df)</span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"predictions"</span>: predictions.tolist()}</span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> HTTPException(status_code<span class="op">=</span><span class="dv">500</span>, detail<span class="op">=</span><span class="bu">str</span>(e))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert input to DataFrame</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame([data.<span class="bu">dict</span>() <span class="cf">for</span> data <span class="kw">in</span> input_data])</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Make predictions</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>        predictions <span class="op">=</span> model.predict(df)</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"predictions"</span>: predictions.tolist()}</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> HTTPException(status_code<span class="op">=</span><span class="dv">500</span>, detail<span class="op">=</span><span class="bu">str</span>(e))</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="at">@app.post</span>(<span class="st">"/predict_batch"</span>)</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> predict_batch(<span class="bu">file</span>: UploadFile <span class="op">=</span> File(...)):</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Endpoint for batch predictions using a CSV file."""</span></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Read the uploaded CSV file</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>        contents <span class="op">=</span> <span class="cf">await</span> <span class="bu">file</span>.read()</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.read_csv(io.StringIO(contents.decode(<span class="st">"utf-8"</span>)))</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Validate required columns</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>        required_features <span class="op">=</span> [</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>            <span class="st">"date"</span>,</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>            <span class="st">"average_temperature"</span>,</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>            <span class="st">"rainfall"</span>,</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>            <span class="st">"weekend"</span>,</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>            <span class="st">"holiday"</span>,</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>            <span class="st">"price_per_kg"</span>,</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>            <span class="st">"promo"</span>,</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>            <span class="st">"previous_days_demand"</span>,</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> <span class="bu">all</span>(feature <span class="kw">in</span> df.columns <span class="cf">for</span> feature <span class="kw">in</span> required_features):</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>            missing_cols <span class="op">=</span> <span class="bu">set</span>(required_features) <span class="op">-</span> <span class="bu">set</span>(df.columns)</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> HTTPException(</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>                status_code<span class="op">=</span><span class="dv">400</span>, detail<span class="op">=</span><span class="ss">f"Missing columns: </span><span class="sc">{</span>missing_cols<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Make batch predictions</span></span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>        predictions <span class="op">=</span> model.predict(df)</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"predictions"</span>: predictions.tolist()}</span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> HTTPException(status_code<span class="op">=</span><span class="dv">500</span>, detail<span class="op">=</span><span class="bu">str</span>(e))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Once you’ve added this code to the <code>fastapi_app.py</code> file, we can test it locally. First, launch the API using the following:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uvicorn</span> fastapi_app:app <span class="at">--host</span> 0.0.0.0 <span class="at">--port</span> 5000 <span class="at">--reload</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-simple callout-note callout-titled">
@@ -1746,59 +1773,61 @@ Internal Tools: Rapid Experimentation Before Full Integration
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">#################################</span></span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Users can manually enter feature values for each feature</span></span>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>st.subheader(<span class="st">"Single Input Prediction"</span>)</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>average_temperature <span class="op">=</span> st.number_input(<span class="st">"Average Temperature (°C)"</span>, value<span class="op">=</span><span class="fl">28.5</span>)</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>rainfall <span class="op">=</span> st.number_input(<span class="st">"Rainfall (mm)"</span>, value<span class="op">=</span><span class="fl">1.4</span>)</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>weekend <span class="op">=</span> st.selectbox(<span class="st">"Is it a weekend?"</span>, [<span class="dv">0</span>, <span class="dv">1</span>])</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>holiday <span class="op">=</span> st.selectbox(<span class="st">"Is it a holiday?"</span>, [<span class="dv">0</span>, <span class="dv">1</span>])</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>price_per_kg <span class="op">=</span> st.number_input(<span class="st">"Price per Kg ($)"</span>, value<span class="op">=</span><span class="fl">1.54</span>)</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>promo <span class="op">=</span> st.selectbox(<span class="st">"Promotion Available?"</span>, [<span class="dv">0</span>, <span class="dv">1</span>])</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>previous_days_demand <span class="op">=</span> st.number_input(<span class="st">"Previous Days Demand"</span>, value<span class="op">=</span><span class="dv">1313</span>)</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co"># This button triggers a request to FastAPI's /predict endpoint.</span></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> st.button(<span class="st">"Predict Demand"</span>):</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    input_data <span class="op">=</span> [{</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">"average_temperature"</span>: average_temperature,</span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"rainfall"</span>: rainfall,</span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">"weekend"</span>: weekend,</span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">"holiday"</span>: holiday,</span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">"price_per_kg"</span>: price_per_kg,</span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>        <span class="st">"promo"</span>: promo,</span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">"previous_days_demand"</span>: previous_days_demand</span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    }]</span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.post(<span class="ss">f"</span><span class="sc">{</span>FASTAPI_URL<span class="sc">}</span><span class="ss">/predict"</span>, json<span class="op">=</span>input_data)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>demand_date <span class="op">=</span> st.date_input(<span class="st">"Date Prediction is For"</span>)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>average_temperature <span class="op">=</span> st.number_input(<span class="st">"Average Temperature (°C)"</span>, value<span class="op">=</span><span class="fl">28.5</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>rainfall <span class="op">=</span> st.number_input(<span class="st">"Rainfall (mm)"</span>, value<span class="op">=</span><span class="fl">1.4</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>weekend <span class="op">=</span> st.selectbox(<span class="st">"Is it a weekend?"</span>, [<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>holiday <span class="op">=</span> st.selectbox(<span class="st">"Is it a holiday?"</span>, [<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>price_per_kg <span class="op">=</span> st.number_input(<span class="st">"Price per Kg ($)"</span>, value<span class="op">=</span><span class="fl">1.54</span>)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>promo <span class="op">=</span> st.selectbox(<span class="st">"Promotion Available?"</span>, [<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>previous_days_demand <span class="op">=</span> st.number_input(<span class="st">"Previous Days Demand"</span>, value<span class="op">=</span><span class="dv">1313</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co"># This button triggers a request to FastAPI's /predict endpoint.</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> st.button(<span class="st">"Predict Demand"</span>):</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    input_data <span class="op">=</span> [{</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"demand_date"</span>: demand_date,</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">"average_temperature"</span>: average_temperature,</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">"rainfall"</span>: rainfall,</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">"weekend"</span>: weekend,</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>        <span class="st">"holiday"</span>: holiday,</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">"price_per_kg"</span>: price_per_kg,</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">"promo"</span>: promo,</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">"previous_days_demand"</span>: previous_days_demand</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    }]</span>
 <span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The response is displayed on the Streamlit UI.</span></span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> response.status_code <span class="op">==</span> <span class="dv">200</span>:</span>
-<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>        prediction <span class="op">=</span> response.json()[<span class="st">"predictions"</span>][<span class="dv">0</span>]</span>
-<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>        st.success(<span class="ss">f"Predicted Demand: </span><span class="sc">{</span>prediction<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
-<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>        st.error(<span class="st">"Error fetching prediction. Check FastAPI logs."</span>)</span>
-<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="co">###########################################</span></span>
-<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a><span class="co"># === Batch Prediction with File Upload ===</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.post(<span class="ss">f"</span><span class="sc">{</span>FASTAPI_URL<span class="sc">}</span><span class="ss">/predict"</span>, json<span class="op">=</span>input_data)</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The response is displayed on the Streamlit UI.</span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> response.status_code <span class="op">==</span> <span class="dv">200</span>:</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>        prediction <span class="op">=</span> response.json()[<span class="st">"predictions"</span>][<span class="dv">0</span>]</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>        st.success(<span class="ss">f"Predicted Demand: </span><span class="sc">{</span>prediction<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>        st.error(<span class="st">"Error fetching prediction. Check FastAPI logs."</span>)</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="co">###########################################</span></span>
-<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Users can upload a CSV file containing multiple rows of input data.</span></span>
-<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>st.subheader(<span class="st">"Batch Prediction via CSV Upload"</span>)</span>
-<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>uploaded_file <span class="op">=</span> st.file_uploader(<span class="st">"Upload CSV file"</span>, <span class="bu">type</span><span class="op">=</span>[<span class="st">"csv"</span>])</span>
-<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> uploaded_file:</span>
-<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(uploaded_file)</span>
-<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>    st.write(<span class="st">"Uploaded Data Preview:"</span>, df.head())</span>
-<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The file is sent to the FastAPI /predict_batch endpoint.</span></span>
-<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> st.button(<span class="st">"Get Batch Predictions"</span>):</span>
-<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>        files <span class="op">=</span> {<span class="st">"file"</span>: uploaded_file.getvalue()}</span>
-<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> requests.post(<span class="ss">f"</span><span class="sc">{</span>FASTAPI_URL<span class="sc">}</span><span class="ss">/predict_batch"</span>, files<span class="op">=</span>files)</span>
-<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>        <span class="co">#Predictions are added to the dataset and displayed on the UI.</span></span>
-<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> response.status_code <span class="op">==</span> <span class="dv">200</span>:</span>
-<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>            predictions <span class="op">=</span> response.json()[<span class="st">"predictions"</span>]</span>
-<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>            df[<span class="st">"Predicted Demand"</span>] <span class="op">=</span> predictions</span>
-<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>            st.subheader(<span class="st">"Predictions:"</span>)</span>
-<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>            st.write(df)</span>
-<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>            st.error(<span class="st">"Error processing batch prediction."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="co"># === Batch Prediction with File Upload ===</span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a><span class="co">###########################################</span></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Users can upload a CSV file containing multiple rows of input data.</span></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>st.subheader(<span class="st">"Batch Prediction via CSV Upload"</span>)</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>uploaded_file <span class="op">=</span> st.file_uploader(<span class="st">"Upload CSV file"</span>, <span class="bu">type</span><span class="op">=</span>[<span class="st">"csv"</span>])</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> uploaded_file:</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(uploaded_file)</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>    st.write(<span class="st">"Uploaded Data Preview:"</span>, df.head())</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The file is sent to the FastAPI /predict_batch endpoint.</span></span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> st.button(<span class="st">"Get Batch Predictions"</span>):</span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>        files <span class="op">=</span> {<span class="st">"file"</span>: uploaded_file.getvalue()}</span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> requests.post(<span class="ss">f"</span><span class="sc">{</span>FASTAPI_URL<span class="sc">}</span><span class="ss">/predict_batch"</span>, files<span class="op">=</span>files)</span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>        <span class="co">#Predictions are added to the dataset and displayed on the UI.</span></span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> response.status_code <span class="op">==</span> <span class="dv">200</span>:</span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>            predictions <span class="op">=</span> response.json()[<span class="st">"predictions"</span>]</span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>            df[<span class="st">"Predicted Demand"</span>] <span class="op">=</span> predictions</span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>            st.subheader(<span class="st">"Predictions:"</span>)</span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>            st.write(df)</span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>            st.error(<span class="st">"Error processing batch prediction."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="sec-fastapi-streamlit-together" class="level4">
 <h4 class="anchored" data-anchor-id="sec-fastapi-streamlit-together">Running FastAPI and Streamlit Together</h4>
@@ -1954,7 +1983,7 @@ Option 2: Running FastAPI and Streamlit from a Single Script
 <h4 class="anchored" data-anchor-id="dockerfile">Dockerfile</h4>
 <p>The <code>Dockerfile</code> defines how our container is built, specifying the <strong>Python version</strong>, copying necessary files, installing dependencies, and setting the startup command.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a># Use official Python image</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>FROM python:3.12</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>FROM docker-all.artifactory.8451.cloud/core-images/python:3.12</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a># Set the working directory in the container</span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>WORKDIR /app</span>
@@ -1962,14 +1991,21 @@ Option 2: Running FastAPI and Streamlit from a Single Script
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a># Copy all application files to the container</span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>COPY . /app</span>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a># Install dependencies</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>RUN pip install --no-cache-dir -r requirements.txt</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a># Security stuff</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>USER root</span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a># Expose necessary ports for FastAPI (5000) and Streamlit (8501)</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>EXPOSE 5000 8501</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a># Start both FastAPI and Streamlit using the Python script</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>CMD ["python", "fastapi_streamlit.py"]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a># Install dependencies</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>RUN python3.12 -m pip install --upgrade pip setuptools</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>RUN python3.12 -m pip install --no-cache-dir -r requirements.txt</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a># Security stuff</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>USER e451</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a># Expose necessary ports for FastAPI (5000) and Streamlit (8501)</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>EXPOSE 5000 8501</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a># Start both FastAPI and Streamlit using the Python script</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>CMD ["python3.12", "fastapi_streamlit.py"]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="dockerignore-file" class="level4">
 <h4 class="anchored" data-anchor-id="dockerignore-file">.dockerignore File</h4>
@@ -1993,7 +2029,7 @@ Option 2: Running FastAPI and Streamlit from a Single Script
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">environment</span><span class="kw">:</span></span>
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> MLFLOW_TRACKING_URI=file:///app/mlflow_registry/mlruns</span></span>
 <span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">volumes</span><span class="kw">:</span></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> /Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/ModelOps/mlruns:/app/mlflow_registry/mlruns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> ./mlruns:/app/mlflow_registry/mlruns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Key Features of <code>docker-compose.yml</code> includes:</p>
 <ul>
 <li><strong>Volume Mounting (volumes)</strong>: We mount the local MLflow experiment directory to the container so that the FastAPI app inside the container can access models stored on the host machine.</li>

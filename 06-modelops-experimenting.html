@@ -771,27 +771,32 @@ Environment and Dependencies
 <div class="cell-output cell-output-stdout">
 <pre><code>Python version: 3.12.7 | packaged by Anaconda, Inc. | (main, Oct  4 2024, 08:28:27) [Clang 14.0.6 ]
 
+fastapi==0.115.7
 mlflow==2.12.2
 numpy==1.26.4
 pandas==2.1.4
+python-multipart==0.0.20
 scikit-learn==1.5.1
+streamlit==1.37.1
+uvicorn==0.34.0
 xgboost==2.1.3</code></pre>
 </div>
 </div>
 </div>
 <p>Next, let’s load our required libraries. You’ll notice that we load a function from an <a href="https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/apple_data.py"><code>apple_data</code> module</a>; this is a local module I created to help create data for this example.</p>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-experimentation.ipynb" data-notebook-title="Example Model Experimentation Tracking" data-notebook-cellid="20cc39b3">
-<div id="20cc39b3" class="cell" data-tags="[&quot;requirements&quot;]" data-execution_count="1">
+<div id="20cc39b3" class="cell" data-tags="[&quot;requirements&quot;]" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> linear_model</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_absolute_error, mean_squared_error, r2_score</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split, GridSearchCV</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> apple_data <span class="im">import</span> generate_apple_sales_data_with_promo_adjustment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> linear_model</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_absolute_error, mean_squared_error, r2_score</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split, GridSearchCV</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> apple_data <span class="im">import</span> generate_apple_sales_data_with_promo_adjustment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -803,7 +808,7 @@ xgboost==2.1.3</code></pre>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set experiment name</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mlflow.set_experiment(<span class="st">"Forecasting Apple Demand"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>&lt;Experiment: artifact_location='file:///Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/ModelOps/mlruns/186119791991456899', creation_time=1737915596015, experiment_id='186119791991456899', last_update_time=1737915596015, lifecycle_stage='active', name='Forecasting Apple Demand', tags={}&gt;</code></pre>
+<pre><code>&lt;Experiment: artifact_location='file:///Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/ModelOps/mlruns/151640156787012125', creation_time=1738854716745, experiment_id='151640156787012125', last_update_time=1738854716745, lifecycle_stage='active', name='Forecasting Apple Demand', tags={}&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -889,31 +894,31 @@ Figure&nbsp;6.3: MLflow UI when no experiments have been run yet. This interface
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>2022-05-03 13:19:56.029453</td>
+<td>2022-05-14 10:11:56.914288</td>
 <td>30.584727</td>
 <td>6.786845</td>
-<td>0</td>
+<td>1</td>
 <td>0</td>
 <td>2.502464</td>
 <td>0</td>
-<td>845</td>
-<td>845.0</td>
+<td>1145</td>
+<td>1145.0</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>2022-05-04 13:19:56.029452</td>
+<td>2022-05-15 10:11:56.914286</td>
 <td>15.465069</td>
 <td>9.716520</td>
-<td>0</td>
+<td>1</td>
 <td>0</td>
 <td>1.871180</td>
 <td>0</td>
-<td>879</td>
-<td>845.0</td>
+<td>1179</td>
+<td>1145.0</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>2022-05-05 13:19:56.029451</td>
+<td>2022-05-16 10:11:56.914285</td>
 <td>10.786525</td>
 <td>1.099836</td>
 <td>0</td>
@@ -921,11 +926,11 @@ Figure&nbsp;6.3: MLflow UI when no experiments have been run yet. This interface
 <td>1.149160</td>
 <td>0</td>
 <td>973</td>
-<td>879.0</td>
+<td>1179.0</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>2022-05-06 13:19:56.029449</td>
+<td>2022-05-17 10:11:56.914283</td>
 <td>23.648154</td>
 <td>9.578136</td>
 <td>0</td>
@@ -937,14 +942,14 @@ Figure&nbsp;6.3: MLflow UI when no experiments have been run yet. This interface
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>2022-05-07 13:19:56.029448</td>
+<td>2022-05-18 10:11:56.914282</td>
 <td>13.861391</td>
 <td>4.693826</td>
-<td>1</td>
+<td>0</td>
 <td>0</td>
 <td>0.737711</td>
 <td>0</td>
-<td>1173</td>
+<td>873</td>
 <td>969.0</td>
 </tr>
 </tbody>
@@ -956,7 +961,7 @@ Figure&nbsp;6.3: MLflow UI when no experiments have been run yet. This interface
 </div>
 <p>Next, we will create out training and validation data splits:</p>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-experimentation.ipynb" data-notebook-title="Example Model Experimentation Tracking" data-notebook-cellid="33c5bd0b">
-<div id="33c5bd0b" class="cell" data-tags="[&quot;training-data&quot;]" data-execution_count="5">
+<div id="33c5bd0b" class="cell" data-tags="[&quot;training-data&quot;]" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into features and target and drop irrelevant date field and target field</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> data.drop(columns<span class="op">=</span>[<span class="st">"date"</span>, <span class="st">"demand"</span>])</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> data[<span class="st">"demand"</span>]</span>
@@ -976,7 +981,7 @@ Figure&nbsp;6.3: MLflow UI when no experiments have been run yet. This interface
 <li>Log our experiment run with MLFlow</li>
 </ol>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-experimentation.ipynb" data-notebook-title="Example Model Experimentation Tracking" data-notebook-cellid="3fb3b9a4">
-<div id="3fb3b9a4" class="cell" data-tags="[&quot;regularization-data-prep&quot;]" data-execution_count="6">
+<div id="3fb3b9a4" class="cell" data-tags="[&quot;regularization-data-prep&quot;]" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scale the data</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>X_train_scaled <span class="op">=</span> scaler.fit_transform(X_train)</span>
@@ -987,7 +992,7 @@ Figure&nbsp;6.3: MLflow UI when no experiments have been run yet. This interface
 </div>
 </div>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-experimentation.ipynb" data-notebook-title="Example Model Experimentation Tracking" data-notebook-cellid="61ea335a">
-<div id="61ea335a" class="cell" data-tags="[&quot;regularization-fit&quot;]" data-execution_count="7">
+<div id="61ea335a" class="cell" data-tags="[&quot;regularization-fit&quot;]" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model_params <span class="op">=</span> {</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"alpha"</span>: <span class="fl">0.5</span>,</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>}</span>
@@ -997,8 +1002,8 @@ Figure&nbsp;6.3: MLflow UI when no experiments have been run yet. This interface
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model on the training data</span></span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>reg.fit(X_train_scaled, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
-<style>#sk-container-id-1 {
+<div class="cell-output cell-output-display" data-execution_count="24">
+<style>#sk-container-id-3 {
   /* Definition of color scheme common for light and dark mode */
   --sklearn-color-text: black;
   --sklearn-color-line: gray;
@@ -1028,15 +1033,15 @@ Figure&nbsp;6.3: MLflow UI when no experiments have been run yet. This interface
   }
 }
 
-#sk-container-id-1 {
+#sk-container-id-3 {
   color: var(--sklearn-color-text);
 }
 
-#sk-container-id-1 pre {
+#sk-container-id-3 pre {
   padding: 0;
 }
 
-#sk-container-id-1 input.sk-hidden--visually {
+#sk-container-id-3 input.sk-hidden--visually {
   border: 0;
   clip: rect(1px 1px 1px 1px);
   clip: rect(1px, 1px, 1px, 1px);
@@ -1048,7 +1053,7 @@ Figure&nbsp;6.3: MLflow UI when no experiments have been run yet. This interface
   width: 1px;
 }
 
-#sk-container-id-1 div.sk-dashed-wrapped {
+#sk-container-id-3 div.sk-dashed-wrapped {
   border: 1px dashed var(--sklearn-color-line);
   margin: 0 0.4em 0.5em 0.4em;
   box-sizing: border-box;
@@ -1056,7 +1061,7 @@ Figure&nbsp;6.3: MLflow UI when no experiments have been run yet. This interface
   background-color: var(--sklearn-color-background);
 }
 
-#sk-container-id-1 div.sk-container {
+#sk-container-id-3 div.sk-container {
   /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
      but bootstrap.min.css set `[hidden] { display: none !important; }`
      so we also need the `!important` here to be able to override the
@@ -1066,7 +1071,7 @@ Figure&nbsp;6.3: MLflow UI when no experiments have been run yet. This interface
   position: relative;
 }
 
-#sk-container-id-1 div.sk-text-repr-fallback {
+#sk-container-id-3 div.sk-text-repr-fallback {
   display: none;
 }
 
@@ -1082,14 +1087,14 @@ div.sk-item {
 
 /* Parallel-specific style estimator block */
 
-#sk-container-id-1 div.sk-parallel-item::after {
+#sk-container-id-3 div.sk-parallel-item::after {
   content: "";
   width: 100%;
   border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
   flex-grow: 1;
 }
 
-#sk-container-id-1 div.sk-parallel {
+#sk-container-id-3 div.sk-parallel {
   display: flex;
   align-items: stretch;
   justify-content: center;
@@ -1097,28 +1102,28 @@ div.sk-item {
   position: relative;
 }
 
-#sk-container-id-1 div.sk-parallel-item {
+#sk-container-id-3 div.sk-parallel-item {
   display: flex;
   flex-direction: column;
 }
 
-#sk-container-id-1 div.sk-parallel-item:first-child::after {
+#sk-container-id-3 div.sk-parallel-item:first-child::after {
   align-self: flex-end;
   width: 50%;
 }
 
-#sk-container-id-1 div.sk-parallel-item:last-child::after {
+#sk-container-id-3 div.sk-parallel-item:last-child::after {
   align-self: flex-start;
   width: 50%;
 }
 
-#sk-container-id-1 div.sk-parallel-item:only-child::after {
+#sk-container-id-3 div.sk-parallel-item:only-child::after {
   width: 0;
 }
 
 /* Serial-specific style estimator block */
 
-#sk-container-id-1 div.sk-serial {
+#sk-container-id-3 div.sk-serial {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1136,14 +1141,14 @@ clickable and can be expanded/collapsed.
 
 /* Pipeline and ColumnTransformer style (default) */
 
-#sk-container-id-1 div.sk-toggleable {
+#sk-container-id-3 div.sk-toggleable {
   /* Default theme specific background. It is overwritten whether we have a
   specific estimator or a Pipeline/ColumnTransformer */
   background-color: var(--sklearn-color-background);
 }
 
 /* Toggleable label */
-#sk-container-id-1 label.sk-toggleable__label {
+#sk-container-id-3 label.sk-toggleable__label {
   cursor: pointer;
   display: block;
   width: 100%;
@@ -1153,7 +1158,7 @@ clickable and can be expanded/collapsed.
   text-align: center;
 }
 
-#sk-container-id-1 label.sk-toggleable__label-arrow:before {
+#sk-container-id-3 label.sk-toggleable__label-arrow:before {
   /* Arrow on the left of the label */
   content: "▸";
   float: left;
@@ -1161,13 +1166,13 @@ clickable and can be expanded/collapsed.
   color: var(--sklearn-color-icon);
 }
 
-#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
+#sk-container-id-3 label.sk-toggleable__label-arrow:hover:before {
   color: var(--sklearn-color-text);
 }
 
 /* Toggleable content - dropdown */
 
-#sk-container-id-1 div.sk-toggleable__content {
+#sk-container-id-3 div.sk-toggleable__content {
   max-height: 0;
   max-width: 0;
   overflow: hidden;
@@ -1176,12 +1181,12 @@ clickable and can be expanded/collapsed.
   background-color: var(--sklearn-color-unfitted-level-0);
 }
 
-#sk-container-id-1 div.sk-toggleable__content.fitted {
+#sk-container-id-3 div.sk-toggleable__content.fitted {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-0);
 }
 
-#sk-container-id-1 div.sk-toggleable__content pre {
+#sk-container-id-3 div.sk-toggleable__content pre {
   margin: 0.2em;
   border-radius: 0.25em;
   color: var(--sklearn-color-text);
@@ -1189,79 +1194,79 @@ clickable and can be expanded/collapsed.
   background-color: var(--sklearn-color-unfitted-level-0);
 }
 
-#sk-container-id-1 div.sk-toggleable__content.fitted pre {
+#sk-container-id-3 div.sk-toggleable__content.fitted pre {
   /* unfitted */
   background-color: var(--sklearn-color-fitted-level-0);
 }
 
-#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+#sk-container-id-3 input.sk-toggleable__control:checked~div.sk-toggleable__content {
   /* Expand drop-down */
   max-height: 200px;
   max-width: 100%;
   overflow: auto;
 }
 
-#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+#sk-container-id-3 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
   content: "▾";
 }
 
 /* Pipeline/ColumnTransformer-specific style */
 
-#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+#sk-container-id-3 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
   color: var(--sklearn-color-text);
   background-color: var(--sklearn-color-unfitted-level-2);
 }
 
-#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+#sk-container-id-3 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
   background-color: var(--sklearn-color-fitted-level-2);
 }
 
 /* Estimator-specific style */
 
 /* Colorize estimator box */
-#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+#sk-container-id-3 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
   /* unfitted */
   background-color: var(--sklearn-color-unfitted-level-2);
 }
 
-#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+#sk-container-id-3 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-2);
 }
 
-#sk-container-id-1 div.sk-label label.sk-toggleable__label,
-#sk-container-id-1 div.sk-label label {
+#sk-container-id-3 div.sk-label label.sk-toggleable__label,
+#sk-container-id-3 div.sk-label label {
   /* The background is the default theme color */
   color: var(--sklearn-color-text-on-default-background);
 }
 
 /* On hover, darken the color of the background */
-#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
+#sk-container-id-3 div.sk-label:hover label.sk-toggleable__label {
   color: var(--sklearn-color-text);
   background-color: var(--sklearn-color-unfitted-level-2);
 }
 
 /* Label box, darken color on hover, fitted */
-#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+#sk-container-id-3 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
   color: var(--sklearn-color-text);
   background-color: var(--sklearn-color-fitted-level-2);
 }
 
 /* Estimator label */
 
-#sk-container-id-1 div.sk-label label {
+#sk-container-id-3 div.sk-label label {
   font-family: monospace;
   font-weight: bold;
   display: inline-block;
   line-height: 1.2em;
 }
 
-#sk-container-id-1 div.sk-label-container {
+#sk-container-id-3 div.sk-label-container {
   text-align: center;
 }
 
 /* Estimator-specific */
-#sk-container-id-1 div.sk-estimator {
+#sk-container-id-3 div.sk-estimator {
   font-family: monospace;
   border: 1px dotted var(--sklearn-color-border-box);
   border-radius: 0.25em;
@@ -1271,18 +1276,18 @@ clickable and can be expanded/collapsed.
   background-color: var(--sklearn-color-unfitted-level-0);
 }
 
-#sk-container-id-1 div.sk-estimator.fitted {
+#sk-container-id-3 div.sk-estimator.fitted {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-0);
 }
 
 /* on hover */
-#sk-container-id-1 div.sk-estimator:hover {
+#sk-container-id-3 div.sk-estimator:hover {
   /* unfitted */
   background-color: var(--sklearn-color-unfitted-level-2);
 }
 
-#sk-container-id-1 div.sk-estimator.fitted:hover {
+#sk-container-id-3 div.sk-estimator.fitted:hover {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-2);
 }
@@ -1369,7 +1374,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 
 /* "?"-specific style due to the `<a>` HTML tag */
 
-#sk-container-id-1 a.estimator_doc_link {
+#sk-container-id-3 a.estimator_doc_link {
   float: right;
   font-size: 1rem;
   line-height: 1em;
@@ -1384,30 +1389,30 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
   border: var(--sklearn-color-unfitted-level-1) 1pt solid;
 }
 
-#sk-container-id-1 a.estimator_doc_link.fitted {
+#sk-container-id-3 a.estimator_doc_link.fitted {
   /* fitted */
   border: var(--sklearn-color-fitted-level-1) 1pt solid;
   color: var(--sklearn-color-fitted-level-1);
 }
 
 /* On hover */
-#sk-container-id-1 a.estimator_doc_link:hover {
+#sk-container-id-3 a.estimator_doc_link:hover {
   /* unfitted */
   background-color: var(--sklearn-color-unfitted-level-3);
   color: var(--sklearn-color-background);
   text-decoration: none;
 }
 
-#sk-container-id-1 a.estimator_doc_link.fitted:hover {
+#sk-container-id-3 a.estimator_doc_link.fitted:hover {
   /* fitted */
   background-color: var(--sklearn-color-fitted-level-3);
 }
-</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Ridge(alpha=0.5)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked=""><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">&nbsp;&nbsp;Ridge<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.linear_model.Ridge.html">?<span>Documentation for Ridge</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>Ridge(alpha=0.5)</pre></div> </div></div></div></div>
+</style><div id="sk-container-id-3" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Ridge(alpha=0.5)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox" checked=""><label for="sk-estimator-id-3" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">&nbsp;&nbsp;Ridge<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.linear_model.Ridge.html">?<span>Documentation for Ridge</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>Ridge(alpha=0.5)</pre></div> </div></div></div></div>
 </div>
 </div>
 </div>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-experimentation.ipynb" data-notebook-title="Example Model Experimentation Tracking" data-notebook-cellid="6b61a5f6">
-<div id="6b61a5f6" class="cell" data-tags="[&quot;regularization-eval&quot;]" data-execution_count="8">
+<div id="6b61a5f6" class="cell" data-tags="[&quot;regularization-eval&quot;]" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict on the validation set</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> reg.predict(X_val_scaled)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1420,17 +1425,17 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Assemble the metrics we're going to write into a collection</span></span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>metrics <span class="op">=</span> {<span class="st">"mae"</span>: mae, <span class="st">"mse"</span>: mse, <span class="st">"rmse"</span>: rmse, <span class="st">"r2"</span>: r2}</span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>metrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>{'mae': 47.61161452517159,
- 'mse': 3753.065769574699,
- 'rmse': 61.26227035928965,
- 'r2': 0.9001467080801084}</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>{'mae': 46.910768254716096,
+ 'mse': 3609.8606141821574,
+ 'rmse': 60.082115593428945,
+ 'r2': 0.8478313828896901}</code></pre>
 </div>
 </div>
 </div>
 <p>This next code chunk will log all the items we want to track into an experiment run titled “Regularized Regression”. In this example we are logging the training data, feature engineering steps applied, the hyperparameters applied to this model (i.e.&nbsp;<code>alpha</code>), the model results, and the actual model itself. Also, MLflow automatically tracks aspects of the environment, such as library versions and Python dependencies, and will log this information as well.</p>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-experimentation.ipynb" data-notebook-title="Example Model Experimentation Tracking" data-notebook-cellid="8e207916">
-<div id="8e207916" class="cell" data-tags="[&quot;regularization-log&quot;]" data-execution_count="9">
+<div id="8e207916" class="cell" data-tags="[&quot;regularization-log&quot;]" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>run_name <span class="op">=</span> <span class="st">"Regularized Regression"</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>artifact_path <span class="op">=</span> <span class="st">"artifacts"</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1439,18 +1444,19 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Log dataset and preprocessing details</span></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    training_data <span class="op">=</span> pd.concat([X_train, y_train], axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    training_input <span class="op">=</span> mlflow.data.from_pandas(training_data, targets<span class="op">=</span><span class="st">'demand'</span>)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    mlflow.log_input(training_input, context<span class="op">=</span><span class="st">"training data"</span>)</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    mlflow.log_params(feature_params)</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Log the parameters used for the model fit</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    mlflow.log_params(model_params)</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Log the error metrics that were calculated during validation</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    mlflow.log_metrics(metrics)</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Log an instance of the trained model for later use</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    mlflow.sklearn.log_model(sk_model<span class="op">=</span>reg, input_example<span class="op">=</span>X_val_scaled, artifact_path<span class="op">=</span>artifact_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    training_data_path <span class="op">=</span> save_training_data(training_data)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    training_input <span class="op">=</span> mlflow.data.from_pandas(training_data, targets<span class="op">=</span><span class="st">'demand'</span>, source<span class="op">=</span>training_data_path)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    mlflow.log_input(training_input, context<span class="op">=</span><span class="st">"training data"</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    mlflow.log_params(feature_params)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Log the parameters used for the model fit</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    mlflow.log_params(model_params)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Log the error metrics that were calculated during validation</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    mlflow.log_metrics(metrics)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Log an instance of the trained model for later use</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    mlflow.sklearn.log_model(sk_model<span class="op">=</span>reg, input_example<span class="op">=</span>X_val_scaled, artifact_path<span class="op">=</span>artifact_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>Now, if we look at the MLFlow UI, we’ll see our experiment run:</p>

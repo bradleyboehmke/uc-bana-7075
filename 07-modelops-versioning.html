@@ -1038,10 +1038,10 @@ BentoML
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(all_runs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                             run_id       experiment_id    status  \
-0  1d4f349e3edc481685c691ef773dfb7e  186119791991456899  FINISHED   
-1  9729fd97ce074ee2862cc32e1089c513  186119791991456899  FINISHED   
-2  3a460bec71464493bdc4da5ec9537796  186119791991456899  FINISHED   
-3  dfe70656a2f64c11b35078e288f962ab  186119791991456899  FINISHED   
+0  0344c3955f7e46ed9799b2fcbd86ca77  151640156787012125  FINISHED   
+1  d6f75b5268304d7489edebb9761a3a5a  151640156787012125  FINISHED   
+2  c99bf33dc4ec4cc39a33313435b7ddcb  151640156787012125  FINISHED   
+3  adc50abaaccf4d968c886e4227c6315f  151640156787012125  FINISHED   
 
                                         artifact_uri  \
 0  file:///Users/b294776/Desktop/workspace/traini...   
@@ -1050,46 +1050,46 @@ BentoML
 3  file:///Users/b294776/Desktop/workspace/traini...   
 
                         start_time                         end_time  \
-0 2025-01-26 18:21:05.944000+00:00 2025-01-26 18:21:11.317000+00:00   
-1 2025-01-26 18:21:00.330000+00:00 2025-01-26 18:21:05.873000+00:00   
-2 2025-01-26 18:20:01.595000+00:00 2025-01-26 18:20:04.736000+00:00   
-3 2025-01-26 18:19:56.389000+00:00 2025-01-26 18:20:01.247000+00:00   
+0 2025-02-06 15:13:39.086000+00:00 2025-02-06 15:13:45.082000+00:00   
+1 2025-02-06 15:13:32.490000+00:00 2025-02-06 15:13:38.986000+00:00   
+2 2025-02-06 15:12:09.416000+00:00 2025-02-06 15:12:15.275000+00:00   
+3 2025-02-06 15:11:57.588000+00:00 2025-02-06 15:12:09.041000+00:00   
 
-   metrics.rmse  metrics.r2  metrics.mae  metrics.mse  ... params.bootstrap  \
-0     61.285576    0.900071    47.628141  3755.921850  ...             None   
-1     64.496897    0.889324    50.436906  4159.849675  ...             True   
-2     64.662326    0.888755    50.439003  4181.216379  ...             True   
-3     61.262270    0.900147    47.611615  3753.065770  ...             None   
+   metrics.r2  metrics.mse  metrics.rmse  metrics.mae  ...  \
+0    0.847767  3611.388787     60.094832    46.920906  ...   
+1    0.829605  4042.240228     63.578615    48.771858  ...   
+2    0.829536  4043.882853     63.591531    48.965572  ...   
+3    0.847831  3609.860614     60.082116    46.910768  ...   
 
-  params.min_samples_split params.n_estimators params.oob_score  \
-0                     None                None             None   
-1                       15                 200             None   
-2                       10                 100            False   
-3                     None                None             None   
+  params.min_samples_split params.n_estimators params.min_samples_leaf  \
+0                     None                None                    None   
+1                       15                 200                       6   
+2                       10                 100                       4   
+3                     None                None                    None   
 
-  params.random_state tags.mlflow.source.type tags.mlflow.user  \
-0                None                   LOCAL          b294776   
-1                None                   LOCAL          b294776   
-2                 888                   LOCAL          b294776   
-3                None                   LOCAL          b294776   
-
-                            tags.mlflow.runName  \
-0  Regularized Regression Hyperparameter Tuning   
-1           Random Forest Hyperparameter Tuning   
-2                                 Random Forest   
-3                        Regularized Regression   
+  params.oob_score params.random_state  \
+0             None                None   
+1             None                None   
+2            False                 888   
+3             None                None   
 
                        tags.mlflow.log-model.history  \
-0  [{"run_id": "1d4f349e3edc481685c691ef773dfb7e"...   
-1  [{"run_id": "9729fd97ce074ee2862cc32e1089c513"...   
-2  [{"run_id": "3a460bec71464493bdc4da5ec9537796"...   
-3  [{"run_id": "dfe70656a2f64c11b35078e288f962ab"...   
+0  [{"run_id": "0344c3955f7e46ed9799b2fcbd86ca77"...   
+1  [{"run_id": "d6f75b5268304d7489edebb9761a3a5a"...   
+2  [{"run_id": "c99bf33dc4ec4cc39a33313435b7ddcb"...   
+3  [{"run_id": "adc50abaaccf4d968c886e4227c6315f"...   
 
-                             tags.mlflow.source.name  
-0  /opt/anaconda3/lib/python3.12/site-packages/ip...  
-1  /opt/anaconda3/lib/python3.12/site-packages/ip...  
-2  /opt/anaconda3/lib/python3.12/site-packages/ip...  
-3  /opt/anaconda3/lib/python3.12/site-packages/ip...  
+                             tags.mlflow.source.name tags.mlflow.source.type  \
+0  /opt/anaconda3/lib/python3.12/site-packages/ip...                   LOCAL   
+1  /opt/anaconda3/lib/python3.12/site-packages/ip...                   LOCAL   
+2  /opt/anaconda3/lib/python3.12/site-packages/ip...                   LOCAL   
+3  /opt/anaconda3/lib/python3.12/site-packages/ip...                   LOCAL   
+
+  tags.mlflow.user                           tags.mlflow.runName  
+0          b294776  Regularized Regression Hyperparameter Tuning  
+1          b294776           Random Forest Hyperparameter Tuning  
+2          b294776                                 Random Forest  
+3          b294776                        Regularized Regression  
 
 [4 rows x 24 columns]</code></pre>
 </div>
@@ -1203,7 +1203,7 @@ BentoML
 <div id="cell-13" class="cell" data-tags="[&quot;search-registered-models&quot;]" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mlflow.search_registered_models()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>[&lt;RegisteredModel: aliases={'challenger': '3', 'champion': '1'}, creation_timestamp=1737916057537, description='', last_updated_timestamp=1737916154049, latest_versions=[&lt;ModelVersion: aliases=['challenger'], creation_timestamp=1737916154031, current_stage='None', description=None, last_updated_timestamp=1737916154031, name='apple_demand', run_id='021eea67d5ea4be5967ca90efe8866db', run_link=None, source='file:///Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/ModelOps/mlruns/186119791991456899/021eea67d5ea4be5967ca90efe8866db/artifacts/model', status='READY', status_message=None, tags={}, user_id=None, version=3&gt;], name='apple_demand', tags={'validation_status': 'pending'}&gt;]</code></pre>
+<pre><code>[&lt;RegisteredModel: aliases={'challenger': '3', 'champion': '1'}, creation_timestamp=1738855073611, description='', last_updated_timestamp=1738855344360, latest_versions=[&lt;ModelVersion: aliases=['challenger'], creation_timestamp=1738855309446, current_stage='None', description=None, last_updated_timestamp=1738855309446, name='apple_demand', run_id='2e3ee9972ee84f498468b351c0ec2ca3', run_link=None, source='file:///Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/ModelOps/mlruns/151640156787012125/2e3ee9972ee84f498468b351c0ec2ca3/artifacts/model', status='READY', status_message=None, tags={'validation_status': 'pending'}, user_id=None, version=3&gt;], name='apple_demand', tags={'validation_status': 'pending'}&gt;]</code></pre>
 </div>
 </div>
 </div>

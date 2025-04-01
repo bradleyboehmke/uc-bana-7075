@@ -339,7 +339,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#monitoring-model-performance-with-evidently-ai" id="toc-monitoring-model-performance-with-evidently-ai" class="nav-link" data-scroll-target="#monitoring-model-performance-with-evidently-ai">Monitoring Model Performance with Evidently AI</a></li>
   <li><a href="#setting-up-operational-monitoring-with-prometheus-and-grafana" id="toc-setting-up-operational-monitoring-with-prometheus-and-grafana" class="nav-link" data-scroll-target="#setting-up-operational-monitoring-with-prometheus-and-grafana">Setting Up Operational Monitoring with Prometheus and Grafana</a></li>
   <li><a href="#automating-monitoring-alerts" id="toc-automating-monitoring-alerts" class="nav-link" data-scroll-target="#automating-monitoring-alerts">Automating Monitoring &amp; Alerts</a></li>
-  <li><a href="#reflection-next-steps" id="toc-reflection-next-steps" class="nav-link" data-scroll-target="#reflection-next-steps">Reflection &amp; Next Steps</a></li>
+  <li><a href="#challenges-considerations" id="toc-challenges-considerations" class="nav-link" data-scroll-target="#challenges-considerations">Challenges &amp; Considerations</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">9.5</span> Summary</a></li>
   <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">9.6</span> Exercise</a></li>
@@ -374,7 +374,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>Reading Time: TBD</p>
+<p>This chapter is currently in development.</p>
 </div>
 </div>
 </div>
@@ -1319,98 +1319,123 @@ Revised FastAPI code
 </div>
 <div id="callout-26" class="callout-26-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastapi <span class="im">import</span> FastAPI, HTTPException, UploadFile, File</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow.pyfunc</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel</span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> io</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> io</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize FastAPI app</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> FastAPI()</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Set experiment name</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>mlflow.set_experiment(<span class="st">"Forecasting Apple Demand"</span>)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the trained model from MLflow</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>MODEL_URI <span class="op">=</span> <span class="st">"models:/apple_demand@champion"</span>  <span class="co"># Replace with your model name and alias</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> mlflow.pyfunc.load_model(MODEL_URI)</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the expected input schema for a single prediction</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> InputData(BaseModel):</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    average_temperature: <span class="bu">float</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    rainfall: <span class="bu">float</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    weekend: <span class="bu">int</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    holiday: <span class="bu">int</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    price_per_kg: <span class="bu">float</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    promo: <span class="bu">int</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    previous_days_demand: <span class="bu">float</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Define log file path</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>LOG_FILE_PATH <span class="op">=</span> <span class="st">"prediction_logs.csv"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow.pyfunc</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastapi <span class="im">import</span> FastAPI, File, HTTPException, UploadFile</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pydantic <span class="im">import</span> BaseModel</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize FastAPI app</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> FastAPI()</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Set experiment name</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>mlflow.set_experiment(<span class="st">"Forecasting Apple Demand"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the trained model from MLflow</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>MODEL_URI <span class="op">=</span> <span class="st">"models:/apple_demand@champion"</span>  <span class="co"># Replace with your model name and alias</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> mlflow.pyfunc.load_model(MODEL_URI)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the expected input schema for a single prediction</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> InputData(BaseModel):</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    demand_date: datetime.date</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    average_temperature: <span class="bu">float</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    rainfall: <span class="bu">float</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    weekend: <span class="bu">int</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    holiday: <span class="bu">int</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    price_per_kg: <span class="bu">float</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    promo: <span class="bu">int</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    previous_days_demand: <span class="bu">float</span></span>
 <span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure log file exists with headers</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(LOG_FILE_PATH):</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    pd.DataFrame(columns<span class="op">=</span>[</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        <span class="st">"timestamp"</span>, <span class="st">"request_type"</span>, <span class="st">"input_data"</span>, <span class="st">"predictions"</span>, <span class="st">"status"</span></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    ]).to_csv(LOG_FILE_PATH, index<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_request(request_type, input_data, predictions, status):</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Logs the request details to a CSV file."""</span></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    log_entry <span class="op">=</span> pd.DataFrame([{</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">"timestamp"</span>: datetime.datetime.now().isoformat(),</span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">"request_type"</span>: request_type,</span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>        <span class="st">"input_data"</span>: json.dumps(input_data),</span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>        <span class="st">"predictions"</span>: json.dumps(predictions),</span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>        <span class="st">"status"</span>: status</span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    }])</span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    log_entry.to_csv(LOG_FILE_PATH, mode<span class="op">=</span><span class="st">'a'</span>, header<span class="op">=</span><span class="va">False</span>, index<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="at">@app.post</span>(<span class="st">"/predict"</span>)</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_single(input_data: List[InputData]):</span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Endpoint for real-time predictions with a single input."""</span></span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert input to DataFrame</span></span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.DataFrame([data.<span class="bu">dict</span>() <span class="cf">for</span> data <span class="kw">in</span> input_data])</span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Make predictions</span></span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>        predictions <span class="op">=</span> model.predict(df)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Define log file path</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>LOG_FILE_PATH <span class="op">=</span> <span class="st">"prediction_logs.csv"</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure log file exists with headers</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> os.path.exists(LOG_FILE_PATH):</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    pd.DataFrame(</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>        columns<span class="op">=</span>[<span class="st">"prediction_date"</span>, <span class="st">"request_type"</span>, <span class="st">"input_data"</span>, <span class="st">"predictions"</span>, <span class="st">"status"</span>]</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    ).to_csv(LOG_FILE_PATH, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_request(request_type, input_data, predictions, status):</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Logs the request details to a CSV file."""</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    log_entry <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>        [</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>            {</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>                <span class="st">"prediction_date"</span>: datetime.datetime.now().isoformat(),</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>                <span class="st">"request_type"</span>: request_type,</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>                <span class="st">"input_data"</span>: json.dumps(input_data),</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>                <span class="st">"predictions"</span>: json.dumps(predictions),</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>                <span class="st">"status"</span>: status,</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>    log_entry.to_csv(LOG_FILE_PATH, mode<span class="op">=</span><span class="st">"a"</span>, header<span class="op">=</span><span class="va">False</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Log the request</span></span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>        log_request(<span class="st">"single"</span>, df.to_dict(orient<span class="op">=</span><span class="st">"records"</span>), predictions.tolist(), <span class="st">"success"</span>)</span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"predictions"</span>: predictions.tolist()}</span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>        log_request(<span class="st">"single"</span>, df.to_dict(orient<span class="op">=</span><span class="st">"records"</span>), <span class="va">None</span>, <span class="ss">f"error: </span><span class="sc">{</span><span class="bu">str</span>(e)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> HTTPException(status_code<span class="op">=</span><span class="dv">500</span>, detail<span class="op">=</span><span class="bu">str</span>(e))</span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a><span class="at">@app.post</span>(<span class="st">"/predict_batch"</span>)</span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> predict_batch(<span class="bu">file</span>: UploadFile <span class="op">=</span> File(...)):</span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Endpoint for batch predictions using a CSV file."""</span></span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Read the uploaded CSV file</span></span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>        contents <span class="op">=</span> <span class="cf">await</span> <span class="bu">file</span>.read()</span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.read_csv(io.StringIO(contents.decode(<span class="st">"utf-8"</span>)))</span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Validate required columns</span></span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>        required_features <span class="op">=</span> [<span class="st">"average_temperature"</span>, <span class="st">"rainfall"</span>, <span class="st">"weekend"</span>, <span class="st">"holiday"</span>, <span class="st">"price_per_kg"</span>, <span class="st">"promo"</span>, <span class="st">"previous_days_demand"</span>]</span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> <span class="bu">all</span>(feature <span class="kw">in</span> df.columns <span class="cf">for</span> feature <span class="kw">in</span> required_features):</span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>            missing_cols <span class="op">=</span> <span class="bu">set</span>(required_features) <span class="op">-</span> <span class="bu">set</span>(df.columns)</span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> HTTPException(status_code<span class="op">=</span><span class="dv">400</span>, detail<span class="op">=</span><span class="ss">f"Missing columns: </span><span class="sc">{</span>missing_cols<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Make batch predictions</span></span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>        predictions <span class="op">=</span> model.predict(df)</span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Log the request</span></span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>        log_request(<span class="st">"batch"</span>, df.to_dict(orient<span class="op">=</span><span class="st">"records"</span>), predictions.tolist(), <span class="st">"success"</span>)</span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"predictions"</span>: predictions.tolist()}</span>
-<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>        log_request(<span class="st">"batch"</span>, df.to_dict(orient<span class="op">=</span><span class="st">"records"</span>), <span class="va">None</span>, <span class="ss">f"error: </span><span class="sc">{</span><span class="bu">str</span>(e)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> HTTPException(status_code<span class="op">=</span><span class="dv">500</span>, detail<span class="op">=</span><span class="bu">str</span>(e))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="at">@app.post</span>(<span class="st">"/predict"</span>)</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_single(input_data: List[InputData]):</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Endpoint for real-time predictions with a single input."""</span></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert input to DataFrame</span></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.DataFrame([data.<span class="bu">dict</span>() <span class="cf">for</span> data <span class="kw">in</span> input_data])</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Make predictions</span></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>        predictions <span class="op">=</span> model.predict(df)</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Log the request</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>        log_request(</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>            <span class="st">"single"</span>, df.to_dict(orient<span class="op">=</span><span class="st">"records"</span>), predictions.tolist(), <span class="st">"success"</span></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"predictions"</span>: predictions.tolist()}</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>        log_request(<span class="st">"single"</span>, df.to_dict(orient<span class="op">=</span><span class="st">"records"</span>), <span class="va">None</span>, <span class="ss">f"error: </span><span class="sc">{</span><span class="bu">str</span>(e)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> HTTPException(status_code<span class="op">=</span><span class="dv">500</span>, detail<span class="op">=</span><span class="bu">str</span>(e))</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a><span class="at">@app.post</span>(<span class="st">"/predict_batch"</span>)</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> predict_batch(<span class="bu">file</span>: UploadFile <span class="op">=</span> File(...)):</span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Endpoint for batch predictions using a CSV file."""</span></span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Read the uploaded CSV file</span></span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>        contents <span class="op">=</span> <span class="cf">await</span> <span class="bu">file</span>.read()</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> pd.read_csv(io.StringIO(contents.decode(<span class="st">"utf-8"</span>)))</span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Validate required columns</span></span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>        required_features <span class="op">=</span> [</span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>            <span class="st">"average_temperature"</span>,</span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>            <span class="st">"rainfall"</span>,</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>            <span class="st">"weekend"</span>,</span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>            <span class="st">"holiday"</span>,</span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>            <span class="st">"price_per_kg"</span>,</span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>            <span class="st">"promo"</span>,</span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>            <span class="st">"previous_days_demand"</span>,</span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> <span class="bu">all</span>(feature <span class="kw">in</span> df.columns <span class="cf">for</span> feature <span class="kw">in</span> required_features):</span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>            missing_cols <span class="op">=</span> <span class="bu">set</span>(required_features) <span class="op">-</span> <span class="bu">set</span>(df.columns)</span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> HTTPException(</span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>                status_code<span class="op">=</span><span class="dv">400</span>, detail<span class="op">=</span><span class="ss">f"Missing columns: </span><span class="sc">{</span>missing_cols<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Make batch predictions</span></span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>        predictions <span class="op">=</span> model.predict(df)</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Log the request</span></span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>        log_request(</span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>            <span class="st">"batch"</span>, df.to_dict(orient<span class="op">=</span><span class="st">"records"</span>), predictions.tolist(), <span class="st">"success"</span></span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"predictions"</span>: predictions.tolist()}</span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>        log_request(<span class="st">"batch"</span>, df.to_dict(orient<span class="op">=</span><span class="st">"records"</span>), <span class="va">None</span>, <span class="ss">f"error: </span><span class="sc">{</span><span class="bu">str</span>(e)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> HTTPException(status_code<span class="op">=</span><span class="dv">500</span>, detail<span class="op">=</span><span class="bu">str</span>(e))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1483,8 +1508,8 @@ Detecting Feature Drift
 <li>A <strong>baseline dataset</strong> representing normal, expected conditions. This would typically be the original dataset your current model in production was trained on.</li>
 <li>A <strong>drifted dataset</strong>, where key features such as temperature, rainfall, and pricing have shifted.</li>
 </ul>
-<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-drift-monitoring.ipynb" data-notebook-title="Generate baseline dataset (no drift)" data-notebook-cellid="cell-0">
-<div id="cell-0" class="cell" data-tags="[&quot;create-baseline-vs-drift-data&quot;]" data-execution_count="16">
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-drift-monitoring.ipynb" data-notebook-title="Example Drift Detection with Evidently" data-notebook-cellid="cell-1">
+<div id="cell-1" class="cell" data-tags="[&quot;create-baseline-vs-drift-data&quot;]" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> apple_data <span class="im">import</span> generate_apple_sales_data_with_promo_adjustment</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate baseline dataset (no drift)</span></span>
@@ -1515,8 +1540,8 @@ Detecting Feature Drift
 </div>
 </div>
 <p>We can then use Evidently AI’s <strong>DataDriftPreset</strong> to analyze the distribution changes across features and then save the results to a <code>data_drift_report.html</code> file:</p>
-<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-drift-monitoring.ipynb" data-notebook-title="Generate baseline dataset (no drift)" data-notebook-cellid="cell-2">
-<div id="cell-2" class="cell" data-tags="[&quot;generate-drift-report&quot;]" data-execution_count="17">
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-drift-monitoring.ipynb" data-notebook-title="Example Drift Detection with Evidently" data-notebook-cellid="cell-4">
+<div id="cell-4" class="cell" data-tags="[&quot;generate-drift-report&quot;]" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> evidently.report <span class="im">import</span> Report</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> evidently.metric_preset <span class="im">import</span> DataDriftPreset</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1582,8 +1607,8 @@ Detecting Concept Drift (Target Variable Drift)
 <p>First, it compares the statistical distribution of the target variable in the baseline dataset (training data) to the current dataset (recent predictions), using statistical tests such as the Kolmogorov-Smirnov test or Jensen-Shannon divergence. If the target’s distribution has significantly changed, this indicates <strong>target drift</strong>, meaning the model’s assumptions about the outcome variable may no longer hold.</p>
 <p>Additionally, <code>TargetDriftPreset()</code> assesses the correlation between the target and input features — if the strength or direction of relationships between features and the target shifts significantly, this suggests <strong>concept drift</strong>. For instance, if <code>price_per_kg</code> was previously a strong predictor of demand but has become less relevant in the new data, it may indicate a fundamental change in consumer behavior, requiring model retraining or adaptation.</p>
 <p>The following code implements <code>TargetDriftPreset()</code> and then saves the results to a <code>concept_drift_report.html</code> file:</p>
-<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-drift-monitoring.ipynb" data-notebook-title="Generate baseline dataset (no drift)" data-notebook-cellid="cell-4">
-<div id="cell-4" class="cell" data-tags="[&quot;target-drift-report&quot;]" data-execution_count="18">
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-drift-monitoring.ipynb" data-notebook-title="Example Drift Detection with Evidently" data-notebook-cellid="cell-6">
+<div id="cell-6" class="cell" data-tags="[&quot;target-drift-report&quot;]" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> evidently.metric_preset <span class="im">import</span> TargetDriftPreset</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> evidently <span class="im">import</span> ColumnMapping</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1650,8 +1675,8 @@ Detecting Model Performance Drift
 <li>Similarly, <code>ClassificationPreset()</code> is tailored for classification tasks and tracks key metrics such as accuracy, precision, recall, F1-score, and ROC-AUC. It flags performance degradation if there’s a drop in classification confidence or an increase in misclassification rates.</li>
 </ul>
 <p>The following code implements <code>RegressionPreset()</code> and then saves the results to a <code>performance_report.html</code> file:</p>
-<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-drift-monitoring.ipynb" data-notebook-title="Generate baseline dataset (no drift)" data-notebook-cellid="cell-6">
-<div id="cell-6" class="cell" data-tags="[&quot;model-performance-drift-report&quot;]" data-execution_count="19">
+<div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-drift-monitoring.ipynb" data-notebook-title="Example Drift Detection with Evidently" data-notebook-cellid="cell-8">
+<div id="cell-8" class="cell" data-tags="[&quot;model-performance-drift-report&quot;]" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> evidently.metric_preset <span class="im">import</span> RegressionPreset</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1718,19 +1743,56 @@ Figure&nbsp;9.6: Snapshot of the model performance drift report.
 </section>
 <section id="implementing-evidently-into-our-pipeline" class="level4">
 <h4 class="anchored" data-anchor-id="implementing-evidently-into-our-pipeline">Implementing Evidently into Our Pipeline</h4>
-<p>TBD</p>
+<div class="callout callout-style-simple callout-warning">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This section is currently in development. Check back soon for updates. For students in the current course offering, you will be expected to discuss how monitoring could be implemented into your system but you will not be required to fully integrate model monitoring into your system.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="visualizing-model-monitoring-in-streamlit" class="level4">
 <h4 class="anchored" data-anchor-id="visualizing-model-monitoring-in-streamlit">Visualizing Model Monitoring in Streamlit</h4>
-<p>TBD</p>
+<div class="callout callout-style-simple callout-warning">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This section is currently in development. Check back soon for updates. For students in the current course offering, you will be expected to discuss how monitoring could be implemented into your system but you will not be required to fully integrate model monitoring into your system.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="automating-the-monitoring-pipeline" class="level4">
 <h4 class="anchored" data-anchor-id="automating-the-monitoring-pipeline">Automating the Monitoring Pipeline</h4>
-<p>TBD</p>
+<div class="callout callout-style-simple callout-warning">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This section is currently in development. Check back soon for updates. For students in the current course offering, you will be expected to discuss how monitoring could be implemented into your system but you will not be required to fully integrate model monitoring into your system.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="setting-up-operational-monitoring-with-prometheus-and-grafana" class="level3">
 <h3 class="anchored" data-anchor-id="setting-up-operational-monitoring-with-prometheus-and-grafana">Setting Up Operational Monitoring with Prometheus and Grafana</h3>
+<div class="callout callout-style-simple callout-warning">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>The following sections are currently in development. Check back soon for updates. For students in the current course offering, you will be expected to discuss how monitoring could be implemented into your system but you will not be required to fully integrate these concepts into your system.</p>
+</div>
+</div>
+</div>
 <section id="a.-introduction-to-prometheus-and-grafana" class="level4">
 <h4 class="anchored" data-anchor-id="a.-introduction-to-prometheus-and-grafana"><strong>A. Introduction to Prometheus and Grafana</strong></h4>
 <ul>
@@ -1766,6 +1828,16 @@ Figure&nbsp;9.6: Snapshot of the model performance drift report.
 </section>
 <section id="automating-monitoring-alerts" class="level3">
 <h3 class="anchored" data-anchor-id="automating-monitoring-alerts">Automating Monitoring &amp; Alerts</h3>
+<div class="callout callout-style-simple callout-warning">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>The following sections are currently in development. Check back soon for updates. For students in the current course offering, you will be expected to discuss how monitoring could be implemented into your system but you will not be required to fully integrate these concepts into your system.</p>
+</div>
+</div>
+</div>
 <section id="a.-scheduling-drift-checks" class="level4">
 <h4 class="anchored" data-anchor-id="a.-scheduling-drift-checks"><strong>A. Scheduling Drift Checks</strong></h4>
 <ul>
@@ -1787,39 +1859,115 @@ Figure&nbsp;9.6: Snapshot of the model performance drift report.
 </ul>
 </section>
 </section>
-<section id="reflection-next-steps" class="level3">
-<h3 class="anchored" data-anchor-id="reflection-next-steps">Reflection &amp; Next Steps</h3>
+<section id="challenges-considerations" class="level3">
+<h3 class="anchored" data-anchor-id="challenges-considerations">Challenges &amp; Considerations</h3>
+<p>While tools such as Evidently, Prometheus, and Grafana simplify the process of model monitoring, several challenges commonly arise during implementation. Awareness of these can significantly enhance your monitoring strategy’s effectiveness. Some of these common challenges include:</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-30-contents" aria-controls="callout-30" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Data Drift Detection Sensitivity
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-30" class="callout-30-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ul>
-<li><strong>What We Achieved</strong>:
-<ul>
-<li>Implemented logging and drift detection.</li>
-<li>Monitored API health and set up dashboards.</li>
-<li>Configured alerts for early issue detection.</li>
-</ul></li>
-<li><strong>Challenges &amp; Considerations</strong>:
-<ul>
-<li>Handling large-scale monitoring data efficiently.</li>
-<li>Determining the right drift detection thresholds.</li>
-</ul></li>
-<li><strong>What’s Next?</strong>:
-<ul>
-<li>Future chapters will explore model retraining strategies and automation.</li>
-</ul></li>
+<li><strong>Challenge</strong>: Tools like Evidently may produce false positives or overlook subtle drift.</li>
+<li><strong>Approach</strong>: Carefully calibrate drift thresholds based on historical data trends and perform periodic threshold tuning.</li>
 </ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-31-contents" aria-controls="callout-31" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Operational Overhead
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-31" class="callout-31-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Challenge</strong>: Setting up comprehensive operational monitoring with Prometheus and Grafana can become complex and resource-intensive.</li>
+<li><strong>Approach</strong>: Start with monitoring critical metrics only, progressively expanding your monitoring setup as resources and expertise grow.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-32-contents" aria-controls="callout-32" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Alert Fatigue
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-32" class="callout-32-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Challenge</strong>: Automated alerts can quickly overwhelm teams, leading to missed critical notifications.</li>
+<li><strong>Approach</strong>: Prioritize alert criteria and establish tiered alerting systems, escalating only critical issues immediately while batching lower-priority notifications.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-33-contents" aria-controls="callout-33" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Integration Complexity
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-33" class="callout-33-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Challenge</strong>: Integrating multiple tools (Evidently, Prometheus, Grafana) can introduce integration complexities and compatibility issues.</li>
+<li><strong>Approach</strong>: Adopt modular design patterns and leverage standard APIs, ensuring each tool integrates smoothly with existing infrastructure.</li>
+</ul>
+</div>
+</div>
+</div>
+<p>Implementing effective monitoring requires careful attention beyond selecting tools—here are essential considerations to ensure successful outcomes:</p>
+<ul>
+<li><strong>Continuous Improvement:</strong> Regularly review and refine monitoring thresholds and alert mechanisms based on evolving business requirements and operational feedback.</li>
+<li><strong>Clear Accountability:</strong> Clearly define roles and responsibilities for monitoring tasks, responses, and decision-making processes, ensuring accountability and effective management of monitoring systems.</li>
+<li><strong>Cross-Functional Collaboration:</strong> Foster collaboration by creating accessible, intuitive dashboards that engage various stakeholders—data scientists, engineers, product teams, and business leaders.</li>
+<li><strong>Documentation and Communication:</strong> Maintain detailed documentation of monitoring processes, alert procedures, and troubleshooting steps to streamline response efforts and knowledge sharing across the team.</li>
+<li><strong>Training and Knowledge Transfer:</strong> Provide ongoing training to teams on monitoring tools and methodologies, facilitating continuous skill enhancement and effective utilization of monitoring insights.</li>
+</ul>
+<p>By proactively recognizing these challenges and applying thoughtful approaches, organizations can maximize the value of their monitoring systems and ensure ongoing reliability of machine learning models.</p>
 </section>
 </section>
 <section id="summary" class="level2" data-number="9.5">
 <h2 data-number="9.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">9.5</span> Summary</h2>
-<ul>
-<li><strong>Importance of Continuous Monitoring</strong>: Ensuring long-term reliability of ML models.</li>
-<li><strong>Types of Monitoring</strong>: Performance, data drift, concept drift, operational.</li>
-<li><strong>Key Components</strong>: Logging, metrics, drift detection, alerting, retraining.</li>
-<li><strong>Tools</strong>: Open-source, cloud-native, and APM solutions.</li>
-<li><strong>Next Steps</strong>: The following chapters will discuss how to integrate monitoring with automated ML workflows.</li>
-</ul>
+<p>Effective model monitoring is a critical component of ModelOps, ensuring continued performance and reliability of deployed models. This chapter discussed key considerations, practical tools, and implementation strategies necessary for robust monitoring.</p>
+<p>We explored how tools such as Evidently, Streamlit, Prometheus, and Grafana play crucial roles in detecting model degradation, data drift, and performance anomalies. Additionally, the chapter highlighted the importance of visualizing monitoring insights for broad stakeholder engagement and operational transparency.</p>
+<p>Challenges such as drift sensitivity, operational complexity, alert fatigue, and integration intricacies were addressed, with actionable strategies provided to mitigate these issues. Emphasizing modular integration, automated processes, and continuous improvement were recommended best practices.</p>
+<p>Ultimately, adopting a systematic approach to monitoring, combined with a clear understanding of potential pitfalls, empowers organizations to maintain high-performing, trustworthy machine learning systems.</p>
 </section>
 <section id="exercise" class="level2" data-number="9.6">
 <h2 data-number="9.6" class="anchored" data-anchor-id="exercise"><span class="header-section-number">9.6</span> Exercise</h2>
+<div class="callout callout-style-simple callout-warning">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This section is currently in development. Check back soon for updates.</p>
+</div>
+</div>
+</div>
 <ul>
 <li><strong>Conceptual Design:</strong>
 <ul>
