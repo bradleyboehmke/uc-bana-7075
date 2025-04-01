@@ -1,0 +1,192 @@
+---
+title: "Week 3: ModelOps"
+subtitle: "Bridging the gap between model development and production to ensure scalable, reliable, and reproducible ML models"
+format:
+  revealjs:
+    slide-number: true
+    preview-links: auto
+    css: styles.css
+    mermaid:
+      theme: neutral
+footer: 'BANA 7075'
+---
+
+# Today's Class {background="#43464B"}
+
+## Purpose
+
+<br>
+
+- AMA on last week's content
+- Discuss project proposal
+- Provide a quick introduction to:
+  - The role of ModelOps
+  - Experiment tracking
+  - Hands-on demo
+
+
+# Last Week's Content {background="#43464B"}
+
+## Feedback
+
+<br>
+
+
+### The Role of DataOps & Putting DataOps into Practice
+
+- Questions on content?
+- How were the chapters?
+- Additions (i.e. videos), edits, etc.?
+- How were the quizzes?
+
+# Project Proposal {background="#43464B"}
+
+---
+
+[![](images/project-proposal.png)](https://uc.instructure.com/courses/1774544/assignments/22058476)
+
+# The Role of ModelOps {background="#43464B"}
+
+## ModelOps {.smaller}
+
+Management of the lifecycle of machine learning models.
+
+```{mermaid}
+flowchart RL
+    subgraph dt[DataOps]
+    direction LR
+    end
+    subgraph ml[ModelOps]
+    direction LR
+    m1[Model Experimentation]
+    m2[Model Versioning]
+    m3[Model Deployment]
+    m4[Model Monitoring]
+    m1 --> m2 --> m3 --> m4 --> m1
+    end
+    dt --> ml --> dt
+```
+
+::: {.incremental}
+- **Experiment Tracking**: Fosters reproducibility and facilitates performance comparisons across models.
+- **Model Versioning**: Ensures reproducibility and transparency regarding model lineage.
+- **Model Deployment**: Bridges the gap between experimentation and real-world application, ensuring that models deliver value in production.
+- **Model Monitoring**: Provides insights into the model’s behavior and identifies when a model's performance deteriorates.
+:::
+
+## Why ModelOps is Crucial {.smaller}
+
+<br>
+
+::: {.incremental}
+- **Scalability**: Standardizes deployment workflows, allowing organizations to deploy, monitor, and manage multiple models across various environments.
+- **Reproducibility**: Standardizes the tracking of datasets, code, hyperparameters, and model versions throughout the lifecycle.
+- **Collaboration**: Creates a structured framework that promotes transparency, knowledge sharing, and streamlined workflows.
+- **Reliability**: Ensures that models not only meet performance benchmarks during deployment but also maintain their reliability over time.
+- **Regulatory Compliance**: Provides the transparency, traceability, and governance needed to meet legal and ethical standards while maintaining operational efficiency.
+:::
+
+## Common Challenges of ModelOps {.smaller}
+
+<br>
+
+::: {.incremental}
+
+- **Integration Complexity**: Interoperability between the myriad tools and systems used throughout the ML lifecycle.
+- **Infrastructure Costs**: The cost of scaling infrastructure to meet these demands can be prohibitive for many organizations.
+- **Team Expertise**: Requires cross-functional skills and expertise in data science, software engineering, and DevOps.
+- **Evolving Standards**: New tools, techniques, and best practices emerge frequently, requiring organizations to adapt continuously.
+:::
+
+# Experiment Tracking {background="#43464B"}
+
+## ML Experimentation {.smaller}
+
+Machine learning inherently involves iterative experimentation, where data scientists test various combinations of features, algorithms, hyperparameters, datasets, and preprocessing techniques.
+
+![](images/Modeling%20Experimentation-2025-01-17-225604.svg)
+
+## Experiment Tracking {.smaller}
+
+<br>
+
+- Experiment tracking provides a structured approach to documenting every aspect of the training process:
+  - hyperparameters
+  - datasets
+  - metrics
+  - results
+
+- Enables reproducibility
+- Facilitates performance comparisons
+- Enhances collaboration among team members
+
+. . .
+
+::: {style="text-align: center; margin-top: 1em"}
+[Without it, teams risk losing valuable insights, duplicating efforts, or struggling to identify why a particular experiment succeeded or failed.]{style="text-align: center; color:red;"}
+:::
+
+## Key Components to Track
+
+<br>
+
+- Experiment Details
+- Dataset and Preprocessing
+- Hyperparameters and Model Configurations
+- Performance Metrics
+- Model Artifacts
+- Environment and Dependencies
+
+## Tools for Experiment Tracking
+
+<br>
+
+- MLflow
+- Weights & Biases
+- Neptune.ai
+- Comet.ml
+- Etc.
+
+# Demo {background="#43464B"}
+
+
+# Wrapping Up {background="#43464B"}
+
+## This week {.smaller}
+
+- Readings
+  - Will go deeper into these concepts
+  - Introduce you to tools you can used to implement these concepts
+  - Walk you through an example implementation of experiment tracking
+
+- Thursday
+  - Work on your project proposal
+  - Where: In class
+
+- By end of week
+  - Project proposal is due
+
+## Looking forward {.smaller}
+
+::: {style="font-size: 85%;"}
+
+<br>
+
+| Week | Tue | Thu | Due EOW |
+|---|---------|---------|------------|
+| ~~1~~    | ~~Today~~ | ~~No class~~ | ~~Group Exercise & Reading Quizzes~~ |
+| ~~2~~    | ~~Discuss DataOps~~ | ~~Guest Speaker~~ | ~~Reading Quizzes, Project Groups Due~~ |
+| ~~X~~    | ~~Spring Break~~ |  |  |
+| 3    | ModelOps & Experiment Tracking | Work on Project Proposals | Reading Quizzes, [Project Proposals Due]{style="color:blue;"} |
+| 4    | Model Versioning & Deployment | [No class]{style="color:red;"} | [Project Group Exercise]{style="color:blue;"} & Reading Quizzes |
+| 5   | Model Deployment & Monitoring | Guest Speaker | Reading Quizzes, [Project MVP Due]{style="color:blue;"} |
+| 6    | DevOps | Work on Final Project | [Project Group Exercise]{style="color:blue;"} & Reading Quizzes |
+| 7    | Guest Speaker | [No class, Final Project Due]{style="color:red;"} | 🥳 |
+
+:::
+
+
+## Questions or Discussion?
+
+- Open floor for questions regarding DataOps & data pipelines.
+- Discussion on how these principles apply to real-world business scenarios.

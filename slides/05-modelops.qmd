@@ -1,0 +1,342 @@
+---
+title: "Week 4: ModelOps"
+subtitle: "Bridging the gap between model development and production to ensure scalable, reliable, and reproducible ML models"
+format:
+  revealjs:
+    slide-number: true
+    preview-links: auto
+    css: styles.css
+    mermaid:
+      theme: neutral
+footer: 'BANA 7075'
+---
+
+# Today's Class {background="#43464B"}
+
+## Purpose
+
+<br>
+
+- AMA on last week's content
+- Discuss project proposal
+- Provide a quick introduction to:
+  - Model Versioning
+  - Hands-on demo
+
+
+# Last Week's Content {background="#43464B"}
+
+## Feedback
+
+<br>
+
+
+### The Role of ModelOps & Experiment Tracking
+
+- Questions on content?
+- How were the chapters?
+- Additions (i.e. videos), edits, etc.?
+- How were the quizzes?
+
+## Project Proposal
+
+- After a quick glance, project proposals look to be in the right direction
+- Peer reviews
+  - Were assigned after midnight
+  - Please complete by EOD Wednesday - [Rubric & constructive feedback]{style="color:red;"}
+  - If you happen to get assigned the same group more than once just complete one of the reviews.
+- Questions??
+
+# Model Versioning {background="#43464B"}
+
+## ModelOps {.smaller}
+
+Management of the lifecycle of machine learning models.
+
+```{mermaid}
+flowchart RL
+    subgraph dt[DataOps]
+    direction LR
+    end
+    subgraph ml[ModelOps]
+    direction LR
+    m1[Model Experimentation]
+    m2[Model Versioning]
+    m3[Model Deployment]
+    m4[Model Monitoring]
+    m1 --> m2 --> m3 --> m4 --> m1
+    end
+    dt --> ml --> dt
+```
+
+- [**Experiment Tracking**: Fosters reproducibility and facilitates performance comparisons across models.]{style="color:lightgray;"}
+- **Model Versioning**: Ensures reproducibility and transparency regarding model lineage.
+- [**Model Deployment**: Bridges the gap between experimentation and real-world application, ensuring that models deliver value in production.]{style="color:lightgray;"}
+- [**Model Monitoring**: Provides insights into the model’s behavior and identifies when a model's performance deteriorates.]{style="color:lightgray;"}
+
+## Model Versioning {.smaller}
+
+Model versioning builds on model experiment tracking by offering a systematic way to manage, track, and version models that we move through the lifecycle (typically models that will move from development into production).
+
+```{mermaid}
+flowchart TB
+    subgraph Experiment 3
+    direction BT
+    m1[Model Run 3.1]
+    m2[Model Run 3.2]
+    m3[Model Run 3.3]
+    end
+    subgraph Experiment 2
+    direction BT
+    m4[Model Run 2.1]
+    m5[Model Run 2.2]
+    m6[Model Run 2.3]
+    end
+    subgraph Experiment 1
+    direction BT
+    m7[Model Run 1.1]
+    m8[Model Run 1.2]
+    m9[Model Run 1.3]
+    end
+    m8 -- 'Best model' --> v1[Model v1.0]
+    m4 -- 'Best model' --> v2[Model v1.1]
+    m3 -- 'Best model' --> v3[Model v1.2]
+    subgraph Versioned Models
+    direction BT
+    v1
+    v2
+    v3
+    end
+```
+
+. . .
+
+::: {style="font-size: 85%;"}
+- **Link Experiments to Deployment**: Each model deployed to production can be traced back to the specific experiment or set of experiments that informed its development, including the dataset, preprocessing steps, and hyperparameters used.
+- **Audit Performance**: Versioning allows organizations to compare historical performance metrics against current results to determine if changes have introduced regressions or improvements.
+- **Facilitate Rollbacks**: If a newly deployed model underperforms or introduces unintended biases, versioning ensures that the organization can quickly revert to a previous, more reliable version.
+:::
+
+## Why? {.smaller}
+
+Versioning models is particularly crucial in the following scenarios:
+
+<br>
+
+::: {.callout-tip collapse="true"}
+## Retraining with Updated Data
+
+When new data becomes available, retraining models often results in improved accuracy. Versioning ensures that stakeholders can differentiate between the original and updated models and evaluate performance gains.
+
+**Example**: A weather forecasting system regularly retrains models with the latest meteorological data. Versioning ensures traceability between the datasets and the updated predictions.
+:::
+
+## Why? {.smaller}
+
+Versioning models is particularly crucial in the following scenarios:
+
+<br>
+
+::: {.callout-tip collapse="true"}
+## Hyperparameter Tuning
+
+Small tweaks in hyperparameters can lead to significant performance differences. Versioning ensures that the optimal configuration is clearly documented and reproducible.
+
+**Example**: A fraud detection system adjusts sensitivity thresholds to minimize false positives. By versioning each iteration, teams can identify the version with the best balance of precision and recall.
+:::
+
+## Why? {.smaller}
+
+Versioning models is particularly crucial in the following scenarios:
+
+<br>
+
+::: {.callout-tip collapse="true"}
+## Multiple Models for the Same Business Process
+
+Often, organizations deploy multiple models to serve the same process but target different subgroups or geographic regions. Versioning helps manage this complexity.
+
+**Example**: A recommendation engine deploys region-specific models for North America, Europe, and Asia. Versioning ensures clarity in model assignments and simplifies future updates.
+:::
+
+## Why? {.smaller}
+
+Versioning models is particularly crucial in the following scenarios:
+
+<br>
+
+::: {.callout-tip collapse="true"}
+## Regulatory and Compliance Requirements
+
+For industries with stringent regulatory requirements, such as finance and healthcare, versioning is essential for audits and compliance.
+
+**Example**: A credit scoring model must demonstrate consistency with historical performance when audited. Versioning ensures all artifacts, from datasets to hyperparameters, are well-documented and reproducible.
+:::
+
+## Key Components of Model Versioning {.smaller .scrollable}
+
+::: {style="font-size: 40%;"}
+
+```{mermaid}
+flowchart BT
+    subgraph r3[Requirements]
+    direction RL
+    m1[data]
+    m2[features]
+    m3[hyperparameters]
+    m4[metrics]
+    m5[model artifacts]
+    m5b[dependencies]
+    end
+    subgraph r2[Requirements]
+    direction LR
+    m6[data]
+    m7[features]
+    m8[hyperparameters]
+    m9[metrics]
+    m10[model artifacts]
+    m6b[dependencies]
+    end
+    subgraph r1[Requirements]
+    direction LR
+    m11[data]
+    m12[features]
+    m13[hyperparameters]
+    m14[metrics]
+    m15[model artifacts]
+    m7b[dependencies]
+    end
+    r1 ---> v1[Model v1.0]
+    r2 ---> v2[Model v1.1]
+    r3 ---> v3[Model v1.2]
+    subgraph Versioned Models
+    direction BT
+    v1
+    v2
+    v3
+    end
+```
+
+:::
+
+## Many Tools Available
+
+<br>
+
+- MLFlow Model Registry
+- DVC (Data Version Control)
+- Weights & Biases Model Management
+- Git-LFS and Git for Models
+- TensorFlow Serving
+- Neptune.ai
+- BentoML
+
+# Demo {background="#43464B"}
+
+## Last Week
+
+Recall from last week we saw how we can use MLFlow for experimentation tracking:
+
+![](images/mlflow-experiment-comparison.png)
+
+## MLFlow Model Registry
+
+[![](images/mlflow-model-registry.png)](https://mlflow.org/docs/latest/model-registry/)
+
+## MLFlow Model Registry {.smaller}
+
+<br>
+
+Builds on top of the model experimentation tracking capabilities by...
+
+1. **Registering Models**: Each trained model can be registered and stored with its corresponding metadata.
+2. **Versioning Models**: Multiple versions of a model can be tracked, allowing you to maintain a history of iterations.
+3. **Facilitating Collaboration**: Teams can add notes, tags, aliases, and approval statuses to provide transparency and coordination during the model lifecycle.
+
+. . .
+
+Two approaches to registering models in MLflow:
+
+1. Using the **MLflow UI** to register a model from a previously logged experiment.
+2. Using **code** to programmatically register a model during training.
+
+# Registering a Model with the UI {background="#43464B"}
+
+## Locate the Experiment
+
+![](images/mlflow-experiments.png)
+
+## Register the Model
+
+::: {.columns}
+::: {.column}
+![](images/mlflow-artifact-register.png)
+:::
+::: {.column}
+![](images/mlflow-artifact-register2.png)
+:::
+:::
+
+. . .
+
+![](images/mlflow-registered-models.png)
+
+## Adding Metadata {.smaller}
+
+We can use the **Tags** and **Aliases** features to add metadata about the model. This can be helpful to annotate model versions with their status.
+
+ * You could apply a tag `validation_status` with a value `pending` to a model version while it is being validated or going through the final reviews prior to deploying.
+* And you can use **Aliases** to provide a flexible way to create named references for particular model versions - such as ***champion*** and ***challenger***.
+
+![](images/mlflow-registered-model-metadata.png)
+
+# Registering a Model Programmatically {background="#43464B"}
+
+## Why?
+
+* Helps to automate pipelines where models are frequently trained and registered.
+* Ensures consistency and reduces manual intervention, which is critical for scaling operations
+
+. . .
+
+[![](images/model-registration-notebook.png)](https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/model-registration.ipynb)
+
+# Wrapping Up {background="#43464B"}
+
+## This week {.smaller}
+
+- Readings
+  - Will go deeper into these concepts
+  - Introduce you to tools you can used to implement these concepts
+  - Walk you through an example implementation of model versioning
+
+- Thursday
+  - [**No class**]{style="color:red;"}
+
+- By end of week
+  - Experiment tracking conceptual design exercise
+
+## Looking forward {.smaller}
+
+::: {style="font-size: 85%;"}
+
+<br>
+
+| Week | Tue | Thu | Due EOW |
+|---|---------|---------|------------|
+| ~~1~~    | ~~Today~~ | ~~No class~~ | ~~Group Exercise & Reading Quizzes~~ |
+| ~~2~~    | ~~Discuss DataOps~~ | ~~Guest Speaker~~ | ~~Reading Quizzes, Project Groups Due~~ |
+| ~~X~~    | ~~Spring Break~~ |  |  |
+| ~~3~~    | ~~ModelOps & Experiment Tracking~~ | ~~Work on Project Proposals~~ | ~~Reading Quizzes, Project Proposals Due~~ |
+| 4    | Model Versioning & Deployment | [No class]{style="color:red;"} | [Project Group Exercise]{style="color:blue;"} & Reading Quizzes |
+| 5   | Model Deployment & Monitoring | Guest Speaker | Reading Quizzes, [Project MVP Due]{style="color:blue;"} |
+| 6    | DevOps | Work on Final Project | [Project Group Exercise]{style="color:blue;"} & Reading Quizzes |
+| 7    | Guest Speaker | [No class, Final Project Due]{style="color:red;"} | 🥳 |
+
+:::
+
+
+## Questions or Discussion?
+
+- Open floor for questions regarding ModelOps & model versioning.
+- Discussion on how these principles apply to real-world business scenarios.
