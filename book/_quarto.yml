@@ -16,6 +16,7 @@ book:
 
   chapters:
     - index.qmd
+    - 00-ai-tools.qmd
     - part: "Laying the Foundation"
       chapters:
         - 01-intro-ml-system.qmd
