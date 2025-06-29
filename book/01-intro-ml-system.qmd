@@ -254,3 +254,48 @@ Note that these articles will likely mention technical concepts and tools that y
 - Twitter: [Twitter's Recommendation Algorithm](https://blog.x.com/engineering/en_us/topics/open-source/2023/twitter-recommendation-algorithm)
 :::
 
+
+## LLM Exercise
+
+In this section, you will apply the concepts learned in this chapter to a practical business problem where a large language model (LLM) could be a potential solution.
+
+### Problem Statement
+
+You are part of the data science team at a robotics company that has just launched its first fully humanoid robot, capable of performing 90% of a user's daily chores. However, the robot occasionally gets stuck, requiring users to instruct and unblock the robot.
+
+Although comprehensive user manuals and FAQs are available on the product website, users find it difficult to search through the large volume of information to find solutions. As a result, customer support calls are increasing rapidly, and the company cannot scale its support team fast enough to meet demand.
+
+### Your Task
+
+The company has asked your team to design an AI-powered customer support assistant that can answer user queries using the product manual and FAQs. 
+
+Can you think through this possible solution and come up with a detailed solution and plan? What questions should you answer?
+
+#### Feasibility
+- Can an LLM effectively understand user queries and retrieve relevant information from the manual and FAQs to resolve issues?
+- Are there alternative AI or search-based solutions worth considering?
+
+#### Initial Exploration
+- How can you prototype or test an LLM-based solution using the available data?
+
+#### Model Selection
+- Given business, budget, and resource constraints, which LLM(s) are most suitable for this use case?
+- What factors (e.g., cost, performance, privacy, deployment options) should guide your decision?
+
+#### Model Adaptation
+- Is fine-tuning an LLM necessary for your solution, or can you use an off-the-shelf model?
+- What are the pros and cons of fine-tuning versus using a pre-trained model as-is?
+
+#### Solution Architecture
+- What would the overall system architecture look like (data flow, components, integration points)?
+- How will you ensure the solution is scalable, maintainable, and secure?
+
+#### Evaluation and Trade-offs
+- What are the strengths and limitations of each LLM or approach you consider?
+
+
+### Deliverable
+
+Prepare a detailed solution plan addressing the questions above. Your plan should outline the proposed architecture, justify your model and design choices, and discuss how you would validate and iterate on the solution.
+
+Once you have the deliverable, do you feel confident going baclk to the stakeholders and present your proposal?
