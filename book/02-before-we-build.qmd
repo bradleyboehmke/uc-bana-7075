@@ -1,7 +1,7 @@
 # Before We Build {#sec-before-we-build}
 
 ::: {.callout-warning}
-Reading Time: 35-50 minutes
+Reading Time: 40-60 minutes
 :::
 
 Building an effective machine learning (ML) system requires more than just technical knowledge and model-building skills. The success of an ML project depends heavily on the foundational planning that happens long before the first line of code is written or the first dataset is processed. This planning phase is essential to ensuring that the project aligns with the business goals, addresses the right problem, and is both technically feasible and valuable. In this chapter, we’ll explore the key considerations and actions to take before starting the development of an ML system.
@@ -461,5 +461,48 @@ Consider a scenario where a healthcare organization wants to build an ML system 
    - List some key technical requirements that would be helpful to understand early on before developing the solution (e.g., data, infrastructure). What gaps might exist, and how would you address them?
 5. **The Iterative Process**
    - Describe why the development of this ML system would be an iterative process. Provide an example of something that could change during development (e.g., a performance metric, a technical requirement) and how you would manage this change to avoid scope creep.
+
+
+## LLM Exercise
+
+Let’s apply the foundational planning concepts from this chapter to the AI-powered customer support assistant introduced in the previous chapter.
+
+### What are we solving for?
+
+A robotics company is struggling to scale its customer support team as its user base grows. This is a very broad problem. Before jumping into technical development, it’s essential to work with stakeholders to define the problem, evaluate the suitability of an ML solution, and plan for success.
+
+#### Stakeholder Engagement
+- Who are the key stakeholders for this project (e.g., customer support leads, product managers, end users, IT, executives)?
+- What questions would you ask these stakeholders to clarify the business problem and desired outcomes?
+- What assumptions might surface during these discussions (e.g., about user behavior, support volume, or expected accuracy)?
+
+#### Evaluating ML Suitability
+- Is an ML-based solution the right approach for this problem? What factors would you consider (e.g., complexity of support queries, data availability, need for scalability)?
+- Can you think of a non-ML alternative (such as a rule-based chatbot or improved documentation)? What are the trade-offs compared to an ML solution?
+
+#### Defining Performance Metrics
+- Propose three categories of performance metrics for the AI-powered assistant: one technical (e.g., intent classification accuracy), one system (e.g., average response time), and one business metric (e.g., reduction in support ticket volume, customer satisfaction).
+- Why are these metrics important for evaluating the system’s success?
+- Which stakeholders would be interested in which metrics?
+
+#### Understanding Value and Feasibility
+- Write a brief paragraph outlining the potential value of the AI-powered assistant for the company. Consider both tangible (e.g., cost savings, faster response times) and intangible (e.g., improved customer satisfaction, brand reputation) benefits.
+- List key technical requirements to assess early (e.g., data sources, integration with existing systems, infrastructure needs).
+- What gaps might exist, and how could they be addressed?
+
+#### The Iterative Process
+- Explain why developing this AI-powered assistant will be an iterative process.
+- Provide an example of something that might change during development (e.g., a performance metric, user requirements) and describe how you would manage this change to avoid scope creep.
+
+
+#### Additional Considerations
+- How does the cost and complexity of the ML solution compare to other possible approaches?
+- How might user behavior evolve as customers become accustomed to interacting with the assistant?
+- How will the assistant adapt as the product and user base grow, and as new data becomes available?
+- What are the risks if the assistant provides incorrect answers, and what safeguards should be in place?
+- How will you balance building a minimum viable product (MVP) versus planning for a long-term solution?
+- What can you learn from how other companies have addressed similar challenges?
+
+Reflect on these questions and document your answers as thoroughly as possible, using the information provided and your own reasoning. This exercise will help you practice the critical planning and evaluation skills needed to build effective, scalable ML solutions.
 
 
