@@ -476,3 +476,180 @@ Go back to [Chapter @sec-design-principles] and reflect on how the experiment tr
 4. **Abstraction**:
    - Reflect on how MLflow abstracted away many tracking complexities, allowing you to focus on experimentation.
 :::
+
+
+## LLM Exercise
+
+::: {.callout-note}
+This example was run on a MacOS computer with an M3 Pro chipset and MPS (Metal Performance Shaders) support. If you are using a different operating system or hardware, you may need to adjust some settings or dependencies to ensure compatibility.
+:::
+
+In this exercise, we will apply the prinxiples of model training and experiment tracking to our ongoing project: the AI-powered customer support assistant. In the previous chapters, we prepared and versioned a dataset suitable for fine-tuning, and discussed ModelOps strategies. Now, we will take the next step: fine-tuning a base language model on this data and, most importantly, tracking our experiments to ensure our process is reproducible and our results are comparable.
+
+We will use the Hugging Face transformers library to finetune a gpt2 LLM model. Our primary goal is to integrate MLflow into the training process to log hyperparameters, metrics, and the resulting model artifact. This exercise will give you handson experience with the core components of experiment tracking in an LLM context.
+
+### LLM Specific Considerations
+
+Before we dive into the code, it's important to highlight a few aspects unique to training Large Language Models that differ significantly from traditional machine learning models
+
+- Model Choice (gpt2): We are using gpt2 for this exercise because it is a foundational and well understood. At 117 million parameters, it is small enough to be fine-tuned on consumer hardware. The principles learnt while fine-tuning gpt2 are directly applicable to much larger models.
+
+- Hardware Acceleration (GPU/MPS): Training LLMs is incredibly computationally expensive due to the billions of calculations required for each training step. While traditional models like linear regression or random forests can often be trained on a CPU, LLMs require specialized hardware for practical training times.
+  - NVIDIA's CUDA platform are the industry standard for this, as they are designed for the massive parallel matrix operations at the core of transformer models.
+  - Apple Silicon (MPS) provides similar acceleration on modern Macs.
+  - Without hardware acceleration, fine-tuning even a small model like gpt2 could take days instead of minutes. The transformers and PyTorch libraries automatically detect and use available hardware, abstracting away much of the complexity.
+- Memory Management: LLMs, their gradients, and optimizer states consume a large amount of memory. This is why techniques like gradient accumulation, mixed-precision training, and quantization are common in LLM workflows but less so in traditional ML. For our exercise, the default settings will suffice, but for larger models, managing memory becomes a primary challenge.
+
+::: {.callout-warning}
+Note: Ensure your system has sufficient memory to run the training scripts below. The MacOS machine used for these examples had 18 GB of memory, which was nearly fully utilized during training. Depending on your hardware, training may take several minutes and could require significant system resources.
+:::
+
+### Setup and Preparation
+
+The code for this exercise is inspired by this [LLM fine-tuning repository](https://github.com/yash91sharma/llm_finetuning). Refer to this repository for more variations.
+
+First, ensure you have the necessary libraries installed. We'll need `transformers`, `datasets` for data handling, `torch` as the backend, and `mlflow` for tracking.
+
+```bash
+pip install transformers datasets torch mlflow accelerate
+```
+
+Next, we'll create a Python script to handle the fine-tuning process. This script will:
+1.  Load the processed customer support dataset (`llm_training_data.jsonl`).
+2.  Set up a gpt2 model and tokenizer.
+3.  Configure an MLflow experiment.
+4.  Use the Trainer API from transformers to fine-tune the model.
+5.  Log hyperparameters, metrics, and the final model to MLflow.
+
+### Hands-On Fine-Tuning and Tracking
+
+Create a Python script named `track_finetuning.py`. This script will encapsulate our training logic.
+
+```python
+import mlflow
+import torch
+from datasets import load_dataset
+from transformers import (
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    TrainingArguments,
+    Trainer,
+    DataCollatorForLanguageModeling,
+)
+
+# --- Set up MLflow Experiment ---
+mlflow.set_experiment("Customer Support LLM Fine-Tuning")
+
+def main():
+    # --- Define Hyperparameters and Configuration ---
+    model_name = "gpt2"
+    dataset_path = "path/to/llm_training_data.jsonl"
+    output_dir = "./results"
+    
+    training_args = TrainingArguments(
+        output_dir=output_dir,
+        num_train_epochs=1,
+        per_device_train_batch_size=4,
+        learning_rate=5e-5,
+        logging_dir='./logs',
+        logging_steps=10,
+        report_to="mlflow",  # Integrate with MLflow
+    )
+
+    # --- Load and Prepare the Dataset ---
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    # Set the pad token
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+
+    raw_datasets = load_dataset('json', data_files=dataset_path)
+
+    def tokenize_function(examples):
+        # Simple concatenation of instruction, input, and output for language modeling
+        text = [
+            f"Instruction: {inst}\nInput: {inp}\nOutput: {out}"
+            for inst, inp, out in zip(examples['instruction'], examples['input'], examples['output'])
+        ]
+        return tokenizer(text, truncation=True, padding="max_length", max_length=512)
+
+    tokenized_datasets = raw_datasets.map(tokenize_function, batched=True, remove_columns=raw_datasets["train"].column_names)
+    
+    # --- Load Model and Data Collator ---
+    model = AutoModelForCausalLM.from_pretrained(model_name)
+    data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
+
+    # --- Start MLflow Run and Train ---
+    with mlflow.start_run(run_name=f"finetune-{model_name}-lr-{training_args.learning_rate}") as run:
+        # Log hyperparameters
+        mlflow.log_params({
+            "model_name": model_name,
+            "learning_rate": training_args.learning_rate,
+            "num_epochs": training_args.num_train_epochs,
+            "batch_size": training_args.per_device_train_batch_size,
+            "dataset": dataset_path
+        })
+
+        trainer = Trainer(
+            model=model,
+            args=training_args,
+            train_dataset=tokenized_datasets["train"],
+            tokenizer=tokenizer,
+            data_collator=data_collator,
+        )
+
+        # Train the model
+        trainer.train()
+
+        # --- Log Model and Final Metrics ---
+        # The Trainer automatically logs metrics like loss to MLflow
+        # We can log the final model artifact
+        trainer.save_model(output_dir)
+        mlflow.log_artifacts(output_dir, artifact_path="model")
+        
+        print("Training complete and artifacts logged to MLflow.")
+
+if __name__ == "__main__":
+    main()
+```
+
+To run the experiment, execute the script from your terminal:
+
+```bash
+python path/to/track_finetuning.py
+```
+
+### 3. Compare Experiments in MLflow
+
+Once the script finishes, launch the MLflow UI to inspect the run:
+
+```bash
+mlflow ui
+```
+
+Navigate to `http://127.0.0.1:5000` in your browser. You will see the "Customer Support LLM Fine-Tuning" experiment with one run. Click on it to see the logged parameters (learning rate, epochs) and metrics (training loss).
+
+Now, run a second experiment to see the power of comparison. **Edit `track_finetuning.py`** and change a hyperparameter, for example, the learning rate:
+
+```python
+// ...existing code...
+    training_args = TrainingArguments(
+        output_dir=output_dir,
+        num_train_epochs=1,
+        per_device_train_batch_size=4,
+        learning_rate=2e-5,  # Changed learning rate
+// ...existing code...
+```
+
+Run the script again. Refresh the MLflow UI, and you will see a second run. You can now select both runs and click "Compare" to see a side-by-side view of their parameters and performance, making it easy to determine which configuration performed better.
+
+### 4. Reflection on Design Principles
+
+Reflect on how this exercise connects to the principles of ModelOps and experiment tracking:
+
+Reflect on how this exercise connects to the principles of ModelOps and experiment tracking, with a focus on LLM-specific challenges:
+
+1. Computational Complexity and Scalability: Fine-tuning `gpt2` is computationally intenfive. Consider fine-tuning a model like Llama-3 8B (8 billion parameters) on a gigabyte-scale data. What bottlenecks (e.g., memory, bandwidth, GPU) you would expect? How would experiment tracking help in managing and optimizing resource usage across multiple, long-running training jobs?
+2. Model Behavior vs. Metrics: Training loss is a common metric, but for LLMs lower loss doesn't always guarantee better qualitative performance (coherence, safety, or following instructions). What other evaluation methods, both quantitative (BLEU, ROUGE) and qualitative (human evaluation) would be necessary? How could you integrate the results of these more complex evaluations into your MLflow tracking?
+3. Reproducibility in Stochastic Processes: Deep learning training is inherently stochastic. What specific seeds (e.g. for torch, numpy, data loaders) would you need to control and log to ensure complete reproducibility? Why is this level of reproducibility crucial for debugging and for regulatory compliance in AI applications?
+4. Abstraction and Model Architecture: The transformers library abstracts away the complexity of the gpt2 architecture. If you were to design a novel transformer block (e.g., with a different attention mechanism), how would you use experiment tracking to compare its performance against the standard implementation? What parameters and artifacts would be important to log?
+
