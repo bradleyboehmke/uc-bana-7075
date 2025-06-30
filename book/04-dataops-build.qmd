@@ -651,16 +651,49 @@ Using the YouTube pipeline example as a reference, answer the following:
 
 ## LLM Exercise
 
-In this exercise, let us design and implement a data pipeline to prepare data for fine-tuning the LLM that powers the AI-powered customer support assistant.
+In this exercise, we will apply DataOps principles to design and implement a data pipeline for our AI-powered customer support assistant. The goal is to ingest data from various sources (tickets, FAQs, manuals), process it, and create a unified, versioned dataset suitable for fine-tuning an LLM.
+
+A key difference from traditional ML data pipelines is the sheer volume of data often required for fine-tuning Large Language Models. While traditional models might train on thousands or millions of structured records, LLMs benefit from vast quantities of diverse, often unstructured, text data. This emphasis on volume and variety means that scalability, automation, and efficient processing are not just best practices but necessities for building a successful LLM data pipeline.
 
 The focus is on collecting, processing, and formatting real-world support data (tickets, call logs, user manuals, FAQs) into a structure suitable for LLM training.
 
-### Data Collection and Ingestion
+### 1. Pipeline Design and Configuration
 
-- Identify and describe the sources of data you would use (e.g., past support tickets, call transcripts, user manuals, FAQs).
-- Sketch a conceptual pipeline for ingesting this data. Which tools would you use for each step (e.g., APIs, file parsers, ETL tools)?
+A production-grade pipeline should be modular, configurable, and resilient. We will break our pipeline into distinct, reusable functions and manage all configurations externally.
 
-The below python codes simulate the different data sources.
+First, let's define our data sources and pipeline settings in a configuration file. This practice prevents hardcoding paths and parameters, making the pipeline adaptable to different environments (development, staging, production).
+
+````yaml
+# filepath: /workspace/book/config/llm_data_pipeline.yaml
+# Configuration for the LLM data preparation pipeline
+
+# Input data sources
+sources:
+  tickets: 'data/raw/support_tickets.csv'
+  faqs: 'data/raw/faqs.json'
+  manuals: 'data/raw/manuals.csv'
+
+# Output settings
+output:
+  path: 'data/processed/llm_training_data.jsonl'
+  dvc_enabled: true
+
+# Data processing parameters
+processing:
+  deduplicate_on: ['input', 'output']
+  anonymize_fields: ['customer_name', 'email']
+
+# Augmentation settings
+augmentation:
+  enabled: true
+  model: 'gpt-4-turbo' # Use a fast and cost-effective model
+  api_key_env: 'OPENAI_API_KEY' # Load API key from environment variable
+````
+
+### 2. Building a Modular and Scalable Pipeline
+
+
+The raw data is assumed to be available in following formats.
 
 ```python
 # customer support tickets
@@ -699,143 +732,182 @@ faqs = pd.DataFrame([
 ])
 ```
 
-### Data Processing and Formatting
 
-- Describe the steps required to clean and preprocess the collected data (e.g., anonymization, deduplication, text normalization).
-- Explain how you would convert each data source into the LLM training format:
+::: {.callout-note collapse="true"}
+Note: The data for LLM fine-tuning is expecting in this format:
 ```json
 [
   {"instruction": "...", "input": "...", "output": "..."},
   ...
 ]
 ```
-- For each data type (tickets, calls, manuals, FAQs), prepare an example transformation.
 
-```python
-# Clean support tickets
-tickets_clean = tickets.dropna().copy()
-tickets_clean['issue'] = tickets_clean['issue'].str.strip().str.lower()
-tickets_clean['resolution'] = tickets_clean['resolution'].str.strip()
+This is the format selected for the LLM exercise throughout this book. But you can chose the data format which suits your needs and contraints.
+::::
 
-# Clean call transcripts
-calls_clean = calls.dropna().copy()
-calls_clean['transcript'] = calls_clean['transcript'].str.strip()
-calls_clean['summary'] = calls_clean['summary'].str.strip()
 
-# Clean user manuals
-manuals_clean = manuals.dropna().copy()
-manuals_clean['section'] = manuals_clean['section'].str.strip()
-manuals_clean['content'] = manuals_clean['content'].str.strip()
+We will now implement the pipeline in Python. Notice how each step (loading, transforming, saving) is a separate function. This modularity makes the code easier to test, debug, and maintain. We will also include logging and error handling to make the pipeline more robust.
 
-# Clean FAQs
-faqs_clean = faqs.dropna().copy()
-faqs_clean['question'] = faqs_clean['question'].str.strip()
-faqs_clean['answer'] = faqs_clean['answer'].str.strip()
-
-# Helper function to anonymize text fields
-def anonymize_text(text):
-    return str(uuid.uuid4())[:8] if pd.notnull(text) else text
-
-# Anonymize support tickets
-tickets_anon = tickets_clean.copy()
-tickets_anon['customer_name'] = tickets_anon['customer_name'].apply(anonymize_text)
-tickets_anon['email'] = tickets_anon['email'].apply(anonymize_text)
-
-# Remove duplicate tickets (by issue and resolution)
-tickets_anon = tickets_anon.drop_duplicates(subset=['issue', 'resolution'])
-
-# Transform Data into LLM Training Format
-
-# Support tickets to LLM format
-ticket_examples = [
-    {
-        "instruction": "Resolve a customer support ticket.",
-        "input": row['issue'],
-        "output": row['resolution']
-    }
-    for _, row in tickets_anon.iterrows()
-]
-
-# Call transcripts to LLM format
-call_examples = [
-    {
-        "instruction": "Understand the user issue from the call transcript and create resolutions steps.",
-        "input": row['transcript'],
-        "output": row['summary']
-    }
-    for _, row in calls_clean.iterrows()
-]
-
-# User manuals to LLM format
-manual_examples = [
-    {
-        "instruction": f"Explain the following manual section in detail for a user.",
-        "input": row['section'],
-        "output": row['content']
-    }
-    for _, row in manuals_clean.iterrows()
-]
-
-# FAQs to LLM format
-faq_examples = [
-    {
-        "instruction": "How can the user do the following?",
-        "input": row['question'],
-        "output": row['answer']
-    }
-    for _, row in faqs_clean.iterrows()
-]
-```
-
-### Combining and Augmentation
-
-- Plan how to combine multiple data sources (tickets, calls, manuals, FAQs) into a unified LLM training set.
-- Describe any augmentation or synthesis steps (e.g., generating new Q&A pairs from manuals).
-
-Below, we demonstrate how an existing LLM can be leveraged to paraphrase and augment the training data. While this approach can increase data diversity and improve model robustness, it should be applied judiciously to avoid introducing bias or redundancy. In this example, we selectively generate paraphrased examples for customer tickets that contain the keyword "difficult." The rationale is that users may struggle with certain topics, and providing alternative phrasings can help the LLM better understand and respond to similar issues expressed in different ways.
-
-In practice, data augmentation strategies are often more sophisticated, incorporating advanced business logic or human-in-the-loop review to ensure quality and relevance. The following example illustrates a simple, rule-based augmentation technique as a starting point.
-
-```python
-# Combine all examples
-all_examples = ticket_examples + call_examples + manual_examples + faq_examples
-
-# Augmentation: Use an LLM to generate paraphrased FAQ questions
+````python
+# filepath: /workspace/book/pipelines/prepare_llm_data.py
+import pandas as pd
+import yaml
+import json
+import logging
+import os
+import uuid
 from openai import OpenAI
 
-client = OpenAI(api_key="YOUR_API_KEY")
+# --- Setup Logging ---
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def paraphrase_question(question):
-    response = client.chat.completions.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "Paraphrase the following customer support question."},
-            {"role": "user", "content": question}
-        ]
-    )
-    return response.choices[0].message.content.strip()
+# --- 1. Configuration Loading ---
+def load_config(config_path='config/llm_data_pipeline.yaml'):
+    """Loads pipeline configuration from a YAML file."""
+    logging.info(f"Loading configuration from {config_path}")
+    try:
+        with open(config_path, 'r') as f:
+            return yaml.safe_load(f)
+    except FileNotFoundError:
+        logging.error(f"Configuration file not found at {config_path}")
+        raise
 
-for _, row in ticket_examples.iterrows():
-    # Dummy smart filter: only paraphrase questions containing "difficult"
-    if "difficult" in row['input'].lower():
-        paraphrased = paraphrase_question(row['input'])
-        all_examples.append({
-            "instruction": "Answer this paraphrased question.",
-            "input": paraphrased,
-            "output": row['output']
-        })
-```
+# --- 2. Data Ingestion (Modular Loaders) ---
+def load_data(sources: dict) -> dict:
+    """Loads data from multiple sources defined in the config."""
+    dataframes = {}
+    for name, path in sources.items():
+        try:
+            logging.info(f"Loading {name} data from {path}...")
+            if path.endswith('.csv'):
+                dataframes[name] = pd.read_csv(path)
+            elif path.endswith('.json'):
+                dataframes[name] = pd.read_json(path)
+            else:
+                logging.warning(f"Unsupported file format for {path}. Skipping.")
+        except FileNotFoundError:
+            logging.error(f"Data file not found: {path}. Skipping.")
+    return dataframes
 
-### Storage and Versioning
+# --- 3. Data Transformation ---
+def transform_to_instruction_format(dataframes: dict) -> list:
+    """Transforms various dataframes into a unified instruction-following format."""
+    all_examples = []
+    
+    # Transform support tickets
+    if 'tickets' in dataframes:
+        for _, row in dataframes['tickets'].iterrows():
+            all_examples.append({
+                "instruction": "Resolve the following customer support ticket.",
+                "input": row['issue'],
+                "output": row['resolution']
+            })
 
-```python
-# Save as JSONL
-with open('llm_training_data.jsonl', 'w') as f:
-    for ex in all_examples:
-        f.write(json.dumps(ex) + '\n')
+    # Transform FAQs
+    if 'faqs' in dataframes:
+        for _, row in dataframes['faqs'].iterrows():
+            all_examples.append({
+                "instruction": "Provide an answer to the following frequently asked question.",
+                "input": row['question'],
+                "output": row['answer']
+            })
 
-# Use DVC just as above example
-`````
+    # Add other data source transformations...
+    
+    logging.info(f"Transformed {len(all_examples)} examples into instruction format.")
+    return all_examples
+
+# --- 4. Data Processing (Cleaning & Anonymization) ---
+def process_data(examples: list, config: dict) -> pd.DataFrame:
+    """Cleans, anonymizes, and deduplicates the dataset."""
+    df = pd.DataFrame(examples)
+    
+    # Anonymization (if needed, though not present in final format)
+    # This step would be applied before transformation if PII was in the final output.
+
+    # Deduplication
+    initial_rows = len(df)
+    df.drop_duplicates(subset=config['processing']['deduplicate_on'], inplace=True)
+    logging.info(f"Removed {initial_rows - len(df)} duplicate records.")
+    
+    return df
+
+# --- 5. Data Augmentation ---
+def augment_data(df: pd.DataFrame, config: dict) -> pd.DataFrame:
+    """Augments data by paraphrasing inputs using an LLM."""
+    if not config['augmentation']['enabled']:
+        logging.info("Augmentation is disabled.")
+        return df
+
+    api_key = os.getenv(config['augmentation']['api_key_env'])
+    if not api_key:
+        logging.warning("OpenAI API key not found. Skipping augmentation.")
+        return df
+
+    client = OpenAI(api_key=api_key)
+    
+    # For demonstration, we augment a small sample. In production, you might
+    # use more sophisticated sampling or parallel processing.
+    augmented_examples = []
+    sample_df = df.sample(n=min(5, len(df)))
+
+    for _, row in sample_df.iterrows():
+        try:
+            response = client.chat.completions.create(
+                model=config['augmentation']['model'],
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant. Paraphrase the following user input."},
+                    {"role": "user", "content": row['input']}
+                ]
+            )
+            paraphrased_input = response.choices[0].message.content.strip()
+            augmented_examples.append({
+                "instruction": row['instruction'],
+                "input": paraphrased_input,
+                "output": row['output']
+            })
+        except Exception as e:
+            logging.error(f"Failed to augment data for input: {row['input']}. Error: {e}")
+
+    if augmented_examples:
+        df = pd.concat([df, pd.DataFrame(augmented_examples)], ignore_index=True)
+        logging.info(f"Added {len(augmented_examples)} augmented examples.")
+    
+    return df
+
+# --- 6. Data Storage and Versioning ---
+def save_data(df: pd.DataFrame, config: dict):
+    """Saves the final dataset as JSONL and handles DVC tracking."""
+    output_path = config['output']['path']
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    
+    df.to_json(output_path, orient='records', lines=True)
+    logging.info(f"Saved final dataset to {output_path}")
+
+    if config['output']['dvc_enabled']:
+        logging.info("Tracking data with DVC...")
+        os.system(f'dvc add {output_path}')
+        logging.info(f"Run 'git add {output_path}.dvc' and commit to version your data.")
+
+# --- Main Pipeline Execution ---
+def main():
+    """Main function to run the data preparation pipeline."""
+    config = load_config()
+    raw_dataframes = load_data(config['sources'])
+    instruction_examples = transform_to_instruction_format(raw_dataframes)
+    processed_df = process_data(instruction_examples, config)
+    augmented_df = augment_data(processed_df, config)
+    save_data(augmented_df, config)
+    logging.info("LLM data preparation pipeline finished successfully.")
+
+if __name__ == '__main__':
+    main()
+````
+
+#### Data Augmentation
+
+Above, we demonstrate how an existing LLM can be leveraged to paraphrase and augment the training data. While this approach can increase data diversity and improve model robustness, it should be applied judiciously to avoid introducing bias or redundancy. In practice, data augmentation strategies are often more sophisticated, incorporating advanced business logic or human-in-the-loop review to ensure quality and relevance. The following example illustrates a simple, rule-based augmentation technique as a starting point.
+
 
 ### Reflection: Complexity, Scalability, and Productization
 
@@ -843,11 +915,13 @@ Building a robust LLM data pipeline involves many decisions:
 
 - **Data diversity**: Real-world data is messy and comes in many formats. Each source needs custom cleaning and transformation.
 - **Privacy**: Anonymization is essential for compliance and user trust.
-- **Deduplication and quality**: Removing duplicates and irrelevant records is critical for model performance.
-- **Scalability**: For production, pipelines must handle much larger, continuously arriving data. Consider distributed processing, workflow orchestration, and cloud storage.
-- **Versioning**: Tools like DVC ensure reproducibility and traceability, which are vital for regulated industries and collaborative teams.
 - **Augmentation**: Synthesizing new examples (e.g., Q&A from manuals) can boost model performance but must be done thoughtfully to avoid introducing bias or noise.
+- **Modularity and Testability**: Each function can be tested independently. For example, you could write a unit test for `transform_to_instruction_format` with mock data to ensure it behaves as expected.
+- **Configuration-Driven**: By changing the `config.yaml` file, you can easily switch data sources, change model parameters, or point to a different output location without touching the pipeline code.
+- **Robustness**: Basic logging and error handling are included. A production system would expand on this with more detailed logging, alerts for failures, and retry mechanisms for transient errors (like network issues when calling an API).
+- **Scalability**: While this example still uses pandas and processes data in-memory, its modular structure makes it easier to scale. For a very large dataset, you could replace the pandas-based functions in `process_data` and `augment_data` with equivalents that use **Apache Spark** or **Dask**. These frameworks would distribute the computation across multiple machines, allowing the pipeline to handle terabytes of data. The overall pipeline orchestration would remain the same.
 
 A scalable, production-grade pipeline will require automation, monitoring, and robust error handling at every step.
 
+As a challenge, try adapting this pipeline to use a distributed framework like Spark or Dask to gain hands-on experience with scaling data processing beyond the limits of a single machine.
 
