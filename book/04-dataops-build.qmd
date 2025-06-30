@@ -8,7 +8,7 @@ notebook-view:
 ---
 
 ::: {.callout-warning}
-Reading Time: 45-60 minutes
+Reading Time: 60 minutes
 :::
 
 In the previous chapter, we explored the foundational concepts of DataOps, focusing on the importance of processes such as data ingestion, validation, versioning, and lineage in building reliable machine learning systems. Now, it’s time to take these concepts from theory to practice by applying them to create data pipelines. Data pipelines form the backbone of any modern ML system, serving as the structured, automated pathways through which data flows from raw sources to actionable insights.
@@ -647,3 +647,207 @@ Using the YouTube pipeline example as a reference, answer the following:
 2. **Scenario-Based Discussion**:
    - Imagine that the YouTube API introduces stricter [quota limits](https://developers.google.com/youtube/v3/guides/quota_and_compliance_audits). How would this impact the pipeline? Propose a solution to handle such constraints while ensuring the pipeline remains functional and reliable.
 :::
+
+
+## LLM Exercise
+
+In this exercise, let us design and implement a data pipeline to prepare data for fine-tuning the LLM that powers the AI-powered customer support assistant.
+
+The focus is on collecting, processing, and formatting real-world support data (tickets, call logs, user manuals, FAQs) into a structure suitable for LLM training.
+
+### Data Collection and Ingestion
+
+- Identify and describe the sources of data you would use (e.g., past support tickets, call transcripts, user manuals, FAQs).
+- Sketch a conceptual pipeline for ingesting this data. Which tools would you use for each step (e.g., APIs, file parsers, ETL tools)?
+
+The below python codes simulate the different data sources.
+
+```python
+# customer support tickets
+tickets = pd.DataFrame([
+    {"ticket_id": 1, "customer_name": "Alice Smith", "email": "alice@example.com",
+     "issue": "Robot thinks my window is a door, tries to walk out and falls into the yard",
+     "resolution": "Sent link for user to update their home map in the phone app."},
+    {"ticket_id": 2, "customer_name": "Bob Jones", "email": "bob@example.com",
+     "issue": "Billing error on last invoice",
+     "resolution": "Issued refund."},
+    {"ticket_id": 3, "customer_name": "Alice Smith", "email": "alice@example.com",
+     "issue": "Robot does not restart after OS update",
+     "resolution": "Suggested hard reset..."}
+])
+
+# call transcripts
+calls = pd.DataFrame([
+    {"call_id": 101, "agent": "Eve",
+     "transcript": "Hello, this is Eve from support. How can I help you? ...",
+     "summary": "Explained subscription options."},
+    {"call_id": 102, "agent": "Dan",
+     "transcript": "Hi, my robot is lost trying to drive itself back from grocery store...",
+     "summary": "Walked through robot location reset procedure."}
+])
+
+# user manual
+manuals = pd.DataFrame([
+    {"section": "Resetting your robot's location configs", "content": "To reset your password, go to the settings page and click 'Reset Password'..."},
+    {"section": "Hard reset a robot", "content": "Your robot needs to be atleast 50% charged for a hard reset. First start by..."}
+])
+
+# FAQs
+faqs = pd.DataFrame([
+    {"question": "How do I reset my app's password?", "answer": "Click on 'Forgot Password' at login."},
+    {"question": "How can I change my robot's name?", "answer": "Go to 'settings' in your mobile app, then..."}
+])
+```
+
+### Data Processing and Formatting
+
+- Describe the steps required to clean and preprocess the collected data (e.g., anonymization, deduplication, text normalization).
+- Explain how you would convert each data source into the LLM training format:
+```json
+[
+  {"instruction": "...", "input": "...", "output": "..."},
+  ...
+]
+```
+- For each data type (tickets, calls, manuals, FAQs), prepare an example transformation.
+
+```python
+# Clean support tickets
+tickets_clean = tickets.dropna().copy()
+tickets_clean['issue'] = tickets_clean['issue'].str.strip().str.lower()
+tickets_clean['resolution'] = tickets_clean['resolution'].str.strip()
+
+# Clean call transcripts
+calls_clean = calls.dropna().copy()
+calls_clean['transcript'] = calls_clean['transcript'].str.strip()
+calls_clean['summary'] = calls_clean['summary'].str.strip()
+
+# Clean user manuals
+manuals_clean = manuals.dropna().copy()
+manuals_clean['section'] = manuals_clean['section'].str.strip()
+manuals_clean['content'] = manuals_clean['content'].str.strip()
+
+# Clean FAQs
+faqs_clean = faqs.dropna().copy()
+faqs_clean['question'] = faqs_clean['question'].str.strip()
+faqs_clean['answer'] = faqs_clean['answer'].str.strip()
+
+# Helper function to anonymize text fields
+def anonymize_text(text):
+    return str(uuid.uuid4())[:8] if pd.notnull(text) else text
+
+# Anonymize support tickets
+tickets_anon = tickets_clean.copy()
+tickets_anon['customer_name'] = tickets_anon['customer_name'].apply(anonymize_text)
+tickets_anon['email'] = tickets_anon['email'].apply(anonymize_text)
+
+# Remove duplicate tickets (by issue and resolution)
+tickets_anon = tickets_anon.drop_duplicates(subset=['issue', 'resolution'])
+
+# Transform Data into LLM Training Format
+
+# Support tickets to LLM format
+ticket_examples = [
+    {
+        "instruction": "Resolve a customer support ticket.",
+        "input": row['issue'],
+        "output": row['resolution']
+    }
+    for _, row in tickets_anon.iterrows()
+]
+
+# Call transcripts to LLM format
+call_examples = [
+    {
+        "instruction": "Understand the user issue from the call transcript and create resolutions steps.",
+        "input": row['transcript'],
+        "output": row['summary']
+    }
+    for _, row in calls_clean.iterrows()
+]
+
+# User manuals to LLM format
+manual_examples = [
+    {
+        "instruction": f"Explain the following manual section in detail for a user.",
+        "input": row['section'],
+        "output": row['content']
+    }
+    for _, row in manuals_clean.iterrows()
+]
+
+# FAQs to LLM format
+faq_examples = [
+    {
+        "instruction": "How can the user do the following?",
+        "input": row['question'],
+        "output": row['answer']
+    }
+    for _, row in faqs_clean.iterrows()
+]
+```
+
+### Combining and Augmentation
+
+- Plan how to combine multiple data sources (tickets, calls, manuals, FAQs) into a unified LLM training set.
+- Describe any augmentation or synthesis steps (e.g., generating new Q&A pairs from manuals).
+
+Below, we demonstrate how an existing LLM can be leveraged to paraphrase and augment the training data. While this approach can increase data diversity and improve model robustness, it should be applied judiciously to avoid introducing bias or redundancy. In this example, we selectively generate paraphrased examples for customer tickets that contain the keyword "difficult." The rationale is that users may struggle with certain topics, and providing alternative phrasings can help the LLM better understand and respond to similar issues expressed in different ways.
+
+In practice, data augmentation strategies are often more sophisticated, incorporating advanced business logic or human-in-the-loop review to ensure quality and relevance. The following example illustrates a simple, rule-based augmentation technique as a starting point.
+
+```python
+# Combine all examples
+all_examples = ticket_examples + call_examples + manual_examples + faq_examples
+
+# Augmentation: Use an LLM to generate paraphrased FAQ questions
+from openai import OpenAI
+
+client = OpenAI(api_key="YOUR_API_KEY")
+
+def paraphrase_question(question):
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "Paraphrase the following customer support question."},
+            {"role": "user", "content": question}
+        ]
+    )
+    return response.choices[0].message.content.strip()
+
+for _, row in ticket_examples.iterrows():
+    # Dummy smart filter: only paraphrase questions containing "difficult"
+    if "difficult" in row['input'].lower():
+        paraphrased = paraphrase_question(row['input'])
+        all_examples.append({
+            "instruction": "Answer this paraphrased question.",
+            "input": paraphrased,
+            "output": row['output']
+        })
+```
+
+### Storage and Versioning
+
+```python
+# Save as JSONL
+with open('llm_training_data.jsonl', 'w') as f:
+    for ex in all_examples:
+        f.write(json.dumps(ex) + '\n')
+
+# Use DVC just as above example
+`````
+
+### Reflection: Complexity, Scalability, and Productization
+
+Building a robust LLM data pipeline involves many decisions:
+
+- **Data diversity**: Real-world data is messy and comes in many formats. Each source needs custom cleaning and transformation.
+- **Privacy**: Anonymization is essential for compliance and user trust.
+- **Deduplication and quality**: Removing duplicates and irrelevant records is critical for model performance.
+- **Scalability**: For production, pipelines must handle much larger, continuously arriving data. Consider distributed processing, workflow orchestration, and cloud storage.
+- **Versioning**: Tools like DVC ensure reproducibility and traceability, which are vital for regulated industries and collaborative teams.
+- **Augmentation**: Synthesizing new examples (e.g., Q&A from manuals) can boost model performance but must be done thoughtfully to avoid introducing bias or noise.
+
+A scalable, production-grade pipeline will require automation, monitoring, and robust error handling at every step.
+
+
