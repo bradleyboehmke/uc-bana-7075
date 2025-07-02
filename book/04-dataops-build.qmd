@@ -903,11 +903,24 @@ def main():
 if __name__ == '__main__':
     main()
 ````
+::: {.callout-note collapse="true"}
+#### Can you improve the above code?
 
-#### Data Augmentation
-
+#### Advanced Data Augmentation
 Above, we demonstrate how an existing LLM can be leveraged to paraphrase and augment the training data. While this approach can increase data diversity and improve model robustness, it should be applied judiciously to avoid introducing bias or redundancy. In practice, data augmentation strategies are often more sophisticated, incorporating advanced business logic or human-in-the-loop review to ensure quality and relevance. The following example illustrates a simple, rule-based augmentation technique as a starting point.
 
+#### Efficiency Improvements
+Identify edge cases and dependencies in the above workflow that would prevent it from scaling effectively when run on a cluster of machines rather than a single machine. For example, if you need to process 50GB of data, what changes would you make to the code to handle this volume within a reasonable timeframe? What kind of hardware and software would you need?
+
+Note: While official figures are not published, it is estimated that base versions of advanced LLMs such as GPT-3.5 were trained on approximately 200–400GB of text data.
+
+#### Beyond Basic Data Processing
+While the current pipeline focuses on basic data processing and format conversion, it lacks essential quality assurance steps such as automated validation checks, outlier detection, and human evaluation—all of which are critical for ensuring high-quality data as emphasized throughout this book.
+- Based on what we have learnt until now, can you suggest few improvements that address the above concern?
+- How do we ensure that the data we get at the end is of the best quality?
+- How much additional computational and human resources would be required?
+- How will you decide if it is worth spending that additional resourc for higher quality, at this early stage of the project?
+::::
 
 ### Reflection: Complexity, Scalability, and Productization
 
