@@ -664,7 +664,7 @@ A production-grade pipeline should be modular, configurable, and resilient. We w
 First, let's define our data sources and pipeline settings in a configuration file. This practice prevents hardcoding paths and parameters, making the pipeline adaptable to different environments (development, staging, production).
 
 ````yaml
-# filepath: /workspace/book/config/llm_data_pipeline.yaml
+# filepath: /path/to/config/llm_data_pipeline.yaml
 # Configuration for the LLM data preparation pipeline
 
 # Input data sources
@@ -721,7 +721,7 @@ calls = pd.DataFrame([
 
 # user manual
 manuals = pd.DataFrame([
-    {"section": "Resetting your robot's location configs", "content": "To reset your password, go to the settings page and click 'Reset Password'..."},
+    {"section": "Resetting your robot's location configs", "content": "To reset your robot's location settings, go to the settings page and click 'Reset Password'..."},
     {"section": "Hard reset a robot", "content": "Your robot needs to be atleast 50% charged for a hard reset. First start by..."}
 ])
 
@@ -742,14 +742,14 @@ Note: The data for LLM fine-tuning is expecting in this format:
 ]
 ```
 
-This is the format selected for the LLM exercise throughout this book. But you can chose the data format which suits your needs and contraints.
+This is the format selected for the LLM exercise throughout this book. But you can chose the data format which suits your needs and constraints.
 ::::
 
 
 We will now implement the pipeline in Python. Notice how each step (loading, transforming, saving) is a separate function. This modularity makes the code easier to test, debug, and maintain. We will also include logging and error handling to make the pipeline more robust.
 
 ````python
-# filepath: /workspace/book/pipelines/prepare_llm_data.py
+# filepath: /path/to/code/prepare_llm_data.py
 import pandas as pd
 import yaml
 import json
@@ -762,7 +762,7 @@ from openai import OpenAI
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # --- 1. Configuration Loading ---
-def load_config(config_path='config/llm_data_pipeline.yaml'):
+def load_config(config_path='/path/to/config/llm_data_pipeline.yaml'):
     """Loads pipeline configuration from a YAML file."""
     logging.info(f"Loading configuration from {config_path}")
     try:
