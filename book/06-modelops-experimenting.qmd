@@ -492,7 +492,7 @@ We will use the Hugging Face transformers library to finetune a gpt2 LLM model. 
 
 Before we dive into the code, it's important to highlight a few aspects unique to training Large Language Models that differ significantly from traditional machine learning models
 
-- Model Choice (gpt2): We are using gpt2 for this exercise because it is a foundational and well understood. At 117 million parameters, it is small enough to be fine-tuned on consumer hardware. The principles learnt while fine-tuning gpt2 are directly applicable to much larger models.
+- Model Choice (gpt2): We are using gpt2 for this exercise because it is a foundational and well understood. At 124 million parameters, it is small enough to be fine-tuned on consumer hardware. The principles learnt while fine-tuning gpt2 are directly applicable to much larger models.
 
 - Hardware Acceleration (GPU/MPS): Training LLMs is incredibly computationally expensive due to the billions of calculations required for each training step. While traditional models like linear regression or random forests can often be trained on a CPU, LLMs require specialized hardware for practical training times.
   - NVIDIA's CUDA platform are the industry standard for this, as they are designed for the massive parallel matrix operations at the core of transformer models.
@@ -612,13 +612,23 @@ if __name__ == "__main__":
     main()
 ```
 
+
+::: {.callout-note collapse="true"}
+Create dummy data.
+
+Generate a sample dataset containing between 50 and 100 examples, and save it in the llm_training_data.jsonl file, which will be used for model fine-tuning. Ensure the dataset includes a wide range of languages, vocabulary, topics, and perspectives to maximize diversity and representativeness.
+
+AI tools can be highly effective for generating dummy data. Large language models can quickly produce diverse and realistic examples across multiple languages and topics. By carefully crafting prompts and reviewing outputs, you can ensure both quality and variety in your dataset.
+:::
+
+
 To run the experiment, execute the script from your terminal:
 
 ```bash
 python path/to/track_finetuning.py
 ```
 
-### 3. Compare Experiments in MLflow
+### Compare Experiments in MLflow
 
 Once the script finishes, launch the MLflow UI to inspect the run:
 
@@ -642,7 +652,13 @@ Now, run a second experiment to see the power of comparison. **Edit `track_finet
 
 Run the script again. Refresh the MLflow UI, and you will see a second run. You can now select both runs and click "Compare" to see a side-by-side view of their parameters and performance, making it easy to determine which configuration performed better.
 
-### 4. Reflection on Design Principles
+::: {.callout-note collapse="true"}
+Try to refine the model further
+
+With your initial fine-tuning run, the model’s performance may be suboptimal. Its responses might be incomplete, ill-formed, repetitive, or contain grammatical and typographical errors. Experiment with different hyperparameters and iterate to enhance the model. Develop an intuition for what works best with your model and dataset.
+:::
+
+### Reflection on Design Principles
 
 Reflect on how this exercise connects to the principles of ModelOps and experiment tracking:
 
