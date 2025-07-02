@@ -660,8 +660,6 @@ With your initial fine-tuning run, the model’s performance may be suboptimal. 
 
 ### Reflection on Design Principles
 
-Reflect on how this exercise connects to the principles of ModelOps and experiment tracking:
-
 Reflect on how this exercise connects to the principles of ModelOps and experiment tracking, with a focus on LLM-specific challenges:
 
 1. Computational Complexity and Scalability: Fine-tuning `gpt2` is computationally intenfive. Consider fine-tuning a model like Llama-3 8B (8 billion parameters) on a gigabyte-scale data. What bottlenecks (e.g., memory, bandwidth, GPU) you would expect? How would experiment tracking help in managing and optimizing resource usage across multiple, long-running training jobs?
