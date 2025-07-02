@@ -273,7 +273,7 @@ When fine-tuning an LLM for our customer support assistant, several critical dec
 #### Base Model Selection
 - **Decision Point**: Which foundation model should we use as our starting point?
 - **Considerations**: We must balance performance, cost, and deployment constraints. Smaller models (7B parameters) offer faster inference and lower deployment costs but may provide less nuanced responses than larger models (70B+ parameters).
-- **Trade-offs**: Consider whether to use open-source models like Llama 2, Mistral, or proprietary models like GPT-4. Open-source models provide more deployment flexibility but may require more fine-tuning to match the performance of proprietary alternatives.
+- **Trade-offs**: Consider whether to use open-source models like Llama, Mistral, or proprietary models like GPT-4. Open-source models provide more deployment flexibility but may require more fine-tuning to match the performance of proprietary alternatives.
 
 #### Fine-tuning Approach
 - **Decision Point**: What fine-tuning methodology is most appropriate?
@@ -306,8 +306,7 @@ Deploying our AI-powered customer support assistant requires careful planning:
 
 #### Deployment Options
 - **Cloud-based**: Services like AWS SageMaker, Azure ML, or Vertex AI offer managed infrastructure with autoscaling.
-- **Self-hosted**: Frameworks like Triton, TorchServe, or vLLM enable custom deployments with more control. For personal projects or local testing, tools like ollama or python notebooks could be used as well.
-- **Example**: For our customer support assistant, a solution like vLLM with continuous batching might optimize throughput while maintaining low latency.
+- **Self-hosted**: Frameworks like Triton, TorchServe, or vLLM enable custom deployments with more control. For personal projects with small models (example: TinyLlama), tools like Ollama or python notebooks could be used as well.
 
 #### Deployment Pattern
 - **Shadow Deployment**: Run the new model alongside the current production model to compare performance without affecting users.
@@ -369,7 +368,7 @@ Several unique challenges emerge when applying ModelOps to large language models
 
 By addressing these ModelOps considerations systematically, we can create a robust lifecycle for our customer support assistant that ensures consistent performance while enabling continuous improvement as business needs evolve.
 
-### Software Engineering Considerations for Scale
+### Engineering Considerations for Scale
 
 ::: {.callout-note collapse="true"}
 ## Use of AI tools
