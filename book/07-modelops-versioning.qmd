@@ -532,3 +532,73 @@ In this exercise, you'll extend your work from the previous chapter's exercise (
 3. **Scalability and Collaboration**:
    - Imagine how this model versioning process could be extended for a team working collaboratively on multiple models. What practices would you recommend for effective collaboration?
 :::
+
+
+## LLM Exercise
+
+In this exercise, we'll explore how model versioning and reproducibility apply to our AI-powered customer support assistant. Unlike traditional ML models, LLMs present unique challenges and considerations for versioning and reproducibility due to their size, training methodology, and stochastic nature.
+
+### Versioning Strategy
+
+#### Semantic Versioning for LLM
+
+How would you adapt semantic versioning (MAJOR.MINOR.PATCH) for LLMs?
+
+- MAJOR: Big changes like switching to a newer base model architecture or significant capability upgrades
+- MINOR: Adding new features, topic domains, or notable performance improvements
+- PATCH: Small fixes, prompt tweaks, or adding a few more training examples
+
+#### Naming Conventions
+
+What naming patterns would make it easy for everyone on your team to understand what they're working with?
+
+- Example: `customer-support-llama3-8b-full-v1.2.0` vs. `customer-support-llama3-8b-lora-v1.2.0`
+- What information should always be in your model names? Base model? Size? Fine-tuning approach?
+- How could you distinguish between models trained for different product lines or customer segments?
+
+#### Other LLM Version Attributes
+
+Beyond standard model versioning attributes, what LLM-specific metadata should be tracked?
+
+- Base model identity and version
+- Quantization details (4-bit, 8-bit, etc.)
+- Fine-tuning approach (full, LoRA, QLoRA, etc.)
+- Prompt templates and few-shot examples
+- Context window size
+- Temperature settings used during evaluation
+- Safety filtering mechanisms
+- Inference optimization techniques
+
+```Python
+Ex here
+```
+
+### Reproducibility
+
+Reproducibility with LLMs presents unique challenges compared to deterministic ML models due to their inherently stochastic nature. Let's explore these challenges through a practical example.
+
+#### Case Study: Object Recognition Problem
+
+Consider this complex user question: `My robot sometimes identifies my flowerpot as my coffee mug because they are the same color and size, what do I do?`
+
+This is multi-layered and complicated question. To answer well, the AI-powered customer support assistant needs to:
+
+- Understand the object confusion problem
+- Identify potential causes (similar visual features)
+- Use it's knowledge (fine-tuning) to find the correct solution for the user
+- Suggest step by step solution
+
+:::{.callout-note}
+Did we miss something from the above steps, which needs to be included to give a complete, robust and useful answer to the user? 
+
+How about user/product metadata? Version of hardware/software user might be using?
+:::
+
+Two versions of our fine-tuned LLMs might produce notably different answers for the above user question. How can we systematically compare and evaluate them? Some strategies could be:
+
+- Human evaluation: Systematic assessment using human raters with rubrics for coherence, accuracy, and helpfulness
+- Automated evals: Benchmark suites like HELM or custom test sets measuring performance on specific tasks
+- Using LLMs as evaluators: Leveraging more powerful LLMs to evaluate responses from fine-tuned models
+- User metrics: Tracking engagement, resolution rates, and satisfaction scores in production
+
+
