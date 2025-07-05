@@ -518,21 +518,6 @@ In this exercise, you'll extend your work from the previous chapter's exercise (
    - Reflect on the importance of this feature for reproducibility and traceability.
 :::
 
-::: {.callout-note collapse="true"}
-## Part 3: Reflection on Design Principles
-
-1. **Versioning and Reproducibility**:
-   - How does the MLflow Model Registry help ensure reproducibility and maintain a clear lineage between model versions and their training runs?
-   - How could this setup scale to support a team working on the same project?
-
-2. **Metadata and Management**:
-   - Reflect on how metadata (tags and aliases) simplifies managing multiple model versions in a production workflow.
-   - Think about potential pitfalls if metadata or aliases are inconsistently applied or not updated.
-
-3. **Scalability and Collaboration**:
-   - Imagine how this model versioning process could be extended for a team working collaboratively on multiple models. What practices would you recommend for effective collaboration?
-:::
-
 
 ## LLM Exercise
 
@@ -569,30 +554,36 @@ Beyond standard model versioning attributes, what LLM-specific metadata should b
 - Safety filtering mechanisms
 - Inference optimization techniques
 
-```Python
-Ex here
-```
-
 ### Reproducibility
 
 Reproducibility with LLMs presents unique challenges compared to deterministic ML models due to their inherently stochastic nature. Let's explore these challenges through a practical example.
 
-#### Case Study: Object Recognition Problem
+#### Case Study: Robot Object Recognition Problem
 
 Consider this complex user question: `My robot sometimes identifies my flowerpot as my coffee mug because they are the same color and size, what do I do?`
 
 This is multi-layered and complicated question. To answer well, the AI-powered customer support assistant needs to:
 
-- Understand the object confusion problem
+- Understand that this is inherently an object recognition issue which the user is facing
 - Identify potential causes (similar visual features)
 - Use it's knowledge (fine-tuning) to find the correct solution for the user
 - Suggest step by step solution
 
 :::{.callout-note}
-Did we miss something from the above steps, which needs to be included to give a complete, robust and useful answer to the user? 
+Did we miss something from the above steps, which needs to be included to give a complete, robust, and useful answer to the user? 
 
 How about user/product metadata? Version of hardware/software user might be using?
 :::
+
+Now think about users from different background, technical expertise, language barriers etc. Users could ask the same question in many different forms:
+
+- My robot's object recognition system is exhibiting misclassification errors between two distinct objects: a flowerpot and a coffee mug. The primary confounding variables appear to be identical color profiles and similar dimensions. What calibration or retraining protocols can be implemented to resolve this ambiguity?
+- Ugh, my robot's tripping. It keeps mistaking my succulent's pot for my coffee mug. How do I fix this glitch?
+- My robot. It see flowerpot, think coffee mug. Big problem.
+- It keeps bringing me a plant when I want a drink. Help!
+- It's so frustrating! Every other day, my robot tries to water my coffee mug.
+
+As you can see from these examples, user queries can range from highly technical and precise to extremely casual and vague. This variety presents a significant challenge for LLMs, which must understand the core problem regardless of how it's expressed. With the above knowledge, how would you define `reproducibility` when it comes to LLMs?
 
 Two versions of our fine-tuned LLMs might produce notably different answers for the above user question. How can we systematically compare and evaluate them? Some strategies could be:
 
@@ -602,3 +593,17 @@ Two versions of our fine-tuned LLMs might produce notably different answers for 
 - User metrics: Tracking engagement, resolution rates, and satisfaction scores in production
 
 
+::: {.callout-note collapse="true"}
+## Reflection on Design Principles
+
+1. **Versioning and Reproducibility**:
+   - How does the MLflow Model Registry help ensure reproducibility and maintain a clear lineage between model versions and their training runs?
+   - How could this setup scale to support a team working on the same project?
+
+2. **Metadata and Management**:
+   - Reflect on how metadata (tags and aliases) simplifies managing multiple model versions in a production workflow.
+   - Think about potential pitfalls if metadata or aliases are inconsistently applied or not updated.
+
+3. **Scalability and Collaboration**:
+   - Imagine how this model versioning process could be extended for a team working collaboratively on multiple models. What practices would you recommend for effective collaboration?
+:::
