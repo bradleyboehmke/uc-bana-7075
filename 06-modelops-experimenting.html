@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.14">
+<meta name="generator" content="quarto-1.8.15">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -58,7 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -74,10 +74,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-8f1af79587c2686b78fe4e1fbadd71ab.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-cc68601a05ab6ae055d8fbc512858b1e.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c74ea9a2c9f09e0c5559125fb7906678.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-017d721e856ad8e8c6da81376ef67acf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -105,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
@@ -134,7 +134,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Machine Learning Design for Business</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -787,7 +789,7 @@ xgboost==2.1.3</code></pre>
 <p>Next, let’s load our required libraries. You’ll notice that we load a function from an <a href="https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/apple_data.py"><code>apple_data</code> module</a>; this is a local module I created to help create data for this example.</p>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-experimentation.ipynb" data-notebook-title="Example Model Experimentation Tracking" data-notebook-cellid="20cc39b3">
 <div id="20cc39b3" class="cell" data-tags="[&quot;requirements&quot;]" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -797,7 +799,7 @@ xgboost==2.1.3</code></pre>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split, GridSearchCV</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> apple_data <span class="im">import</span> generate_apple_sales_data_with_promo_adjustment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> apple_data <span class="im">import</span> generate_apple_sales_data_with_promo_adjustment</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -806,8 +808,8 @@ xgboost==2.1.3</code></pre>
 <p>The first step is to create a new experiment. Since we are forecasting the demand of apples we’ll make it obvious in our project name.</p>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-experimentation.ipynb" data-notebook-title="Example Model Experimentation Tracking" data-notebook-cellid="c446632e">
 <div id="c446632e" class="cell" data-tags="[&quot;set-experiment&quot;]" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set experiment name</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mlflow.set_experiment(<span class="st">"Forecasting Apple Demand"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set experiment name</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mlflow.set_experiment(<span class="st">"Forecasting Apple Demand"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>&lt;Experiment: artifact_location='file:///Users/b294776/Desktop/workspace/training/UC/uc-bana-7075/ModelOps/mlruns/151640156787012125', creation_time=1738854716745, experiment_id='151640156787012125', last_update_time=1738854716745, lifecycle_stage='active', name='Forecasting Apple Demand', tags={}&gt;</code></pre>
 </div>
@@ -830,14 +832,14 @@ Figure&nbsp;6.2: Directory layout after creating a new MLflow experiment. The <c
 </figure>
 </div>
 <p>MLflow comes with a user-friendly interface that allows you to visualize and manage your experiments. By running the command <code>mlflow ui</code> in your terminal, MLflow will start a local server and provide a URL (typically <code>http://localhost:5000</code> or something similiar). The following is the output I get when I run <code>mlflow ui</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlflow</span> ui</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mlflow</span> ui</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">[2025-01-21</span> 11:44:21 <span class="at">-0500]</span> <span class="pp">[</span><span class="ss">62996</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">INFO</span><span class="pp">]</span> Starting gunicorn 22.0.0</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">[2025-01-21</span> 11:44:21 <span class="at">-0500]</span> <span class="pp">[</span><span class="ss">62996</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">INFO</span><span class="pp">]</span> Listening at: http://127.0.0.1:5000 <span class="er">(</span><span class="ex">62996</span><span class="kw">)</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">[2025-01-21</span> 11:44:21 <span class="at">-0500]</span> <span class="pp">[</span><span class="ss">62996</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">INFO</span><span class="pp">]</span> Using worker: sync</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">[2025-01-21</span> 11:44:21 <span class="at">-0500]</span> <span class="pp">[</span><span class="ss">62997</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">INFO</span><span class="pp">]</span> Booting worker with pid: 62997</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">[2025-01-21</span> 11:44:21 <span class="at">-0500]</span> <span class="pp">[</span><span class="ss">62998</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">INFO</span><span class="pp">]</span> Booting worker with pid: 62998</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ex">[2025-01-21</span> 11:44:21 <span class="at">-0500]</span> <span class="pp">[</span><span class="ss">62999</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">INFO</span><span class="pp">]</span> Booting worker with pid: 62999</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">[2025-01-21</span> 11:44:21 <span class="at">-0500]</span> <span class="pp">[</span><span class="ss">63001</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">INFO</span><span class="pp">]</span> Booting worker with pid: 63001</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">[2025-01-21</span> 11:44:21 <span class="at">-0500]</span> <span class="pp">[</span><span class="ss">63001</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">INFO</span><span class="pp">]</span> Booting worker with pid: 63001</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>I can then click on the http://127.0.0.1:5000 URL listed in the output and this will open the MLflow UI in your web browser, where you can view detailed information about your experiments, including parameters, metrics, and artifacts. This interface makes it easy to compare different runs and track the progress of your machine learning projects.</p>
 <div class="callout callout-style-simple callout-tip">
 <div class="callout-body d-flex">
@@ -870,9 +872,9 @@ Figure&nbsp;6.3: MLflow UI when no experiments have been run yet. This interface
 <p>The data that we will use for our ML modeling will be synthetic apple data created by the code in the <a href="https://github.com/bradleyboehmke/uc-bana-7075/blob/main/ModelOps/apple_data.py"><code>apple_data.py</code> module</a>. This module generates a dataset that simulates apple demand, including features such as date, weather conditions, and promotional activities. By using synthetic data, we can control the complexity and characteristics of the dataset, ensuring it is suitable for demonstrating the experiment tracking workflow without relying on proprietary or sensitive real-world data.</p>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-experimentation.ipynb" data-notebook-title="Example Model Experimentation Tracking" data-notebook-cellid="2924d135">
 <div id="2924d135" class="cell" data-tags="[&quot;synthetic-data&quot;]" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> generate_apple_sales_data_with_promo_adjustment(base_demand<span class="op">=</span><span class="dv">1_000</span>, n_rows<span class="op">=</span><span class="dv">1_000</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> generate_apple_sales_data_with_promo_adjustment(base_demand<span class="op">=</span><span class="dv">1_000</span>, n_rows<span class="op">=</span><span class="dv">1_000</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>data.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
@@ -963,12 +965,12 @@ Figure&nbsp;6.3: MLflow UI when no experiments have been run yet. This interface
 <p>Next, we will create out training and validation data splits:</p>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-experimentation.ipynb" data-notebook-title="Example Model Experimentation Tracking" data-notebook-cellid="33c5bd0b">
 <div id="33c5bd0b" class="cell" data-tags="[&quot;training-data&quot;]" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into features and target and drop irrelevant date field and target field</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into features and target and drop irrelevant date field and target field</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> data.drop(columns<span class="op">=</span>[<span class="st">"date"</span>, <span class="st">"demand"</span>])</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> data[<span class="st">"demand"</span>]</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into training and validation sets</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>X_train, X_val, y_train, y_val <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>X_train, X_val, y_train, y_val <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -983,18 +985,18 @@ Figure&nbsp;6.3: MLflow UI when no experiments have been run yet. This interface
 </ol>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-experimentation.ipynb" data-notebook-title="Example Model Experimentation Tracking" data-notebook-cellid="3fb3b9a4">
 <div id="3fb3b9a4" class="cell" data-tags="[&quot;regularization-data-prep&quot;]" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scale the data</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scale the data</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>X_train_scaled <span class="op">=</span> scaler.fit_transform(X_train)</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>X_val_scaled <span class="op">=</span> scaler.transform(X_val)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify any feature transformations</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>feature_params <span class="op">=</span> {<span class="st">"preprocessing"</span>: <span class="st">"StandardScaler"</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>feature_params <span class="op">=</span> {<span class="st">"preprocessing"</span>: <span class="st">"StandardScaler"</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-experimentation.ipynb" data-notebook-title="Example Model Experimentation Tracking" data-notebook-cellid="61ea335a">
 <div id="61ea335a" class="cell" data-tags="[&quot;regularization-fit&quot;]" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model_params <span class="op">=</span> {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model_params <span class="op">=</span> {</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"alpha"</span>: <span class="fl">0.5</span>,</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1002,7 +1004,7 @@ Figure&nbsp;6.3: MLflow UI when no experiments have been run yet. This interface
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>reg <span class="op">=</span> linear_model.Ridge(<span class="op">**</span>model_params)</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model on the training data</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>reg.fit(X_train_scaled, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>reg.fit(X_train_scaled, y_train)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="24">
 <style>#sk-container-id-3 {
   /* Definition of color scheme common for light and dark mode */
@@ -1414,7 +1416,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-experimentation.ipynb" data-notebook-title="Example Model Experimentation Tracking" data-notebook-cellid="6b61a5f6">
 <div id="6b61a5f6" class="cell" data-tags="[&quot;regularization-eval&quot;]" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict on the validation set</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict on the validation set</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> reg.predict(X_val_scaled)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate error metrics</span></span>
@@ -1425,7 +1427,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Assemble the metrics we're going to write into a collection</span></span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>metrics <span class="op">=</span> {<span class="st">"mae"</span>: mae, <span class="st">"mse"</span>: mse, <span class="st">"rmse"</span>: rmse, <span class="st">"r2"</span>: r2}</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>metrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>metrics</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
 <pre><code>{'mae': 46.910768254716096,
  'mse': 3609.8606141821574,
@@ -1437,7 +1439,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <p>This next code chunk will log all the items we want to track into an experiment run titled “Regularized Regression”. In this example we are logging the training data, feature engineering steps applied, the hyperparameters applied to this model (i.e.&nbsp;<code>alpha</code>), the model results, and the actual model itself. Also, MLflow automatically tracks aspects of the environment, such as library versions and Python dependencies, and will log this information as well.</p>
 <div class="quarto-embed-nb-cell" data-notebook="/home/runner/work/uc-bana-7075/uc-bana-7075/ModelOps/model-experimentation.ipynb" data-notebook-title="Example Model Experimentation Tracking" data-notebook-cellid="8e207916">
 <div id="8e207916" class="cell" data-tags="[&quot;regularization-log&quot;]" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>run_name <span class="op">=</span> <span class="st">"Regularized Regression"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>run_name <span class="op">=</span> <span class="st">"Regularized Regression"</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>artifact_path <span class="op">=</span> <span class="st">"artifacts"</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Initiate the MLflow run context</span></span>
@@ -1457,7 +1459,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    mlflow.log_metrics(metrics)</span>
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Log an instance of the trained model for later use</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    mlflow.sklearn.log_model(sk_model<span class="op">=</span>reg, input_example<span class="op">=</span>X_val_scaled, artifact_path<span class="op">=</span>artifact_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    mlflow.sklearn.log_model(sk_model<span class="op">=</span>reg, input_example<span class="op">=</span>X_val_scaled, artifact_path<span class="op">=</span>artifact_path)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>Now, if we look at the MLFlow UI, we’ll see our experiment run:</p>
@@ -1709,29 +1711,29 @@ Figure&nbsp;6.6: Comparing the model evaluation metrics for the various experime
 <li><strong>Set Up Your Environment</strong>:
 <ul>
 <li><p>Install necessary libraries:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install mlflow scikit-learn pandas matplotlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install mlflow scikit-learn pandas matplotlib</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Import required modules:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow.sklearn</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_california_housing</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor</span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeRegressor</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error, mean_absolute_error, r2_score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error, mean_absolute_error, r2_score</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ul></li>
 <li><strong>Create an MLflow Experiment</strong>:
 <ul>
 <li><p>Initialize and name your MLflow experiment:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mlflow.set_experiment(<span class="st">"&lt;Experiment name&gt;"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mlflow.set_experiment(<span class="st">"&lt;Experiment name&gt;"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ul></li>
 <li><strong>Prepare the Dataset</strong>:
 <ul>
 <li><p>Load and split the data:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> fetch_california_housing(as_frame<span class="op">=</span><span class="va">True</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> fetch_california_housing(as_frame<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> data.data</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> data.target</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 </ul></li>
 <li><strong>Train and Log Models</strong>:
 <ul>
