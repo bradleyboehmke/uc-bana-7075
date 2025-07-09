@@ -1142,7 +1142,7 @@ ollama run llama3:8b
 ollama run mixtral:8x22b
 ```
 
-Can your local computer serve all of these models? As you interact with each one, what kind of TTFT and throughput do you notice? Given what you know about your computer's hardware, can you imagine what kind of hardware would be needed to serve the fine-tuned LLM in production? What if you needed to serve multiple instances of that model in parallel to support thousands of customers?
+Can your local computer serve all of these models? As you interact with each one, what kind of TTFT and throughput do you notice? Given what you know about your computer's hardware, can you discuss what kind of hardware would be needed to serve the fine-tuned LLM in production? What if you needed to serve multiple instances of that model in parallel to support thousands of customers?
 
 Hypothetically, if you could run N number of machines like your personal computer in parallel, how many machines do you think would be required to support the AI-powered customer support assistant? This exercise should give you a tangible sense of the scaling challenges involved in LLM deployment.
 
