@@ -1147,6 +1147,20 @@ Can your local computer serve all of these models? As you interact with each one
 Hypothetically, if you could run N number of machines like your personal computer in parallel, how many machines do you think would be required to support the AI-powered customer support assistant? This exercise should give you a tangible sense of the scaling challenges involved in LLM deployment.
 
 
+### Beyond Model Deployment: Building Complete Solutions
+
+While this chapter focuses extensively on model deployment: the process of making a trained model available for inference in production, it is crucial to understand that model deployment is just one component of solution deployment. The model itself is rarely the complete solution, rather it is a critical piece within a broader system that addresses business requirements.
+
+Model deployment refers to making the model accessible within the production environment. The model deployment ensures that the model can reliably generate predictions when called upon. Solution deployment on the other hand, encompasses the entire end-to-end system that delivers business value.
+
+So, for the AI-powered customer support assistant, model deployment involves serving the fine-tuned language model. But the complete solution includes user authentication, conversation history management, integration with knowledge bases, rephrasing/standardization of user queries, escalation pathways to human agents, and compliance with data privacy regulations.
+
+The key takeaway is that your model deployment strategy must align with the broader solution architecture. Choice of serving architecture, libraries, and API design are all influenced by how the model fits into the complete business workflow. This reinforces the importance of understanding the business problem thoroughly (as emphasized in earlier chapters) and considering the full ML system design principles.
+
+Additionally, as AI tools for tech workers improve, understanding new concepts and learning becomes easier, and the boundaries between tech job titles like data science and software engineering blur. Successful ML practitioners must think beyond model performance metrics to consider how their models integrate into solutions that create meaningful business impact. For example, an LLM which can answer most user queries with super high accuracy is meaningless if it takes 30 seconds to generate the first tokens.
+
+The most impactful ML practitioners understand that deploying models effectively requires collaboration across teams, consideration of user experience, and alignment with business operations—skills that extend far beyond traditional data science boundaries.
+
 ::: {.callout-note collapse="true"}
 ## Reflection on Deployment Considerations
 
