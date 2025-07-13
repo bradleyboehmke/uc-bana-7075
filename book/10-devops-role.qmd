@@ -327,3 +327,40 @@ Read the paper [Hidden Technical Debt in Machine Learning Systems](https://proce
 2. What aspects of DevOps help mitigate system entropy and hidden dependencies as described in thepaper?
 3. How can DevOps practices address reproducibility challenges and data dependencies in ML workflows?
 4. What role does continuous monitoring play in managing feedback loops and ensuring system stability?
+
+
+## LLM Exercise
+
+Let's continue working on the AI-powered customer support assistant, and discuss why dev ops becomes even more important when we are dealing with LLMs.
+
+LLMs differ significantly from traditional ML models due to their massive scale and resource requirements. LLMs contain billions of parameters and require vast amounts of unstructured text data for training and fine-tuning. Training datasets for LLMs often span billions of data points, requiring distributed computing infrastructure and substantial computational resources.
+
+This scale creates unique challenges: fine-tuning a 70B parameter model can require multiple high-end GPUs and days of training time, making experimentation expensive, and a single failed training run could cost thousands of dollars.
+
+When working with LLMs, data scientists must leverage software engineering concepts like containerization, distributed computing, and infrastructure-as-code to build efficient training, validation, serving, monitoring, and re-training pipelines. These concepts become essential rather than optional.
+
+- Container Orchestration: LLM serving requires sophisticated container management (Kubernetes) to handle multi-GPU deployments and auto-scaling.
+
+- Distributed Systems: LLMs need distributed training across multiple nodes and sophisticated checkpointing systems to handle training failures.
+
+- Resource Management: Dynamic GPU allocation, memory optimization, and cost monitoring become critical due to the expensive compute requirements of LLMs.
+
+- API Gateway Patterns: LLM inference requires rate limiting, request queuing, and load balancing to manage expensive inference costs, while traditional models have simpler serving patterns.
+
+:::{.callout-note}
+While we use LLMs as a primary example throughout this discussion, it's important to note that many other modern ML models share similar resource-intensive characteristics and operational complexities. Examples include vision models, recommender systems, reinforcement learning models etc.
+
+LLMs serve as an excellent example because they represent many of the challenges present in modern resource-intensive ML systems, but the DevOps principles and practices discussed apply broadly to any computationally demanding ML workload.
+:::
+
+### Applying DevOps to Our Customer Support Assistant
+
+Building on our previous chapters where we designed data pipelines and model training workflows, we now need DevOps practices to operationalize our customer support assistant:
+
+CI/CD for LLMs: Implement automated pipelines that can handle large model artifacts (multi-GB files), run distributed training jobs, and safely deploy model updates without service interruption.
+
+Infrastructure Automation: Use Infrastructure as Code to provision GPU clusters, configure auto-scaling policies, and manage the complex networking requirements for multi-node LLM deployments.
+
+Cost Optimization: Implement monitoring for GPU utilization, inference costs per request, and automated shutdown policies for idle resources—critical for LLMs due to their high operational costs.
+
+These DevOps practices ensure our customer support assistant can be reliably deployed, efficiently scaled, and continuously improved while managing the unique operational challenges that LLMs introduce.
