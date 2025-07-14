@@ -799,3 +799,41 @@ You just joined a data science team at a company, and they use Git and GitHub fo
 - What are the benefits of using GitHub for collaboration?
 - How does CI/CD improve software and model deployment?
 :::
+
+## LLM Exercise
+
+Throughout this book, we have been developing an AI-powered customer support assistant for a robotics company. Now it's time to bring all these components together to create a professional, collaborative, and automated workflow that demonstrates modern MLOps practices.
+
+### Set Up Customer Support Assistant Repository
+
+Create a GitHub repository that showcases your end-to-end ML system. This project will serve as a portfolio piece demonstrating your ability to build production-ready ML systems.
+
+Organize your repository to reflect the MLOps lifecycle. Do add a comprehensive `README.md` file. Your README should tell the complete story of your project. This includes the problem statement, solution overview, architecture (including the decision trade offs), code structure, deployment methods, future improvement ideas etc.
+
+Demonstrate advanced collaboration patterns. Think how could you make it easy for others to understand and contribute to this repository. Examples:
+
+Create templates for different types of issues:
+
+- Bug reports for model performance issues
+- Feature requests for new capabilities
+- Data quality issues
+
+Include checklists for:
+
+- Model performance validation
+- Data quality checks
+- Documentation updates
+- Test coverage
+
+### Final Deliverable
+
+A comprehensive, production-ready repository that demonstrates:
+
+- End-to-end MLOps pipeline, From data ingestion to monitoring
+- Professional Git/GitHub workflow with branching, PRs, and automation
+- Collaborative development practices suitable for team environments
+- Production deployment strategies with proper monitoring and logging
+- Clear documentation that enables others to understand and contribute
+
+Remember, the goal is not just to have working code, but to demonstrate that you can deliver a reproducible, collaborative, and scalable solution to a complicated business problem. This project bridges the gap between academic ML knowledge and industry-ready MLOps skills.
+
