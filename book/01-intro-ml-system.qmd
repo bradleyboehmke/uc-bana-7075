@@ -299,3 +299,5 @@ Can you think through this possible solution and come up with a detailed solutio
 Prepare a detailed solution plan addressing the questions above. Your plan should outline the proposed architecture, justify your model and design choices, and discuss how you would validate and iterate on the solution.
 
 Once you have the deliverable, do you feel confident going baclk to the stakeholders and present your proposal?
+
+Consider creating a `README.md` file that we will use in later chapters to develop and document a portfolio project. This will enhance your professional profile, demonstrate your ability to build production-grade ML pipelines, and showcase your skills to the world.
