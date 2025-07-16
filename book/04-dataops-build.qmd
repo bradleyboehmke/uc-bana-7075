@@ -721,7 +721,7 @@ calls = pd.DataFrame([
 
 # user manual
 manuals = pd.DataFrame([
-    {"section": "Resetting your robot's location configs", "content": "To reset your robot's location settings, go to the settings page and click 'Reset Password'..."},
+    {"section": "Resetting your robot's location configs", "content": "To reset your robot's location settings, go to the settings page on the app or website, open 'settings', then 'location config' ..."},
     {"section": "Hard reset a robot", "content": "Your robot needs to be atleast 50% charged for a hard reset. First start by..."}
 ])
 
@@ -732,6 +732,7 @@ faqs = pd.DataFrame([
 ])
 ```
 
+Generate a synthetic dataset of 100–150 example data points using the templates above. For this exercise, these examples will serve as our training data. In a real-world scenario, your dataset should be more comprehensive, and of higher quality to ensure robust model performance.
 
 ::: {.callout-note collapse="true"}
 Note: The data for LLM fine-tuning is expecting in this format:
@@ -745,8 +746,7 @@ Note: The data for LLM fine-tuning is expecting in this format:
 This is the format selected for the LLM exercise throughout this book. But you can chose the data format which suits your needs and constraints.
 ::::
 
-
-We will now implement the pipeline in Python. Notice how each step (loading, transforming, saving) is a separate function. This modularity makes the code easier to test, debug, and maintain. We will also include logging and error handling to make the pipeline more robust.
+We will now implement the processsing pipeline in Python. Notice how each step (loading, transforming, saving) is a separate function. This modularity makes the code easier to test, debug, and maintain. We will also include logging and error handling to make the pipeline more robust.
 
 ````python
 # filepath: /path/to/code/prepare_llm_data.py
