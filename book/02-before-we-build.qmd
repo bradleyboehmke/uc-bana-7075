@@ -480,6 +480,8 @@ A robotics company is struggling to scale its customer support team as its user 
 - Is an ML-based solution the right approach for this problem? What factors would you consider (e.g., complexity of support queries, data availability, need for scalability)?
 - Can you think of a non-ML alternative (such as a rule-based chatbot or improved documentation)? What are the trade-offs compared to an ML solution?
 
+Consider conducting a preliminary evaluation using existing LLM-based tools and pre-trained/off-the-shelf models to assess whether an LLM approach is fundamentally suitable for this use case. The key question to investigate is: "Can an LLM effectively process and extract relevant information from large volumes of text content to accurately respond to user queries?" This evaluation will help determine the technical feasibility before committing to full development.
+
 #### Defining Performance Metrics
 - Propose three categories of performance metrics for the AI-powered assistant: one technical (e.g., intent classification accuracy), one system (e.g., average response time), and one business metric (e.g., reduction in support ticket volume, customer satisfaction).
 - Why are these metrics important for evaluating the system’s success?
@@ -502,7 +504,9 @@ A robotics company is struggling to scale its customer support team as its user 
 - What are the risks if the assistant provides incorrect answers, and what safeguards should be in place?
 - How will you balance building a minimum viable product (MVP) versus planning for a long-term solution?
 - What can you learn from how other companies have addressed similar challenges?
+- Who will use the ML/LLM solution? Users will use it directly? Or the customer support agents will use it to find answers quickly?
+- Do we need some kind of query rewrite solution?
 
-Reflect on these questions and document your answers as thoroughly as possible, using the information provided and your own reasoning. This exercise will help you practice the critical planning and evaluation skills needed to build effective, scalable ML solutions.
+Reflect on these questions and document your answers as thoroughly as you continue to build the `README.md` file. This exercise will help you practice the critical planning and evaluation skills needed to build effective, scalable ML solutions.
 
 

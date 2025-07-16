@@ -1059,35 +1059,32 @@ Reflect on a hypothetical scenario where your ML pipeline for a financial instit
 Let’s continue with the AI-powered customer support assistant scenario. Assume that, to meet business needs, you will need to fine-tune a base large language model (LLM) using company-specific data. Drawing on the DataOps principles from this chapter, consider the following questions to refine your approach.
 
 ### Data Source and Processing
-- What have you learned from initial data exploration that will inform your fine-tuning strategy?
+- What have you learned from initial data exploration that will inform your data strategy?
 - What types of data (e.g., chat logs, support tickets, user manuals, FAQs) are most relevant for fine-tuning the LLM?
-- Do you have sufficient data volume and diversity to support robust fine-tuning? If not, how might you address gaps?
+- Do you have sufficient data volume and diversity to support robust fine-tuning? If data is limited, what strategies could you use to augment or generate additional training examples?
 - Is the data available in a consistent and usable format, or will additional cleaning and preprocessing be required?
-- How will you assess and ensure data quality (e.g., accuracy, completeness, consistency)?
 - Are there language considerations (e.g., multilingual support, need for translation)? At what stage in the pipeline should translation or language normalization occur?
-- If data is limited, what strategies could you use to augment or generate additional training examples?
 
 ### Data Versioning and Lineage
 - How will you track versions of your training data, including updates to user manuals, FAQs, and support logs?
 - What tools or processes will you use to document data lineage, ensuring you can trace the origin and transformation of all data used for fine-tuning?
-- How will you handle updates to the underlying product (e.g., new robot versions) that may render some data obsolete or require new data to be incorporated?
-- What is your plan for removing outdated or irrelevant information from the fine-tuned LLM?
+- How will you handle updates to the underlying product (e.g., new robot hardware/software versions)?
+- What is your plan for removing outdated or irrelevant information from the data?
 
 ### Data Validation and Quality Assurance
+- How will you assess and ensure data quality (e.g., accuracy, completeness, consistency)?
 - What validation checks will you implement to ensure that only high-quality, relevant data is used for fine-tuning?
 - How will you detect and handle anomalies, duplicates, or inconsistencies in the data?
 - At which stages of the pipeline (ingestion, preprocessing, prior to training) will you perform these checks?
 
-### Iterative Evolution and Feedback
+### Data Evolution
 - How frequently do you expect new data to become available, and how will you incorporate it into the fine-tuning process?
-- What mechanisms will you use to monitor model performance and data quality over time?
-- How will you manage the iterative nature of LLM fine-tuning, including retraining schedules, evaluation, and rollback if issues are detected?
+- What mechanisms will you use to monitor data quality over time?
 - How will you balance the need for rapid updates with the risk of introducing errors or data drift?
 
 ### Context and Personalization
 - Does your solution require additional context (e.g., user behavior, expertise level, robot version) to provide accurate and relevant responses?
-- Should this context be incorporated during model fine-tuning, or provided dynamically at inference time via prompts?
-- How will you ensure that the assistant remains up-to-date and aligned with evolving user needs and product changes?
+- Should this context be incorporated during model fine-tuning data, or provided dynamically at inference time via prompts?
 
 Reflect on these questions and document your answers, using both the information provided and your own reasoning. This exercise will help you apply DataOps best practices to the unique challenges of fine-tuning and maintaining LLMs in a real-world, production environment.
 
