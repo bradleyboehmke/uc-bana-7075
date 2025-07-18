@@ -1046,9 +1046,7 @@ Now let's think through how the deployment pipeline would look for the LLM we fi
 
 Deploying an LLM shares foundational concepts with traditional models. Both require versioning, a serving infrastructure, APIs, and monitoring.
 
-The main distinction is the sheer size and resource requirements of LLMs. A traditional model like our housing price predictor might have thousands or millions of parameters. In contrast LLMs have billions of parameters and can require tens or even hundreds of gigabytes of memory just to be loaded.
-
-This leads to many downstream challenges:
+The main distinction is the sheer size and resource requirements of LLMs. A traditional model like our housing price predictor might have thousands or millions of parameters. In contrast LLMs have billions of parameters and can require tens or even hundreds of gigabytes of memory just to be loaded. This leads to many downstream challenges:
 
 - Hardware Demands: While many traditional models can run inference on standard CPUs, LLMs almost always require powerful, specialized hardware like GPUs/TPUs to provide responses in a reasonable timeframe.
 - Inference Performance: LLM inference is computationally intensive. Performance is not measured by a single prediction latency but by metrics like **Time to First Token (TTFT)** and **throughput** (tokens per second).
@@ -1101,19 +1099,22 @@ To choose the right serving stack for the AI-powered customer support assistant,
 - Resource Management: Can the service scale to zero or "sleep" during periods of inactivity to save costs? If so, what is the "cold start" time to wake the model up?
 - Traffic Patterns: What is the expected traffic? Is it constant, or does it have predictable peaks?
 - Compliance and Privacy: Does the user input contain sensitive or PII? Are there compliance requirements that mandate where data can be processed? How is data protected in transit and at rest?
+- Failure: What happens if the model fails completely or partially? How is the customer request handled in such cases?
 
 
 :::{.callout-note}
 Can you think of other questions which would help us decide the optimal serving stack for the AI-powered customer support assistant?
 
-For example: how will you handle model updates? How does the chosen stack integrate with your existing monitoring and logging tools?
+Example 1: how will you handle model updates? How does the chosen stack integrate with your existing monitoring and logging tools?
+
+Example 2: Should user queries be preprocessed before being sent to the LLM? Is any data augmentation or cleaning required? Should we implement logic to rewrite or correct malformed queries?
 :::
 
 Given your requirements and constraints, you should almost always be iterative. You should **start with a simple, "hacky" solution** to quickly build a prototype and demonstrate the model's potential to stakeholders. This enables you to gather early feedback and validate the use case with minimal investment. Once the value is proven, you can should invest the resources to build a robust, scalable, and secure production system. This iterative approach de-risks the project and ensures that engineering effort is focused on solutions that have a demonstrated business impact.
 
 ### Try Out Local LLM serving
 
-We have talked a lot about LLMs having significantly more resource requirements during serving. Let's use a free and open-source tool to get a hands-on feel for these requirements. This will help us get a sense of these requirements in real life.
+We have talked a lot about LLMs having significantly more resource requirements during serving. Let's use a free and open-source tool called Ollama to get a hands-on feel for these requirements. This will help us get a sense of these requirements in real life.
 
 First, install [Ollama](https://ollama.com/) on your local machine. For Linux, you can run the following command in your terminal:
 
@@ -1124,6 +1125,10 @@ curl -fsSL https://ollama.com/install.sh | sh
 Download the software from the Ollama website for MacOS or Windows.
 
 Ollama provides a library of open-source models that you can download and run. You can explore the available models on the [Ollama Models Library](https://ollama.com/search).
+
+:::{.callout-note}
+You could also serve the fine-tuned gpt2 model via Ollama, after you convert the model to GGUF (GGML Universal File Format).
+:::
 
 Let's try serving three models of different sizes to observe the difference in resource consumption and performance.
 
@@ -1142,10 +1147,9 @@ ollama run llama3:8b
 ollama run mixtral:8x22b
 ```
 
-Can your local computer serve all of these models? As you interact with each one, what kind of TTFT and throughput do you notice? Given what you know about your computer's hardware, can you discuss what kind of hardware would be needed to serve the fine-tuned LLM in production? What if you needed to serve multiple instances of that model in parallel to support thousands of customers?
+Can your local computer serve all of these models? As you interact with each one, what kind of TTFT and throughput do you notice? Given what you know about your computer's hardware, can you estimate what kind of hardware would be needed to serve the fine-tuned LLM in production? What if you needed to serve multiple instances of that model in parallel to support thousands of customers?
 
 Hypothetically, if you could run N number of machines like your personal computer in parallel, how many machines do you think would be required to support the AI-powered customer support assistant? This exercise should give you a tangible sense of the scaling challenges involved in LLM deployment.
-
 
 ### Beyond Model Deployment: Building Complete Solutions
 

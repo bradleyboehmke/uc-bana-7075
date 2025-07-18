@@ -551,14 +551,12 @@ Beyond standard model versioning attributes, what LLM-specific metadata should b
 - Prompt templates and few-shot examples
 - Context window size
 - Temperature settings used during evaluation
-- Safety filtering mechanisms
-- Inference optimization techniques
 
 ### Reproducibility
 
 Reproducibility with LLMs presents unique challenges compared to deterministic ML models due to their inherently stochastic nature. Let's explore these challenges through a practical example.
 
-#### Case Study: Robot Object Recognition Problem
+#### Example: Robot Object Recognition Problem
 
 Consider this complex user question: `My robot sometimes identifies my flowerpot as my coffee mug because they are the same color and size, what do I do?`
 
@@ -575,15 +573,15 @@ Did we miss something from the above steps, which needs to be included to give a
 How about user/product metadata? Version of hardware/software user might be using?
 :::
 
-Now think about users from different background, technical expertise, language barriers etc. Users could ask the same question in many different forms:
+Now think about users from different background, technical expertise, language barriers etc. Users could ask the same question in many different forms, some examples:
 
-- My robot's object recognition system is exhibiting misclassification errors between two distinct objects: a flowerpot and a coffee mug. The primary confounding variables appear to be identical color profiles and similar dimensions. What calibration or retraining protocols can be implemented to resolve this ambiguity?
+- My robot's object recognition system is exhibiting classification errors between two distinct objects: a flowerpot and a coffee mug. The primary confounding variables appear to be identical color profiles and similar dimensions. What calibration or retraining protocols can be implemented to resolve this ambiguity?
 - Ugh, my robot's tripping. It keeps mistaking my succulent's pot for my coffee mug. How do I fix this glitch?
 - My robot. It see flowerpot, think coffee mug. Big problem.
 - It keeps bringing me a plant when I want a drink. Help!
 - It's so frustrating! Every other day, my robot tries to water my coffee mug.
 
-As you can see from these examples, user queries can range from highly technical and precise to extremely casual and vague. This variety presents a significant challenge for LLMs, which must understand the core problem regardless of how it's expressed. With the above knowledge, how would you define `reproducibility` when it comes to LLMs?
+As you can see from these examples, user queries can range from highly technical and precise to extremely casual and vague. This variety presents a significant challenge for LLM systems, which must understand the core problem regardless of how it's expressed. With the above knowledge, how would you define `reproducibility` when it comes to LLMs?
 
 Two versions of our fine-tuned LLMs might produce notably different answers for the above user question. How can we systematically compare and evaluate them? Some strategies could be:
 
