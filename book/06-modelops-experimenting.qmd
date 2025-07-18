@@ -481,7 +481,7 @@ Go back to [Chapter @sec-design-principles] and reflect on how the experiment tr
 ## LLM Exercise
 
 ::: {.callout-note}
-This example was run on a MacOS computer with an M3 Pro chipset and MPS (Metal Performance Shaders) support. If you are using a different operating system or hardware, you may need to adjust some settings or dependencies to ensure compatibility.
+Codes below were run on a MacOS computer with an M3 Pro chipset and MPS (Metal Performance Shaders) support. If you are using a different operating system or hardware, you may need to adjust some settings or dependencies to ensure compatibility.
 :::
 
 In this exercise, we will apply the prinxiples of model training and experiment tracking to our ongoing project: the AI-powered customer support assistant. In the previous chapters, we prepared and versioned a dataset suitable for fine-tuning, and discussed ModelOps strategies. Now, we will take the next step: fine-tuning a base language model on this data and, most importantly, tracking our experiments to ensure our process is reproducible and our results are comparable.
@@ -492,7 +492,7 @@ We will use the Hugging Face transformers library to finetune a gpt2 LLM model. 
 
 Before we dive into the code, it's important to highlight a few aspects unique to training Large Language Models that differ significantly from traditional machine learning models
 
-- Model Choice (gpt2): We are using gpt2 for this exercise because it is a foundational and well understood. At 124 million parameters, it is small enough to be fine-tuned on consumer hardware. The principles learnt while fine-tuning gpt2 are directly applicable to much larger models.
+- Model Choice (gpt2): We will use gpt2 for this exercise because it is a well understood foundational model. At 124 million parameters, it is also small enough to be fine-tuned on consumer hardware. The principles learnt while fine-tuning gpt2 are directly applicable to much larger models.
 
 - Hardware Acceleration (GPU/MPS): Training LLMs is incredibly computationally expensive due to the billions of calculations required for each training step. While traditional models like linear regression or random forests can often be trained on a CPU, LLMs require specialized hardware for practical training times.
   - NVIDIA's CUDA platform are the industry standard for this, as they are designed for the massive parallel matrix operations at the core of transformer models.
@@ -506,7 +506,7 @@ Note: Ensure your system has sufficient memory to run the training scripts below
 
 ### Setup and Preparation
 
-The code for this exercise is inspired by this [LLM fine-tuning repository](https://github.com/yash91sharma/llm_finetuning). Refer to this repository for more variations.
+The code for this exercise is built upon [LLM fine-tuning repository](https://github.com/yash91sharma/llm_finetuning). Refer to this repository for more variations and complete code.
 
 First, ensure you have the necessary libraries installed. We'll need `transformers`, `datasets` for data handling, `torch` as the backend, and `mlflow` for tracking.
 
@@ -614,9 +614,9 @@ if __name__ == "__main__":
 
 
 ::: {.callout-note collapse="true"}
-Create dummy data.
+Create dummy data, if you have not done so in the past chapters.
 
-Generate a sample dataset containing between 50 and 100 examples, and save it in the llm_training_data.jsonl file, which will be used for model fine-tuning. Ensure the dataset includes a wide range of languages, vocabulary, topics, and perspectives to maximize diversity and representativeness.
+Generate a sample dataset containing 100-150 examples, and save it in the llm_training_data.jsonl file, which will be used for model fine-tuning. Ensure the dataset includes a wide range of languages, vocabulary, topics, and perspectives to maximize diversity and representativeness.
 
 AI tools can be highly effective for generating dummy data. Large language models can quickly produce diverse and realistic examples across multiple languages and topics. By carefully crafting prompts and reviewing outputs, you can ensure both quality and variety in your dataset.
 :::
@@ -657,6 +657,8 @@ Try to refine the model further
 
 With your initial fine-tuning run, the model’s performance may be suboptimal. Its responses might be incomplete, ill-formed, repetitive, or contain grammatical and typographical errors. Experiment with different hyperparameters and iterate to enhance the model. Develop an intuition for what works best with your model and dataset.
 :::
+
+To further enhance your LLM fine-tuning workflow, refactor your code to use a configuration file for orchestrating experiments. This approach makes it much easier to adjust hyperparameters, model settings, and data paths without modifying your training script. Refer to the [LLM fine-tuning repository](https://github.com/yash91sharma/llm_finetuning) for an example. Adopting a config-driven workflow not only streamlines experimentation but also demonstrates advanced engineering skills, an excellent addition to your professional portfolio.
 
 ### Reflection on Design Principles
 
