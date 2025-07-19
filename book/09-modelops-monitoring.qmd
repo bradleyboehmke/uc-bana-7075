@@ -866,7 +866,7 @@ This section is currently in development. Check back soon for updates.
 
 ## LLM Exercise
 
-In previous chapters, we discussed an AI-powered customer support assistant for a robotics company. We created an LLM-based assistant that can answer user queries using product manuals and FAQs. Now, let's design a comprehensive monitoring strategy for this customer support assistant.
+In previous chapters, we discussed an AI-powered customer support assistant for a robotics company. Now, let's design a comprehensive monitoring strategy for the deployment of the LLM used for the customer support assistant.
 
 Unlike traditional models with clear metrics like RMSE or accuracy, monitoring LLMs requires a more nuanced approach that combines quantitative metrics with qualitative assessment. The generative property of LLMs present unique challenges, they generate natural language responses that can be contextually correct but factually wrong, they may hallucinate information, and their performance can degrade in subtle ways that aren't immediately apparent.
 
@@ -875,17 +875,15 @@ Unlike traditional models with clear metrics like RMSE or accuracy, monitoring L
 
 Logging is the foundation that enables us to track a variety of metrics and build a comprehensive monitoring strategy. For an LLM-powered customer support assistant, we need to capture structured data that supports both real-time monitoring and retrospective analysis. The key is to log the essential elements that enable metric calculation while balancing storage costs and privacy requirements.
 
-#### Essential Log Structure
-
 For each interaction, we should capture:
 
-**Core Data**: Query text (raw and processed), model responses, conversation metadata (ID, user, timestamp), and response generation details (token count, generation time, model settings).
+- Core Data: Query text (raw and processed), model responses, conversation metadata (ID, user, timestamp), and response generation details (token count, generation time, model settings).
 
-**Quality Indicators**: Confidence scores, retrieval relevance, safety flags, and any automated quality checks. These could be automated, or human labels for a sample of data.
+- Quality Indicators: Confidence scores, retrieval relevance, safety flags, and any automated quality checks. These could be automated, or human labels for a sample of data.
 
-**User Interaction Context**: Session flow, user feedback, escalation status, and task completion indicators.
+- User Interaction Context: Session flow, user feedback, escalation status, and task completion indicators.
 
-**Business Context**: Product information, user profile, knowledge base version, and access channel.
+- Business Context: Product information, user profile, knowledge base version, and access channel.
 
 **Example comprehensive log entry:**
 ```json
@@ -921,11 +919,11 @@ Consider the following areas for monitoring LLM performance:
 
 #### System Performance
 
-- Operational Metrics: Monitor response latency, token generation speed, memory usage, and API availability to ensure the system maintains acceptable performance under load.
+This focuses on monitoring the technical performance of the system. Track metrics such as response latency, token generation speed, memory consumption, and API uptime to ensure the system consistently delivers acceptable performance, even under heavy load.
 
 #### Data Drift Detection
 
-Traditional drift detection methods (mean, variance, outliers) don't work directly on text data. However we could extract second level metrics to understand drift. Drift could be of many types. Techniques like text embeddings can be used to track changes in the semantic distribution of user queries over time.
+Traditional drift detection methods—such as monitoring mean, variance, or outlier rates—are not directly applicable to text data. Instead, we must extract higher-level metrics to assess drift in language-based inputs. Drift in LLM systems can manifest in various forms, including changes in vocabulary, query complexity, or topic distribution. To effectively monitor these shifts, techniques like text embeddings can be employed to track changes in the semantic distribution of user queries over time, enabling detection of subtle shifts in user language and intent.
 
 - Vocabulary Drift: Monitor the emergence of new technical terms, product names, or user language patterns.
 - Query Complexity Drift: Track changes in query length, complexity, and linguistic patterns that might indicate users are asking increasingly sophisticated questions.
@@ -937,15 +935,15 @@ It's important to distinguish between genuine data drift and inherent biases in 
 
 #### Concept Drift
 
-Concept drift occurs when the relationship between user queries and expected responses changes. For our robot support assistant, this might manifest as:
+Concept drift occurs when the relationship between user queries and expected responses changes. For our AI-powered customer support assistant, this might manifest as:
 
 - Product Evolution: When the robot receives software updates or new features, previously correct responses may become outdated. For example, if a firmware update changes how the robot handles a particular task, existing FAQ responses become incorrect.
 - User Behavior Changes: As users become more familiar with the robot, their questions might become more technical or assume greater product knowledge, requiring more sophisticated responses.
-- Seasonal or Contextual Shifts: Holiday seasons, new product launches, or external events (like supply chain issues) might change the types of support queries and required responses.
+- Seasonal or Contextual Shifts: Holiday seasons, new product launches, or external events (like weather/seasons in case robot performs outdoor tasks) might change the types of support queries and required responses.
 
 **Example scenarios that would indicate concept drift:**
 
-- Users asking "Why won't my robot charge?" might initially be answered with basic troubleshooting steps, but after a product recall, the correct response should direct users to contact support immediately.
+- Users asking "Why won't my robot charge?" might initially be answered with basic troubleshooting steps, but after a product recall due to a battery issue, the correct response should direct users to contact support immediately.
 - A question about "robot navigation issues" might require different answers depending on whether the user has the original software version or the updated navigation system.
 
 #### Response Quality
@@ -959,6 +957,8 @@ To determine if model responses remain usable, consider metrics like factual acc
 
 ::: {.callout-note}
 How can we quantify these metrics in practice? What specific data should we extract from system logs, and how do we construct meaningful metrics? For instance, how do we measure conversation abandonment rates, detect when users need to rephrase questions, or identify inappropriate/toxic responses?
+
+To address these challenges, a variety of open-source and commercial solutions are available. Tools like Evidently AI can assist with drift and performance tracking.
 :::
 
 Can we fully automate the measurement of these quality metrics, or is human evaluation of response samples necessary? If human review is required, what sampling strategy should we implement to ensure comprehensive coverage while maintaining efficiency?
@@ -970,10 +970,10 @@ Critical metrics for ensuring our customer support assistant remains reliable:
 
 - Hallucination Detection: Implement systems to detect when the model generates information not present in the knowledge base, such as making up product specifications or troubleshooting steps.
 - Safety Compliance: Monitor for responses that might suggest unsafe robot operations or violate safety guidelines.
-- Content Safety Metrics: Monitor for inappropriate responses, toxic language, or responses that might violate company policies or safety guidelines.
+- Content Safety Metrics: Monitor for inappropriate responses, toxic language, or responses that might violate company policies or safety guidelines. Libraries such as Google Perspective API enable automated detection of toxic or inappropriate responses.
 
 ::: {.callout-note}
-Remember that you fine-tuned an already pre-trained LLM model. Even though the robotics company may have carefully curated their FAQs and product manuals to remove bias, the underlying LLM still carries potential biases from its original training data. These inherited biases could cause the AI-powered customer support assistant to generate unexpected or problematic responses that don't align with the company's values or customer service standards.
+Remember that you fine-tuned an already pre-trained LLM model. Even though you may have carefully curated your FAQs and product manuals to remove bias, the underlying LLM still carries potential biases from its original training data. These inherited biases could cause the AI-powered customer support assistant to generate unexpected or problematic responses that don't align with the company's values or customer service standards.
 
 This makes bias detection and fairness monitoring particularly important for customer-facing LLM applications, as these inherited biases may not be immediately apparent during initial testing with curated company data.
 :::
@@ -991,19 +991,19 @@ Based on the monitoring framework above, several events should trigger model ref
 
 #### Adaptive vs. Scheduled Retraining
 
-Scheduled Retraining (example: monthly):
+Scheduled Retraining (for example quarterly or yearly):
 - Advantages: Predictable resource allocation, regular incorporation of new data, easier to plan and budget for computational resources.
 - Disadvantages: May miss critical issues that emerge between scheduled updates, potentially wastes resources retraining when performance is stable.
 
 Adaptive Retraining (trigger based):
-- Advantages: More responsive to actual performance issues, efficient use of resources, can address critical problems immediately.
+- Advantages: More responsive to actual performance issues, can address critical problems immediately.
 - Disadvantages: Requires more sophisticated monitoring infrastructure, may be reactive rather than proactive, resource planning is more complex.
 
-**Recommended Hybrid Approach**: Implement adaptive triggers for critical issues (safety, major factual errors) while maintaining a regular monthly schedule for general knowledge updates and performance optimization.
+**Recommended Hybrid Approach**: Implement adaptive triggers for critical issues (safety, major factual errors) while maintaining a regular schedule for general knowledge updates and performance optimization.
 
 ### Balancing Business Continuity with Model Improvement
 
-Remember that our initial problem was the robotics company's inability to scale customer support with increasing user queries. Any monitoring and retraining strategy must keep in mind that original goal.
+Remember that our original problem was the robotics company's inability to scale customer support with increasing user queries. Any monitoring and retraining strategy must keep in mind that original goal.
 
 - Maintaining Service Quality: Ensuring the assistant continues to resolve user issues effectively while minimizing false or harmful responses.
 - Operational Efficiency: Keeping the system running smoothly without frequent disruptions or degraded performance.
