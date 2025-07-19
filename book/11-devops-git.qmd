@@ -806,11 +806,11 @@ Throughout this book, we have been developing an AI-powered customer support ass
 
 ### Set Up Customer Support Assistant Repository
 
-Create a GitHub repository that showcases your end-to-end ML system. This project will serve as a portfolio piece demonstrating your ability to build production-ready ML systems.
+Create a GitHub repository that showcases your end-to-end ML system. This project will serve as a portfolio piece demonstrating your ability to build production-ready LLM systems.
 
-Organize your repository to reflect the MLOps lifecycle. Do add a comprehensive `README.md` file. Your README should tell the complete story of your project. This includes the problem statement, solution overview, architecture (including the decision trade offs), code structure, deployment methods, future improvement ideas etc.
+Organize your repository to reflect the MLOps lifecycle. Along with the raw data, python scripts, configs, also add a comprehensive `README.md` file. Your README should tell the complete story of your project. This includes the problem statement, solution overview, architecture (including the decision trade offs), code structure, deployment methods, future improvement ideas etc.
 
-Demonstrate advanced collaboration patterns. Think how could you make it easy for others to understand and contribute to this repository. Examples:
+Demonstrate advanced collaboration patterns. Think how could you make it easy for others to understand and contribute to this repository. Examples include:
 
 Create templates for different types of issues:
 
