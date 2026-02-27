@@ -58,3 +58,189 @@ Essential planning tasks to ensure that the project aligns with the business goa
 
 # Group Exercise {background="#43464B"}
 
+## Today's Exercise: Discovery Phase Simulation {.smaller}
+
+You'll practice the **foundational planning** skills from Chapter 2 by working through a real-world scenario.
+
+- **Simulates reality**: Senior leadership identifies a ***vague business problem → your team conducts discovery***
+- **Your role**: Determine what questions need answering *before* committing to build an ML system
+- **Key skill**: Learning to work with ambiguity and identify critical unknowns
+
+::: {.callout-important}
+This mirrors what happens in industry - business problems are rarely well-defined when they first reach ML teams.
+:::
+
+## How This Links to Chapter 2 {.smaller}
+
+Chapter 2 provides the **framework** for what to consider before building:
+
+:::{.columns}
+:::{.column width="50%"}
+**From the Reading:**
+
+- Stakeholder engagement
+- ML suitability evaluation
+- Performance metrics
+- Value assessment
+- Technical feasibility
+- Iterative process
+:::
+
+:::{.column width="50%"}
+**In This Exercise:**
+
+- You apply these concepts
+- Identify knowledge gaps
+- Formulate critical questions
+- Build a discovery plan
+:::
+:::
+
+:::{.callout-note}
+**Remember:** There are no "right" answers—focus on *what you need to find out* and *why it matters*.
+:::
+
+## Your Deliverable: A Discovery Plan {.smaller}
+
+After 30-35 minutes of discussion, you'll present a **discovery plan** that includes:
+
+1. **What you believe to be true** about the problem and potential ML solution
+2. **Critical questions** you need answered from stakeholders
+3. **Key assumptions** you're making and what you'd need to validate them
+4. **Preliminary assessment** of ML suitability and biggest concerns/trade-offs
+5. **How you'd find out** (who to talk to, what to ask, what to analyze)
+
+::: {.fragment}
+**Presentation Format:** 3-5 minutes per group (rapid-fire)
+
+::: {.callout-important}
+**Prioritize what matters most** - explain WHY your top questions are critical, not just WHAT they are!
+:::
+:::
+
+## Exercise Instructions {.smaller}
+
+1. **Form groups** of 4-5 students
+2. **Receive your scenario** (one of six business problems)
+3. **Discovery discussion** (30-35 minutes):
+   - Work through the 5 discovery areas in the exercise handout
+   - Focus on: What do we know? What must we find out? How would we find out?
+   - Use Chapter 2 concepts to guide your thinking
+4. **Prepare presentation** (last 5 minutes):
+   - Organize findings into a focused 5-minute presentation
+5. **Present** (5 min per group):
+   - Share your discovery plan with the class
+
+::: {.callout}
+**Now: Form groups and receive your scenarios!**
+:::
+
+# Discovery Work Time {background="#43464B"}
+
+## Area 1: Stakeholder Engagement {.smaller}
+
+**Guiding Question:** *Who do you need to talk to, and what do you need to understand from them?*
+
+**Consider:**
+
+- Who are the key stakeholders? (executives, domain experts, end users, IT, data teams)
+- What questions would help you understand:
+  - The real business problem and objectives?
+  - Current processes and their limitations?
+  - Success criteria and constraints?
+  - Data availability and access?
+- What assumptions might stakeholders have that you need to validate?
+- Who will be impacted by this solution?
+
+
+::: {.callout-tip}
+**Think about:** What do you *not* know that could derail the project later?
+:::
+
+## Area 2: Evaluating ML Suitability {.smaller}
+
+**Guiding Question:** *Is ML the right approach, and what alternatives should be considered?*
+
+**Consider:**
+
+- Does this problem require learning complex patterns from data?
+- Will the system need to make predictions on new, unseen data?
+- Is quality data available (or obtainable)?
+- Could a simpler solution work? (rule-based systems, heuristics, traditional analytics)
+- What are the trade-offs between ML and non-ML approaches?
+- Are there interpretability or regulatory requirements?
+
+::: {.callout-tip}
+**Think about:** Sometimes the best ML solution is *not* to use ML!
+:::
+
+## Area 3: Performance Metrics {.smaller}
+
+**Guiding Question:** *How will you measure success from technical and business perspectives?*
+
+**Consider:**
+
+- **Model performance metrics**: Accuracy, precision, recall, RMSE, etc. - which matter for this problem?
+- **System performance metrics**: Latency, throughput, uptime, scalability - what are the operational requirements?
+- **Business metrics**: Revenue impact, cost savings, customer satisfaction, efficiency gains - how does this drive business value?
+- How do these metrics align with stakeholder priorities?
+- What trade-offs exist between different metrics?
+
+::: {.callout-tip}
+**Think about:** Who cares about which metrics? Technical teams vs. business leaders vs. end users.
+:::
+
+## Area 4: Value and Feasibility {.smaller}
+
+**Guiding Question:** *What value could this provide, and what technical requirements must be understood early?*
+
+**Value considerations:**
+
+- Tangible benefits: cost savings, revenue increase, time savings?
+- Intangible benefits: customer satisfaction, brand reputation, employee morale?
+- Does the potential value justify the investment?
+
+**Feasibility considerations:**
+
+- Data requirements: What data exists? What's missing? Quality issues?
+- Infrastructure: Compute resources, deployment environment, integration needs?
+- Algorithm constraints: Real-time vs. batch? Interpretability needs?
+- Team capabilities: Skills, tools, timeline?
+
+
+## Area 5: Iterative Development {.smaller}
+
+**Guiding Question:** *Why would this be iterative, and how would you manage changes?*
+
+**Consider:**
+
+- What might change as you learn more? (metrics, requirements, scope, data needs)
+- Why can't you define everything perfectly upfront?
+- How would you structure the work? (MVP first? Phased rollout?)
+- How do you avoid scope creep while remaining flexible?
+- What feedback loops need to exist? (stakeholders, users, model performance)
+- When would you revisit initial assumptions and decisions?
+
+::: {.callout-tip}
+**Think about:** Discovery itself is iterative - you'll learn more with each conversation!
+:::
+
+# Wrap-Up {background="#43464B"}
+
+## Next Steps & Assignments {.smaller}
+
+**Due by End of Week:**
+
+1. **Reading Quizzes** for Chapters 1 & 2
+   - Complete in Canvas
+   - Tests understanding of key concepts
+
+2. **Discussion Exercise** due Sunday
+   - Read: "150 Successful Machine Learning Models: 6 Lessons Learned at Booking.com"
+   - Post thoughtful reflection connecting to course concepts
+   - Engage with classmates' posts
+
+::: {.callout-tip}
+**Keep thinking:** How does today's exercise connect to the Booking.com paper?
+:::
+
