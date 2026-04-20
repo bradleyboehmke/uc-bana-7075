@@ -1,0 +1,204 @@
+---
+title: "Course Wrap-up"
+subtitle: "Celebrating Your Journey in ML System Design"
+format:
+  revealjs:
+    slide-number: true
+    preview-links: auto
+    css: styles.css
+    mermaid:
+      theme: neutral
+footer: 'BANA 7075'
+---
+
+## The MLOps System You've Mastered
+
+<br>
+
+In just 7 weeks, you've learned to design and deploy complete ML systems
+
+```{mermaid}
+%%| fig-align: center
+flowchart LR
+  subgraph ML[ML System]
+    direction LR
+    subgraph DataOps
+      D1[Data Pipelines]
+      D2[Data Quality]
+      D3[Data Versioning]
+    end
+    subgraph ModelOps
+      M1[Experiment Tracking]
+      M2[Model Versioning]
+      M3[Deployment]
+      M4[Monitoring]
+    end
+    subgraph DevOps
+      V1[Version Control]
+      V2[CI/CD]
+      V3[Collaboration]
+    end
+  end
+  A[Stakeholders] --> ML
+  B[Business Requirements] --> ML
+  ML --> C[End Users]
+  DataOps --> ModelOps --> DevOps
+```
+
+<br>
+
+:::{.center-h}
+You now understand how to make algorithms work with other parts to solve real-world problems
+:::
+
+## What You've Learned {.smaller .scrollable}
+
+<br>
+
+**1. Foundation - Thinking Like an ML Systems Designer**
+
+- Stakeholder engagement and understanding business problems
+- ML suitability evaluation and problem framing
+- Performance metrics definition aligned with business goals
+- Value assessment and technical feasibility analysis
+- Iterative development mindset - recognizing ML projects evolve
+
+<br>
+
+**2. DataOps - Building the Foundation**
+
+- Data pipeline design and implementation
+- Data quality, validation, and testing (Great Expectations)
+- Data versioning and lineage tracking (DVC)
+- Data cataloging and documentation
+- Hands-on: YouTube data pipeline demonstration
+
+<br>
+
+**3. ModelOps - Bringing Models to Life**
+
+- Experiment tracking and reproducibility (MLFlow)
+- Model versioning and registry management
+- Deployment strategies: batch, real-time, edge computing
+- Model monitoring and drift detection
+- Hands-on: Rossmann store sales predictions, FastAPI + Streamlit deployment
+
+<br>
+
+**4. DevOps - Managing the System**
+
+- Version control for ML systems (Git workflows)
+- CI/CD pipelines for automated testing and deployment
+- Infrastructure as code principles
+- Collaboration and code review best practices
+
+<br>
+
+**5. Human Elements - The Bigger Picture**
+
+- Stakeholder management throughout the project lifecycle
+- Responsible AI considerations and ethical implications
+- Team dynamics and cross-functional communication
+- Continued learning paths in the evolving ML landscape
+
+:::{.callout-tip}
+## You've come a long way!
+From "I trained a model, now what?" to designing and deploying full production ML systems. That's an incredible amount of learning in a short time.
+:::
+
+## Your Project Journey Mirrors Real Life {.smaller .scrollable}
+
+<br>
+
+The three-stage evolution of your final project was designed to reflect how ML systems are actually built in industry:
+
+<br>
+
+**Stage 1: Proposal - Discovery Phase**
+
+- Understanding the business problem (just like Chapter 2!)
+- Defining success metrics and potential value
+- Assessing feasibility before committing resources
+- *Industry parallel: This is how projects get greenlit*
+
+**Stage 2: MVP/Prototype - Iterative Development**
+
+- Start simple, prove the concept works
+- Build DataOps + ModelOps foundations
+- Learn from early experiments and user feedback
+- *Industry parallel: Validate assumptions before heavy investment*
+
+**Stage 3: Final System - Production-Ready Solution**
+
+- Complete MLOps pipeline from data to deployment
+- Monitoring and maintenance strategies
+- DevOps integration for sustainability
+- *Industry parallel: This is what teams at 84.51°/Kroger deliver*
+
+:::{.callout-important}
+Real ML projects are never linear. You iterate based on feedback and learnings - exactly like you did in your project.
+:::
+
+## Your Feedback Matters {.smaller}
+
+<br>
+
+::: columns
+::: {.column width="45%"}
+### What Worked? ✅
+
+- Favorite topics or exercises?
+- Most valuable learnings?
+- Surprising insights?
+- What should we keep?
+
+:::
+::: {.column width="55%"}
+### What Could Be Better? 💡
+
+- Course pacing?
+- Materials and resources?
+- Project structure?
+- Topics needing more/less coverage?
+
+:::
+:::
+
+<br><br>
+
+:::{.center-h}
+[This course is maturing and your constructive feedback helps improve the experience for future students.]{style="color:blue;"}
+:::
+
+## Last Week Reminders
+
+1. Final project due tomorrow (April 22nd)
+2. Chapter 12 reading quiz (April 24th)
+3. Final project teamwork assessment survey (April 24th)
+4. Course feedback evaluation survey (April 26th)
+
+## Thank You! {background="#43464B"}
+
+<br>
+
+:::{.center-h}
+Thank you for your engagement, hard work, and valuable feedback throughout this course.
+:::
+
+<br>
+
+:::{.center-h}
+Hopefully you are now better equipped to help design and deploy ML systems that create real business value.
+:::
+
+<br>
+
+:::{.center-h}
+Keep learning, keep building, and don't hesitate to reach out.
+:::
+
+<br>
+
+:::{.center-h}
+***Best of luck in your ML systems journey! 🎉***
+:::
