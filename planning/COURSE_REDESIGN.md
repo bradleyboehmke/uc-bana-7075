@@ -192,7 +192,7 @@ Kept private (gitignored, as today): `grading/`, syllabi, `recordings/`, lab che
 ### Reference system template (new repository)
 
 ```
-bana7075-reference-system/       working name (P-10)
+uc-bana-7075-reference-system/   named to match the course repository (D-41)
 ├── .devcontainer/               Codespaces and local VS Code
 ├── .github/workflows/           tests; scheduled fresh-install check
 ├── data/                        down-sampled or synthetic sample data

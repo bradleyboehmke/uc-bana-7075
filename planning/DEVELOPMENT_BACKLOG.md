@@ -129,7 +129,7 @@ Epics, tasks, dependencies, and acceptance criteria for the redesign. Phases ref
 - **Dependencies:** CID-01
 - **Deliverables:** Template repository
 - **Acceptance criteria:** "Use this template" creates a working copy; original Rossmann repository unchanged.
-- **New files:** New repository under the instructor's personal GitHub account (D-39; working name `bana7075-reference-system`)
+- **New files:** New repository under the instructor's personal GitHub account (D-39), named `uc-bana-7075-reference-system` (D-41)
 
 ### REF-03 · Down-sample data
 - **Description:** Select a store subset of the real Rossmann data and commit it (D-37 confirms reuse is permitted; the synthetic-data path is no longer needed).

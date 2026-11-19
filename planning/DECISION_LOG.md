@@ -76,6 +76,7 @@ Status meanings: **Confirmed** = decided by the instructor · **Approved recomme
 | D-38 | First day of class is 2027-03-01 (resolves Q-02) | 2026-11-19 |
 | D-39 | The reference system template repository lives under the instructor's personal GitHub account (resolves Q-03) | 2026-11-19 |
 | D-40 | Help is available for development or testing, including a tester for the pilot (resolves Q-05) | 2026-11-19 |
+| D-41 | The reference system template repository is named `uc-bana-7075-reference-system`, following the instructor's naming convention for course repositories | 2026-11-19 |
 
 ## Approved recommendations
 
@@ -92,7 +93,7 @@ The instructor approved the full plan, including all of these recommendations, o
 | P-07 | Team assignment script with balance rules (a builder per team, at most two non-technical students, overlapping time zones) | PROJ-02 |
 | P-08 | New Week 7 chapter "Designing ML system workflows"; chapter 13 becomes an appendix | CONT-08 |
 | P-09 | Chapter 11 split: web-interface GitHub steps become a Week 1 Try It; command-line Git moves to Week 5 Build It | CONT-06 |
-| P-10 | Reference system template repository working name `bana7075-reference-system` | REF-02 |
+| P-10 | Superseded by D-41 | REF-02 |
 | P-11 | Candidate keyless DataOps supplementary example: Open-Meteo weather data or a city open-data portal | CASE-03 |
 | P-12 | Repository layout in [COURSE_REDESIGN.md §14](COURSE_REDESIGN.md#14-target-course-architecture) | — |
 
