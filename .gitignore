@@ -169,3 +169,6 @@ recordings/
 
 # Don't include syllabi
 *Syllabus*
+
+# Don't include grading
+grading/
